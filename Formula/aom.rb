@@ -2,41 +2,62 @@ class Aom < Formula
   desc "Codec library for encoding and decoding AV1 video streams"
   homepage "https://aomedia.googlesource.com/aom"
   url "https://aomedia.googlesource.com/aom.git",
-      tag:      "v3.1.3",
-      revision: "ce9a40ce01ade9d6fea1721c82645804a2f39b00"
+      tag:      "v3.3.0",
+      revision: "87460cef80fb03def7d97df1b47bad5432e5e2e4"
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "6e289d13b26ea36b824c282e2dda13182d044769e5de4808cc6b400f82893f3e"
-    sha256 cellar: :any,                 big_sur:       "a1137d103b78465922ecf9dac575c559ed764cda3067e3450dcb9074e761ff73"
-    sha256 cellar: :any,                 catalina:      "d94727375093bf891d34248f9d7aecbe2ce690bebe85fe7f3b876e1ed682e404"
-    sha256 cellar: :any,                 mojave:        "d6af55b723ccfc6ff17d3d4df30d47076b8ce5aebeafc65fde4b2f53b956fce1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cdebdea0ad7dbe01b3aa89d268ef8ac63a712a5dced295d6c68b276240d9c6b7"
+    sha256 cellar: :any,                 arm64_monterey: "621aaeb000c4ad3df7cf62af3a22f53e38d9cf0714b52cc23ee3406949c5ad0d"
+    sha256 cellar: :any,                 arm64_big_sur:  "76b0b72beb6975e6f8ebbefc256f01c2b6466e210c93172c39ef35fde3945aac"
+    sha256 cellar: :any,                 monterey:       "0a522c17ca7a108aa44860a549740f277fc6a1118b36df0bfd846e2d17fb80c8"
+    sha256 cellar: :any,                 big_sur:        "e5f4fba0b45d08db7ffe9e06884cb163dd027b18e8ef5442cc5d4d55b6489f44"
+    sha256 cellar: :any,                 catalina:       "10be5b52fb09dc2126ac5ed93e4caa805f9224833b665aebe79c2c3d40b51e0d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c59073520f70de15996b3af4c0513ff1b4bde89fb33a810a9dd7a8348afa553e"
   end
 
   depends_on "cmake" => :build
   depends_on "yasm" => :build
+
+  # `jpeg-xl` is currently not bottled on Linux
+  on_macos do
+    depends_on "pkg-config" => :build
+    depends_on "jpeg-xl"
+    depends_on "libvmaf"
+  end
 
   resource "bus_qcif_15fps.y4m" do
     url "https://media.xiph.org/video/derf/y4m/bus_qcif_15fps.y4m"
     sha256 "868fc3446d37d0c6959a48b68906486bd64788b2e795f0e29613cbb1fa73480e"
   end
 
-  def install
-    mkdir "macbuild" do
-      args = std_cmake_args.concat(["-DCMAKE_INSTALL_RPATH=#{rpath}",
-                                    "-DENABLE_DOCS=off",
-                                    "-DENABLE_EXAMPLES=on",
-                                    "-DENABLE_TESTDATA=off",
-                                    "-DENABLE_TESTS=off",
-                                    "-DENABLE_TOOLS=off",
-                                    "-DBUILD_SHARED_LIBS=on"])
-      # Runtime CPU detection is not currently enabled for ARM on macOS.
-      args << "-DCONFIG_RUNTIME_CPU_DETECT=0" if Hardware::CPU.arm?
-      system "cmake", "..", *args
+  # Fix build with `-DCONFIG_TUNE_BUTTERAUGLI=1`.
+  # https://aomedia.googlesource.com/aom.git/+/b389ce89bdb6a3097e637d947123ffc4b9aea763%5E%21/
+  patch :DATA
 
-      system "make", "install"
+  def install
+    ENV.runtime_cpu_detection unless Hardware::CPU.arm?
+
+    args = std_cmake_args.concat(["-DCMAKE_INSTALL_RPATH=#{rpath}",
+                                  "-DENABLE_DOCS=off",
+                                  "-DENABLE_EXAMPLES=on",
+                                  "-DENABLE_TESTDATA=off",
+                                  "-DENABLE_TESTS=off",
+                                  "-DENABLE_TOOLS=off",
+                                  "-DBUILD_SHARED_LIBS=on"])
+    # Runtime CPU detection is not currently enabled for ARM on macOS.
+    args << "-DCONFIG_RUNTIME_CPU_DETECT=0" if Hardware::CPU.arm?
+
+    # Make unconditional when `jpeg-xl` is bottled on Linux
+    if OS.mac?
+      args += [
+        "-DCONFIG_TUNE_BUTTERAUGLI=1",
+        "-DCONFIG_TUNE_VMAF=1",
+      ]
     end
+
+    system "cmake", "-S", ".", "-B", "brewbuild", *args
+    system "cmake", "--build", "brewbuild"
+    system "cmake", "--install", "brewbuild"
   end
 
   test do
@@ -53,3 +74,56 @@ class Aom < Formula
     end
   end
 end
+
+__END__
+commit b389ce89bdb6a3097e637d947123ffc4b9aea763
+Author: James Zern <jzern@google.com>
+Date:   Mon Mar 7 16:35:49 2022 -0800
+
+    fix compile w/-DCONFIG_TUNE_BUTTERAUGLI=1
+    
+    This was broken independently by:
+    
+    - av1_set_quantizer() parameter update
+      b89e8f8f7 add support for qp adjustment for HDR video
+    
+    - av1_scale_if_required -> av1_realloc_and_scale_if_required
+      dba4f0f3e Allocate scaled source buffers on the fly
+    
+    Bug: b/222461449
+    Change-Id: I521e6e20a1f9dab111f2fe63eed7122f0e5d257b
+
+diff --git a/av1/encoder/tune_butteraugli.c b/av1/encoder/tune_butteraugli.c
+index c5bbee1ae..70fa23922 100644
+--- a/av1/encoder/tune_butteraugli.c
++++ b/av1/encoder/tune_butteraugli.c
+@@ -262,13 +262,15 @@ void av1_setup_butteraugli_rdmult(AV1_COMP *cpi) {
+   av1_set_frame_size(cpi, cm->superres_upscaled_width,
+                      cm->superres_upscaled_height);
+ 
+-  cpi->source =
+-      av1_scale_if_required(cm, cpi->unscaled_source, &cpi->scaled_source,
+-                            cm->features.interp_filter, 0, false, false);
++  cpi->source = av1_realloc_and_scale_if_required(
++      cm, cpi->unscaled_source, &cpi->scaled_source, cm->features.interp_filter,
++      0, false, false, cpi->oxcf.border_in_pixels,
++      cpi->oxcf.tool_cfg.enable_global_motion);
+   if (cpi->unscaled_last_source != NULL) {
+-    cpi->last_source = av1_scale_if_required(
++    cpi->last_source = av1_realloc_and_scale_if_required(
+         cm, cpi->unscaled_last_source, &cpi->scaled_last_source,
+-        cm->features.interp_filter, 0, false, false);
++        cm->features.interp_filter, 0, false, false, cpi->oxcf.border_in_pixels,
++        cpi->oxcf.tool_cfg.enable_global_motion);
+   }
+ 
+   av1_setup_butteraugli_source(cpi);
+@@ -295,7 +297,7 @@ void av1_setup_butteraugli_rdmult(AV1_COMP *cpi) {
+   // cpi->sf.part_sf.fixed_partition_size = BLOCK_32X32;
+ 
+   av1_set_quantizer(cm, q_cfg->qm_minlevel, q_cfg->qm_maxlevel, q_index,
+-                    q_cfg->enable_chroma_deltaq);
++                    q_cfg->enable_chroma_deltaq, q_cfg->enable_hdr_deltaq);
+   av1_set_speed_features_qindex_dependent(cpi, oxcf->speed);
+   if (q_cfg->deltaq_mode != NO_DELTA_Q || q_cfg->enable_chroma_deltaq)
+     av1_init_quantizer(&cpi->enc_quant_dequant_params, &cm->quant_params,

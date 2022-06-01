@@ -1,17 +1,24 @@
 class Openrtsp < Formula
   desc "Command-line RTSP client"
   homepage "http://www.live555.com/openRTSP"
-  url "http://www.live555.com/liveMedia/public/live.2021.08.24.tar.gz"
-  mirror "https://download.videolan.org/pub/videolan/testing/contrib/live555/live.2021.08.24.tar.gz"
+  url "http://www.live555.com/liveMedia/public/live.2022.04.26.tar.gz"
+  mirror "https://download.videolan.org/pub/videolan/testing/contrib/live555/live.2022.04.26.tar.gz"
   # Keep a mirror as upstream tarballs are removed after each version
-  sha256 "ce95a1c79f6d18e959f9dc129b8529b711c60e76754acc285e60946303b923ec"
+  sha256 "24fd24d53da1ac8f8282173039e99c9952186c18404b1fc3b1d4c0e9f49414e7"
   license "LGPL-3.0-or-later"
 
+  livecheck do
+    url "http://www.live555.com/liveMedia/public/"
+    regex(/href=.*?live[._-]v?(\d+(?:\.\d+)+)\.t/i)
+  end
+
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "037bd7b7f6b47749662992483a26c35707c8242bddfa35f58f2c7bb8d6d0da2e"
-    sha256 cellar: :any, big_sur:       "d6ae6c46e3e3917d3da47c3dfd1b9cd41830a2383ce561eea8f1270692cc1a6d"
-    sha256 cellar: :any, catalina:      "afa2457a34179559b6e6a107826d22aea0e633543395a3d18a6206b0bf75c8e6"
-    sha256 cellar: :any, mojave:        "3cfb1652550415fd0b7fb9e9c5ea6e1841dbc4b3b70910e0bb34866f8c8500fc"
+    sha256 cellar: :any,                 arm64_monterey: "622a394f9c99ac33337c313c4230f3a181f8775556fd8599e638a3d85aceb29f"
+    sha256 cellar: :any,                 arm64_big_sur:  "2f9ead171859af4e4368b8da5e7324b91c21543615b3fa2ab7db4b0d3e7a6c8b"
+    sha256 cellar: :any,                 monterey:       "f375a56bcd91d78edb03fe2896bd0d73211e19219af3317e445beb1455a787ab"
+    sha256 cellar: :any,                 big_sur:        "9f903163cc730e42c97132101505ad774ed1f7a1c8461d0699e8820efb34e7f6"
+    sha256 cellar: :any,                 catalina:       "cc5237f1fa833ea1714fdfceb0d2ca4d8d9437bfdb7229c731eda771e70202b3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c62c1e77768cbb167003e6bc8ea963ea2d4897f08a5277a4e9ed93cc643f7e07"
   end
 
   depends_on "openssl@1.1"
@@ -19,11 +26,12 @@ class Openrtsp < Formula
   def install
     # Avoid linkage to system OpenSSL
     libs = [
-      Formula["openssl@1.1"].opt_lib/"libcrypto.dylib",
-      Formula["openssl@1.1"].opt_lib/"libssl.dylib",
+      Formula["openssl@1.1"].opt_lib/shared_library("libcrypto"),
+      Formula["openssl@1.1"].opt_lib/shared_library("libssl"),
     ]
 
-    system "./genMakefiles", "macosx-no-openssl"
+    os_flag = OS.mac? ? "macosx-no-openssl" : "linux-no-openssl"
+    system "./genMakefiles", os_flag
     system "make", "PREFIX=#{prefix}",
            "LIBS_FOR_CONSOLE_APPLICATION=#{libs.join(" ")}", "install"
 

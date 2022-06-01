@@ -8,23 +8,20 @@ class Lcov < Formula
   url "https://github.com/linux-test-project/lcov/releases/download/v1.15/lcov-1.15.tar.gz"
   sha256 "c1cda2fa33bec9aa2c2c73c87226cfe97de0831887176b45ee523c5e30f8053a"
   license "GPL-2.0-or-later"
-  head "https://github.com/linux-test-project/lcov.git"
+  head "https://github.com/linux-test-project/lcov.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "157d247e5fb878c1b0a4e58387a6f6f868df1e0b1cee820511cad5a34492abd8"
-    sha256 cellar: :any_skip_relocation, big_sur:       "c3fe31eeb887f60b1e349c2fa13c09059cc75dbe49471a7da41a5cfc07dc3c01"
-    sha256 cellar: :any_skip_relocation, catalina:      "1c84487473440a6f7971ecf25f2b8b5022d23a230d16e863825b43944788e3be"
-    sha256 cellar: :any_skip_relocation, mojave:        "41ebe534e6bf4166e88d0eb59ac04d28df457a86fb514fc610ca485386bd06b4"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "9c3a3586283d61ae1f1ce30145b613ebdc50e28a7656cf4b4f4e935408f4c147"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c8ebcc60880b409d88b26b9d2b90938997b2ea6c9b0400684d166d920e547004"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "bab0e9f810cffad96404c8cd78377925b162ac286a74223f0cd749fe6a008dbc"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "46b38875aa7bb7f7604e95126b03e1a68897aba7e5cb5c59fd97ff831b729d04"
+    sha256 cellar: :any_skip_relocation, monterey:       "65a02bd256b693b90435c7b0cc72bc032edbb27225c5e4c511a8bcaf53cd9e10"
+    sha256 cellar: :any_skip_relocation, big_sur:        "54ec973afb4d98a5efa8f016f0588fbfd5eb3f0986c8914ce05c71a6b85763bd"
+    sha256 cellar: :any_skip_relocation, catalina:       "aa3b34c95a9e00eb9b65735cfd93a57d50703d50e1f07931d48325f9e3fd1a26"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cdf87e195d48b9cf3311cf86cf7576c08c89893d9dee1b99a55b5e70c2ba3deb"
   end
 
   uses_from_macos "perl"
   uses_from_macos "zlib"
-
-  on_macos do
-    depends_on "gcc" => :test
-  end
 
   resource "JSON" do
     url "https://cpan.metacpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.02.tar.gz"
@@ -34,6 +31,13 @@ class Lcov < Formula
   resource "PerlIO::gzip" do
     url "https://cpan.metacpan.org/authors/id/N/NW/NWCLARK/PerlIO-gzip-0.20.tar.gz"
     sha256 "4848679a3f201e3f3b0c5f6f9526e602af52923ffa471a2a3657db786bd3bdc5"
+  end
+
+  # Temporary patch. Use correct c++filt flag. Upstreamed at
+  # https://github.com/linux-test-project/lcov/pull/125
+  patch do
+    url "https://github.com/linux-test-project/lcov/commit/462f71ddbad726b2c9968fefca31d60a9f0f745f.patch?full_index=1"
+    sha256 "73414e8f29d5c703c6c057d202fdd73efb07df05ae35c7daa5c48a4b2396e55b"
   end
 
   def install
@@ -54,7 +58,7 @@ class Lcov < Formula
     # Disable dynamic selection of perl which may cause segfault when an
     # incompatible perl is picked up.
     # https://github.com/Homebrew/homebrew-core/issues/4936
-    bin.find { |f| rewrite_shebang detected_perl_shebang, f }
+    rewrite_shebang detected_perl_shebang, *bin.children
 
     bin.env_script_all_files(libexec/"bin", PERL5LIB: ENV["PERL5LIB"])
   end
@@ -62,12 +66,6 @@ class Lcov < Formula
   test do
     gcc = ENV.cc
     gcov = "gcov"
-
-    on_macos do
-      gcc_major_ver = Formula["gcc"].any_installed_version.major
-      gcc = Formula["gcc"].opt_bin/"gcc-#{gcc_major_ver}"
-      gcov = Formula["gcc"].opt_bin/"gcov-#{gcc_major_ver}"
-    end
 
     (testpath/"hello.c").write <<~EOS
       #include <stdio.h>

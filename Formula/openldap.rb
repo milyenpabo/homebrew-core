@@ -1,10 +1,10 @@
 class Openldap < Formula
   desc "Open source suite of directory software"
   homepage "https://www.openldap.org/software/"
-  url "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz"
-  mirror "http://fresh-center.net/linux/misc/openldap-2.5.7.tgz"
-  mirror "http://fresh-center.net/linux/misc/legacy/openldap-2.5.7.tgz"
-  sha256 "ea9757001bc36295037f0030ede16810a1bb7438bbe8f871a35cc2a2b439d9ab"
+  url "https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.2.tgz"
+  mirror "http://fresh-center.net/linux/misc/openldap-2.6.2.tgz"
+  mirror "http://fresh-center.net/linux/misc/legacy/openldap-2.6.2.tgz"
+  sha256 "81d09345232eb62486ecf5acacd2c56c0c45b4a6c8c066612e7f421a23a1cf87"
   license "OLDAP-2.8"
 
   livecheck do
@@ -13,11 +13,12 @@ class Openldap < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "c4d9a59ec4d441285110a2dfa0d67f51f5c3143bae306312f2b452a9f3f48225"
-    sha256 big_sur:       "84724691666b037bc57a88be1c76a9ff30c8559c89780fea8cac439f5350e499"
-    sha256 catalina:      "b8ab256ce13cd4e4ab969f086cb37dc4a192ed9fe65fd476ff4085d2b29855e5"
-    sha256 mojave:        "44112f8f14f19d469c98eecf0c390fa8205e69a14429df199ae86c5b9a835ba9"
-    sha256 x86_64_linux:  "b107a8e433dbe115672a023a3b9466f5cbad67a5314cfb9b660627a2d679d360"
+    sha256 arm64_monterey: "254a9a1b07970313b39d0ba54c56605a5bf41b82a3fb3c2321493ed48bfd15d3"
+    sha256 arm64_big_sur:  "6d4d0e83e5b7000e561efd941010e20268882af50499f3ff6f0a4f58fe3d30c3"
+    sha256 monterey:       "f3513ae677858f5acd5b6013d6738597c56144df457c31e99b3214e4b1a469bc"
+    sha256 big_sur:        "fe5e72040e02b6a74cadd77afba7f3941bc998dfc1b6920b28b4d1775fd98cbc"
+    sha256 catalina:       "1576d37223da54d2eadac1248e2a78f9fe395b746b66e60d7986d6ae8751017b"
+    sha256 x86_64_linux:   "e6c5c02a4486d6092a469e80001b31f57aa3b170609fe5bd9e63d7973eda0224"
   end
 
   keg_only :provided_by_macos
@@ -26,6 +27,12 @@ class Openldap < Formula
 
   on_linux do
     depends_on "util-linux"
+  end
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
   end
 
   def install

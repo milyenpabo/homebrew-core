@@ -3,38 +3,53 @@ class YtDlp < Formula
 
   desc "Fork of youtube-dl with additional features and fixes"
   homepage "https://github.com/yt-dlp/yt-dlp"
-  url "https://files.pythonhosted.org/packages/ad/2a/19788cdbce56ea05600068bf342f91c91fd5acc6c6486e16d498b0ec533a/yt-dlp-2021.9.25.tar.gz"
-  sha256 "e7b8dd0ee9498abbd80eb38d9753696d6ca3d02f64980322ab3bf39ba1bc31ee"
+  url "https://files.pythonhosted.org/packages/06/60/c4146cecfe7f480fc3cb1a8608ba123b7c1e0b74813db77b8f04fd7a7280/yt-dlp-2022.5.18.tar.gz"
+  sha256 "3a7b59d2fb4b39ce8ba8e0b9c5a37fe20e5624f46a2346b4ae66ab1320e35134"
   license "Unlicense"
-  revision 1
-  head "https://github.com/yt-dlp/yt-dlp.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "bf2b679fdbe44e28d95cdf7afe974971ef757f81c188c246b42ec01ec032137e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f566dbf5afeff48d37a562a3172b9f24fb7725e62fb8f66e5a8885156e146914"
-    sha256 cellar: :any_skip_relocation, catalina:      "7f4ce738f0007aaa57a3ff6938d20dc45b864c83133f557ba48f4029904e12fa"
-    sha256 cellar: :any_skip_relocation, mojave:        "00c88209e52e77a8e88dfdfa1e6a08179a22a05f6bb5c4248d075d506fbbe09a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f7a078b78b6be51561f275bd8f33e43f8300a8b1072b4bce9a8654aadc9678da"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8f63849abe19e91012e0b5fcd909b181279e952e916582bc2a1cbfb055166af0"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d693bcef7b6006197b4c74a7d02fdbc0b28b678faf4fd03c3e3eb24614f54003"
+    sha256 cellar: :any_skip_relocation, monterey:       "b92d4d5aa770eaaafb4dbef5ff0c80f83e2068bd6fc26665739a1cfe4457b9db"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4a64c1860c682ceb7d580cf252ed3411041c66bcc5cedf6b5757e1b27e17c386"
+    sha256 cellar: :any_skip_relocation, catalina:       "1769d05051e03e9b4cdd6df8ebf2fe5a1678806199bceb9fdf44d4f2f497c299"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d1d9601761bf800cd44ec964834ef887a75dc4eba0d694dc864bdcc227818349"
+  end
+
+  head do
+    url "https://github.com/yt-dlp/yt-dlp.git", branch: "master"
+    depends_on "pandoc" => :build
   end
 
   depends_on "python@3.10"
+
+  resource "Brotli" do
+    url "https://files.pythonhosted.org/packages/2a/18/70c32fe9357f3eea18598b23aa9ed29b1711c3001835f7cf99a9818985d0/Brotli-1.0.9.zip"
+    sha256 "4d1b810aa0ed773f81dceda2cc7b403d01057458730e309856356d4ef4188438"
+  end
+
+  resource "certifi" do
+    url "https://files.pythonhosted.org/packages/6c/ae/d26450834f0acc9e3d1f74508da6df1551ceab6c2ce0766a593362d6d57f/certifi-2021.10.8.tar.gz"
+    sha256 "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
+  end
 
   resource "mutagen" do
     url "https://files.pythonhosted.org/packages/f3/d9/2232a4cb9a98e2d2501f7e58d193bc49c956ef23756d7423ba1bd87e386d/mutagen-1.45.1.tar.gz"
     sha256 "6397602efb3c2d7baebd2166ed85731ae1c1d475abca22090b7141ff5034b3e1"
   end
 
-  resource "pycryptodome" do
-    url "https://files.pythonhosted.org/packages/f8/8e/14a8238190bcf1bab3d58432cd795c859edbc2f5abd8460f80438046a799/pycryptodome-3.10.4.tar.gz"
-    sha256 "40083b0d7f277452c7f2dd4841801f058cc12a74c219ee4110d65774c6a58bef"
+  resource "pycryptodomex" do
+    url "https://files.pythonhosted.org/packages/24/40/e249ac3845a2333ce50f1bb02299ffb766babdfe80ca9d31e0158ad06afd/pycryptodomex-3.14.1.tar.gz"
+    sha256 "2ce76ed0081fd6ac8c74edc75b9d14eca2064173af79843c24fa62573263c1f2"
   end
 
   resource "websockets" do
-    url "https://files.pythonhosted.org/packages/1c/f4/61aee1eb4baadf8477fb7f3bc6b04a50fe683ef8ad2f60282806821e4b3b/websockets-10.0.tar.gz"
-    sha256 "c4fc9a1d242317892590abe5b61a9127f1a61740477bfb121743f290b8054002"
+    url "https://files.pythonhosted.org/packages/f8/a3/622d9acbfb9a71144b5d7609906bc648c62e3ca5fdbb1c8cca222949d82c/websockets-10.3.tar.gz"
+    sha256 "fc06cc8073c8e87072138ba1e431300e2d408f054b27047d047b549455066ff4"
   end
 
   def install
+    system "make", "pypi-files" if build.head?
     virtualenv_install_with_resources
     man1.install_symlink libexec/"share/man/man1/yt-dlp.1"
     bash_completion.install libexec/"share/bash-completion/completions/yt-dlp"

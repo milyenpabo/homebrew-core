@@ -1,16 +1,17 @@
 class B3sum < Formula
   desc "BLAKE3 cryptographic hash function"
   homepage "https://github.com/BLAKE3-team/BLAKE3"
-  url "https://github.com/BLAKE3-team/BLAKE3/archive/1.0.0.tar.gz"
-  sha256 "5a4e29b7d687779805bd3e4e345df063ccdde085204bc31d4c516da6a28caa0a"
+  url "https://github.com/BLAKE3-team/BLAKE3/archive/1.3.1.tar.gz"
+  sha256 "112becf0983b5c83efff07f20b458f2dbcdbd768fd46502e7ddd831b83550109"
   license "CC0-1.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "3c79b2e1a99c15e34a16704464a6da8c0f8192cfbbeb402764ef33b948ad9dde"
-    sha256 cellar: :any_skip_relocation, big_sur:       "c84ed5e1116845343fc0db6cd71acbae101d59fe614e0eb10f584dd2bc85a6aa"
-    sha256 cellar: :any_skip_relocation, catalina:      "b4041a76b7b285d0e08ad2f88bee08864f3c5557aa1d98d24479c5f11e7b063f"
-    sha256 cellar: :any_skip_relocation, mojave:        "a519019495263bc5ecc038829e45bf78495de1ea4e1a04f90a9888198f7b9986"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b710a42418a6d2c530352d301ef405b10f606e02da957726f6f29c28fb3beea3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "e4e48c044b8a2ba3d083eb0ac67c1d082a24873bbf4a300e497d0deaf3257bcc"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a7c841f9d6cc4d411721ccb6a05053a351d252985a37788352ce737b2cf9cd48"
+    sha256 cellar: :any_skip_relocation, monterey:       "b07aa8f87eb31369fe28c86f9aaf5e8e55c3ebc4f4e27e3c4ee819b35a49509c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3031af49143f44df34216afcb12124b494613a39fd90dc3b53c38bffbb67f5af"
+    sha256 cellar: :any_skip_relocation, catalina:       "b9eb383af70ee294843fae2a04dabdf92701699edf4484dc09188d8fab662101"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6c68e1b2f6c9749641d5f08d281420eb19879be28d2161371fcd61183d92f816"
   end
 
   depends_on "rust" => :build

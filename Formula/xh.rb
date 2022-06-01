@@ -1,17 +1,18 @@
 class Xh < Formula
   desc "Friendly and fast tool for sending HTTP requests"
   homepage "https://github.com/ducaale/xh"
-  url "https://github.com/ducaale/xh/archive/refs/tags/v0.13.0.tar.gz"
-  sha256 "d3e46b6db5a131237d5f980ccaae6f04c5ba7b06922d97c7f98f36f03cf581fe"
+  url "https://github.com/ducaale/xh/archive/refs/tags/v0.16.1.tar.gz"
+  sha256 "c1fd4f33be96ba1c19580fc66dd9d059a716f00f532a516e159ce9342e50cd43"
   license "MIT"
   head "https://github.com/ducaale/xh.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "26292428e0b0ba0727e38b9693782e0c1a7f795ffb43c58d1eada081ef0aea44"
-    sha256 cellar: :any_skip_relocation, big_sur:       "daf8cdcc24b0ac8a3b25abb4f42871c7af52dd2690bdaf94576433fa78e998cf"
-    sha256 cellar: :any_skip_relocation, catalina:      "ea2de87328ac70becf698b04ea9ea8c8d4f04434cae2c42444dedcd02858e90a"
-    sha256 cellar: :any_skip_relocation, mojave:        "a3824630363bb66568441a1197133ae8b98534bf033fbbbf6851aa0176fb5e41"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2f90037394c877924369d65e167bdc1c22364928a57a02c81aaa488c08be17cc"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6883bfed4baeff32fda41fd65598d5743f755c74c3e78d61fc94d795c457ab81"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "51caf49e26e66f098d27f0ffcb8f5655c4fa6f8805732388b8ddad6b627b77ff"
+    sha256 cellar: :any_skip_relocation, monterey:       "9e38e2511c4666cd05e9af6827b94767131374126a0ed28a1b37df0aee9c5efe"
+    sha256 cellar: :any_skip_relocation, big_sur:        "7fcd794e148d73e7b14b9f3261c5fba5b490233f261b1a10d9a4762dfed36e6e"
+    sha256 cellar: :any_skip_relocation, catalina:       "b70120b70cd998361f1e6da4d5ca7c2f92d2359e56155fba179dd4277a0aa0c1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "39e0780ad19d1e316a81bc2df1bc1577c7ed918ef5ba59cdfff0a621b2fa9fa0"
   end
 
   depends_on "rust" => :build

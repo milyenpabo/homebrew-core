@@ -1,19 +1,21 @@
 class Libtensorflow < Formula
   desc "C interface for Google's OS library for Machine Intelligence"
   homepage "https://www.tensorflow.org/"
-  url "https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.6.0.tar.gz"
-  sha256 "41b32eeaddcbc02b0583660bcf508469550e4cd0f86b22d2abe72dfebeacde0f"
+  url "https://github.com/tensorflow/tensorflow/archive/refs/tags/v2.9.0.tar.gz"
+  sha256 "8087cb0c529f04a4bfe480e49925cd64a904ad16d8ec66b98e2aacdfd53c80ff"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any, big_sur:  "69baf5524268e1d3d6ce4af15781d732ff3da465c779f1a90f1145560e365f90"
-    sha256 cellar: :any, catalina: "200274bd3af3bb4093f0a90f32e8561abd9b8328a3a04de0648ff66f2d028e68"
-    sha256 cellar: :any, mojave:   "73cde8bd727caae50b85fe9efe466a24d59453d231f234cba0103200d4d76707"
+    sha256 cellar: :any, arm64_monterey: "c0f2858f318ef814230a2f301ffe4be31d80d5232676e06e18aef0753f6c9c1c"
+    sha256 cellar: :any, arm64_big_sur:  "c59cdaf7dd4deafb3ee4f7d4e7e44b3b821a6a02256c205ef1b8e7a1b348f326"
+    sha256 cellar: :any, monterey:       "6b6da5315c81c416904f984500067448c95aa0c073ab02cf7132828d3e718105"
+    sha256 cellar: :any, big_sur:        "e0bc339f1b6f089d91aa5e196818fb9c484688eeea43b0b84e3f67a29981b078"
+    sha256 cellar: :any, catalina:       "9d6de6f97c2552141182300b1abe8218ba3bfc9ca20a25ab701f65b38bfa238b"
   end
 
-  depends_on "bazel" => :build
+  depends_on "bazelisk" => :build
   depends_on "numpy" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   resource "test-model" do
     url "https://github.com/tensorflow/models/raw/v1.13.0/samples/languages/java/training/model/graph.pb"
@@ -21,11 +23,15 @@ class Libtensorflow < Formula
   end
 
   def install
-    # Allow tensorflow to use current version of bazel
-    (buildpath / ".bazelversion").atomic_write Formula["bazel"].version
-
-    ENV["PYTHON_BIN_PATH"] = Formula["python@3.9"].opt_bin/"python3"
-    ENV["CC_OPT_FLAGS"] = "-march=native"
+    optflag = if Hardware::CPU.arm? && OS.mac?
+      "-mcpu=apple-m1"
+    elsif build.bottle?
+      "-march=#{Hardware.oldest_cpu}"
+    else
+      "-march=native"
+    end
+    ENV["CC_OPT_FLAGS"] = optflag
+    ENV["PYTHON_BIN_PATH"] = Formula["python@3.10"].opt_bin/"python3"
     ENV["TF_IGNORE_MAX_BAZEL_VERSION"] = "1"
     ENV["TF_NEED_JEMALLOC"] = "1"
     ENV["TF_NEED_GCP"] = "0"
@@ -47,10 +53,12 @@ class Libtensorflow < Formula
     ENV["TF_CONFIGURE_IOS"] = "0"
     system "./configure"
 
-    bazel_args =%W[
+    bazel_args = %W[
       --jobs=#{ENV.make_jobs}
       --compilation_mode=opt
-      --copt=-march=native
+      --copt=#{optflag}
+      --linkopt=-Wl,-rpath,#{rpath}
+      --verbose_failures
     ]
     targets = %w[
       tensorflow:libtensorflow.so
@@ -59,7 +67,7 @@ class Libtensorflow < Formula
       tensorflow/tools/graph_transforms:summarize_graph
       tensorflow/tools/graph_transforms:transform_graph
     ]
-    system "bazel", "build", *bazel_args, *targets
+    system Formula["bazelisk"].opt_bin/"bazelisk", "build", *bazel_args, *targets
 
     lib.install Dir["bazel-bin/tensorflow/*.so*", "bazel-bin/tensorflow/*.dylib*"]
     include.install "bazel-bin/tensorflow/include/tensorflow"

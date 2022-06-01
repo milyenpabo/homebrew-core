@@ -1,16 +1,17 @@
 class Dhall < Formula
   desc "Interpreter for the Dhall language"
   homepage "https://dhall-lang.org/"
-  url "https://hackage.haskell.org/package/dhall-1.40.1/dhall-1.40.1.tar.gz"
-  sha256 "21c23ed7c3949f6c8adb439666a934460a07636320ae4b3dfaced03455e24e54"
+  url "https://hackage.haskell.org/package/dhall-1.41.1/dhall-1.41.1.tar.gz"
+  sha256 "9bea36ab0e1c965aef7474fabea67c3cfa3ca272007508ecd7bf22eaaae8d425"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d5813e732f904689c01bd850dacfbadefc7cc7eabc9de698eae354f6da536487"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7419b77dbe5d0c193fee5fcc025b4498093827c49b7bb72cd5a1ea9049df2ace"
-    sha256 cellar: :any_skip_relocation, catalina:      "5237942d82f12c997ed07086c1be7610ce4ba998dc87b24a3dec2d88bd382d71"
-    sha256 cellar: :any_skip_relocation, mojave:        "dad39b07677cd3dc786e269a9160e938f3cdb1cdd7c35d7856293d61c7aad741"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d59fbea133108d39b418633a411f102ab282754d2bccb3164bc43ae2fbf9480d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "e079ff66385d346a3f8fc53d9364bac2e28fb362fd10268c162775c9cc976733"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "28d158f3b6806696debb26dd9eb8b93bd952266788adc2a99f6a953b9a6bae95"
+    sha256 cellar: :any_skip_relocation, monterey:       "cb99eaed623aa732a18f0b1078a27fac36ae46ba5d22e7250ca467c7e6add498"
+    sha256 cellar: :any_skip_relocation, big_sur:        "a02655ca8842ff04324f4ea67d08cb73201e874b792006e7db9bb8cbb5ff189c"
+    sha256 cellar: :any_skip_relocation, catalina:       "2ecbf911a9e975ed2fa129e082e6a85cfaa238f3b6d72b3f3a19bdf5c82f0d2a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c9262f5f74ef22618e7549027b50a5d8066e6f3b2544f66e8e1dea791fd383f2"
   end
 
   depends_on "cabal-install" => :build
@@ -22,6 +23,7 @@ class Dhall < Formula
   def install
     system "cabal", "v2-update"
     system "cabal", "v2-install", *std_cabal_v2_args
+    man1.install "man/dhall.1"
   end
 
   test do

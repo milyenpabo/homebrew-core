@@ -1,16 +1,18 @@
 class Selene < Formula
   desc "Blazing-fast modern Lua linter"
   homepage "https://kampfkarren.github.io/selene"
-  url "https://github.com/Kampfkarren/selene/archive/0.14.0.tar.gz"
-  sha256 "7accab1f2e2c32af7ca3a28da91f0f3ff89a9437a4d6008a9514f13009912fe3"
+  url "https://github.com/Kampfkarren/selene/archive/0.17.0.tar.gz"
+  sha256 "c9dd792345c2802ed4bc41fa94a21945e5d67bd51d3c13fff61bbe2a08c0a287"
   license "MPL-2.0"
+  head "https://github.com/Kampfkarren/selene.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "db9ad90c61edc0bdd85f36287a857c881ce85488df4a545c7f43623ba3306c06"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7f79d5199778de50445897b61ed796ba2f8ed8dc28ba94e3178566120eb5c53e"
-    sha256 cellar: :any_skip_relocation, catalina:      "f327afafa10d044c0b295e16741018c368251b79d65318bfdb9def511740fad5"
-    sha256 cellar: :any_skip_relocation, mojave:        "748941051771e799dd0afe0e853f007746cd07af86134fb8f912aa5c3c7a5dfe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e3061b7ea81453f2cca3b71aba7f1069b8de067b24267626e95a7fa891a12607"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "06cfedcd6c3fb683b2a1062b20355f57f3118dcea3f144c052aed1460271d8ed"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "eb089ea912aba98806bd538400d08e1283d941d019e420da41d90ba63c86096d"
+    sha256 cellar: :any_skip_relocation, monterey:       "369409ce99cdaa34f6d1c9a7c59efdbb59ba385647452fc8f3ea5c81584ebf34"
+    sha256 cellar: :any_skip_relocation, big_sur:        "0546da89cc5c0f3dfcf78a97bd946d698024d35975b0592ca85a67cc0ed57f5f"
+    sha256 cellar: :any_skip_relocation, catalina:       "3157695295d27b94fbfe3b5a4108761094c008711bef6bc2c2f8a8159abbd207"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3d74e56c2fb217d7d843f9b2c4f296c09c29974a5fa82d52baee1736a2595e0a"
   end
 
   depends_on "rust" => :build

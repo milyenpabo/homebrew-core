@@ -4,19 +4,19 @@ class Nanomsgxx < Formula
   url "https://github.com/achille-roussel/nanomsgxx/archive/0.2.tar.gz"
   sha256 "116ad531b512d60ea75ef21f55fd9d31c00b172775548958e5e7d4edaeeedbaa"
   license "MIT"
-  revision 2
+  revision 3
 
   bottle do
-    rebuild 3
-    sha256 cellar: :any,                 arm64_big_sur: "fdb165ff9a7d677801a5ee1929fb147992636fb65a28a71d1e2733305da4ffb9"
-    sha256 cellar: :any,                 big_sur:       "7b3e805045bb30e815c5c8e5b3385b970ebebb7ade67670e8c053e8f26f68228"
-    sha256 cellar: :any,                 catalina:      "3012511c27bb7d94925a68e468b1316a2b44364ff572533d8cfde94759f53b24"
-    sha256 cellar: :any,                 mojave:        "b1662476ea36dcf91800a55c4e11a54301158a24c7b2bdb501dbaaa7bc1024f7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1a6282a899055fc6ca201ec484aadf25319df19fbae4569e31933865510f8eb7"
+    sha256 cellar: :any,                 arm64_monterey: "8436ab0a7b9ed4472dfa37e576b2003510ca115e1ae686b2352d3bb00c351d92"
+    sha256 cellar: :any,                 arm64_big_sur:  "722cb87d23c8dc14f3be995f3a83d3c8da43a2b76ebf621d57c27d63ce7c2598"
+    sha256 cellar: :any,                 monterey:       "2cfef95f0fc27d9d297a50191ae3d8e1d69b9a8f80ff3f34bc6bb90a9626a41f"
+    sha256 cellar: :any,                 big_sur:        "6509c8160cbe5dba38a77d3adc1f1d5d515feff427bad6441992dc40cb5b4d1a"
+    sha256 cellar: :any,                 catalina:       "0c377d26b223a21b48d90920818baf7b241ebadfac8c60a3420e0c3054df7401"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ed20e2617835e53e1ee41927a5066275c7b7a6058de093932be16bb89bf23cd4"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "nanomsg"
 
   # Add python3 support

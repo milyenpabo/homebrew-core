@@ -1,8 +1,8 @@
 class Cherrytree < Formula
   desc "Hierarchical note taking application featuring rich text and syntax highlighting"
   homepage "https://www.giuspen.com/cherrytree/"
-  url "https://www.giuspen.com/software/cherrytree_0.99.41.tar.xz"
-  sha256 "450d84753d3ab8bbda2e3ca40fd84624937a9487a01f4be00e51a3d40c7253ca"
+  url "https://www.giuspen.com/software/cherrytree_0.99.47.tar.xz"
+  sha256 "1b551ee00f788d21ebda3123495a88da293467b8a53bb78fb4fae957c452d024"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,16 +11,18 @@ class Cherrytree < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "2d2a9ae50b21645130e802efcaddc6d3d4bd6adeb199c99353276108c81e47b2"
-    sha256 big_sur:       "c9f49d17d215b76481606ccda50505ed8b00738d9c0c704c9b2683efebee32e2"
-    sha256 catalina:      "b4dd61688688a40f22676ee8078177b6560762deb93b5d54f0bf653b5a0d13b7"
-    sha256 mojave:        "ba29c8909da972e9ee16e7f83bcd95e3ecc94661300508281553b33c5c4dbd9a"
+    sha256 arm64_monterey: "719a2a9e6f7f2e5cf2d8551ebc950852d5285e112eb51c149b8b6d1ba695b938"
+    sha256 arm64_big_sur:  "7c6575fd74aad453d3a59d274cc05bce335209bc9cfc52896417af3d0ebd4b98"
+    sha256 monterey:       "0658c77389e7ceff243b5aed1bf706ddd6efcfc21096c325d4ca80c35b71a4d0"
+    sha256 big_sur:        "bf1bc700fb367ec574eab60d404f8bd67a095322f876a3fb6b29874f864c6a50"
+    sha256 catalina:       "3f005d7b897aa4f528ea4767f4733db8a24f199cfa0bf81d7d3d8f5e3c596578"
+    sha256 x86_64_linux:   "d0e44b554461cc96f1d948a8421dd926673504ee1481f20e662017289b74ddc4"
   end
 
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "adwaita-icon-theme"
   depends_on "fmt"
   depends_on "gspell"
@@ -31,6 +33,12 @@ class Cherrytree < Formula
 
   uses_from_macos "curl"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # Needs std::optional
+
   def install
     system "cmake", ".", "-DBUILD_TESTING=''", "-GNinja", *std_cmake_args
     system "ninja"
@@ -38,6 +46,9 @@ class Cherrytree < Formula
   end
 
   test do
+    # (cherrytree:46081): Gtk-WARNING **: 17:33:48.386: cannot open display
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
+
     (testpath/"homebrew.ctd").write <<~EOS
       <?xml version="1.0" encoding="UTF-8"?>
       <cherrytree>

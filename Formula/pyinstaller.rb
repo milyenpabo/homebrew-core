@@ -2,40 +2,37 @@ class Pyinstaller < Formula
   include Language::Python::Virtualenv
 
   desc "Bundle a Python application and all its dependencies"
-  homepage "https://www.pyinstaller.org"
-  url "https://files.pythonhosted.org/packages/a9/d9/9fdfb0ac2354d059e466d562689dbe53a23c4062019da2057f0eaed635e0/pyinstaller-4.5.1.tar.gz"
-  sha256 "30733baaf8971902286a0ddf77e5499ac5f7bf8e7c39163e83d4f8c696ef265e"
+  homepage "https://pyinstaller.org/"
+  url "https://files.pythonhosted.org/packages/c9/41/fbb2f0e6e1934a47a99295d67ba178477f8809ae939c96608c711596f478/pyinstaller-5.1.tar.gz"
+  sha256 "9596c70c860cbce19537354db95b180351959b4cd14a70db6ab1d1432668c313"
   license "GPL-2.0-or-later"
   head "https://github.com/pyinstaller/pyinstaller.git", branch: "develop"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4272eaf2d73796e1509b1df73cd8d16b94a6355b27abac02f0ce0d17741260f4"
-    sha256 cellar: :any_skip_relocation, big_sur:       "18d32eca7f24a755e73cdc63f64f1c2bbd813ee16d91d5f883a77cad112ea3a7"
-    sha256 cellar: :any_skip_relocation, catalina:      "fcd5279e9d8fc01bdd988a3ad7ebb3bb13162f0221d1651746beb55570824c92"
-    sha256 cellar: :any_skip_relocation, mojave:        "14b0ce068eb56e05a847cc72834163072ef3da7bfdbbd517d2f82255164ed226"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fd94131c0b3c6bc8938c00b9c0a9dd1e00a7718b3a92fde29babaf60c5f5e600"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "9ae9ce750dc5b8c46aaf7a554f0bbc17b404a923eb48583e7a7a4a7d245bc805"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2ece70dc36aa4f3fc155bc35c65fcea4f85dae3a00b2c822214089fbf78b40b7"
+    sha256 cellar: :any_skip_relocation, monterey:       "20bdb82d030245e22c542c09940affd15bb32231209d0855a56873cc76d4f5a5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b58a1cd4d2191ae159ce25d134061097e2692a8276f464e8a4a75a1fcef7e162"
+    sha256 cellar: :any_skip_relocation, catalina:       "cf3c6516fa2a52a60aa25f2ea873d8de503d992c3b1e933fa5415d68cfb1f73c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a926d7537d90caacb9514715a6b71de096aeb06a1ea1ba56ccc467df3a263033"
   end
 
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   resource "altgraph" do
-    url "https://files.pythonhosted.org/packages/22/5a/ac50b52581bbf0d8f6fd50ad77d20faac19a2263b43c60e7f3af8d1ec880/altgraph-0.17.tar.gz"
-    sha256 "1f05a47122542f97028caf78775a095fbe6a2699b5089de8477eb583167d69aa"
+    url "https://files.pythonhosted.org/packages/a9/f1/62830c4915178dbc6948687916603f1cd37c2c299634e4a8ee0efc9977e7/altgraph-0.17.2.tar.gz"
+    sha256 "ebf2269361b47d97b3b88e696439f6e4cbc607c17c51feb1754f90fb79839158"
   end
 
   resource "macholib" do
-    url "https://files.pythonhosted.org/packages/5f/cd/045e6e025d7484eef8c534a0ffe98792fd1ea19aadc8ac048a5ed9272e9d/macholib-1.15.tar.gz"
-    sha256 "196b62c592e46f0859508a73a11eca6b082a5c8db330ba90cb56f2409e48e2d5"
+    url "https://files.pythonhosted.org/packages/16/1b/85fd523a1d5507e9a5b63e25365e0a26410d5b6ee89082426e6ffff30792/macholib-1.16.tar.gz"
+    sha256 "001bf281279b986a66d7821790d734e61150d52f40c080899df8fefae056e9f7"
   end
 
   resource "pyinstaller-hooks-contrib" do
-    url "https://files.pythonhosted.org/packages/eb/fa/fe062e44776ab8edb4ac62daca1a02bb744ebdd556ec7a75c19c717e80b4/pyinstaller-hooks-contrib-2021.2.tar.gz"
-    sha256 "7f5d0689b30da3092149fc536a835a94045ac8c9f0e6dfb23ac171890f5ea8f2"
+    url "https://files.pythonhosted.org/packages/b3/8c/c390f589d257717dbb6725147dc3dff89e832c432ac59aa8c1c74030746f/pyinstaller-hooks-contrib-2022.5.tar.gz"
+    sha256 "90a05207ceea2f8c166f12c3add46e24c0ed6a78234e5f99320f8683d56e0dec"
   end
-
-  # Work around to create native thin bootloader using `--no-universal2` flag
-  # Upstream ref: https://github.com/pyinstaller/pyinstaller/issues/6091
-  patch :DATA
 
   def install
     cd "bootloader" do
@@ -57,16 +54,3 @@ class Pyinstaller < Formula
     assert_predicate testpath/"dist/easy_install", :exist?
   end
 end
-
-__END__
---- a/bootloader/wscript
-+++ b/bootloader/wscript
-@@ -360,7 +360,7 @@ def set_arch_flags(ctx):
-             if ctx.options.macos_universal2:
-                 mac_arch = UNIVERSAL2_FLAGS
-             else:
--                mac_arch = ['-arch', 'x86_64']
-+                mac_arch = []
-         ctx.env.append_value('CFLAGS', mac_arch)
-         ctx.env.append_value('CXXFLAGS', mac_arch)
-         ctx.env.append_value('LINKFLAGS', mac_arch)

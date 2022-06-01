@@ -1,19 +1,24 @@
 class Imath < Formula
   desc "Library of 2D and 3D vector, matrix, and math operations"
   homepage "https://www.openexr.com/"
-  url "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.3.tar.gz"
-  sha256 "0bf7ec51162c4d17a4c5b850fb3f6f7a195cff9fa71f4da7735f74d7b5124320"
+  url "https://github.com/AcademySoftwareFoundation/Imath/archive/refs/tags/v3.1.5.tar.gz"
+  sha256 "1e9c7c94797cf7b7e61908aed1f80a331088cc7d8873318f70376e4aed5f25fb"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "2a2e81873d2de90b295234a6d639d8c61c375253c739328f54856477dad5193e"
-    sha256 cellar: :any,                 big_sur:       "0a0b0dfa316ca1c7b122de50f6a3bb8d5f2827056c2981d8b69f49d63bc6fe47"
-    sha256 cellar: :any,                 catalina:      "485012850077bef28aa6116a27868877c5c4e2b133081cae290804efd0bb7667"
-    sha256 cellar: :any,                 mojave:        "ae767801f200cee72351c40a60bcb48a9441870c5d2d7c4da844b6da44057d28"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a188909af0b84e99692180e0c786a2e281d0a86f1155b14a074935ba32a33cbc"
+    sha256 cellar: :any,                 arm64_monterey: "c9a1333aef15ce338d27e3cf73885750c1dadd7cf0a664cf6cd887a841e95c9b"
+    sha256 cellar: :any,                 arm64_big_sur:  "1e8b8cef1b3fee6809cac3d9e73182d1218044960e3295411e6b8c68d3601d42"
+    sha256 cellar: :any,                 monterey:       "60265951d4debb77e090194e08369ace9957411da8d94efd1ec16487b42cbf1b"
+    sha256 cellar: :any,                 big_sur:        "5acea94faccfa4fd8ca1964bce545d751d9404c6e6830a0d9a75031a529cc06f"
+    sha256 cellar: :any,                 catalina:       "cbbb632a0b17f931262850308af109b1ccb9dd533a861069d4de1edb092ae00e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "62d672df3af0e944fcc190526981aede2b48c65c65de7b602a5b55cd882602f3"
   end
 
   depends_on "cmake" => :build
+
+  # These used to be provided by `ilmbase`
+  link_overwrite "lib/libImath.dylib"
+  link_overwrite "lib/libImath.so"
 
   def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args

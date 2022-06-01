@@ -1,8 +1,8 @@
 class Krb5 < Formula
   desc "Network authentication protocol"
   homepage "https://web.mit.edu/kerberos/"
-  url "https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz"
-  sha256 "10453fee4e3a8f8ce6129059e5c050b8a65dab1c257df68b99b3112eaa0cdf6a"
+  url "https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz"
+  sha256 "7e022bdd3c851830173f9faaa006a230a0e0fdad4c953e85bff4bf0da036e12f"
   license :cannot_represent
 
   livecheck do
@@ -11,11 +11,12 @@ class Krb5 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "62a2882f4193d6871d9c8116b897a8d33d6a4fedb954646a0eefdc4bfe623110"
-    sha256 big_sur:       "6ae8cffb08f9cba4842a21fc92618e22403a474fbd6d05820c3755401d55688d"
-    sha256 catalina:      "5d0157ff13610f06bc262350978ef1f754e2b7ed0721ba27c431cfd5b5b16639"
-    sha256 mojave:        "9dd6fca906e634be1c1b05a99fa8f28735a969e3eb4d939048e89f322c3a4278"
-    sha256 x86_64_linux:  "2626ed3b8a8e5448aabeac56f6fe91b199fe896a5fd84394d5475213fde1a139"
+    sha256 arm64_monterey: "ad559a03cc8661b668d51d71d3dc44b84eb853b35415aa0cc0a75fefc15bfeb6"
+    sha256 arm64_big_sur:  "8f6f51da9bf8693e7976954aee19d444d483070cf33ad6453219f032b1bcd1ec"
+    sha256 monterey:       "99e8f567b0f70cc50309acf37f5e4b792dcd8fbd034e869e58e3e0f38ad73ec9"
+    sha256 big_sur:        "8e6be25060a0223ec6e8935e575d4b07ff9235f3b5c7e273bd8c79b401a0abfc"
+    sha256 catalina:       "6e8e5a00dff92c729f276ba9d287689e0222a4293f7c8c502ee2781c2a1d4a2e"
+    sha256 x86_64_linux:   "17c3f6518fc7f836cd1bcc8ae0f2d8a8cc9d8ca063fa78d2faaf67158bf3318d"
   end
 
   keg_only :provided_by_macos

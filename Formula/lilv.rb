@@ -1,8 +1,8 @@
 class Lilv < Formula
   desc "C library to use LV2 plugins"
-  homepage "https://drobilla.net/software/lilv/"
-  url "https://download.drobilla.net/lilv-0.24.12.tar.bz2"
-  sha256 "26a37790890c9c1f838203b47f5b2320334fe92c02a4d26ebbe2669dbd769061"
+  homepage "https://drobilla.net/software/lilv.html"
+  url "https://download.drobilla.net/lilv-0.24.14.tar.bz2"
+  sha256 "6399dfcbead61a143acef3a38ad078047ab225b00470ad5d33745637341d6406"
   license "ISC"
 
   livecheck do
@@ -11,21 +11,39 @@ class Lilv < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "7d5c20eca54b3c37a221850a1dee80db09936951a68b809ac273b818520742e5"
-    sha256 cellar: :any, big_sur:       "0bd83420cebc6262ce2c99f52dc4a0e1b292eb4fb1a5342eede0a0de42042f9d"
-    sha256 cellar: :any, catalina:      "209a76fdfb98e2ed7c4fb0c61a30f74f6d20d733bdfa4119f3508a4b4e7b2670"
-    sha256 cellar: :any, mojave:        "59935741b27150d9c72f5c0d436c4d2df1e932d4edb3f6f75d3ab68b50ec42ca"
+    sha256 cellar: :any,                 arm64_monterey: "bd62a762264f26186af0f369e12e3360a7262094dd3af8f1adce2604b882b19a"
+    sha256 cellar: :any,                 arm64_big_sur:  "612ae87c45a4ef670deddf610e6e54f7e0eb80d5c8b227d58cb97716118206c7"
+    sha256 cellar: :any,                 monterey:       "fab5a0d28b32609527e4145b16edbd4bc9bc37d8a87eab0d456566024aced21b"
+    sha256 cellar: :any,                 big_sur:        "58ee0b0d50d9b3eb24f00beaa1466e6858cfef89226027b0f03ba1f82f5cfa20"
+    sha256 cellar: :any,                 catalina:       "3ebca1b8b6e8fa09155a1cbbe2fe451cd061db202d2c574259cc7e042c1c0e9b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3fa51df59b201664494b9ecd8f0bcce145cc448bd1fabb1a21d95497e9e9a1a4"
   end
 
   depends_on "pkg-config" => :build
+  depends_on "python@3.10" => [:build, :test]
   depends_on "lv2"
   depends_on "serd"
   depends_on "sord"
   depends_on "sratom"
 
   def install
-    system "./waf", "configure", "--prefix=#{prefix}"
-    system "./waf"
-    system "./waf", "install"
+    system "python3", "./waf", "configure", "--prefix=#{prefix}"
+    system "python3", "./waf"
+    system "python3", "./waf", "install"
+  end
+
+  test do
+    (testpath/"test.c").write <<~EOS
+      #include <lilv/lilv.h>
+
+      int main(void) {
+        LilvWorld* const world = lilv_world_new();
+        lilv_world_free(world);
+      }
+    EOS
+    system ENV.cc, "test.c", "-I#{include}/lilv-0", "-L#{lib}", "-llilv-0", "-o", "test"
+    system "./test"
+
+    system Formula["python@3.10"].opt_bin/"python3", "-c", "import lilv"
   end
 end

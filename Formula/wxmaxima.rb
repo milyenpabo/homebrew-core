@@ -1,17 +1,18 @@
 class Wxmaxima < Formula
   desc "Cross platform GUI for Maxima"
   homepage "https://wxmaxima-developers.github.io/wxmaxima/"
-  url "https://github.com/wxMaxima-developers/wxmaxima/archive/Version-21.05.2.tar.gz"
-  sha256 "4d2d486a24090ace2f64ceccb026210e2e6299a32cb348d43134ef80440bcf01"
+  url "https://github.com/wxMaxima-developers/wxmaxima/archive/Version-22.05.0.tar.gz"
+  sha256 "a0140b9f6171540556bd40c6b5617eb9ea224debe592014cbfabd0c095594b93"
   license "GPL-2.0-or-later"
-  revision 2
   head "https://github.com/wxMaxima-developers/wxmaxima.git", branch: "main"
 
   bottle do
-    sha256 arm64_big_sur: "c5885649ca8ab371701954eb6315e59e97136dbf852298cfceb78c5d1d0f56cf"
-    sha256 big_sur:       "a02efeeb839aa82eba7f78634e4c2cdca4d4fbb44106a572d4358cc6d6120894"
-    sha256 catalina:      "1ba9b4c32bd55e704584a4d1b31abf823fd8e6cfe794a9b329ec40fe6ca1457b"
-    sha256 mojave:        "63862e6e1cdda9db206fa8f1eb1280642be7e8d35b53b8595c5013d6c83369e8"
+    sha256 arm64_monterey: "a51d1ccf532d56b1bf6d078d7192eb1de175905b7aada0c3b8952961036167b8"
+    sha256 arm64_big_sur:  "5c3482950973cb51d01ca0753d7673469cf820d7aee2250fbb79fdee522b0ddc"
+    sha256 monterey:       "c30018e1a23d688c2d121ecbb84ab0fe3a1c54b6504f6d049d557f478522d138"
+    sha256 big_sur:        "e654e0a7487eb02fdb2dc5e492146c30c3e06122d9044898fadcd6e540a84ae0"
+    sha256 catalina:       "b47d0975e48f7675ad05e85685a9c372c12eb32b8d7c956c28ce770a552dd270"
+    sha256 x86_64_linux:   "ab153232833dc68d83b9e3753d79edcb898e88731a878e2a43068f745000befc"
   end
 
   depends_on "cmake" => :build
@@ -47,10 +48,8 @@ class Wxmaxima < Formula
   end
 
   test do
-    on_linux do
-      # Error: Unable to initialize GTK+, is DISPLAY set properly
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    # Error: Unable to initialize GTK+, is DISPLAY set properly
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     assert_match "algebra", shell_output("#{bin}/wxmaxima --help 2>&1")
   end

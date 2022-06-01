@@ -1,17 +1,19 @@
 class Nef < Formula
   desc "💊 steroids for Xcode Playgrounds"
   homepage "https://nef.bow-swift.io"
-  url "https://github.com/bow-swift/nef/archive/0.6.2.tar.gz"
-  sha256 "23915dd21e6485829b5ad88b6a5f4ac6b4ea091fc70820d2322bafba09e2217a"
+  url "https://github.com/bow-swift/nef/archive/0.7.1.tar.gz"
+  sha256 "147b8723d65ababedd04abf2ea4445c2b16dd7c18814a92182ae61978eb1152e"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b5b6f8469fa1102d9e6493f179a51506aacd9aa4c475717a7f4bdeb8faffea0f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "11c4a5eb869ab0e94f430c3ff4104064e0ec3b371ed4e0d6c8673ac9f18915ee"
-    sha256 cellar: :any_skip_relocation, catalina:      "fae01b5b21abe8205e3e42101804f3c6c16bb04d1c14841846766579ce2885d5"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8918c48c922141c187e2271884864118e01b8cc821d53d3bf82f25ed61cf6075"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b8453d3a8cb3b1cdcc4c042f63efd772a70b2e28f822faca6adf710688f7cf9b"
+    sha256 cellar: :any_skip_relocation, monterey:       "8841fde2a11375a65c32ac4e8c88dfc44f64935921a71fa546026fb40e8acef1"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4a80e27e8474a6100f79b2845121660f3fec14e1f9f90a09b12f5b9fc804b5ef"
   end
 
-  depends_on xcode: "11.4"
+  depends_on :macos
+  depends_on xcode: "13.1"
 
   def install
     system "make", "install", "prefix=#{prefix}", "version=#{version}"

@@ -1,17 +1,17 @@
 class Gspell < Formula
   desc "Flexible API to implement spellchecking in GTK+ applications"
   homepage "https://wiki.gnome.org/Projects/gspell"
-  url "https://download.gnome.org/sources/gspell/1.8/gspell-1.8.4.tar.xz"
-  sha256 "cf4d16a716e813449bd631405dc1001ea89537b8cdae2b8abfb3999212bd43b4"
+  url "https://download.gnome.org/sources/gspell/1.10/gspell-1.10.0.tar.xz"
+  sha256 "803bb884c0215d3fd22a85d7f30423aff88d9792f05a5199d8a489a2ffaae1da"
   license "LGPL-2.1-or-later"
-  revision 3
 
   bottle do
-    sha256 arm64_big_sur: "7dc4740a3245e28caa82c646b1e173336b3a3e2b88de1c87f002767d75938c72"
-    sha256 big_sur:       "7c6b8458c44372ae98e4a0fbcfdfb005e03b011b9ef9f115a91389ec42190b79"
-    sha256 catalina:      "06231d114243cac1944fb29186884abc114b246c3599bb343778cb970d65f246"
-    sha256 mojave:        "68fdf9d35b70a010ad248495e62198a2632bb9b3494455afb285f86c4c49e5d0"
-    sha256 x86_64_linux:  "9186b4ab46a48c6e69989972d2a478fe8db7e196a6aab94f607388ab82dcfcf9"
+    sha256 arm64_monterey: "40864f7810104d4c29c6811c4f5ed233406f5b95279fb704bd58e47d2853d839"
+    sha256 arm64_big_sur:  "b28648c96bc1fadb3d2843ecdd7b7f157825f7e3fd9b30dfcc7634f169861f37"
+    sha256 monterey:       "c8dea27d10b7f4a0e47adabd532e339c2a8b0f615d1f34318eca81342cd04c11"
+    sha256 big_sur:        "32085aecc907c9a918e54c437e164e420004d808ac253bd1aa1be3b73f1bd0d3"
+    sha256 catalina:       "31180cd5a088e824d4fd785e39a4897d243d0c71db528ecb196082c0ba5b0dc2"
+    sha256 x86_64_linux:   "e51a3cea7ead9513490b0a1def4acdfa6c59fe19a3983ac0e2f59c95df3df013"
   end
 
   depends_on "autoconf" => :build
@@ -75,7 +75,7 @@ class Gspell < Formula
       -I#{glib.opt_include}/glib-2.0
       -I#{glib.opt_lib}/glib-2.0/include
     ]
-    on_macos do
+    if OS.mac?
       gtk_mac_integration = Formula["gtk-mac-integration"]
       flags << "-I#{gtk_mac_integration.opt_include}/gtkmacintegration"
     end
@@ -110,9 +110,7 @@ class Gspell < Formula
       -lpango-1.0
       -lpangocairo-1.0
     ]
-    on_macos do
-      flags << "-lintl"
-    end
+    flags << "-lintl" if OS.mac?
     system ENV.cc, "test.c", "-o", "test", *flags
     ENV["G_DEBUG"] = "fatal-warnings"
 

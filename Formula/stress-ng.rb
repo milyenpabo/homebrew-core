@@ -1,21 +1,17 @@
 class StressNg < Formula
   desc "Stress test a computer system in various selectable ways"
-  homepage "https://kernel.ubuntu.com/~cking/stress-ng/"
-  url "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.13.04.tar.xz"
-  sha256 "0277943033fc9750aa869b3fa109663f3540d233a3ddc300d3a869ecbd56f451"
+  homepage "https://wiki.ubuntu.com/Kernel/Reference/stress-ng"
+  url "https://github.com/ColinIanKing/stress-ng/archive/refs/tags/V0.14.01.tar.gz"
+  sha256 "cd4795166867eb4dba7cc11f246660d444b414afdb4033401ef5545a8e00776e"
   license "GPL-2.0-or-later"
 
-  livecheck do
-    url "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/"
-    regex(/href=.*?stress-ng[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
-
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "0a9c4cdcd3320dd42e5f01f640e2df7ee8784e774fbd37536f808e66e73bab28"
-    sha256 cellar: :any_skip_relocation, big_sur:       "65f3485fd4d9acd46f50019e9b7b01c1a5216dbf444b695ddd05f63b5c3d4219"
-    sha256 cellar: :any_skip_relocation, catalina:      "acc16fe91b71385c687d86c0e1fab8731012ee7217b8302e71cb7b2a9c1b4a87"
-    sha256 cellar: :any_skip_relocation, mojave:        "1d3f609b072b3466828b2c5afae1c77462bdecb7339d6cd597e09c0503f7caf2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "461c1f12c60a66d84308231f2cd4bdf9e207452c5995244d95c677e5559ed852"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4cef3fce1752f55d80c5ec17cd02884ad129cef371ab15e0d8d677a46fa54d60"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "48317638a24525fd5a1e6d4279b1a23dbb3de7922e96773cf5d43e8608ed95ce"
+    sha256 cellar: :any_skip_relocation, monterey:       "261ac1ed0712aa23b2119f4e7fcd62d8e2cdca6dc5d07ca5b14962f4a959ccd5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "0e466cab2063a41cff34826b6eb95a714b9110d2b6d9ce435f2193a5c9207861"
+    sha256 cellar: :any_skip_relocation, catalina:       "19274fd86a07aa9178a8810b56e72935f39f7a8e799221efd7b0aecc39a0618b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0d98573f50516cea506dc8dd2681613ebb0173ead526f543c51bbf6ac23b0f95"
   end
 
   depends_on macos: :sierra
@@ -23,9 +19,13 @@ class StressNg < Formula
   uses_from_macos "zlib"
 
   def install
-    inreplace "Makefile", "/usr", prefix
+    inreplace "Makefile" do |s|
+      s.gsub! "/usr", prefix
+      s.change_make_var! "BASHDIR", prefix/"etc/bash_completion.d"
+    end
     system "make"
     system "make", "install"
+    bash_completion.install "bash-completion/stress-ng"
   end
 
   test do

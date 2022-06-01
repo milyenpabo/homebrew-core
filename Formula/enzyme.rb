@@ -1,21 +1,28 @@
 class Enzyme < Formula
   desc "High-performance automatic differentiation of LLVM"
   homepage "https://enzyme.mit.edu"
-  url "https://github.com/wsmoses/Enzyme/archive/v0.0.19.tar.gz"
-  sha256 "51729ff4b26f988f3204915cae28b3985987c33386ed0338eb03d1974ddbab0a"
+  url "https://github.com/EnzymeAD/Enzyme/archive/v0.0.31.tar.gz", using: :homebrew_curl
+  sha256 "d8c0fd05c1c83c38d01b82b760e6b44c09cdcfb26feabc7893ec825aab40d9f3"
   license "Apache-2.0" => { with: "LLVM-exception" }
-  revision 1
-  head "https://github.com/wsmoses/Enzyme.git", branch: "main"
+  head "https://github.com/EnzymeAD/Enzyme.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "2e432a472133cabefc02dc4d854107e5fc6f18f9ee86ebbca6046d4cbc7b4379"
-    sha256 cellar: :any, big_sur:       "208b86ee6c5f86f3021d777ee3b7e402ffbca8b0b64201426f038227cd0de746"
-    sha256 cellar: :any, catalina:      "2d22bfc7cd466a0c57acabcdb00c2a21f156315c1aa6f65d820b1c21ca97824c"
-    sha256 cellar: :any, mojave:        "12a621ef588fe38bbc9b4446e3be12158e141569ef6038977e44265a86407af8"
+    sha256 cellar: :any,                 arm64_monterey: "04e47cfda3485c4df271162b649275f58c7ed781823fb917f3dbd60214124000"
+    sha256 cellar: :any,                 arm64_big_sur:  "9d6d5f0d76f69362ba9500fae44594de4d4e759aeb1b51aab7e2384ec169b331"
+    sha256 cellar: :any,                 monterey:       "12d753a32f9489c475838570d0460f2e844da14290198f9cd88c283680acb41d"
+    sha256 cellar: :any,                 big_sur:        "2307c4c8134a5a0ff874fae794239809857ac0e4c3a2356a8957bec7a6fef64c"
+    sha256 cellar: :any,                 catalina:       "fdf1711a192400521cd69bb5ef1b449bbab529f5d30f1f053bcc1ba7328df687"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "57695c072bc9b6049d6a7bb251173c190ddc1f76152f6ffc13cfc431f3e9ce5c"
   end
 
   depends_on "cmake" => :build
-  depends_on "llvm@12"
+  depends_on "llvm"
+
+  on_linux do
+    depends_on "gcc" => :build
+  end
+
+  fails_with gcc: "5"
 
   def llvm
     deps.map(&:to_formula).find { |f| f.name.match? "^llvm" }
@@ -48,8 +55,9 @@ class Enzyme < Formula
 
     system ENV.cc, testpath/"test.c", "-S", "-emit-llvm", "-o", "input.ll", "-O2",
                    "-fno-vectorize", "-fno-slp-vectorize", "-fno-unroll-loops"
-    system opt, "input.ll", "-load=#{opt_lib/shared_library("LLVMEnzyme-#{llvm.version.major}")}",
-                "-enzyme", "-o", "output.ll", "-S"
+    system opt, "input.ll", "--enable-new-pm=0",
+                "-load=#{opt_lib/shared_library("LLVMEnzyme-#{llvm.version.major}")}",
+                "--enzyme-attributor=0", "-enzyme", "-o", "output.ll", "-S"
     system ENV.cc, "output.ll", "-O3", "-o", "test"
 
     assert_equal "square(21)=441, dsquare(21)=42\n", shell_output("./test")

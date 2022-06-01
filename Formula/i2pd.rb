@@ -1,15 +1,16 @@
 class I2pd < Formula
   desc "Full-featured C++ implementation of I2P client"
   homepage "https://i2pd.website/"
-  url "https://github.com/PurpleI2P/i2pd/archive/2.39.0.tar.gz"
-  sha256 "3ffeb614cec826e13b50e8306177018ecb8d873668dfe66aadc733ca9fcaa568"
+  url "https://github.com/PurpleI2P/i2pd/archive/2.42.1.tar.gz"
+  sha256 "d52b55cf144a6eedbb3433214c035161c07f776090074daba0e5e83c01d09139"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "9e13462dfd0f3cd5e6afc79979ed48c6b09a243c3c5242b399c7dee418a3e1eb"
-    sha256 cellar: :any, big_sur:       "e2c0afab1198c4bcdde3dd1e6559ddcb868b2e192bf0dc8cdec9c336ddfc9baa"
-    sha256 cellar: :any, catalina:      "4d3df93923c0489b44ca55cb3f7071962bd530ba73d778457cc9ae9d1602ba85"
-    sha256 cellar: :any, mojave:        "eab780040dd0391df1af3aed028ed140ab126b2f272caea80aed15bda675b36b"
+    sha256 cellar: :any, arm64_monterey: "1a73baaf386d2a35b5cfbf2f7dbd294fee1fc8c76e29e7b181c5ce3b48f43352"
+    sha256 cellar: :any, arm64_big_sur:  "4cda48f56d5863d889e03ce2c506cbb1481bdd4d7a8ecb286e0f3c74c9d4e47c"
+    sha256 cellar: :any, monterey:       "d2bb1f31c7c24141e030ef2144f288bd60a87499edecd0739b4ae2446d480813"
+    sha256 cellar: :any, big_sur:        "1493e258f64e629569bcacb78dea5850053496f02c8d96c5c3905971a22c98b1"
+    sha256 cellar: :any, catalina:       "1864323dd8bc24ba63702ed6ceed9b0c0daa529840f712e9f9c033d42b227c86"
   end
 
   depends_on "boost"
@@ -59,11 +60,11 @@ class I2pd < Formula
   end
 
   test do
-    pid = fork do
-      exec "#{bin}/i2pd", "--datadir=#{testpath}", "--daemon"
-    end
+    pidfile = testpath/"i2pd.pid"
+    system bin/"i2pd", "--datadir=#{testpath}", "--pidfile=#{pidfile}", "--daemon"
     sleep 5
-    Process.kill "TERM", pid
     assert_predicate testpath/"router.keys", :exist?, "Failed to start i2pd"
+    pid = pidfile.read.chomp.to_i
+    Process.kill "TERM", pid
   end
 end

@@ -3,20 +3,21 @@ require "language/node"
 class HasuraCli < Formula
   desc "Command-Line Interface for Hasura GraphQL Engine"
   homepage "https://hasura.io"
-  url "https://github.com/hasura/graphql-engine/archive/v2.0.9.tar.gz"
-  sha256 "68dfb0d179cbaf2c9370948ec8c0d80acc69eae0acf821753deb134f0eb7a068"
+  url "https://github.com/hasura/graphql-engine/archive/v2.7.0.tar.gz"
+  sha256 "2ce8d24025f4d864ab6222e9a73957a620534c487d6a8de2a9b2c3631b5a7e29"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "88f1fb0852498d556bbbda8b28fca12fe68ad85273c225dd834b924e83f892bf"
-    sha256 cellar: :any_skip_relocation, big_sur:       "5872fb87d2a6fa1551169fa052ac1bda58d8efc79104460c5fefb72d8c7e17c3"
-    sha256 cellar: :any_skip_relocation, catalina:      "37071359a0525fe672859fbc3bd4d14af92314d1fb3b2ba7c2f7551e1c2d8b3c"
-    sha256 cellar: :any_skip_relocation, mojave:        "d51bacadaf710fef613e1f39276fe5bb3fba78ca25491cc738b35e26b83812a7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4f2463554c0e2464a799e5351c59e9d904534be62862e9cfa6c8884256df2645"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1ffc2a5f74f73067ebbf82b5dd292d79b10f3b257dbcf9e1af757bab54a6eb5a"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "90652e3632c405357a741372b0e85e44fa0dea9895a506ea8b90055c8822bb47"
+    sha256 cellar: :any_skip_relocation, monterey:       "b1c23ec0810b0a3043d14d3af9c3d8df9a3cb731952f4c4537cf185e367d758b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "532c012d23a2991759f151773f4fc2e14852cd6b3354bccb8ceff503b731ab57"
+    sha256 cellar: :any_skip_relocation, catalina:       "65c822f1f73cfeed5c9fcffe7602d2a3a7ec6541981d0a2cfc0d07a60e8529eb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5d6ffa79e9efe4b65ffdae46cbe2fedf5c20ae4caa941a2b002d919f42eee525"
   end
 
   depends_on "go" => :build
-  depends_on "node" => :build
+  depends_on "node@16" => :build # Switch back to node with https://github.com/vercel/pkg/issues/1364
 
   def install
     Language::Node.setup_npm_environment
@@ -25,7 +26,7 @@ class HasuraCli < Formula
       -s -w
       -X github.com/hasura/graphql-engine/cli/v2/version.BuildVersion=#{version}
       -X github.com/hasura/graphql-engine/cli/v2/plugins.IndexBranchRef=master
-    ].join(" ")
+    ]
 
     # Based on `make build-cli-ext`, but only build a single host-specific binary
     cd "cli-ext" do
@@ -35,15 +36,11 @@ class HasuraCli < Formula
     end
 
     cd "cli" do
-      arch = Hardware::CPU.arm? ? "arm64" : "amd64"
-      os = if OS.mac?
-        "darwin"
-      else
-        "linux"
-      end
+      arch = Hardware::CPU.intel? ? "amd64" : Hardware::CPU.arch.to_s
+      os = OS.kernel_name.downcase
 
       cp "../cli-ext/bin/cli-ext-hasura", "./internal/cliext/static-bin/#{os}/#{arch}/cli-ext"
-      system "go", "build", *std_go_args(ldflags: ldflags), "-o", bin/"hasura", "./cmd/hasura/"
+      system "go", "build", *std_go_args(output: bin/"hasura", ldflags: ldflags), "./cmd/hasura/"
 
       output = Utils.safe_popen_read("#{bin}/hasura", "completion", "bash")
       (bash_completion/"hasura").write output

@@ -1,27 +1,25 @@
 class Hello < Formula
   desc "Program providing model for GNU coding standards and practices"
   homepage "https://www.gnu.org/software/hello/"
-  url "https://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz"
-  sha256 "31e066137a962676e89f69d1b65382de95a7ef7d914b8cb956f41ea72e0f516b"
+  url "https://ftp.gnu.org/gnu/hello/hello-2.12.1.tar.gz"
+  sha256 "8d99142afd92576f30b0cd7cb42a8dc6809998bc5d607d88761f512e26c7db20"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b3b083db0807ff92c6e289a298f378198354b7727fb9ba9f4d550b8e08f90a60"
-    sha256 cellar: :any_skip_relocation, big_sur:       "69489ae397e4645127aa7773211310f81ebb6c99e1f8e3e22c5cdb55333f5408"
-    sha256 cellar: :any_skip_relocation, catalina:      "449de5ea35d0e9431f367f1bb34392e450f6853cdccdc6bd04e6ad6471904ddb"
-    sha256 cellar: :any_skip_relocation, mojave:        "f9d6285eafa4317c5a653bd02832bdabe4df9f6b18702274d551b28cc45d8b23"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "1b66790d42664fe95d44f56d2c82db7ea2ce03e01bda0c8e9932f3b768342c7b"
-    sha256 cellar: :any_skip_relocation, sierra:        "9691f91e7c6897d525b76f5910144e0ed0adcb8bd8f7bb155f29fd431d8ff431"
-    sha256 cellar: :any_skip_relocation, el_capitan:    "54ac46b692fcca2abe77aeeca41976172a2dc24a6762f84a47fabcaba336df89"
-    sha256 cellar: :any_skip_relocation, yosemite:      "f81a305402e8f8b6cf11a17dac81f604b6f48d940909886a6733cf4f6a64c05f"
-    sha256                               x86_64_linux:  "e6980196298e0a9cfe4fa4e328a71a1869a4d5e1d31c38442150ed784cfc0e29"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a0103553329c8a010ed68a1143bf9126b0f1977fec308953e9068a9722790d9d"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e8c7459b0310a5c99d441e1a5814f9eb1723b11e84b58efad01c0db4aeaf8d36"
+    sha256 cellar: :any_skip_relocation, monterey:       "62534bceb8f7074827fa2146dd13603018aaf07c82e22cfef96571c8133ce8a1"
+    sha256 cellar: :any_skip_relocation, big_sur:        "480a77f0f4e0ea6aa4175b3853feba7bdeda9f0b3dd808ad02eeb358b8a48f4a"
+    sha256 cellar: :any_skip_relocation, catalina:       "c30c2be3191bd643f36e96b45b1282b5a750219bc8cab2e31d3c23d4cad5d70c"
+    sha256                               x86_64_linux:   "7935d0efdae69742f5140d514ef2e3e50d1d7cb82104cf6033ad51b900c12749"
   end
 
   conflicts_with "perkeep", because: "both install `hello` binaries"
 
   def install
-    system "./configure", "--disable-debug",
-                          "--disable-dependency-tracking",
+    ENV.append "LDFLAGS", "-liconv" if OS.mac?
+
+    system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}"
     system "make", "install"

@@ -1,8 +1,8 @@
 class Micronaut < Formula
   desc "Modern JVM-based framework for building modular microservices"
   homepage "https://micronaut.io/"
-  url "https://github.com/micronaut-projects/micronaut-starter/archive/v3.0.2.tar.gz"
-  sha256 "0d996670e37376030c647692b301cb31de13d94976038f87c335785dbe7e3941"
+  url "https://github.com/micronaut-projects/micronaut-starter/archive/v3.5.0.tar.gz"
+  sha256 "6c564dc07b9e33a2dd8cf9c52beb0f8774b981ac7867ade929548fdb4a83a4bf"
   license "Apache-2.0"
 
   livecheck do
@@ -11,15 +11,16 @@ class Micronaut < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "e40bb12d07723d65ab871534fd2d00ea6b56b0aa64116f98bcd93c564ae3794b"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a08fad966d76eec9787a82f678f67c8c5d743afc0787d62e2f6498da4b7259dc"
-    sha256 cellar: :any_skip_relocation, catalina:      "64fc3adb2dc9cbdb103ca0938642a9bc79b56a05d896a8839d82804ffc563ac9"
-    sha256 cellar: :any_skip_relocation, mojave:        "186b422e348c0701c68fce652e1374aa00e8da9727b325d1c6c5e738f0f2f174"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9c5324e916d8f538528784d2eb0abbbd8fb67cfde9dd99224f9e90839a678664"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "992481f5cc9797cf8bdd170615d4789db6f0ed68e13c8029f2f584bce5122210"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7613bbd9445cd7be15bb116602a5427b6ff6bd4be20d237ab2b16e27ae1ab32e"
+    sha256 cellar: :any_skip_relocation, monterey:       "b6b8f81802c82716b03cca832b7c58338e430288c014fbb0886aae944f16c5e3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "549b9d2908db1b295a7f8d0efeb13bd7ac695ed452f06b8600136747dbc420ad"
+    sha256 cellar: :any_skip_relocation, catalina:       "fbd4906719a791913b626d78bc9bad98dfbd433d3f79a0249b23a43465f2c54a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "55463def635cbac71b106dd07efb119744e7d8837ecfa52481987a8823fd9e5d"
   end
 
   # Uses a hardcoded list of supported JDKs. Try switching to `openjdk` on update.
-  depends_on "openjdk@11"
+  depends_on "openjdk@17"
 
   def install
     system "./gradlew", "micronaut-cli:assemble", "-x", "test"
@@ -29,7 +30,7 @@ class Micronaut < Formula
     mv "starter-cli/build/exploded/lib", libexec/"lib"
 
     bash_completion.install "starter-cli/build/exploded/bin/mn_completion"
-    (bin/"mn").write_env_script libexec/"bin/mn", Language::Java.overridable_java_home_env("11")
+    (bin/"mn").write_env_script libexec/"bin/mn", Language::Java.overridable_java_home_env("17")
   end
 
   test do

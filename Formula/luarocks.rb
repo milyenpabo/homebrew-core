@@ -1,22 +1,28 @@
 class Luarocks < Formula
   desc "Package manager for the Lua programming language"
   homepage "https://luarocks.org/"
-  url "https://luarocks.org/releases/luarocks-3.7.0.tar.gz"
-  sha256 "9255d97fee95cec5b54fc6ac718b11bf5029e45bed7873e053314919cd448551"
+  url "https://luarocks.org/releases/luarocks-3.9.0.tar.gz"
+  sha256 "5e840f0224891de96be4139e9475d3b1de7af3a32b95c1bdf05394563c60175f"
   license "MIT"
-  head "https://github.com/luarocks/luarocks.git"
+  head "https://github.com/luarocks/luarocks.git", branch: "master"
+
+  livecheck do
+    url :homepage
+    regex(%r{/luarocks[._-]v?(\d+(?:\.\d+)+)\.t}i)
+  end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "884ff51dc8c4b1009ce40d3a6f4a1306566ff9da8417ea4c03dce4c38a136807"
-    sha256 cellar: :any_skip_relocation, big_sur:       "631971f2bc3585dc67d7b5c7b07391489442564a0f111ae358008a02e3b8d73d"
-    sha256 cellar: :any_skip_relocation, catalina:      "b7d91bbc4ec33e19953bc1ed4127557c530b66c0e0ff7eec1a188268b486b594"
-    sha256 cellar: :any_skip_relocation, mojave:        "bcd1442f092e25f04eac3270b5a468d911716a50a3af716ce3f4f9c44a46920e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ecb1a4b542242bf069c24f4c7a12d2a9448c2d29a18f96b19478f9ddd3d1831e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "76de7f329ce7581667043bab3d2676dcbe238167296c998881ef22621a1d157f"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "76de7f329ce7581667043bab3d2676dcbe238167296c998881ef22621a1d157f"
+    sha256 cellar: :any_skip_relocation, monterey:       "3d91ab635009813c54df5bc47909d29399c3c771553b25294cef3c57bd3dc0d3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3d91ab635009813c54df5bc47909d29399c3c771553b25294cef3c57bd3dc0d3"
+    sha256 cellar: :any_skip_relocation, catalina:       "3d91ab635009813c54df5bc47909d29399c3c771553b25294cef3c57bd3dc0d3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "76de7f329ce7581667043bab3d2676dcbe238167296c998881ef22621a1d157f"
   end
 
   depends_on "lua@5.1" => :test
   depends_on "lua@5.3" => :test
-  depends_on "luajit" => :test unless Hardware::CPU.arm?
+  depends_on "luajit-openresty" => :test
   depends_on "lua"
 
   uses_from_macos "unzip"
@@ -70,12 +76,10 @@ class Luarocks < Formula
           "Luafilesystem failed to create the expected directory"
 
         # LuaJIT is compatible with lua5.1, so we can also test it here
-        unless Hardware::CPU.arm?
-          rmdir testpath/"blank_space"
-          system "#{Formula["luajit"].bin}/luajit", "lfs_#{luaversion}test.lua"
-          assert_predicate testpath/"blank_space", :directory?,
-            "Luafilesystem failed to create the expected directory"
-        end
+        rmdir testpath/"blank_space"
+        system "#{Formula["luajit-openresty"].bin}/luajit", "lfs_#{luaversion}test.lua"
+        assert_predicate testpath/"blank_space", :directory?,
+          "Luafilesystem failed to create the expected directory"
       else
         (testpath/"lfs_#{luaversion}test.lua").write <<~EOS
           require("lfs")

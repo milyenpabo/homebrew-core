@@ -1,16 +1,22 @@
 class Graphicsmagick < Formula
   desc "Image processing tools collection"
   homepage "http://www.graphicsmagick.org/"
-  url "https://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick/1.3.36/GraphicsMagick-1.3.36.tar.xz"
-  sha256 "5d5b3fde759cdfc307aaf21df9ebd8c752e3f088bb051dd5df8aac7ba7338f46"
+  url "https://downloads.sourceforge.net/project/graphicsmagick/graphicsmagick/1.3.38/GraphicsMagick-1.3.38.tar.xz"
+  sha256 "d60cd9db59351d2b9cb19beb443170acaa28f073d13d258f67b3627635e32675"
+  license "MIT"
   head "http://hg.code.sf.net/p/graphicsmagick/code", using: :hg
 
+  livecheck do
+    url "https://sourceforge.net/projects/graphicsmagick/rss?path=/graphicsmagick"
+  end
+
   bottle do
-    sha256 arm64_big_sur: "baae9073b2475351eb1d53d23fa0c2fcf75a1611649b3be229a71b693881436e"
-    sha256 big_sur:       "e8423e130f6dcdf83c501db944a341257e5b774cd007e1300f8b3cd3d32cafcb"
-    sha256 catalina:      "a09639dfb381b06df090e595f6f1bc343c3619c9643de26c6cfea4073c9527cd"
-    sha256 mojave:        "40b04368925d79d6e6fbe76014e5db18c7378eda414beb1b41de9bb8db6a69a0"
-    sha256 x86_64_linux:  "c8be14cb6bc71dd149d6ad2b49941b9192d375e66b011c99decba30e8dae6438"
+    sha256 arm64_monterey: "60a324b98f4e6a8015f0b304df612b70fb64b5f51ad2d43bfcddfb951257125d"
+    sha256 arm64_big_sur:  "17e64fd18bd459648e31e463e6765fc8a39496324c2df9b977ce7b6d27ba77b6"
+    sha256 monterey:       "4aabbd3fa3fb9a3dbdf111d2d06cc1b78bf8fdfb8f1ea9f440aeabd6f40e9627"
+    sha256 big_sur:        "357ff0c2523d8015ec3000ad3aeca4b474c5816cd055ed3ee2435200ba580deb"
+    sha256 catalina:       "a7138441a365f8cb115b325d30f462e5ee1e5c9ec4454240cadf6cc7172be8d7"
+    sha256 x86_64_linux:   "77642a448d7ce30d4324b45eb0ec62e710e2b9c6c813ad240d2a05a756360d81"
   end
 
   depends_on "pkg-config" => :build

@@ -4,12 +4,15 @@ class Osmcoastline < Formula
   url "https://github.com/osmcode/osmcoastline/archive/v2.3.1.tar.gz"
   sha256 "ab4a94b9bc5a5ab37b14ac4e9cbdf113d5fcf2d5a040a4eed958ffbc6cc1aa63"
   license "GPL-3.0-or-later"
+  revision 4
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "e0820b1a6cd6e77dfdd742f29404c5f1b78f9b198a59c7019152e4e9d9608d72"
-    sha256 cellar: :any, big_sur:       "f4de31702d99101baff041d2b96bc4bd58f1bd728c07353f5c9f753551ba3d31"
-    sha256 cellar: :any, catalina:      "eb5bba76581312e9b070eb5f83b8d98e9862d0f33b13808f5a6f0a33ce3c0973"
-    sha256 cellar: :any, mojave:        "37f1b4c9d9fb60ed418eb69292c7f3b9de2cc3b7599f2ba8fed69a1b1ee88d13"
+    sha256 cellar: :any,                 arm64_monterey: "3c3de6f11098241c9c5308da232e63cb4719d93023edd7d7cb5b6f3729e70a3b"
+    sha256 cellar: :any,                 arm64_big_sur:  "961220957e7f1f1e5e390c76de13afa67aebdacf3f6939b8eb410356e3237663"
+    sha256 cellar: :any,                 monterey:       "8154c5d50db171a216b7e8329a674f2059a8eb0923fe3e085f33b575d32c8df9"
+    sha256 cellar: :any,                 big_sur:        "0061dda8ad6ed87cf2e73953ed2d658ec00c953157aae00a30ee27b5a14dc065"
+    sha256 cellar: :any,                 catalina:       "6e29bd319d5dbf9d3fa7fa1f4af8bdc16bdedb2617ba5129737000374718cccc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d5fe46fd3c5ceaf2c6af41cf7bb36d265c443ca564dca914ce6a724c38282b84"
   end
 
   depends_on "cmake" => :build
@@ -17,9 +20,16 @@ class Osmcoastline < Formula
   depends_on "gdal"
   depends_on "geos"
   depends_on "libspatialite"
+  depends_on "lz4"
 
   uses_from_macos "sqlite"
   uses_from_macos "zlib"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
 
   def install
     protozero = Formula["libosmium"].opt_libexec/"include"

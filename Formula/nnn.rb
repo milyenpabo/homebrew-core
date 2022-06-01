@@ -1,23 +1,23 @@
 class Nnn < Formula
   desc "Tiny, lightning fast, feature-packed file manager"
   homepage "https://github.com/jarun/nnn"
-  url "https://github.com/jarun/nnn/archive/v4.3.tar.gz"
-  sha256 "b6df8e262e5613dd192bac610a6da711306627d56573f1a770a173ef078953bb"
+  url "https://github.com/jarun/nnn/archive/v4.5.tar.gz"
+  sha256 "fadc15bd6d4400c06e5ccc47845b42e60774f368570e475bd882767ee18749aa"
   license "BSD-2-Clause"
   head "https://github.com/jarun/nnn.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "6d072778621d10a72e476f50c8a24f376d2959dae78e186bb3c11d69f1a7a7f7"
-    sha256 cellar: :any,                 big_sur:       "9f99a0bd00d1f224d7a357941e419fadbf6385f6316505108e7592a1b76403fc"
-    sha256 cellar: :any,                 catalina:      "63cd86d85ab2464ca084fe671784cf8228b65b6fb6026375845940e8d1827f77"
-    sha256 cellar: :any,                 mojave:        "f1aa16087e160457a96cf549135b0f9c4fe875a6a888064fa8bd92cda5c1b6f0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8b431bf5a86d696c6784e9faa375c249d5456bbf5c101606e949a840ed7b6471"
+    sha256 cellar: :any,                 arm64_monterey: "050519b7b5d2227fd0fe1774c8769a4c0440fd74b6b32093c46399d639a6d8cd"
+    sha256 cellar: :any,                 arm64_big_sur:  "2cea5e82e5f9269c55eb1bf0e72d8a96241e5807a157fbb48a995c9090b580d8"
+    sha256 cellar: :any,                 monterey:       "789d680be159aa6ea077d4c11a2a5eb255eaf8073e77b3fb609e9647abe313e3"
+    sha256 cellar: :any,                 big_sur:        "2e7e159ae741f0c851a8be6d33c5bd4dba26ec88a1685e7f8b43ced711cfe4dc"
+    sha256 cellar: :any,                 catalina:       "1b19cd02da90939a63955cda3de89dcd6575fede984a3494720ba7bb082be503"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d132f9a3c7fff3470cadbe04b403c4d484d1ea3957274756904b646b7c7f6d7d"
   end
 
   depends_on "gnu-sed"
+  depends_on "ncurses"
   depends_on "readline"
-
-  uses_from_macos "ncurses"
 
   def install
     system "make", "install", "PREFIX=#{prefix}"
@@ -25,14 +25,14 @@ class Nnn < Formula
     bash_completion.install "misc/auto-completion/bash/nnn-completion.bash"
     zsh_completion.install "misc/auto-completion/zsh/_nnn"
     fish_completion.install "misc/auto-completion/fish/nnn.fish"
+
+    pkgshare.install "misc/quitcd"
   end
 
   test do
-    on_linux do
-      # Test fails on CI: Input/output error @ io_fread - /dev/pts/0
-      # Fixing it involves pty/ruby voodoo, which is not worth spending time on
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    # Test fails on CI: Input/output error @ io_fread - /dev/pts/0
+    # Fixing it involves pty/ruby voodoo, which is not worth spending time on
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     # Testing this curses app requires a pty
     require "pty"

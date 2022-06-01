@@ -1,39 +1,42 @@
 class Verilator < Formula
   desc "Verilog simulator"
   homepage "https://www.veripool.org/wiki/verilator"
-  url "https://www.veripool.org/ftp/verilator-4.200.tgz"
-  sha256 "773913f4410512a7a51de3d04964766438dc11fc22b213eab5c6c29730df3e36"
+  url "https://github.com/verilator/verilator/archive/refs/tags/v4.222.tar.gz"
+  sha256 "15c60175807c0f3536c3c5b435f131c2b1e8725aefd30645efd946bf401b4c84"
   license any_of: ["LGPL-3.0-only", "Artistic-2.0"]
 
-  livecheck do
-    url "https://github.com/verilator/verilator.git"
-    regex(/^v?(\d+(?:\.\d+)+)$/i)
-  end
-
   bottle do
-    sha256 arm64_big_sur: "fe191d41a9bf04fd0536c7564cf1368535e22a0e1245e5c1672bc5e056848181"
-    sha256 big_sur:       "cd3937360e860cc0792fbf109cd245d3f48b0cb70d489bfda7db170eb1451e1a"
-    sha256 catalina:      "e2825ec3ef68a3344f102d15fd5a5c7915a18bacaf57d9ffdd1dc870e1e152e7"
-    sha256 mojave:        "f777b5823ce0aeb7fae25d6f8040d29aebd8f02e02a588b78773f7702bf83e7c"
-    sha256 x86_64_linux:  "6eb4b51aeef84c2dc4a6bb9a8becd6ab31fa8ee0d569a1bfc3bc82db1a2c5393"
+    sha256 arm64_monterey: "5a48bc3e58b0499750fdc8f3d926e29af8afc27ba0ecac7f2f79b503297b62af"
+    sha256 arm64_big_sur:  "f1953605d3898a939a10fa152162d50b4e8e9589c618c074fdb98f948efd6c65"
+    sha256 monterey:       "a950ad2b221808fdde684e2e24f5fd50f0ce6ee0c1b2ce6e752e4fb2a2759369"
+    sha256 big_sur:        "dde40b13efcd5a4d794ef151b081a4dfdb388838aa7cf6e4b200719dc1b7d63a"
+    sha256 catalina:       "b0c0d73fd8dc0ee7616b249f4be4df0737d9173f543340a6866539dd51889280"
+    sha256 x86_64_linux:   "5e0b36efd56d4e12b67bc783aa467523be74355a9c22cb10030a9419cacfdf57"
   end
 
   head do
-    url "https://git.veripool.org/git/verilator", using: :git
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
+    url "https://github.com/verilator/verilator.git", using: :git
   end
 
-  depends_on "python@3.9" => :build
+  depends_on "autoconf" => :build
+  depends_on "automake" => :build
+  depends_on "python@3.10" => :build
 
   uses_from_macos "bison"
   uses_from_macos "flex"
   uses_from_macos "perl"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
   skip_clean "bin" # Allows perl scripts to keep their executable flag
 
+  # error: specialization of 'template<class _Tp> struct std::hash' in different namespace
+  fails_with gcc: "5"
+
   def install
-    system "autoconf" if build.head?
+    system "autoconf"
     system "./configure", "--prefix=#{prefix}"
     # `make` and `make install` need to be separate for parallel builds
     system "make"

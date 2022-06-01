@@ -6,17 +6,19 @@ class Pygitup < Formula
   url "https://files.pythonhosted.org/packages/89/a3/35f7460cfaf7353ceb23442e5c250fda249cb9b8e26197cf801fa4f63786/git-up-2.1.0.tar.gz"
   sha256 "6e677d91aeb4de37e62bdc166042243313ec873c3caf9938911ac2e7f52a0652"
   license "MIT"
+  revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "691cecd76ff02753813853585aa00200c059a91cc729def69d4b3249b8045989"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a420f93c1cadfb852e6e38735b0990ee3981bfe9a7daa413e0a2a5901e07ded9"
-    sha256 cellar: :any_skip_relocation, catalina:      "0bb8b6b27418770fd4073ba87ca325aff9402bade15bd914dbdbb0b6181f0a65"
-    sha256 cellar: :any_skip_relocation, mojave:        "1728a7aaeaef7bb0f4fd323df92427d81a7fb274443cd9624a5e3009463ae563"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6f56cfd288b6c4c06519cfd4502adb34803da2a30beb6de0535ec5e5a6d54a49"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3623b321a8b63ee823d0c30ae2ec9cb4864da621f5262b9d29e89d0703eed98f"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ee0a15b88ab427157d45b695a01092afe5338f0ae7adc17eb07af96d1566de8e"
+    sha256 cellar: :any_skip_relocation, monterey:       "6af6567d9aaaf3bf1b1f97188e1a8e97cf8914022c438d1b27123786147e7f68"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ac4baaba9b8b264cfc9998b785c9e4c3c85ba185f8d1377ce04398b91116d71b"
+    sha256 cellar: :any_skip_relocation, catalina:       "671c2af7ec8c787415f9c041f932f7c5e9a2cdd30c94c042eb713ef7aefc928b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "46bf0f99aae2bc2d81657c86549692792c122f30c387ac8aba4d547b265b0fbe"
   end
 
   depends_on "poetry" => :build
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   resource "colorama" do
     url "https://files.pythonhosted.org/packages/1f/bb/5d3246097ab77fa083a61bd8d3d527b7ae063c7d8e8671b1cf8c4ec10cbe/colorama-0.4.4.tar.gz"

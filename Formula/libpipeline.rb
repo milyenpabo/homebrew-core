@@ -1,8 +1,8 @@
 class Libpipeline < Formula
   desc "C library for manipulating pipelines of subprocesses"
-  homepage "http://libpipeline.nongnu.org/"
-  url "https://download.savannah.nongnu.org/releases/libpipeline/libpipeline-1.5.3.tar.gz"
-  sha256 "5dbf08faf50fad853754293e57fd4e6c69bb8e486f176596d682c67e02a0adb0"
+  homepage "https://libpipeline.nongnu.org/"
+  url "https://download.savannah.nongnu.org/releases/libpipeline/libpipeline-1.5.6.tar.gz"
+  sha256 "60fbb9e7dc398528e5f3a776af57bb28ca3fe5d9f0cd8a961ac6cebfe6e9b797"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class Libpipeline < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "0a398cdb65f5321e356e7035a3bc2352dd3b92e2f37632d85a64fbdd0510d41d"
-    sha256 cellar: :any,                 big_sur:       "ab0b600e54ba2acd5878ed910af86518a905a1d53fdeca8d5a8abf363d09a584"
-    sha256 cellar: :any,                 catalina:      "efa57a53e202d19ae3afb04b55b85e37939a0d0cff1e6af9b40607c9acd8b6d0"
-    sha256 cellar: :any,                 mojave:        "337f3a1e0b07e0fcdece44321f28be0668be70fb914e5f37000bd6b42ffa188c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0ab630181184892e74dd5af27c02b3ca1370e15cada9a0950b68c85934364cb7"
+    sha256 cellar: :any,                 arm64_monterey: "c6dc99a6537ce4ba4215fa9003b649c23f80a7955afff24f33a480bea6b52510"
+    sha256 cellar: :any,                 arm64_big_sur:  "f947a671382f0b419387d3a3ad3762bd171ddf2018dceacdf625c792904e80d6"
+    sha256 cellar: :any,                 monterey:       "d078a100cf03fa99475311b2a941d0c1363abac614ca6ab61699740cb4e14dae"
+    sha256 cellar: :any,                 big_sur:        "c554abf44cf045dead6cfb12a98101be4f4dc902250402b05e576f30ed7c4bb8"
+    sha256 cellar: :any,                 catalina:       "bf7e539e94e8906da42a6aed30eccd1321e797ca3a20da3cdd06f8364d52fca3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1897a794fad65cf1e381a71faef2d24212bcec449578d8ab681a5969e987544c"
   end
 
   def install

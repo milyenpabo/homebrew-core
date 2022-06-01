@@ -1,8 +1,8 @@
 class Dnsdist < Formula
   desc "Highly DNS-, DoS- and abuse-aware loadbalancer"
   homepage "https://www.dnsdist.org/"
-  url "https://downloads.powerdns.com/releases/dnsdist-1.6.1.tar.bz2"
-  sha256 "29040a43982ae1ad5b7313f081e26519ab3a58af6bced438311da3a65370a3a5"
+  url "https://downloads.powerdns.com/releases/dnsdist-1.7.1.tar.bz2"
+  sha256 "273a8212be2ddfaf754f752bcda4c2abc671ca5d42f776263312eb4661ea2d66"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,10 +11,11 @@ class Dnsdist < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "869de3f18ef4fd38bf91b7c1c41d38c67e5f83bf58fd891f3360549c3b6523d3"
-    sha256 big_sur:       "977b8f7e4fc0869f95b4cbee33446117eff314802034a2320523d8aefbbaf51e"
-    sha256 catalina:      "6701dd21d4fee82fa13705db5f4280bb63d5c7087fee38bdcb05b338fdf6556e"
-    sha256 mojave:        "13d58a2f2ff183ae418825f54c454bf960bd9dddc6d357ce5c08025f7d1c23be"
+    sha256 arm64_monterey: "6c46c95fba614f390ed2b8babc6ccd3585e86137169d8a30c5bdfa1225ed2976"
+    sha256 arm64_big_sur:  "9b76afad5ceea4840e12dede69fac2226c825369457d6722ef789ce3e05b1b3d"
+    sha256 monterey:       "7ec9caaf52e21abd4f9d14e7abb684e6cecd33a56ac9c72cc2c4474f3e01bfd3"
+    sha256 big_sur:        "8b08c85b0b88f4d8e61c3d7898b62bf101fde8d05b2b28a1ac04478a0197979f"
+    sha256 catalina:       "3d8066131514affbb62ecf7683935fa29c83f3334c9dec5556e259024651c4ff"
   end
 
   depends_on "boost" => :build
@@ -31,9 +32,6 @@ class Dnsdist < Formula
   uses_from_macos "libedit"
 
   def install
-    # error: unknown type name 'mach_port_t'
-    ENV["SDKROOT"] = MacOS.sdk_path if MacOS.version == :sierra
-
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}",

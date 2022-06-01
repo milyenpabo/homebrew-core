@@ -1,16 +1,17 @@
 class Librsvg < Formula
   desc "Library to render SVG files using Cairo"
   homepage "https://wiki.gnome.org/Projects/LibRsvg"
-  url "https://download.gnome.org/sources/librsvg/2.50/librsvg-2.50.7.tar.xz"
-  sha256 "fffb61b08cd5282aaae147a02b305166a7426fad22a8b9427708f0f2fc426ebc"
+  url "https://download.gnome.org/sources/librsvg/2.54/librsvg-2.54.3.tar.xz"
+  sha256 "66158f2ef46dde260026846c4da102e4a9dd4e5293010f30949c6cc26dd6efe8"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256                               arm64_big_sur: "373e91782be11de752c5d738a19c4b0b7631319612982fa9366e5477d4f444b2"
-    sha256                               big_sur:       "7849cab410dfd63c3f8f635e0a0152cf34425524f728c2f01a36d7631f34688b"
-    sha256                               catalina:      "454d94e2c72567744613b69a9d879dde0a0bd9593c32929d520266b04f6b51b8"
-    sha256                               mojave:        "312d0f2fade5525cfe58f0c0e16cccc1e9c73925bb2fc8f1c320d3a0f8a3f4fc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "48c4693a1f62fc8c870f3831867d9f082d0f9f42cb3151f0be77733b4c3e7ac4"
+    sha256                               arm64_monterey: "95b5d68fd281c2dd6676ac9757987bbe108ec6b17f0166d59fd8289a41769fe5"
+    sha256                               arm64_big_sur:  "db9ab70e5eb9fe4e9a9964d3b9bbd39caf1adac22ddbd6d8334e5ccc6f1438fe"
+    sha256                               monterey:       "d633c9e47554d0ebb3d716cc58b88f903bf7d0abc4cd7ce8bb2a2166e87917a4"
+    sha256                               big_sur:        "066a0a03dcc32114ea0fce74143d58550cf50071cf50f4c29c675d6e6790a8ab"
+    sha256                               catalina:       "52106a21b64a99c22de997bd0b00674bfd7e3722c607e85e416f7a674c70189a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1e30a183c2f1612d3316896dd1df40963c9c1fb567eee1a86d89ae9884f9edd6"
   end
 
   depends_on "gobject-introspection" => :build
@@ -93,9 +94,7 @@ class Librsvg < Formula
       -lm
       -lrsvg-2
     ]
-    on_macos do
-      flags << "-lintl"
-    end
+    flags << "-lintl" if OS.mac?
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
   end

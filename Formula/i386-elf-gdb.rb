@@ -1,11 +1,10 @@
 class I386ElfGdb < Formula
   desc "GNU debugger for i386-elf cross development"
   homepage "https://www.gnu.org/software/gdb/"
-  url "https://ftp.gnu.org/gnu/gdb/gdb-10.2.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gdb/gdb-10.2.tar.xz"
-  sha256 "aaa1223d534c9b700a8bec952d9748ee1977513f178727e1bee520ee000b4f29"
+  url "https://ftp.gnu.org/gnu/gdb/gdb-12.1.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gdb/gdb-12.1.tar.xz"
+  sha256 "0e1793bf8f2b54d53f46dea84ccfd446f48f81b297b28c4f7fc017b818d69fed"
   license "GPL-3.0-or-later"
-  revision 1
   head "https://sourceware.org/git/binutils-gdb.git", branch: "master"
 
   livecheck do
@@ -13,27 +12,21 @@ class I386ElfGdb < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "b4c91d248b5ba7d765c277903ac03f1f3d35a77079ae3acbdba8768a9dcb4c55"
-    sha256 big_sur:       "dbf60ac8e71d01328d134cb1eaa47cd734dd612cd67cc7b730d56afc138ea969"
-    sha256 catalina:      "4ca5521aab0566367e9a72767225d08667efb40e609c0b8e9e4ff7464f755052"
-    sha256 mojave:        "85a64a23e61b011e32cff2c56e7915f32a8d8d669be09e4698b431412e8ea7b0"
-    sha256 x86_64_linux:  "919e6534fce532ad0395fe4fd756004e3ebe25fd653aff1df825455b68643f7c"
+    sha256 arm64_monterey: "28446027067f4c4beba9db4fdb282da2b92b61b52a167b9258b44d3ff822d6a9"
+    sha256 arm64_big_sur:  "6ed21bdc62c33e8774d438928a37dbf6f6543707b39a396bb5dcba64b1f07669"
+    sha256 monterey:       "53afd744fcb91a0ba17d52a4cf3628bc84756663db3d7b9fd81192bf90a5ba3e"
+    sha256 big_sur:        "0848d18425249ff040691b2f247f8ffdece645c13a4402c51ebbf88cadd1f61f"
+    sha256 catalina:       "ed282f08f2c53276c4d105cf3c20e74a688b226aced2d1c01e52e73c80d18e58"
+    sha256 x86_64_linux:   "59f4d6fdc7ec138da1755acd059b3930ac670c29a8ff27ac32d29adc5c66f1be"
   end
 
   depends_on "i686-elf-gcc" => :test
-  depends_on "python@3.9"
+  depends_on "gmp"
+  depends_on "python@3.10"
   depends_on "xz" # required for lzma support
 
   uses_from_macos "texinfo" => :build
   uses_from_macos "zlib"
-
-  # Fix for https://sourceware.org/bugzilla/show_bug.cgi?id=26949#c8
-  # Remove when upstream includes this commit
-  # https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=b413232211bf
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/242630de4b54d6c57721e12ce88988a0f4e41202/gdb/gdb-10.2.patch"
-    sha256 "36652e9d97037266650a3b31f9f39539c4b376d31016fa4fc325dc0aa7930acc"
-  end
 
   def install
     target = "i386-elf"
@@ -47,13 +40,14 @@ class I386ElfGdb < Formula
       --disable-debug
       --disable-dependency-tracking
       --with-lzma
-      --with-python=#{Formula["python@3.9"].opt_bin}/python3
+      --with-python=#{Formula["python@3.10"].opt_bin}/python3
       --with-system-zlib
       --disable-binutils
     ]
 
     mkdir "build" do
       system "../configure", *args
+      ENV.deparallelize # Error: common/version.c-stamp.tmp: No such file or directory
       system "make"
 
       # Don't install bfd or opcodes, as they are provided by binutils

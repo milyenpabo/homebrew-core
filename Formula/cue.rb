@@ -1,17 +1,18 @@
 class Cue < Formula
   desc "Validate and define text-based and dynamic configuration"
   homepage "https://cuelang.org/"
-  url "https://github.com/cue-lang/cue/archive/v0.4.0.tar.gz"
-  sha256 "6989ada258115c24da78091e3692b94c54e33129f02e87ca4071240314cefebc"
+  url "https://github.com/cue-lang/cue/archive/v0.4.3.tar.gz"
+  sha256 "3d51f780f6d606a0341a5321b66e7d80bd54c294073c0d381e2ed96a3ae07c6e"
   license "Apache-2.0"
   head "https://github.com/cue-lang/cue.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b70f60ad4a8d7fcf3d58f5008a0d15534cb51100640cbc41617c4c185ff167a3"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a3845893ea23997712d12d7b5b4d2f3dcefbf0ced2aa94ccc35d251e4ee2b3e4"
-    sha256 cellar: :any_skip_relocation, catalina:      "c78ec07346c1e5a82d548bbcf86caf660c111884077bf8a556c9637227920440"
-    sha256 cellar: :any_skip_relocation, mojave:        "4d07f627d60bc08ea6866b5533ca1652fb70d994b630c9793d572c49edecfeed"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b487c474bcc5a3e2edfb1cbff973239e9915a49f045d2f34106b12c8155ad769"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f770a065ca36acedeb4d7db3063c4c1b5c2a4a54a9891b6587a112f7e638a651"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f4af3195f21ed20f27bc1015a415835728b32e06f39e84fdeb2c01b14932ffb7"
+    sha256 cellar: :any_skip_relocation, monterey:       "b633119259d30ab942c77eac991f3423980ec4d90b56ae2226f6934b692d33f9"
+    sha256 cellar: :any_skip_relocation, big_sur:        "12db70d65d25aedc67b730918450fb0162f3a1127e5763322f12f8c48d89c2e5"
+    sha256 cellar: :any_skip_relocation, catalina:       "2cd3e2ca353ee6e2e6616d5a9ed3112a1b9a2c742b2f30e9ada35850aa60d60e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bf1e2ef060f30c188077f17eac919ebd8b3c2581fb93ac171baf028b5acc5b10"
   end
 
   depends_on "go" => :build

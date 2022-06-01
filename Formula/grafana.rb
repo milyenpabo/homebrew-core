@@ -1,17 +1,18 @@
 class Grafana < Formula
   desc "Gorgeous metric visualizations and dashboards for timeseries databases"
   homepage "https://grafana.com"
-  url "https://github.com/grafana/grafana/archive/v8.1.7.tar.gz"
-  sha256 "08179d4cc19d689ee8e2ca2d903f26f768fe2092d7145912ead46c3335c8d90d"
+  url "https://github.com/grafana/grafana/archive/v8.5.4.tar.gz"
+  sha256 "cdcfe87834a6fd4bdaab73ada4765b1ee80fc8bf157321ae90ce9bc23c15642b"
   license "AGPL-3.0-only"
   head "https://github.com/grafana/grafana.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "afeee53066cf4373eed2da1eca188e0395b8e9381827dc9fa53ecdd0f3c688d3"
-    sha256 cellar: :any_skip_relocation, big_sur:       "14f44e3d6dc23c0d9f63ef75da917beb357f32247ab6fabf9f2372d04004817f"
-    sha256 cellar: :any_skip_relocation, catalina:      "3c513479e32e6646eb1e69fbb075264ba35a18bf09507094bdebb0c10ee86215"
-    sha256 cellar: :any_skip_relocation, mojave:        "4c1418240a997772cb377a3acd87bea9ee0fb6a5b108c0a8d2c9c42cd6d3de73"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6ea9097fc39003664f13a3beb54d6cc4bf14992f4aa1d7f0a24cd5103b477820"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "16df2ad2224e379ef23d9d203a547742b51fc9b4b04e9c484cb76cbab06679e9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "713cbda508053ef906f018f8d6b574f61bc56a095217c68c5e8aff039270b61a"
+    sha256 cellar: :any_skip_relocation, monterey:       "222257c28c6a823371b411023af8953d48c901fd07a96e69429199643b117545"
+    sha256 cellar: :any_skip_relocation, big_sur:        "007191ab7ddeb8c874f3fcec79a86d5ff68350ab32e0c2c0c8a18006a78933c2"
+    sha256 cellar: :any_skip_relocation, catalina:       "a1d4c5913f3d0bb9586cf3f2258f9eccf3aa126a277217c17093a1b0973fe319"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "51f4cd43443bde23941e676cc70b5211b463bd1c1117f4009cba4064d65ceff5"
   end
 
   depends_on "go" => :build
@@ -26,11 +27,12 @@ class Grafana < Formula
   end
 
   def install
+    ENV["NODE_OPTIONS"] = "--max-old-space-size=8000"
+    system "make", "gen-go"
     system "go", "run", "build.go", "build"
 
-    system "yarn", "install", "--ignore-engines", "--network-concurrency", "1"
-
-    system "node_modules/webpack/bin/webpack.js", "--config", "scripts/webpack/webpack.prod.js"
+    system "yarn", "install"
+    system "yarn", "build"
 
     if OS.mac?
       bin.install Dir["bin/darwin-*/grafana-cli"]

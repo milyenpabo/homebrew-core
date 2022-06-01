@@ -1,17 +1,26 @@
 class Cweb < Formula
   desc "Literate documentation system for C, C++, and Java"
   homepage "https://cs.stanford.edu/~knuth/cweb.html"
-  url "https://cs.stanford.edu/pub/cweb/cweb-3.64c.tar.gz"
-  mirror "https://www.ctan.org/tex-archive/web/c_cpp/cweb/cweb-3.64c.tar.gz"
-  sha256 "efbd6fbeca9b3e75629b69e9565ac6a0e4067f55bda6a0a3b7b6f9449d9ed81f"
+  url "https://github.com/ascherer/cweb/archive/cweb-4.7.tar.gz"
+  sha256 "818c1a2966744548935f67e899ffa41605056fb06492d959af9fa276353f0dbf"
+  # See disucssions in this thread, https://github.com/ascherer/cweb/issues/29
+  license :cannot_represent
+
+  livecheck do
+    url :stable
+    regex(/^cweb[._-]v?(\d+(?:\.\d+)+[a-z]*?)$/i)
+  end
 
   bottle do
-    sha256 arm64_big_sur: "9a1237298f33f69283f923525eb5668911226d48043024bbbd44d337ad1bcdbe"
-    sha256 big_sur:       "2ee6617cf9da76e1e7cafbd49ed6e53fee15339c82df053eab55a398fb96f50b"
-    sha256 catalina:      "e100640669a1d066177514aae1c813f7c18b530c4cae5744d0431d850933648c"
-    sha256 mojave:        "410376faad622cd11745ca94c877135c1b4837ccdc8c7cab43bf12b4b849a3b9"
-    sha256 x86_64_linux:  "62cac91ee39b5981ac30e4797a75b76572b4ae04c539796d120f4fbe36fc9716"
+    sha256                               arm64_monterey: "28f524c3bbfec46b2355c1d9b3e36a98328f8cad660701d56dbb5f3cf1821335"
+    sha256                               arm64_big_sur:  "377bc14d53a26a4e616f26a986bd166d7f90d758a0d8d4538531e45ab73f0d0b"
+    sha256                               monterey:       "e6e4cf31d37aa586f3a90385906d22273d9794066ec28173127ca9b92a5bc689"
+    sha256                               big_sur:        "ce59e1f7637a11231d2cd97f8afe94300b7a40c62dc0f0973bcd998b6b7a47ec"
+    sha256                               catalina:       "abcd2cef08f5ef924511e30cefb320142caae28a12f2662b172e9aea523f1cf2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7042cc26a2f486fee7f7a485870b689c06a54840c9194b1630433b7e18b19eca"
   end
+
+  conflicts_with "texlive", because: "both install `cweb` binaries"
 
   def install
     ENV.deparallelize

@@ -11,7 +11,6 @@ env:
   HOMEBREW_GITHUB_ACTIONS: 1
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_CHANGE_ARCH_TO_ARM: 1
-  HOMEBREW_RELOCATE_RPATHS: 1
 
 concurrency:
   group: "tests-${{ github.ref }}"
@@ -46,7 +45,7 @@ jobs:
     needs: tap_syntax
     outputs:
       syntax-only: ${{ steps.check-labels.outputs.syntax-only }}
-      runners: ${{ steps.check-labels.outputs.runners }}
+      linux-runner: ${{ steps.check-labels.outputs.linux-runner }}
       fail-fast: ${{ steps.check-labels.outputs.fail-fast }}
       test-dependents: ${{ steps.check-labels.outputs.test-dependents }}
       timeout-minutes: ${{ steps.check-labels.outputs.timeout-minutes }}
@@ -56,11 +55,11 @@ jobs:
     steps:
       - name: Check for CI labels
         id: check-labels
-        uses: actions/github-script@v3
+        uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: { labels: labels } } = await github.pulls.get({
+            const { data: { labels: labels } } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.issue.number
@@ -75,13 +74,11 @@ jobs:
               core.setOutput('syntax-only', 'false')
             }
 
-            const runners = ["11-arm64", "11", "10.15", "10.14"]
             if (label_names.includes('CI-linux-self-hosted')) {
-              runners.push('linux-self-hosted-1')
+              core.setOutput('linux-runner', 'linux-self-hosted-1')
             } else {
-              runners.push('ubuntu-latest')
+              core.setOutput('linux-runner', 'ubuntu-latest')
             }
-            core.setOutput('runners', JSON.stringify(runners))
 
             if (label_names.includes('CI-no-fail-fast')) {
               console.log('CI-no-fail-fast label found. Continuing tests despite failing matrix builds.')
@@ -99,21 +96,59 @@ jobs:
               core.setOutput('test-dependents', 'true')
             }
 
+            const maximum_long_pr_count = 2
             if (label_names.includes('CI-long-timeout')) {
+              const labelCountQuery = `query($owner:String!, $name:String!, $label:String!) {
+                repository(owner:$owner, name:$name) {
+                  pullRequests(last: 100, states: OPEN, labels: [$label]) {
+                    totalCount
+                  }
+                }
+              }`;
+              var long_pr_count;
+              try {
+                const response = await github.graphql(
+                  labelCountQuery, {
+                    owner: context.repo.owner,
+                    name: context.repo.repo,
+                    label: 'CI-long-timeout'
+                  }
+                )
+                long_pr_count = response.repository.pullRequests.totalCount
+              } catch (error) {
+                // The GitHub API query errored, so fail open and assume 0 long PRs.
+                long_pr_count = 0
+                core.warning('CI-long-timeout label count query failed. Assuming no long PRs.')
+              }
+              if (long_pr_count > maximum_long_pr_count) {
+                core.setFailed(`Too many pull requests (${long_pr_count}) with the long-timeout label!`)
+                core.error(`Only ${maximum_long_pr_count} pull requests at a time can use this label.`)
+                core.error('Remove the long-timeout label from this or other PRs (once their CI has completed).')
+              }
               console.log('CI-long-timeout label found. Setting long GitHub Actions timeout.')
               core.setOutput('timeout-minutes', '4320')
             } else {
               console.log('No CI-long-timeout label found. Setting short GitHub Actions timeout.')
-              core.setOutput('timeout-minutes', '60')
+              core.setOutput('timeout-minutes', '90')
+
+              if (label_names.includes('long build')) {
+                core.setFailed('PR requires the CI-long-timeout label but it is not set!')
+                core.error('If the longer timeout is not required, remove the "long build" label.')
+                core.error('Otherwise, add the "CI-long-timeout" label.')
+                core.error(`No more than ${maximum_long_pr_count} PRs at a time may use "CI-long-timeout".`)
+              }
             }
 
+            const container = {}
             if (label_names.includes('CI-linux-wheezy')) {
               console.log('CI-linux-wheezy label found. Using Linux Debian 7 (Wheezy) container.')
-              core.setOutput('container', 'homebrew/debian7:latest')
+              container.image = 'homebrew/debian7:latest'
             } else {
               console.log('No CI-linux-wheezy label found. Using default Homebrew (Ubuntu 16.04) container.')
-              core.setOutput('container', 'ghcr.io/homebrew/ubuntu16.04:master')
+              container.image = 'ghcr.io/homebrew/ubuntu16.04:master'
             }
+            container.options = '--user=linuxbrew -e GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED'
+            core.setOutput('container', JSON.stringify(container))
 
             const test_bot_formulae_args = ["--only-formulae", "--junit", "--only-json-tab", "--skip-dependents"]
             test_bot_formulae_args.push('--testing-formulae=${{needs.tap_syntax.outputs.testing_formulae}}')
@@ -122,20 +157,6 @@ jobs:
 
             const test_bot_dependents_args = ["--only-formulae-dependents", "--junit"]
             test_bot_dependents_args.push('--testing-formulae=${{needs.tap_syntax.outputs.testing_formulae}}')
-
-            if (label_names.includes('CI-force-arm')) {
-              console.log('CI-force-arm label found. Not passing --skip-unbottled-arm to brew test-bot.')
-            } else {
-              console.log('No CI-force-arm label found. Passing --skip-unbottled-arm to brew test-bot.')
-              test_bot_formulae_args.push('--skip-unbottled-arm')
-            }
-
-            if (label_names.includes('CI-force-linux')) {
-              console.log('CI-force-linux label found. Not passing --skip-unbottled-linux to brew test-bot.')
-            } else {
-              console.log('No CI-force-linux label found. Passing --skip-unbottled-linux to brew test-bot.')
-              test_bot_formulae_args.push('--skip-unbottled-linux')
-            }
 
             if (label_names.includes('CI-test-bot-fail-fast')) {
               console.log('CI-test-bot-fail-fast label found. Passing --fail-fast to brew test-bot.')
@@ -167,79 +188,51 @@ jobs:
     if: ${{github.event_name == 'pull_request' && fromJson(needs.setup_tests.outputs.syntax-only) == false}}
     strategy:
       matrix:
-        runner: ${{fromJson(needs.setup_tests.outputs.runners)}}
+        include:
+          # - runner: '12-arm64-${{github.run_id}}-${{github.run_attempt}}'
+          #   ephemeral: true
+          - runner: '12-arm64'
+          - runner: '12'
+          - runner: '11-arm64'
+          - runner: '11'
+          - runner: '10.15'
+          - runner: ${{needs.setup_tests.outputs.linux-runner}}
+            container: ${{fromJson(needs.setup_tests.outputs.container)}}
+            workdir: /github/home
+            timeout: 4320
       fail-fast: ${{fromJson(needs.setup_tests.outputs.fail-fast)}}
     runs-on: ${{matrix.runner}}
-    timeout-minutes: ${{fromJson(needs.setup_tests.outputs.timeout-minutes)}}
+    container: ${{matrix.container}}
+    timeout-minutes: ${{ matrix.timeout || fromJson(needs.setup_tests.outputs.timeout-minutes) }}
     defaults:
       run:
         shell: /bin/bash -e {0}
+        working-directory: ${{matrix.workdir || github.workspace}}
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       HOMEBREW_GITHUB_API_TOKEN: ${{secrets.GITHUB_TOKEN}}
     steps:
       - name: Set environment variables
+        if: runner.os == 'macOS'
         run: |
-          if [ "$RUNNER_OS" = 'macOS' ]; then
-            echo 'PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin' >> $GITHUB_ENV
-            echo 'GITHUB_ACTIONS_HOMEBREW_MACOS_SELF_HOSTED=1' >> $GITHUB_ENV
-          else
-            # No PATH needed on Linux as set by Docker
-            echo 'HOMEBREW_FORCE_HOMEBREW_ON_LINUX=1' >> $GITHUB_ENV
-          fi
-
-      - name: Set up Linux Homebrew Docker container
-        if: runner.os == 'Linux'
-        env:
-          TAP_PATH: /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
-        run: |
-          docker run \
-            --detach \
-            --user linuxbrew \
-            --name ${{github.sha}} \
-            --env-file <(env | egrep 'HOMEBREW|GITHUB') \
-            --workdir /tmp/bottles \
-            --pull always \
-            ${{needs.setup_tests.outputs.container}} \
-            sleep inf
-          # Fix working directory permissions
-          docker exec --user root ${{github.sha}} chmod 777 /tmp/bottles
-
-          docker exec --workdir "$TAP_PATH" ${{github.sha}} git remote set-url origin ${{github.event.repository.html_url}}
-          docker exec --workdir "$TAP_PATH" ${{github.sha}} git fetch origin ${{github.sha}} '+refs/heads/*:refs/remotes/origin/*'
-          docker exec --workdir "$TAP_PATH" ${{github.sha}} git remote set-head origin --auto
-          docker exec --workdir "$TAP_PATH" ${{github.sha}} git checkout --force -B master FETCH_HEAD
+          echo 'PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin' >> $GITHUB_ENV
+          # TODO: remove the line below once set in the runner .env file
+          echo 'GITHUB_ACTIONS_HOMEBREW_SELF_HOSTED=1' >> $GITHUB_ENV
 
       - name: Set up Homebrew
         id: set-up-homebrew
-        if: runner.os == 'macOS'
         uses: Homebrew/actions/setup-homebrew@master
 
-      - if: runner.os == 'macOS'
-        run: brew test-bot --only-cleanup-before
+      - run: brew test-bot --only-cleanup-before
 
-      - name: Run brew test-bot --only-setup
-        run: |
-          if [ "$RUNNER_OS" = 'macOS' ]; then
-            brew test-bot --only-setup
-          else
-            docker exec ${{github.sha}} brew test-bot --only-setup
-          fi
+      - run: brew test-bot --only-setup
 
       - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
         id: brew-test-bot-formulae
         run: |
-          if [ "$RUNNER_OS" = 'macOS' ]; then
-            mkdir bottles
-            cd bottles
-            brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
-          else
-            docker exec ${{github.sha}} brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
-          fi
-
-      - name: Copy results from container
-        if: always() && runner.os == 'Linux'
-        run: docker cp ${{github.sha}}:/tmp/bottles .
+          mkdir bottles
+          cd bottles
+          brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
 
       - name: Failures summary for brew test-bot ${{ needs.setup_tests.outputs.test-bot-formulae-args }}
         if: always()
@@ -248,19 +241,23 @@ jobs:
           cat bottles/steps_output.txt
           rm bottles/steps_output.txt
 
-      - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
-        if: ${{fromJson(needs.setup_tests.outputs.test-dependents)}}
+      - name: Output brew linkage result
+        if: always()
         run: |
-          if [ "$RUNNER_OS" = 'macOS' ]; then
-            cd bottles
-            brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
-          else
-            docker exec ${{github.sha}} brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
-          fi
+          cat bottles/linkage_output.txt
+          rm bottles/linkage_output.txt
 
-      - name: Copy results from container
-        if: ${{always() && runner.os == 'Linux' && fromJson(needs.setup_tests.outputs.test-dependents) == true}}
-        run: docker cp ${{github.sha}}:/tmp/bottles .
+      - name: Output brew bottle result
+        if: always()
+        run: |
+          cat bottles/bottle_output.txt
+          rm bottles/bottle_output.txt
+
+      - name: Run brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
+        if: ${{(success() || failure()) && fromJson(needs.setup_tests.outputs.test-dependents)}}
+        run: |
+          cd bottles
+          brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
 
       - name: Failures summary for brew test-bot ${{ needs.setup_tests.outputs.test-bot-dependents-args }} --skipped-or-failed-formulae=${{ steps.brew-test-bot-formulae.outputs.skipped_or_failed_formulae }}
         if: ${{always() && fromJson(needs.setup_tests.outputs.test-dependents) == true}}
@@ -269,18 +266,12 @@ jobs:
           cat bottles/steps_output.txt
           rm bottles/steps_output.txt
 
-      - name: Output brew bottle result
-        if: always()
-        run: |
-          cat bottles/bottle_output.txt
-          rm bottles/bottle_output.txt
-
       - name: Upload logs
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@main
         with:
           name: logs-${{ matrix.runner }}
-          path: bottles/logs
+          path: ${{matrix.workdir || github.workspace}}/bottles/logs
 
       - name: Delete logs and home
         if: always()
@@ -305,7 +296,7 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: bottles-${{ matrix.runner }}
-          path: bottles/failed
+          path: ${{matrix.workdir || github.workspace}}/bottles/failed
 
       # Must be run before the `Upload bottles` step so that failed
       # bottles are not included in the `bottles` artifact.
@@ -314,18 +305,14 @@ jobs:
         run: rm -rvf bottles/failed
 
       - name: Upload bottles
-        if: always() && steps.bottles.outputs.count > 0
+        if: always() && steps.bottles.outputs.count > 0 && !matrix.ephemeral
         uses: actions/upload-artifact@main
         with:
           name: bottles
-          path: bottles
+          path: ${{matrix.workdir || github.workspace}}/bottles
 
       - name: Post cleanup
         if: always()
         run: |
-          if [ "$RUNNER_OS" = 'Linux' ]; then
-            docker rm -f ${{github.sha}}
-          else
-            brew test-bot --only-cleanup-after
-          fi
+          brew test-bot --only-cleanup-after
           rm -rvf bottles

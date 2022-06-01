@@ -2,13 +2,12 @@ class Haxe < Formula
   desc "Multi-platform programming language"
   homepage "https://haxe.org/"
   license all_of: ["GPL-2.0-or-later", "MIT"]
-  revision 2
   head "https://github.com/HaxeFoundation/haxe.git", branch: "development"
 
   stable do
     url "https://github.com/HaxeFoundation/haxe.git",
-        tag:      "4.2.3",
-        revision: "1385eda48e60387e349282d26347b28d0b2768ca"
+        tag:      "4.2.5",
+        revision: "e5eec3122454bfc95412437d938d1d8d3e77ed68"
 
     # Remove when campl5 dependency is bumped to 8.00 in a release
     patch do
@@ -23,11 +22,12 @@ class Haxe < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "982600fa3892cbd4ef0d2597b9400499bcf820d7866b188fcd048b8a483b5bb6"
-    sha256 cellar: :any,                 big_sur:       "69541c84de5f7a89565c1b0db59742801d56d7b92717d3ff4f129ec0099ef055"
-    sha256 cellar: :any,                 catalina:      "73cd847047274cb23a0b23e47ce091145c8eaf5131ad298e0195005f4ec6ee03"
-    sha256 cellar: :any,                 mojave:        "bce0544534411a2f7c53a66114a5c9e4e681e44ad9b9903fa6ddf757757721fd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "142bb6f6a1c6c0ccb0686d80f541b835198b057cb69400452e5a9976dac883db"
+    sha256 cellar: :any,                 arm64_monterey: "ebb6b5472bc7408ce268e357651c2b123abaa2f614260f88838a149289423499"
+    sha256 cellar: :any,                 arm64_big_sur:  "380f0f1f640c3f4919d272a4648b2d04fb3afd93820003cec19b9f54be1cba75"
+    sha256 cellar: :any,                 monterey:       "8cdccc4df05e252d1094ecad90a97ea898659a5017b9c61c6a157629887e68ad"
+    sha256 cellar: :any,                 big_sur:        "dcb8925b9b647939dbf5abbd2ba150f26f581a525fbf8e9c1ce369de58bb6adc"
+    sha256 cellar: :any,                 catalina:       "21ddb930758328523200f2ef95d7639bfe32ca1a94a9861972a721b0c96ab968"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cce4723939b40c48dfb88f1ef06cf967aa5bb76a033a774eb207c72bb93abf12"
   end
 
   depends_on "cmake" => :build
@@ -113,9 +113,10 @@ class Haxe < Formula
     EOS
     system "#{bin}/haxe", "-js", "out.js", "-main", "HelloWorld"
 
-    cmd = "osascript -so -lJavaScript out.js 2>&1"
-    on_linux do
-      cmd = "node out.js"
+    cmd = if OS.mac?
+      "osascript -so -lJavaScript out.js 2>&1"
+    else
+      "node out.js"
     end
     assert_equal "Hello world!", shell_output(cmd).strip
   end

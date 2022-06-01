@@ -1,19 +1,22 @@
 class Pgbouncer < Formula
   desc "Lightweight connection pooler for PostgreSQL"
   homepage "https://www.pgbouncer.org/"
-  url "https://www.pgbouncer.org/downloads/files/1.16.0/pgbouncer-1.16.0.tar.gz"
-  sha256 "a4a391618bb83caaee2a8cd9653974f4c1b98b95987d5cabbbeb801da6342652"
+  url "https://www.pgbouncer.org/downloads/files/1.17.0/pgbouncer-1.17.0.tar.gz"
+  sha256 "657309b7bc5c7a85cbf70a9a441b535f7824123081eabb7ba86d00349a256e23"
+  license "ISC"
 
   livecheck do
-    url "https://github.com/pgbouncer/pgbouncer"
+    url "https://www.pgbouncer.org/downloads/"
+    regex(/href=.*?pgbouncer[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "296a29f3cbfc6913fc9fdd0ebfd3a0f5475b74a781192b869fcb6757e919c879"
-    sha256 cellar: :any,                 big_sur:       "7d61dac174635767840b8dde46b2d9b4b25f6a36fc5ac950beb0868366fa87b8"
-    sha256 cellar: :any,                 catalina:      "e9bcdece7ed67566382ed196d34f6550fd093519e0283cb5e6170bd66645355f"
-    sha256 cellar: :any,                 mojave:        "d6e080c159196a61edd69c73ea234ce34bc91baeaf25e814633d2b35cabfb496"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "26f5a2974400ec50e0727ce1b3054ceacd83e2e10e6b65e0e92296f412c65bfb"
+    sha256 cellar: :any,                 arm64_monterey: "24c0ed2e7272aab2e94b5104d7242795b16f459856af89d16b035f17c1645033"
+    sha256 cellar: :any,                 arm64_big_sur:  "f1356d0a3300f049b351b1b2fdb3f93d298c1533091b61048323f3a8788ac1ec"
+    sha256 cellar: :any,                 monterey:       "73da393d7738c2a742dc4d994ace39152312e1d9b8f5d06b1a33d6090e011985"
+    sha256 cellar: :any,                 big_sur:        "e382cad5b439674062a98fdb2ac72069b8b1fec351a17e7c9ab886f35b695cf8"
+    sha256 cellar: :any,                 catalina:       "758e33e22b99bd1bf02af15564ff829c82cbac74facdd5462ee6f9691e8f24b1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1da1373bd7fa36da801193159f10bc9128b82a60a03d9da5b0bcbe35b75f04cd"
   end
 
   depends_on "pkg-config" => :build

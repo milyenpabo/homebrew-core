@@ -1,16 +1,17 @@
 class Faust < Formula
   desc "Functional programming language for real time signal processing"
   homepage "https://faust.grame.fr"
-  url "https://github.com/grame-cncm/faust/releases/download/2.33.1/faust-2.33.1.tar.gz"
-  sha256 "7185b43615588e4e52fac5f455ae0078661e20f87da806b31c4942ca377f9a0a"
+  url "https://github.com/grame-cncm/faust/releases/download/2.40.0/faust-2.40.0.tar.gz"
+  sha256 "0a8170ee8e037ee62f92d71ad8a5c3c4a9bfee5a995adfc1be9785f66727e818"
   license "GPL-2.0-or-later"
-  revision 1
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "4bd42dda70facd749d115327250fc08907637c3d0afbf7baa66a1b4ad4c83718"
-    sha256 cellar: :any, big_sur:       "fb9c0feafa370d43b0f6ea3e846a11b100def498a160ef5556005e248caa8b0f"
-    sha256 cellar: :any, catalina:      "b648b47e1f52d5a3c810a36137261c914b7420c325c7ea22909588838e440712"
-    sha256 cellar: :any, mojave:        "07f13fd3379b293917ec177cda749c7b9a542c2ae5816496bac74b8a8b790f56"
+    sha256 cellar: :any,                 arm64_monterey: "5c600c392f411bef5e594fc049fc2e900af6793f575c775d7b59fce8263b7809"
+    sha256 cellar: :any,                 arm64_big_sur:  "bcd8e1b348b25fd5d86a958d4318f6fa85cb833dbe070ca624351545b431f367"
+    sha256 cellar: :any,                 monterey:       "7e0ab1a5d14045a88dcf9e94732b71947e2edb3c008594e9b5bf505907354322"
+    sha256 cellar: :any,                 big_sur:        "f43967cc5667cc7d6f0fd32b8c061aced93eed49b65c5350d7ab9b3be9f27833"
+    sha256 cellar: :any,                 catalina:       "2fdb52829b14fb18ae8050dd595bf93841b98b82bdd40a61146f11bdc4d4021c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cc27866b889915dc0e345a0e86a637bc8ef4f3e6f270269ee2f770372cbef5e3"
   end
 
   depends_on "cmake" => :build
@@ -19,7 +20,22 @@ class Faust < Formula
   depends_on "libsndfile"
   depends_on "llvm@12"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
+  # Fix parallel build of Make.llvm.static
+  # PR ref: https://github.com/grame-cncm/faust/pull/728
+  # Remove in the next release.
+  patch do
+    url "https://github.com/grame-cncm/faust/commit/c0e82fd2e261bae7b4614c2cee7f2e1d913cdb4f.patch?full_index=1"
+    sha256 "6beaac00630c8d6947e6e67b9e0b0ac45f573cd44aac3de4a347715127eb3ba9"
+  end
+
   def install
+    ENV.delete "TMP" # don't override Makefile variable
     system "make", "world"
     system "make", "install", "PREFIX=#{prefix}"
   end

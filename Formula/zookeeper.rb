@@ -9,10 +9,13 @@ class Zookeeper < Formula
   head "https://gitbox.apache.org/repos/asf/zookeeper.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 big_sur:      "7a09b012f9b2e0c6dde46dfebf2f66846ab86e154087310b99198572d4a37321"
-    sha256 cellar: :any,                 catalina:     "d48b7491b18e95751276fd57f4a3ffdf837f174dc43ae537da6f32f4d67d96d4"
-    sha256 cellar: :any,                 mojave:       "edf3e23f9959c9b8dbd0e4ddea4e659a3cfc32737d5e57b0333f60a2e47d51da"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "dcc5154ebfb3479ec0762842b789dab164c7278ca8376264bdedcb6345b5b2c5"
+    sha256 cellar: :any,                 arm64_monterey: "719a25b16ac0045b32a2d185b2f0f028eb820dedbdb88b6363da68516aac7706"
+    sha256 cellar: :any,                 arm64_big_sur:  "728afb970486c80614db060a47caf5a1e3b5786988ed1e341ff0dd5ee270e0c8"
+    sha256 cellar: :any,                 monterey:       "6345ff0c91566327755a61dd9bc5aa77ea76a41e40803e4d51c6798ba2f8dbfc"
+    sha256 cellar: :any,                 big_sur:        "7a09b012f9b2e0c6dde46dfebf2f66846ab86e154087310b99198572d4a37321"
+    sha256 cellar: :any,                 catalina:       "d48b7491b18e95751276fd57f4a3ffdf837f174dc43ae537da6f32f4d67d96d4"
+    sha256 cellar: :any,                 mojave:         "edf3e23f9959c9b8dbd0e4ddea4e659a3cfc32737d5e57b0333f60a2e47d51da"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dcc5154ebfb3479ec0762842b789dab164c7278ca8376264bdedcb6345b5b2c5"
   end
 
   depends_on "autoconf" => :build
@@ -89,38 +92,11 @@ class Zookeeper < Formula
     log4j_properties.write(default_log4j_properties) unless log4j_properties.exist?
   end
 
-  plist_options manual: "zkServer start"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>EnvironmentVariables</key>
-          <dict>
-             <key>SERVER_JVMFLAGS</key>
-             <string>-Dapple.awt.UIElement=true</string>
-          </dict>
-          <key>KeepAlive</key>
-          <dict>
-            <key>SuccessfulExit</key>
-            <false/>
-          </dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{opt_bin}/zkServer</string>
-            <string>start-foreground</string>
-          </array>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>WorkingDirectory</key>
-          <string>#{var}</string>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin/"zkServer", "start-foreground"]
+    environment_variables SERVER_JVMFLAGS: "-Dapple.awt.UIElement=true"
+    keep_alive successful_exit: false
+    working_dir var
   end
 
   test do

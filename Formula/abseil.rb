@@ -1,20 +1,27 @@
 class Abseil < Formula
   desc "C++ Common Libraries"
   homepage "https://abseil.io"
-  url "https://github.com/abseil/abseil-cpp/archive/20210324.2.tar.gz"
-  sha256 "59b862f50e710277f8ede96f083a5bb8d7c9595376146838b9580be90374ee1f"
+  url "https://github.com/abseil/abseil-cpp/archive/refs/tags/20211102.0.tar.gz"
+  sha256 "dcf71b9cba8dc0ca9940c4b316a0c796be8fab42b070bb6b7cab62b48f0e66c4"
   license "Apache-2.0"
   head "https://github.com/abseil/abseil-cpp.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "e6f4665315350736b5cd574f4316ebba4d10cfeda0531602f358c1c013ae9256"
-    sha256 cellar: :any,                 big_sur:       "75980931b499a49b4294b57b6a2c664258758f55255b8733bdfbd9c97df7d9c7"
-    sha256 cellar: :any,                 catalina:      "d0d9a804df91a4a70f5eec48ae7f434bb71befe5e9e48f7ac6a93322f5397453"
-    sha256 cellar: :any,                 mojave:        "dec3e39d5010921e76890d4d7343eb777715784f5d6d218329a768707f585f87"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "346f592e8d302b18fc688cdf4134a1b1879991c8789eec8214375d6439af25eb"
+    sha256 cellar: :any,                 arm64_monterey: "0c19e80720547d2ef348842242568e27bbc662f4be6b4dc4b40a7477645b9dbf"
+    sha256 cellar: :any,                 arm64_big_sur:  "23ad9b293aad20112786ec85f80a54781edb42081277e18bbda61752965b1301"
+    sha256 cellar: :any,                 monterey:       "a890728e03ba9359d371d55430ca1b86e4b7c28420179b6d05ae4fed2134b966"
+    sha256 cellar: :any,                 big_sur:        "c707d13cb25a75e52333bcbd57e17f522e09e5f073302ce904d61ec026ccd708"
+    sha256 cellar: :any,                 catalina:       "9a2c8277e6d4b348914220580486bf707b2e09d70f6457a60496cc4254426875"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "513087011325dd2d8a006ba7d12c07e6077dc9048fed2d5e36d20c0905681c81"
   end
 
   depends_on "cmake" => :build
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # C++17
 
   def install
     mkdir "build" do

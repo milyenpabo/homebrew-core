@@ -2,10 +2,10 @@ class Grpc < Formula
   desc "Next generation open source RPC library and framework"
   homepage "https://grpc.io/"
   url "https://github.com/grpc/grpc.git",
-      tag:      "v1.39.1",
-      revision: "2d6b8f61cfdd1c4d2d7c1aae65a4fbf00e3e0981"
+      tag:      "v1.46.3",
+      revision: "53d69cc581c5b7305708587f4f1939278477c28a"
   license "Apache-2.0"
-  head "https://github.com/grpc/grpc.git"
+  head "https://github.com/grpc/grpc.git", branch: "master"
 
   livecheck do
     url :stable
@@ -13,11 +13,12 @@ class Grpc < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "fb85b55af2a6d56c790cd776ca2ddb5053422f97eec2cb0973f1eaec3eb2ce55"
-    sha256 cellar: :any,                 big_sur:       "e75d097487de766329a3b867e98bc2715c1887147e80517285f2e2a68526c09f"
-    sha256 cellar: :any,                 catalina:      "bb1674f7190928d0c4557367ea9ae93ce54f06ced9dbf6686de62832919e9186"
-    sha256 cellar: :any,                 mojave:        "9bbf5282420979603cb7902b043a2e905296f03d6b29985b953f0849ffc080fd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8218c936d63155eb7c2240fc312db60d7ba2fd13cb30ac3d747cce9b6804b507"
+    sha256 cellar: :any,                 arm64_monterey: "44c86ae3d0ac898182e529003600d21f758c2b64331f5bb687fbf7d0da82fd31"
+    sha256 cellar: :any,                 arm64_big_sur:  "b8d381e04ba85368fcfc5d0cd1ce9e80ec231cf015ac83e1a513bdc5e5a72116"
+    sha256 cellar: :any,                 monterey:       "634b00d5e0d915a3de01a4c8da55443353f245c57546185c8ab2eaf4220aa5f6"
+    sha256 cellar: :any,                 big_sur:        "98b386a1fb989df033512ddbd00e2f2b675beec8e01f090f13d5e7cebcaf8163"
+    sha256 cellar: :any,                 catalina:       "eeafca2bf7fdf6a6c22dd387d10ea63cec6da1eb16e47d595f8c75901071e7d1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8b08fc8b6877f2e5dad2c8d9765df37d4adc5fec8c5f9c510bcfbf6a06fdf5ab"
   end
 
   depends_on "autoconf" => :build
@@ -34,13 +35,21 @@ class Grpc < Formula
   uses_from_macos "zlib"
 
   on_macos do
-    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1100
+    # This shouldn't be needed for `:test`, but there's a bug in `brew`:
+    # CompilerSelectionError: pdnsrec cannot be built with any available compilers.
+    depends_on "llvm" => [:build, :test] if DevelopmentTools.clang_build_version <= 1100
+  end
+
+  on_linux do
+    depends_on "gcc"
   end
 
   fails_with :clang do
     build 1100
     cause "Requires C++17 features not yet implemented"
   end
+
+  fails_with gcc: "5" # C++17
 
   def install
     ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib
@@ -85,6 +94,9 @@ class Grpc < Formula
   end
 
   test do
+    # Force use of system clang on Mojave
+    ENV.clang if OS.mac? && (DevelopmentTools.clang_build_version <= 1100)
+
     (testpath/"test.cpp").write <<~EOS
       #include <grpc/grpc.h>
       int main() {

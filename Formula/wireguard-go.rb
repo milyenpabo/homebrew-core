@@ -1,8 +1,8 @@
 class WireguardGo < Formula
   desc "Userspace Go implementation of WireGuard"
   homepage "https://www.wireguard.com/"
-  url "https://git.zx2c4.com/wireguard-go/snapshot/wireguard-go-0.0.20210424.tar.xz"
-  sha256 "0f9a7c0657e6119d317a0bab453aeb5140111b186ae10f62cfa081eecf2f03ba"
+  url "https://git.zx2c4.com/wireguard-go/snapshot/wireguard-go-0.0.20220316.tar.xz"
+  sha256 "fd6759c116e358d311309e049cc2dcc390bc326710f5fc175e0217b755330c2a"
   license "MIT"
   head "https://git.zx2c4.com/wireguard-go.git", branch: "master"
 
@@ -12,28 +12,26 @@ class WireguardGo < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "2b5cecc46c8cb3358a10768cd638fefab905dfb66f1ec151af64ce27d152f474"
-    sha256 cellar: :any_skip_relocation, big_sur:       "9f3812acc99aaf982518460b33d67930b824e8e86bfd00e9303dd0fb7e94cd74"
-    sha256 cellar: :any_skip_relocation, catalina:      "7067cc06c22612f886694f5471b1b7b7d196f9047c1939745f8140d5b1695f1f"
-    sha256 cellar: :any_skip_relocation, mojave:        "be446fceccc238dbfe68c3c23cb03feb1e911245934bba66007c263bfeb9114c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "93b2808f28f71bc2dca45268cd82a86db23b9f9264df87e0946eef577b62d984"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "07fe4038743e02c3474db81af543dcdb4ff35149eaacaae0944695f05facb140"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "49c9d68a379b6d68e45d6a7af04e8d684102a2f748b54d67e652a75e2fd0b671"
+    sha256 cellar: :any_skip_relocation, monterey:       "5b75283c47dc11a78114df31782b10f3715525ea18265c5bb059efbf32827f65"
+    sha256 cellar: :any_skip_relocation, big_sur:        "685bbaed5298bbb87c76e3166ee6ba2af26e322ef86bec67db51bc293bca250d"
+    sha256 cellar: :any_skip_relocation, catalina:       "f66feff3fea2b654a6dd4af64cf42af35a57b9057aea22714e9ad56e7aa0ca25"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b2f1243b3617996b8a28480f700f491ed3c7bd92423a0f5a8954230244f99d75"
   end
 
   depends_on "go" => :build
 
   def install
-    ENV["GOPATH"] = HOMEBREW_CACHE/"go_cache"
-
     system "make", "PREFIX=#{prefix}", "install"
   end
 
   test do
     prog = "#{bin}/wireguard-go -f notrealutun 2>&1"
-    on_macos do
+    if OS.mac?
       assert_match "be utun", pipe_output(prog)
-    end
+    else
 
-    on_linux do
       assert_match "Running wireguard-go is not required because this", pipe_output(prog)
     end
   end

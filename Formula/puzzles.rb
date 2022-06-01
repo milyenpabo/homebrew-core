@@ -2,9 +2,9 @@ class Puzzles < Formula
   desc "Collection of one-player puzzle games"
   homepage "https://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
   # Extract https://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles.tar.gz to get the version number
-  url "https://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles-20210914.42cbd76.tar.gz"
-  version "20210914"
-  sha256 "42d2c20afaf8cbcef5bdbeda3ebd95f120f8c0edd473bccd7fc4b0f03d3d82c2"
+  url "https://www.chiark.greenend.org.uk/~sgtatham/puzzles/puzzles-20220128.c43a34f.tar.gz"
+  version "20220128"
+  sha256 "4b1855c1b209f7534a73a49319668b071cec273db5b14e274b4909403a09d9b7"
   license "MIT"
   head "https://git.tartarus.org/simon/puzzles.git", branch: "main"
 
@@ -18,10 +18,12 @@ class Puzzles < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "e91c37625afa7469e2498f5a471ad3925a819679db44244a88c04c2ac46d677e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "cf2e11cd4e6cb94a0cb4989f2e03f7aaf098abb816e13bc9a65f41cefbed7141"
-    sha256 cellar: :any_skip_relocation, catalina:      "fcf2f14a0750f0fae886b30b79d6927d90749ba9887038050cbfcc68ee95b160"
-    sha256 cellar: :any_skip_relocation, mojave:        "5bb134a4e1a289bb34e9d898be215448decb30af17af925744efac8a287ac7b9"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3cb08278a9c56ec786cf491586b6d61e64da5f949e399f8a521850eb9d97d342"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e275675cd3317ffb62a3f732a616a9cf5804bf7153d459c98dffbe17d1a68370"
+    sha256 cellar: :any_skip_relocation, monterey:       "96afa8ad22ca624e61cdf94f1b41ee72ab65511227dd220431f4ef2e0eff9f24"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6069ee1bb9bbf6cd335188dbe9e74ab5b5459131218dcce315e0da1d63643b3d"
+    sha256 cellar: :any_skip_relocation, catalina:       "c9c04fd4debab2bc34d2f0c77b39d57630f2a4cfc04c13c367dca44e089ec837"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "98ea7bc7167b2325d4b3b4cd2718b9b03aa6f27c48a8aba15a711d53db445f76"
   end
 
   depends_on "cmake" => :build
@@ -45,11 +47,11 @@ class Puzzles < Formula
   end
 
   test do
-    on_macos do
+    if OS.mac?
       assert_predicate prefix/"Puzzles.app/Contents/MacOS/Puzzles", :executable?
-    end
+    else
+      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
 
-    on_linux do
       assert_match "Mines, from Simon Tatham's Portable Puzzle Collection", shell_output(bin/"mines")
     end
   end

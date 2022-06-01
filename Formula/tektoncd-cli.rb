@@ -1,8 +1,8 @@
 class TektoncdCli < Formula
   desc "CLI for interacting with TektonCD"
   homepage "https://github.com/tektoncd/cli"
-  url "https://github.com/tektoncd/cli/archive/v0.21.0.tar.gz"
-  sha256 "c6fed13ddd0cbb410230cf85749458a42b9cb8d56ad6ec48b44e70e26cce9062"
+  url "https://github.com/tektoncd/cli/archive/v0.23.1.tar.gz"
+  sha256 "49ea8c907c10514e219b3536fad481c537c09b8fa264eb0c0f3c4ece61bcabc5"
   license "Apache-2.0"
 
   livecheck do
@@ -11,11 +11,12 @@ class TektoncdCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "9ce190179c039a659fdd56db1dfd61ad653ec6f9de6c6aa9950b9a068e5a22ea"
-    sha256 cellar: :any_skip_relocation, big_sur:       "2340e7366bb268236ee9e2e8c3172712534e547f066ea1b13c4882c7b8014af0"
-    sha256 cellar: :any_skip_relocation, catalina:      "f3bc8b676c7055a244760a82d1b64631327dc4f66e04d5c254c8669250a650c7"
-    sha256 cellar: :any_skip_relocation, mojave:        "19b2eb7fc9058bb500c33b1f9e60f740627d7740ce6201bc9408a3bd6658b834"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "46c546dd97f355278764d8a2c9566c2eebe33b7d5890eda1cba903aaf6a03bf0"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "854facd575ffe796bed332b0a5718761ab93070a7e31569f3902383ee367ee02"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5a6521c797be2cb7afab88984e3487517f5fcd86702463c174eca40d8dcefc3e"
+    sha256 cellar: :any_skip_relocation, monterey:       "cf30f50ed353283c3da876f1616f2633d471992438125f3be766087b79140109"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6301e48ae1b13c59e2edf6d3645484233f0417c395d58ba8ba8f69627f8a57b0"
+    sha256 cellar: :any_skip_relocation, catalina:       "917f87b9949d7e48dfe8376b3fef5a841036e0737add3f41582ccb88433db78b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4437c493f8e8bd5a9aa538d97b68d86d389cfce0c684bebe9f3c346c4680fd86"
   end
 
   depends_on "go" => :build
@@ -24,10 +25,12 @@ class TektoncdCli < Formula
     system "make", "bin/tkn"
     bin.install "bin/tkn" => "tkn"
 
-    output = Utils.safe_popen_read({ "SHELL" => "bash" }, bin/"tkn", "completion", "bash")
+    output = Utils.safe_popen_read(bin/"tkn", "completion", "bash")
     (bash_completion/"tkn").write output
-    output = Utils.safe_popen_read({ "SHELL" => "zsh" }, bin/"tkn", "completion", "zsh")
+    output = Utils.safe_popen_read(bin/"tkn", "completion", "zsh")
     (zsh_completion/"_tkn").write output
+    output = Utils.safe_popen_read(bin/"tkn", "completion", "fish")
+    (fish_completion/"tkn.fish").write output
   end
 
   test do

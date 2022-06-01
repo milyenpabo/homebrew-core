@@ -1,8 +1,8 @@
 class Armadillo < Formula
   desc "C++ linear algebra library"
   homepage "https://arma.sourceforge.io/"
-  url "https://downloads.sourceforge.net/project/arma/armadillo-10.7.0.tar.xz"
-  sha256 "9bf60db6fd237721908747a0e56797b97b7ceae3603f2cca0b012a3b88265d3f"
+  url "https://downloads.sourceforge.net/project/arma/armadillo-11.1.1.tar.xz"
+  sha256 "bfa6154a5fefd832d28d530a58221fe4a2cff2a3bbdbd82e109bde53fb29dcdb"
   license "Apache-2.0"
 
   livecheck do
@@ -11,20 +11,21 @@ class Armadillo < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "9b94584728821bc49c1ed73d6468c2a966ab2f2ce5f1d7d34cf25a6c1497d07d"
-    sha256 cellar: :any,                 big_sur:       "46d6850f70b6728461abe14f120bb6e427005160825476a96d6fc7bb8bb74566"
-    sha256 cellar: :any,                 catalina:      "c2462dba71bc1b598998de5ecc395df67c425d1e727872c222a409fe219ee48e"
-    sha256 cellar: :any,                 mojave:        "14102a05910f254e7fe96374251354b72f71ecf51048c2c521f43526eefd2dfa"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7908653ace63c5ce803802b3c14d50bd20d9d853bafa3d4e44762ac30192c54f"
+    sha256 cellar: :any,                 arm64_monterey: "a2f2da0ff4ecc1606e94978cd0e064b499ed4852d83360da27bfd98587716b5b"
+    sha256 cellar: :any,                 arm64_big_sur:  "12b58ea1505826789e7db0dc78dd5e9aed800600be6718a071245b42b96204d4"
+    sha256 cellar: :any,                 monterey:       "4ae16c7b90e222b29dc1a8b978c91372a5a85b26a99cfd780eafdf8bb006f06c"
+    sha256 cellar: :any,                 big_sur:        "80c33e1c965a1acd8ad1c85e43e251c9da702e83f7bae2432a4808f7ff00391f"
+    sha256 cellar: :any,                 catalina:       "420024783a439e299daf8a8f74ee1ff83f682c3f463e5e640def0615cf92554d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "15d33d2480c7dbe625b8533bec563819bc667553535a0061c28723ac6ed43af3"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "arpack"
   depends_on "hdf5"
+  depends_on "libaec"
   depends_on "openblas"
   depends_on "superlu"
-  depends_on "szip"
 
   def install
     ENV.prepend "CXXFLAGS", "-DH5_USE_110_API -DH5Ovisit_vers=1"

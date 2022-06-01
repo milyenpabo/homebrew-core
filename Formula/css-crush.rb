@@ -1,14 +1,16 @@
 class CssCrush < Formula
   desc "Extensible PHP based CSS preprocessor"
   homepage "https://the-echoplex.net/csscrush"
-  url "https://github.com/peteboere/css-crush/archive/v3.0.1.tar.gz"
-  sha256 "6f24a857b496edccc2eaf261a6f34d64ae1dc2c288304df8dd4fcddb905d89d8"
+  url "https://github.com/peteboere/css-crush/archive/v4.1.2.tar.gz"
+  sha256 "ebc6176c87299e14f7e19b4111db9bdfe4bbec8c4547927ab6d370011b839437"
   license "MIT"
   head "https://github.com/peteboere/css-crush.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "06eec82e0757d06c7780b1695c31946d52e02e17af3566434023ac8262ddc28b"
+    sha256 cellar: :any_skip_relocation, all: "0e5343e4d21ca9c92e093f6dd4ac91a622cd567d848fcd6edb3b380504f97cb6"
   end
+
+  depends_on "php"
 
   def install
     libexec.install Dir["*"]

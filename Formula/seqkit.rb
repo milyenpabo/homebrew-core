@@ -1,17 +1,18 @@
 class Seqkit < Formula
   desc "Cross-platform and ultrafast toolkit for FASTA/Q file manipulation in Golang"
   homepage "https://bioinf.shenwei.me/seqkit"
-  url "https://github.com/shenwei356/seqkit/archive/v2.0.1.tar.gz"
-  sha256 "b4c36516840ec71e5c2fc90587d3fa5efc284bbc1026f2851c991ee9377e17c3"
+  url "https://github.com/shenwei356/seqkit/archive/v2.2.0.tar.gz"
+  sha256 "6e7e292532d78d54ac7aecb934f992c85d04b2dcb2d7a1141808bada0f5b13ba"
   license "MIT"
   head "https://github.com/shenwei356/seqkit.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ba153360728957ba08599f553fc7c35d4c137228047596b557ca3e3e41c6f748"
-    sha256 cellar: :any_skip_relocation, big_sur:       "8c6cc9a3261800c70dd843064d56d3cf1e9cbdceedcdb80daea8c82dc194c777"
-    sha256 cellar: :any_skip_relocation, catalina:      "189de82640a5730d0f7ef36d6a482cd6ff001ade3c1743993e74c18d622bac43"
-    sha256 cellar: :any_skip_relocation, mojave:        "cb007a069c9b234d70ce37aebae4ac97c18b24827bb9435849ccb86d284f6ac7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bb23238cb3414c2dabef0b05d7aa4ab3dc4fc92c5d2defa39d648660a0be4f64"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5c643716399f6ed26416ce5874b1799b39b5372786f0f9e8ab8c83e603afd433"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e5317234e738eb747463b979490c089c4b076fe573556d08ae7df6141982c6b9"
+    sha256 cellar: :any_skip_relocation, monterey:       "57086e68433c69dacbaa152d5c9487ca7848a5932f1781afd1fad56e531ac342"
+    sha256 cellar: :any_skip_relocation, big_sur:        "16ca0d4eef7fe48661fd2ca9ed30701bac60edcad05643436378e90bee7400c6"
+    sha256 cellar: :any_skip_relocation, catalina:       "5935966181252b37b6bf80d97bd2e43651f51841fd74c76819f643eba08520b0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8cd0f87b8741865657d2bcad503e2b89ab3eba053457f02e5169261db531b233"
   end
 
   depends_on "go" => :build

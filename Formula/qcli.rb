@@ -1,23 +1,26 @@
 class Qcli < Formula
   desc "Report audiovisual metrics via libavfilter"
   homepage "https://bavc.org/preserve-media/preservation-tools"
-  url "https://github.com/bavc/qctools/archive/v1.2.tar.gz"
-  sha256 "d648a5fb6076c6367e4eac320018ccbd1eddcb2160ce175b361b46fcf0d4a710"
+  url "https://github.com/bavc/qctools/archive/v1.2.1.tar.gz"
+  sha256 "17cdc326819d3b332574968ee99714ac982c3a8e19a9c80bcbd3dc6dcb4db2b1"
   license "GPL-3.0-or-later"
-  revision 3
   head "https://github.com/bavc/qctools.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "0d9f37d9080941a3cc46915af7b014e86ab38f863efd986dcec8b3fc4c4adf30"
-    sha256 cellar: :any, big_sur:       "e0ccef859a1e5c18e2c8ce01ce6bb1b58a83489ef20670909a5c4b07c284c4b6"
-    sha256 cellar: :any, catalina:      "6615b8e8fef95ec1ac8b2b60857071b172278281a2a404c3553e9f1571d03d8a"
-    sha256 cellar: :any, mojave:        "c918566c4dd012489eac5453d022a2ad0ab97c61d803c358f722234b7ea72d90"
+    sha256 cellar: :any,                 arm64_monterey: "c938fd599d5673faa37050128aee9a772b4839d06904f5590e58418236d12777"
+    sha256 cellar: :any,                 arm64_big_sur:  "c21c3d3503c25df679252810f0fe02ce8804d2ca17beca67e4e8d664a40757d0"
+    sha256 cellar: :any,                 monterey:       "0848ef18376ea60af79db5a6dacd3238057d3026d58301fb2a7005e88835627e"
+    sha256 cellar: :any,                 big_sur:        "834aa115e6d3564ecd1b2ee6aa92bb614205c04f219b31ab3afa49394bc4823d"
+    sha256 cellar: :any,                 catalina:       "c2bca545b18f596970d770bdcfdd8e8d28fbf8066da7ec1916e6ed8efdd6b45b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ec653e796249edd74fa133508baaf3577ed5acbcfead80fa040db92ce741275c"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "ffmpeg"
+  depends_on "ffmpeg@4"
   depends_on "qt@5"
-  depends_on "qwt"
+  depends_on "qwt-qt5"
+
+  fails_with gcc: "5" # ffmpeg is compiled with GCC
 
   def install
     qt5 = Formula["qt@5"].opt_prefix
@@ -37,7 +40,7 @@ class Qcli < Formula
   test do
     # Create an example mp4 file
     mp4out = testpath/"video.mp4"
-    system "ffmpeg", "-filter_complex", "testsrc=rate=1:duration=1", mp4out
+    system "#{Formula["ffmpeg@4"].bin}/ffmpeg", "-filter_complex", "testsrc=rate=1:duration=1", mp4out
     # Create a qcli report from the mp4
     qcliout = testpath/"video.mp4.qctools.xml.gz"
     system bin/"qcli", "-i", mp4out, "-o", qcliout

@@ -1,13 +1,13 @@
 class CAres < Formula
   desc "Asynchronous DNS library"
   homepage "https://c-ares.org/"
-  # Check whether patch for `node.rb` can be removed at version bump
-  url "https://c-ares.org/download/c-ares-1.17.2.tar.gz"
-  mirror "https://github.com/c-ares/c-ares/releases/download/cares-1_17_2/c-ares-1.17.2.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/dns/c-ares-1.17.2.tar.gz"
-  mirror "http://fresh-center.net/linux/misc/dns/legacy/c-ares-1.17.2.tar.gz"
-  sha256 "4803c844ce20ce510ef0eb83f8ea41fa24ecaae9d280c468c582d2bb25b3913d"
+  url "https://c-ares.org/download/c-ares-1.18.1.tar.gz"
+  mirror "https://github.com/c-ares/c-ares/releases/download/cares-1_17_2/c-ares-1.18.1.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/dns/c-ares-1.18.1.tar.gz"
+  mirror "http://fresh-center.net/linux/misc/dns/legacy/c-ares-1.18.1.tar.gz"
+  sha256 "1a7d52a8a84a9fbffb1be9133c0f6e17217d91ea5a6fa61f6b4729cda78ebbcf"
   license "MIT"
+  revision 1
   head "https://github.com/c-ares/c-ares.git", branch: "main"
 
   livecheck do
@@ -16,17 +16,18 @@ class CAres < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "faf4361fe875f4b4d9fa521c3aed53ae6ad1935a859dec0b7cfd4638c6841a82"
-    sha256 cellar: :any,                 big_sur:       "999647263cf8819d6fd324ce9bf48ea5eaa94b34f7796c1fe3d772572f361459"
-    sha256 cellar: :any,                 catalina:      "8cf15891ac55f5d9d7a28a5122e7c5ee6c9585c82643b029ee5c295bfd408209"
-    sha256 cellar: :any,                 mojave:        "60adc74ad87d834ff201feef8a25c7e27b8ae8e3d1d09f71b08f41384cf994e2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c23f4ffa78d6eb7595ffd15c22067ef5ecb8370fbbdeb4cef0f7e178e6a34e3b"
+    sha256 cellar: :any,                 arm64_monterey: "a5818fef12f8028c1ee36d9df5213a74b8e3f33b08889043908bc59364cc29b5"
+    sha256 cellar: :any,                 arm64_big_sur:  "2a3a10365f123633607a3569a8cb31afeac814229e17d975c95be5139f33fed5"
+    sha256 cellar: :any,                 monterey:       "62b9590a3b9d30d2db8696da78948fb79a26c139536c3820c4275327fd808559"
+    sha256 cellar: :any,                 big_sur:        "e276dddce0e43aba6e8f39b26be811294ae36cb7c45e203ff656bb52fa30242c"
+    sha256 cellar: :any,                 catalina:       "3d1c10f0de6c0847e972f67e7e6021fde7ccc1f58dc5497182ae7af80bb127f0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7b66f4b75a81bd37ad1eebefc4a59e4ac41eb8d2d0f2b47f56a661366193dffc"
   end
 
   depends_on "cmake" => :build
 
   def install
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, "-DCMAKE_INSTALL_RPATH=#{rpath}"
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
   end
@@ -45,5 +46,7 @@ class CAres < Formula
     EOS
     system ENV.cc, "test.c", "-L#{lib}", "-lcares", "-o", "test"
     system "./test"
+
+    system "#{bin}/ahost", "127.0.0.1"
   end
 end

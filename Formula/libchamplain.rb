@@ -4,14 +4,15 @@ class Libchamplain < Formula
   url "https://download.gnome.org/sources/libchamplain/0.12/libchamplain-0.12.20.tar.xz"
   sha256 "0232b4bfcd130a1c5bda7b6aec266bf2d06e701e8093df1886f1e26bc1ba3066"
   license "LGPL-2.1"
-  revision 2
+  revision 3
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "0d8f75014270cd171c9d059fe9aa9583c5ac7f8d4156d69cf685789218ab8246"
-    sha256 cellar: :any, big_sur:       "b4d05a54fce8efb6482e4dabe54fe8ff184253045c70d76e50b6679915f591fb"
-    sha256 cellar: :any, catalina:      "cb5f211f8fa37e711a6e8888e4dfc873599defae9bad26f2d4310d798d0df98f"
-    sha256 cellar: :any, mojave:        "451b57e103a89cbd80b18fe98012f5ff2a56de6ef0fbca9d0b2e49279c0f06dd"
-    sha256 cellar: :any, high_sierra:   "139ae58e12b28abeeeddedebd802c5183761048c3745f3cb042458f2be3f9602"
+    rebuild 1
+    sha256 cellar: :any, arm64_big_sur: "4c338a3a4dbeec5732e73a531aecaaf1cb862ed9e87030fc05e2c25ed9a1f585"
+    sha256 cellar: :any, monterey:      "be1d7594f805bd7c358011a1669f5eb479c04157330cca2434392fc46eaefa9c"
+    sha256 cellar: :any, big_sur:       "492db68c8120ff8435f6d96b87cdc4db83afe2d47b0da7b1bc164bbb60af015b"
+    sha256 cellar: :any, catalina:      "2b4c4d1e01b47b3598b56d92b27a42b944a56c83b73f1e175e6854210dfe465e"
+    sha256               x86_64_linux:  "292cd694f9167c38d48b8aba733960db987135857f6954bfff79908a57878413"
   end
 
   depends_on "gnome-common" => :build
@@ -22,11 +23,15 @@ class Libchamplain < Formula
   depends_on "clutter"
   depends_on "clutter-gtk"
   depends_on "gtk+3"
-  depends_on "libsoup"
+  depends_on "libsoup@2"
+
+  on_linux do
+    depends_on "vala" => :build
+  end
 
   def install
     mkdir "build" do
-      system "meson", *std_meson_args, "-Ddocs=false", ".."
+      system "meson", *std_meson_args, ".."
       system "ninja"
       system "ninja", "install"
     end
@@ -56,7 +61,7 @@ class Libchamplain < Formula
     json_glib = Formula["json-glib"]
     libepoxy = Formula["libepoxy"]
     libpng = Formula["libpng"]
-    libsoup = Formula["libsoup"]
+    libsoup = Formula["libsoup@2"]
     pango = Formula["pango"]
     pixman = Formula["pixman"]
     flags = %W[
@@ -102,11 +107,11 @@ class Libchamplain < Formula
       -lglib-2.0
       -lgmodule-2.0
       -lgobject-2.0
-      -lintl
       -ljson-glib-1.0
       -lpango-1.0
       -lpangocairo-1.0
     ]
+    flags << "-lintl" if OS.mac?
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
   end

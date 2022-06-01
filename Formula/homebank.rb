@@ -1,8 +1,8 @@
 class Homebank < Formula
   desc "Manage your personal accounts at home"
   homepage "http://homebank.free.fr"
-  url "http://homebank.free.fr/public/homebank-5.5.3.tar.gz"
-  sha256 "073607918a9610087791f36f59e70d1261fee8e4e1146a5cfd5871a1d2d91093"
+  url "http://homebank.free.fr/public/homebank-5.5.5.tar.gz"
+  sha256 "bece05ecb52392147424aa1e5a179389777b82bf468abebd73eb70b2af9c9e67"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class Homebank < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "a1aaa55de58c02e3d231bf3405d9d08e3ad95f11805627d668563e10b8bbaedb"
-    sha256 big_sur:       "e5b90fc6091d2fdb03ce91eddf19a7dbbc9858414d582872ad285d3cec89e7cd"
-    sha256 catalina:      "7dae6924cc50f1f445550ffb09a45518821936e5f6320661700e3b001c645f3e"
-    sha256 mojave:        "9effe333c729e3b2c3622d1595f27ef6e187d20a7917adad53cfb922d83f9b91"
-    sha256 x86_64_linux:  "d19777f6595d8b37ec6242b66f75c9297bbceea976eddd3fc4bf1d127c351d60"
+    sha256 arm64_monterey: "97df3402f51f1c1edc03d6d086aae9d9f1dad08be0cdf8705db52382458b3889"
+    sha256 arm64_big_sur:  "c8cf6d6a3ee32b8207793f2dd76f0c00f5c09f8a693bb2f5983460532f35c9a7"
+    sha256 monterey:       "34554948850e7c882dafe8d0ac8f3c48a7e9b61ba940eeca3a2a6d02714a071e"
+    sha256 big_sur:        "36fc5288291f211475e8662b7fa95f9863176f8e728bbac4fcdc4ad670ccc3a4"
+    sha256 catalina:       "04a41b0a632e90416fc6746998e5787d55d22414f77c5caf142759d70bb49e7e"
+    sha256 x86_64_linux:   "4188b2b9f658735982c223e1893b254a090da26eefbd06e43b1df5f05cb57036"
   end
 
   depends_on "intltool" => :build
@@ -27,7 +28,7 @@ class Homebank < Formula
   depends_on "gtk+3"
   depends_on "hicolor-icon-theme"
   depends_on "libofx"
-  depends_on "libsoup"
+  depends_on "libsoup@2"
 
   def install
     if OS.linux?

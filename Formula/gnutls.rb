@@ -1,27 +1,27 @@
 class Gnutls < Formula
   desc "GNU Transport Layer Security (TLS) Library"
   homepage "https://gnutls.org/"
-  url "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz"
-  mirror "https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v3.6/gnutls-3.6.16.tar.xz"
-  sha256 "1b79b381ac283d8b054368b335c408fedcb9b7144e0c07f531e3537d4328f3b3"
+  url "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.6.tar.xz"
+  mirror "https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v3.7/gnutls-3.7.6.tar.xz"
+  sha256 "77065719a345bfb18faa250134be4c53bef70c1bd61f6c0c23ceb8b44f0262ff"
   license all_of: ["LGPL-2.1-or-later", "GPL-3.0-only"]
 
   livecheck do
-    url "https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/"
-    regex(/href=.*?gnutls[._-]v?(\d+(?:\.\d+)+)\.t/i)
+    url "https://www.gnutls.org/news.html"
+    regex(/>\s*GnuTLS\s*v?(\d+(?:\.\d+)+)\s*</i)
   end
 
   bottle do
-    sha256 arm64_big_sur: "f63ca35051efae87447075f5d0ab1fcccb4503c8c94b7fa9c3a0c59710066390"
-    sha256 big_sur:       "49e6f4d5d47e7d241b1c931593a74cbdef02e74ed01788b8b8c8ff2da75e22db"
-    sha256 catalina:      "d9af37a7677414243fc1aa2359c388f090f86d893d50d88c2c5dd66191252980"
-    sha256 mojave:        "80bb92867bb86086d301658ff182b145699c3baa14cbfe83dcb9da48598b0237"
-    sha256 x86_64_linux:  "a14f5b6bda7cb3ca845771ffa0ea931ecf45d8877878403e2f6d72dce0d0f238"
+    sha256 arm64_monterey: "23bf1632f4690a1674f87802590e397b64b72c6b0dfea1cbe4515f6f7f19d026"
+    sha256 arm64_big_sur:  "6c5428d026ae41c3b35dc709aeec17778b29ddccf379fb2858a16e4fa96ced38"
+    sha256 monterey:       "2b8debcdd406402ce7894b418b40ff5daea69ac3075a1dc0e8e47508be2e8b93"
+    sha256 big_sur:        "3439b2b048d1242e14ba8eb10e9e55ed4f0a69c8d58f334279cc4cbfeb0d26c2"
+    sha256 catalina:       "8072b6902e177bd75f6d00989adf07b5a482057ce8193025700ce44198bf4d56"
+    sha256 x86_64_linux:   "daafcb2b610958021e9997b314d1cd437fd5bd562026c6dd7844b6721e10dc82"
   end
 
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
   depends_on "pkg-config" => :build
+  depends_on "ca-certificates"
   depends_on "gmp"
   depends_on "guile"
   depends_on "libidn2"
@@ -31,22 +31,7 @@ class Gnutls < Formula
   depends_on "p11-kit"
   depends_on "unbound"
 
-  on_linux do
-    depends_on "autogen"
-
-    resource "cacert" do
-      # homepage "https://curl.se/docs/caextract.html"
-      url "https://curl.se/ca/cacert-2020-01-01.pem"
-      mirror "https://gist.githubusercontent.com/dawidd6/16d94180a019f31fd31bc679365387bc/raw/ef02c78b9d6427585d756528964d18a2b9e318f7/cacert-2020-01-01.pem"
-      sha256 "adf770dfd574a0d6026bfaa270cb6879b063957177a991d453ff1d302c02081f"
-    end
-  end
-
   def install
-    # Fix build with Xcode 12
-    # https://gitlab.com/gnutls/gnutls/-/issues/1116
-    ENV.append "CFLAGS", "-Wno-implicit-function-declaration"
-
     args = %W[
       --disable-dependency-tracking
       --disable-silent-rules
@@ -62,9 +47,7 @@ class Gnutls < Formula
     ]
 
     system "./configure", *args
-    # Adding LDFLAGS= to allow the build on Catalina 10.15.4
-    # See https://gitlab.com/gnutls/gnutls/-/issues/966
-    system "make", "LDFLAGS=", "install"
+    system "make", "install"
 
     # certtool shadows the macOS certtool utility
     mv bin/"certtool", bin/"gnutls-certtool"
@@ -72,79 +55,12 @@ class Gnutls < Formula
   end
 
   def post_install
-    if OS.mac?
-      macos_post_install
-    else
-      linux_post_install
-    end
-  end
-
-  def macos_post_install
-    ohai "Regenerating CA certificate bundle from keychain, this may take a while..."
-
-    keychains = %w[
-      /Library/Keychains/System.keychain
-      /System/Library/Keychains/SystemRootCertificates.keychain
-    ]
-
-    certs_list = `/usr/bin/security find-certificate -a -p #{keychains.join(" ")}`
-    certs = certs_list.scan(
-      /-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----/m,
-    )
-
-    # Check that the certificate has not expired
-    valid_certs = certs.select do |cert|
-      IO.popen("openssl x509 -inform pem -checkend 0 -noout &>/dev/null", "w") do |openssl_io|
-        openssl_io.write(cert)
-        openssl_io.close_write
-      end
-
-      next unless $CHILD_STATUS.success?
-
-      # XXX And drop Kerberos certs which may invalidate the whole trust store
-      # due to bug in gnutls (https://gitlab.com/gnutls/gnutls/-/issues/1255)
-      IO.popen("openssl x509 -inform pem -issuer -noout 2>/dev/null", "r+") do |openssl_io|
-        openssl_io.write(cert)
-        openssl_io.close_write
-        cn = openssl_io.read
-        openssl_io.close_read
-        cn.exclude? "CN=com.apple.kerberos.kdc"
-      end
-    end
-
-    # Check that the certificate is trusted in keychain
-    trusted_certs = begin
-      tmpfile = Tempfile.new
-
-      valid_certs.select do |cert|
-        tmpfile.rewind
-        tmpfile.write cert
-        tmpfile.truncate cert.size
-        tmpfile.flush
-        IO.popen("/usr/bin/security verify-cert -l -L -R offline -c #{tmpfile.path} &>/dev/null")
-
-        $CHILD_STATUS.success?
-      end
-    ensure
-      tmpfile&.close!
-    end
-
-    pkgetc.mkpath
-    (pkgetc/"cert.pem").atomic_write(trusted_certs.join("\n") << "\n")
+    rm_f pkgetc/"cert.pem"
+    pkgetc.install_symlink Formula["ca-certificates"].pkgetc/"cert.pem"
 
     # Touch gnutls.go to avoid Guile recompilation.
     # See https://github.com/Homebrew/homebrew-core/pull/60307#discussion_r478917491
-    touch "#{lib}/guile/3.0/site-ccache/gnutls.go"
-  end
-
-  def linux_post_install
-    # Download and install cacert.pem from curl.se
-    cacert = resource("cacert")
-    cacert.fetch
-
-    rm_f pkgetc/"cert.pem"
-    filename = Pathname.new(cacert.url).basename
-    pkgetc.install cacert.files(filename => "cert.pem")
+    touch lib/"guile/3.0/site-ccache/gnutls.go"
   end
 
   def caveats

@@ -1,17 +1,18 @@
 class Log4cxx < Formula
   desc "Library of C++ classes for flexible logging"
   homepage "https://logging.apache.org/log4cxx/index.html"
-  url "https://www.apache.org/dyn/closer.lua?path=logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz"
-  mirror "https://archive.apache.org/dist/logging/log4cxx/0.12.0/apache-log4cxx-0.12.0.tar.gz"
-  sha256 "bd5b5009ca914c8fa7944b92ea6b4ca6fb7d146f65d526f21bf8b3c6a0520e44"
+  url "https://www.apache.org/dyn/closer.lua?path=logging/log4cxx/0.13.0/apache-log4cxx-0.13.0.tar.gz"
+  mirror "https://archive.apache.org/dist/logging/log4cxx/0.13.0/apache-log4cxx-0.13.0.tar.gz"
+  sha256 "4e5be64b6b1e6de8525f8b87635270b81f772a98902d20d7ac646fdf1ac08284"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "5654067019235ef0ea4d7d2dda99116a5f59eb9de503d02c2831c1f54e971d88"
-    sha256 cellar: :any,                 big_sur:       "c7c19a708049c810cea3514308e52316d25c02f8ffc1fd2eb3f80485d34bb916"
-    sha256 cellar: :any,                 catalina:      "6cfbf907bb67c4ffb62c71e91343d894e0ead3534856933801df942f60ffc3a5"
-    sha256 cellar: :any,                 mojave:        "1c56033e73bf61b3c5742d7b9f64f65c3d2e4223edbb30a3fef45287f3efe883"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cb8304107efd616f1beef853a933c31dd0839321266f9b2dda1ebdb632304f8f"
+    sha256 cellar: :any,                 arm64_monterey: "47607aa9485c1167eb9238bba3843a61ac4c08237e12f5fe381419917bfa9c10"
+    sha256 cellar: :any,                 arm64_big_sur:  "822486177f347c4eb3260e8a634d28aeb0760ae9104a8d68f1590584b165c7e7"
+    sha256 cellar: :any,                 monterey:       "6f0afc83f3bb946675995dc4bb7d39ec7e18e6fd5eca07beeb81064811764619"
+    sha256 cellar: :any,                 big_sur:        "7eb48735b6ba092b54d19fba4d9337d8370836d87b2a8bcaa22f1a1e85b0d203"
+    sha256 cellar: :any,                 catalina:       "622e2411659ddefe72488305f678c05aabbcf9bba614be4ad258f4c3da5b3356"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "52103cd2eb242d06e699db8919340534545fef4688b01aec1a4d70b52d7fce66"
   end
 
   depends_on "cmake" => :build

@@ -2,35 +2,42 @@ class Periscope < Formula
   desc "Organize and de-duplicate your files without losing data"
   homepage "https://github.com/anishathalye/periscope"
   url "https://github.com/anishathalye/periscope.git",
-      tag:      "v0.3.1",
-      revision: "e434390fbc41345083b8cfe3d65c743b3299de06"
+      tag:      "v0.3.2",
+      revision: "fc3a56637217d55014189c43e76c58ceddb7bfc4"
   license "GPL-3.0-only"
   head "https://github.com/anishathalye/periscope.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a316061e8574f8306a0db428030a80b1d881fa01f44d3fb5e11fbf262eb005dd"
-    sha256 cellar: :any_skip_relocation, big_sur:       "ce293d18056b44958098f6950986676ba6747df28fda897ef6f7f9e83c19b724"
-    sha256 cellar: :any_skip_relocation, catalina:      "b27894c43a915698a3667d5c77ee120e097195bb42f039ad12fc8aabb684f168"
-    sha256 cellar: :any_skip_relocation, mojave:        "175b7fa2671aa807ae3574326c65efec9e2ec7599ce4645ffcbb4ee4b3b14056"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b2998259acfde7a53687bf3f46df9c7258cefe94ee1a7a6e5bfca3ed187f969c"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "175e53a44e0d7b52db436369d918b12e34dbd244ddf7ba40e19c4e85cec2628f"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4c882c0377cff2389da04d004674e157d8f71953a0142a4b334d95518e957e96"
+    sha256 cellar: :any_skip_relocation, monterey:       "f3bac4b5d15200c10954a2113bd4ca3c3105a614aa3c605b158d11b048daa317"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c9e56226deeabf9615a15af87a7ba702a9292eb3f6be1efbdae16245f51eb3af"
+    sha256 cellar: :any_skip_relocation, catalina:       "e60a33d406582d371f3a0bbd2f4ad78f9da9c4bab998b695a6a1b9e6baa29312"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3404970d8676e0b7d6391c92631fcb720c72b704833467d883f48558746efc92"
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", "-ldflags",
-      "-s -w -X main.version=#{version} -X main.commit=#{Utils.git_head}",
-      "-trimpath", "./cmd/psc"
+    ldflags = %W[
+      -s -w
+      -X main.version=#{version}
+      -X main.commit=#{Utils.git_head}
+    ]
+    system "go", "build", *std_go_args(output: bin/"psc", ldflags: ldflags), "./cmd/psc"
 
-    bin.install "psc"
-
-    # install bash completion
-    output = Utils.safe_popen_read("#{bin}/psc", "completion", "bash")
+    # Install bash completion
+    output = Utils.safe_popen_read(bin/"psc", "completion", "bash")
     (bash_completion/"psc").write output
 
-    # install zsh completion
-    output = Utils.safe_popen_read("#{bin}/psc", "completion", "zsh")
+    # Install zsh completion
+    output = Utils.safe_popen_read(bin/"psc", "completion", "zsh")
     (zsh_completion/"_psc").write output
+
+    # Install fish completion
+    output = Utils.safe_popen_read(bin/"psc", "completion", "fish")
+    (fish_completion/"psc.fish").write output
   end
 
   test do

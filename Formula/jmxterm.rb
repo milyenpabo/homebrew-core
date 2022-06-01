@@ -7,18 +7,18 @@ class Jmxterm < Formula
   revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "3177e031b339938a69004d980fc337a6717dab9194b8077bd0de598d2952b9ae"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, all: "be1cdf19cb1f7ca3fe0b5a19b41622e57eda0e4e2343c0468ea7cfb88ce628d3"
   end
 
-  depends_on arch: :x86_64 # openjdk@8 is not supported on ARM
-  depends_on "openjdk@8"
+  depends_on "openjdk"
 
   def install
     libexec.install "jmxterm-#{version}-uber.jar"
-    bin.write_jar_script libexec/"jmxterm-#{version}-uber.jar", "jmxterm", "", java_version: "1.8"
+    bin.write_jar_script libexec/"jmxterm-#{version}-uber.jar", "jmxterm", ""
   end
 
   test do
-    assert_match(/"software\.name".=."jmxterm";/, shell_output("echo about | #{bin}/jmxterm -n"))
+    assert_match(/"software\.name".=."jmxterm";/, pipe_output("#{bin}/jmxterm -n", "about"))
   end
 end

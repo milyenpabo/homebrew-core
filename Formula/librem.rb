@@ -1,16 +1,17 @@
 class Librem < Formula
   desc "Toolkit library for real-time audio and video processing"
-  homepage "https://github.com/creytiv/rem"
-  url "https://github.com/creytiv/rem/releases/download/v0.6.0/rem-0.6.0.tar.gz"
-  sha256 "417620da3986461598aef327c782db87ec3dd02c534701e68f4c255e54e5272c"
+  homepage "https://github.com/baresip/rem"
+  url "https://github.com/baresip/rem/archive/refs/tags/v2.3.0.tar.gz"
+  sha256 "a80a1dc2b30233cd4012de8b58ac9c7e87e17676e6026629d8b66d8a01600a83"
+  license "BSD-3-Clause"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "f89cd157675ca8fe3154b27cfeccf20846e40911c74820ccf61d2fb83abd6bfd"
-    sha256 cellar: :any,                 big_sur:       "b571b06f4fc31e68adc40869c1e5b415eda6aed48f9093ee844f53f17baf5f44"
-    sha256 cellar: :any,                 catalina:      "cfb5f86357e8176a51e80b2ec726e8e38fc002a7dfea8f36256328747df01d9a"
-    sha256 cellar: :any,                 mojave:        "5fc70f673166bfc2794c40b440de29cc544cb3d46cccfb538ba868362e6e813a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2d35cb23f7a65fa6b0840d03f954b0d8275bcf6d525a0b7991ba30955f0d56a9"
+    sha256 cellar: :any,                 arm64_monterey: "376306719dba4e9f6e160df2f937349abf250a5d27ad8c7a1204bbd1a6ca4ca9"
+    sha256 cellar: :any,                 arm64_big_sur:  "14b9982526582411bbd4b80575b6b743a51adafffad54096d4f6c5fcea95912b"
+    sha256 cellar: :any,                 monterey:       "cc329cfe3a5133f50b9690bd20c6e4de867199635916672ee87782c7468446a1"
+    sha256 cellar: :any,                 big_sur:        "6eb4c141e49222a95c004dc6ef4fe59ef98012524298f667ef9f672ef8ab4765"
+    sha256 cellar: :any,                 catalina:       "dfc203b37c7969dd2ad7a70f5238d8db06d208acc9a0a9b999f1c39e677ed3c4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a14031a634a9d9959a45396ba6140fcda33b944ac48ea1afb4a61b9b8977206f"
   end
 
   depends_on "libre"

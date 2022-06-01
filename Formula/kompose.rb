@@ -1,19 +1,21 @@
 class Kompose < Formula
   desc "Tool to move from `docker-compose` to Kubernetes"
   homepage "https://kompose.io/"
-  url "https://github.com/kubernetes/kompose/archive/v1.24.0.tar.gz"
-  sha256 "368c45ffdebe70899584e007d02e4a8ee70c01cc245a2baf021e4ba3a0254a06"
+  url "https://github.com/kubernetes/kompose/archive/v1.26.1.tar.gz"
+  sha256 "58547107377705f48cd02e391a5faf441dc0c861aeb9bc17c7c46e9de3ae1806"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "c6c6cf13bb9035c5536e67d7d155c4d69c36eca7efc35da12446bcb1ef36642b"
-    sha256 cellar: :any_skip_relocation, big_sur:       "80c55ba074b4caa1f2867b12e3359f0440e4d55f47358c95a50f93742ee43260"
-    sha256 cellar: :any_skip_relocation, catalina:      "270436c38ed7424db632632cc0b74dea070a622ef3ed0e115848718a9eac05a5"
-    sha256 cellar: :any_skip_relocation, mojave:        "4856485d9b79a6f7969abca0cbb346495737307d8683fafacfab535bebe4477d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e9d214ba19e5783b4ade888a032a7a34783b785875c50ab42286c368b2204658"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "fce20c79ca7c5ec23d04804d5f0625796a9ae5bf2ff8f3c2dd6ebf6c9091039b"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d7608ab8e23169c6c25b6da42713a7ef7aa078d09b63bcd748949800a0a3c6bd"
+    sha256 cellar: :any_skip_relocation, monterey:       "d900c5a6242038bbaf31560418d16f6b66790b7f4f9206415da2853276a1a137"
+    sha256 cellar: :any_skip_relocation, big_sur:        "94764694cbc83e31edc3df3f8588327159cdba7ff2658ea9786e118b5a792e11"
+    sha256 cellar: :any_skip_relocation, catalina:       "975b28f3cd25872551219403be36825d38585a315f5c1f3ad5812d7be4e2913a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "efb804b13b812975bb6995e458bd1a1404d26b836a47cd244031a362ce6c894e"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w")

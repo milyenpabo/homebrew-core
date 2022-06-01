@@ -3,7 +3,7 @@ class Ceylon < Formula
   homepage "https://ceylon-lang.org/"
   url "https://ceylon-lang.org/download/dist/1_3_3"
   sha256 "4ec1f1781043ee369c3e225576787ce5518685f2206eafa7d2fd5cfe6ac9923d"
-  revision 2
+  revision 3
 
   livecheck do
     url "https://ceylon-lang.org/download/"
@@ -14,10 +14,9 @@ class Ceylon < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "d221a5e146fd8e9150edd4803370fa057f2181c85b5ad670478ad0e489115b3f"
+    sha256 cellar: :any_skip_relocation, all: "c9e8be2d72811dcc4310d1633801fa34e38a7e2bbc779e945ce732ff03172dc2"
   end
 
-  depends_on arch: :x86_64 # openjdk@8 is not supported on ARM
   depends_on "openjdk@8"
 
   def install
@@ -26,7 +25,9 @@ class Ceylon < Formula
     bin.install "bin/ceylon"
     bin.install "bin/ceylon-sh-setup"
     libexec.install Dir["*"]
-    bin.env_script_all_files(libexec/"bin", Language::Java.java_home_env("1.8"))
+    env = Language::Java.java_home_env("1.8")
+    env["PATH"] = "$JAVA_HOME/bin:$PATH"
+    bin.env_script_all_files libexec/"bin", env
   end
 
   test do

@@ -1,10 +1,10 @@
 class Duck < Formula
   desc "Command-line interface for Cyberduck (a multi-protocol file transfer tool)"
   homepage "https://duck.sh/"
-  url "https://dist.duck.sh/duck-src-7.10.2.35432.tar.gz"
-  sha256 "8f5885799a10b0e06ed0587198dbecce63b08fa609778e84673b34faccfea40b"
+  url "https://dist.duck.sh/duck-src-8.3.3.37544.tar.gz"
+  sha256 "32d7b3e966e4faf6572b30bd145b3512e651346ead93ada0c2eab25583e4ed8b"
   license "GPL-3.0-only"
-  head "https://svn.cyberduck.io/trunk/"
+  head "https://github.com/iterate-ch/cyberduck.git", branch: "master"
 
   livecheck do
     url "https://dist.duck.sh/"
@@ -12,10 +12,12 @@ class Duck < Formula
   end
 
   bottle do
-    sha256 cellar: :any, big_sur:      "b7bb41802a4fb208fb61f1d04ac52c6275e5d06f1cb950ef0057a400ef090251"
-    sha256 cellar: :any, catalina:     "21665b8a7d45aed16246274d5e7d85300784bb3a4e9876c07f977b3857db0189"
-    sha256 cellar: :any, mojave:       "d2ac998c80f2592acf099f4a5122241a0e56945f4e20297c6a434e77816d8d9f"
-    sha256               x86_64_linux: "b91907eaf9ad7d2f582e45e7754587cee4e7a2e659fb3e505c5f0cbb2a120095"
+    sha256 cellar: :any, arm64_monterey: "9a1e7518db63c20d091e3683fd920d344bbf94219817dfa55d89b21e3aaf9c1f"
+    sha256 cellar: :any, arm64_big_sur:  "77eea3daebae6527e0233f37b173d77365ac1cedab793f70d7593d46757262d5"
+    sha256 cellar: :any, monterey:       "76c0fb3281c6b5489f896805fcd321d79eb8b9d376aa9f252a967c6bc98e5538"
+    sha256 cellar: :any, big_sur:        "c7d955410dd8f949fe630bb3ffeffdfb04a91d65ad1943f92daf0747d12c6f32"
+    sha256 cellar: :any, catalina:       "094737c11314b75b5363518ad6b30400d3de64a501d0981829d4c980f0bb001c"
+    sha256               x86_64_linux:   "81f56532a64c7e6e3ea50be4d9e7263f3951fde2e09c6268f816a1b21bb2786c"
   end
 
   depends_on "ant" => :build
@@ -23,7 +25,6 @@ class Duck < Formula
   depends_on "pkg-config" => :build
   depends_on xcode: :build
 
-  depends_on arch: :x86_64
   depends_on "libffi"
   depends_on "openjdk"
 
@@ -42,8 +43,13 @@ class Duck < Formula
   end
 
   resource "jna" do
-    url "https://github.com/java-native-access/jna/archive/refs/tags/5.8.0.tar.gz"
-    sha256 "97680b8ddb5c0f01e50f63d04680d0823a5cb2d9b585287094de38278d2e6625"
+    url "https://github.com/java-native-access/jna/archive/refs/tags/5.10.0.tar.gz"
+    sha256 "6ef63cbf6ff7c8eea7d72331958e79c9fd3635c987ce419c9f296db6c4fd66a4"
+  end
+
+  resource "rococoa" do
+    url "https://github.com/iterate-ch/rococoa/archive/refs/tags/0.9.1.tar.gz"
+    sha256 "62c3c36331846384aeadd6014c33a30ad0aaff7d121b775204dc65cb3f00f97b"
   end
 
   resource "JavaNativeFoundation" do
@@ -54,27 +60,31 @@ class Duck < Formula
   def install
     # Consider creating a formula for this if other formulae need the same library
     resource("jna").stage do
-      arch = "x86-64"
-      os = if OS.linux?
-        "Linux"
-      else
+      os = if OS.mac?
         # Add linker flags for libffi because Makefile call to pkg-config doesn't seem to work properly.
         inreplace "native/Makefile", "LIBS=", "LIBS=-L#{Formula["libffi"].opt_lib} -lffi"
         # Force shared library to have dylib extension on macOS instead of jnilib
-        inreplace "native/Makefile", "LIBRARY=$(BUILD)/$(LIBPFX)jnidispatch$(JNISFX)",
-"LIBRARY=$(BUILD)/$(LIBPFX)jnidispatch$(LIBSFX)"
+        inreplace "native/Makefile",
+                  "LIBRARY=$(BUILD)/$(LIBPFX)jnidispatch$(JNISFX)",
+                  "LIBRARY=$(BUILD)/$(LIBPFX)jnidispatch$(LIBSFX)"
 
         "mac"
+      else
+        OS.kernel_name
       end
 
       # Don't include directory with JNA headers in zip archive.  If we don't do this, they will be deleted
       # and the zip archive has to be extracted to get them. TODO: ask upstream to provide an option to
       # disable the zip file generation entirely.
       inreplace "build.xml",
-"<zipfileset dir=\"build/headers\" prefix=\"build-package-${os.prefix}-${jni.version}/headers\" />", ""
+                "<zipfileset dir=\"build/headers\" prefix=\"build-package-${os.prefix}-${jni.version}/headers\" />",
+                ""
 
-      system "ant", "-Dbuild.os.name=#{os}", "-Dbuild.os.arch=#{arch}", "-Ddynlink.native=true", "-DCC=#{ENV.cc}",
-"native-build-package"
+      system "ant", "-Dbuild.os.name=#{os}",
+                    "-Dbuild.os.arch=#{Hardware::CPU.arch}",
+                    "-Ddynlink.native=true",
+                    "-DCC=#{ENV.cc}",
+                    "native-build-package"
 
       cd "build" do
         ENV.deparallelize
@@ -91,54 +101,61 @@ class Duck < Formula
     end
 
     resource("JavaNativeFoundation").stage do
-      if OS.mac?
-        cd "apple/JavaNativeFoundation" do
-          xcodebuild "VALID_ARCHS=x86_64", "-project", "JavaNativeFoundation.xcodeproj"
-          buildpath.install "build/Release/JavaNativeFoundation.framework"
-        end
+      next unless OS.mac?
+
+      cd "apple/JavaNativeFoundation" do
+        xcodebuild "VALID_ARCHS=#{Hardware::CPU.arch}", "-project", "JavaNativeFoundation.xcodeproj"
+        buildpath.install "build/Release/JavaNativeFoundation.framework"
       end
     end
 
-    if OS.mac?
-      xcconfig = buildpath/"Overrides.xcconfig"
-      xcconfig.write <<~EOS
-        OTHER_LDFLAGS = -headerpad_max_install_names
-      EOS
-      ENV["XCODE_XCCONFIG_FILE"] = xcconfig
+    resource("rococoa").stage do
+      next unless OS.mac?
+
+      cd "rococoa/rococoa-core" do
+        xcodebuild "VALID_ARCHS=#{Hardware::CPU.arch}", "-project", "rococoa.xcodeproj"
+        buildpath.install shared_library("build/Release/librococoa")
+      end
     end
 
     os = if OS.mac?
+      xcconfig = buildpath/"Overrides.xcconfig"
+      xcconfig.write <<~EOS
+        OTHER_LDFLAGS = -headerpad_max_install_names
+        VALID_ARCHS=#{Hardware::CPU.arch}
+      EOS
+      ENV["XCODE_XCCONFIG_FILE"] = xcconfig
+
       "osx"
     else
-      # This changes allow maven to build the cli/linux project as an appimage instead of an RPM/DEB.
-      # This has been reported upstream at https://trac.cyberduck.io/ticket/11762#ticket.
-      # It has been added the version 8 milestone.
-      inreplace "cli/linux/build.xml", "value=\"rpm\"", "value=\"app-image\""
-      inreplace "cli/linux/build.xml", "<arg value=\"--license-file\"/>", ""
-      inreplace "cli/linux/build.xml", "<arg value=\"${license}\"/>", ""
-      inreplace "cli/linux/build.xml", "<arg value=\"--linux-deb-maintainer\"/>", ""
-      inreplace "cli/linux/build.xml", "<arg value=\"&lt;feedback@cyberduck.io&gt;\"/>", ""
-      inreplace "cli/linux/build.xml", "<arg value=\"--linux-rpm-license-type\"/>", ""
-      inreplace "cli/linux/build.xml", "<arg value=\"GPL\"/>", ""
-
-      "linux"
+      OS.kernel_name.downcase
     end
 
     revision = version.to_s.rpartition(".").last
     system "mvn", "-DskipTests", "-Dgit.commitsCount=#{revision}",
                   "--projects", "cli/#{os}", "--also-make", "verify"
 
-    libdir = libexec/"Contents/Frameworks"
-    bindir = libexec/"Contents/MacOS"
+    libdir, bindir = if OS.mac?
+      %w[Contents/Frameworks Contents/MacOS]
+    else
+      %w[lib/app bin]
+    end.map { |dir| libexec/dir }
+
     if OS.mac?
       libexec.install Dir["cli/osx/target/duck.bundle/*"]
+
+      # Remove the `*.tbd` files. They're not needed, and they cause codesigning issues.
+      buildpath.glob("JavaNativeFoundation.framework/**/JavaNativeFoundation.tbd").map(&:unlink)
       rm_rf libdir/"JavaNativeFoundation.framework"
       libdir.install buildpath/"JavaNativeFoundation.framework"
-    end
 
-    if OS.linux?
-      libdir = libexec/"lib/app"
-      bindir = libexec/"bin"
+      rm libdir/shared_library("librococoa")
+      libdir.install buildpath/shared_library("librococoa")
+
+      # Replace runtime with already installed dependency
+      rm_r libexec/"Contents/PlugIns/Runtime.jre"
+      ln_s Formula["openjdk"].libexec/"openjdk.jdk", libexec/"Contents/PlugIns/Runtime.jre"
+    else
       libexec.install Dir["cli/linux/target/release/duck/*"]
     end
 

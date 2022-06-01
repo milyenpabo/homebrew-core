@@ -2,9 +2,9 @@ class Libressl < Formula
   desc "Version of the SSL/TLS protocol forked from OpenSSL"
   homepage "https://www.libressl.org/"
   # Please ensure when updating version the release is from stable branch.
-  url "https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.3.5.tar.gz"
-  mirror "https://mirrorservice.org/pub/OpenBSD/LibreSSL/libressl-3.3.5.tar.gz"
-  sha256 "0a51393f0df1cf27e070054a2788a4d073339f363d79cd594076a1b4c48be9a5"
+  url "https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-3.5.3.tar.gz"
+  mirror "https://mirrorservice.org/pub/OpenBSD/LibreSSL/libressl-3.5.3.tar.gz"
+  sha256 "3ab5e5eaef69ce20c6b170ee64d785b42235f48f2e62b095fca5d7b6672b8b28"
   license "OpenSSL"
 
   livecheck do
@@ -13,11 +13,12 @@ class Libressl < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "bb0b93fb87cb0cb7caf4ace93bebe04e29a923c140375aa013a6a77dd27aad19"
-    sha256 big_sur:       "730c015b9fa817e1885e4da2440f86ee441dabd91e99d0465a70390262361996"
-    sha256 catalina:      "ce70f350875bc9fab948233b9d30c1545083e9a8204d24d769252f89fbdbccde"
-    sha256 mojave:        "af9065afe8ec39458e0227e2d874e08971e25763944ddd2d61fc9501f331b592"
-    sha256 x86_64_linux:  "a4e5d16b1e6ae117b89ea163e025648c1c2683c100ef2ce9e89f1ade402a0b77"
+    sha256 arm64_monterey: "69c8b3bd77a93b7d66c10547d7513989422d59eff4f51d52b5bc4df5be7c6527"
+    sha256 arm64_big_sur:  "a7e45093051a0a7961d88caa88002864eac2d00b1eca53cc75cf35c471d46680"
+    sha256 monterey:       "183d6b2c20714d89aea7522bdf0cdedab4490a11f8f56671f155362f3231d98b"
+    sha256 big_sur:        "9afd1be45a3f183c8b2ac2fe5ed5c8defc3fd9a5ef8b4e2db9ab2d7122f29692"
+    sha256 catalina:       "ed9f90222d3d7ea6382bedc140bcaee1242080afcff3a7bf38b17083c929dd0e"
+    sha256 x86_64_linux:   "187419900c62a0673ef001737a8ccd8b3a336077faa093593e2d305cfb141148"
   end
 
   head do
@@ -46,7 +47,6 @@ class Libressl < Formula
     system "./autogen.sh" if build.head?
     system "./configure", *args
     system "make"
-    system "make", "check"
     system "make", "install"
   end
 

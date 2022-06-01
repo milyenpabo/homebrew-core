@@ -1,10 +1,9 @@
 class NodeAT14 < Formula
   desc "Platform built on V8 to build network applications"
   homepage "https://nodejs.org/"
-  url "https://nodejs.org/dist/v14.18.0/node-v14.18.0.tar.gz"
-  sha256 "2272312d7eb48a28e982af395142d916385b0572380d07c89f9abd9c97810189"
+  url "https://nodejs.org/dist/v14.19.3/node-v14.19.3.tar.xz"
+  sha256 "5cf45b1f1aca77523acf36240c1d53a999279070a7711eabf23346f88b0cc994"
   license "MIT"
-  revision 1
 
   livecheck do
     url "https://nodejs.org/dist/"
@@ -12,17 +11,18 @@ class NodeAT14 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "266716a91d04aff5479d4317acec5ce5932bce20d9f0d23f89908aa9c18c58fb"
-    sha256 cellar: :any,                 big_sur:       "43dd4050b8966e94e4bd4310164a27b6bf4f87c60e0b2e3e50646b7643bb04f1"
-    sha256 cellar: :any,                 catalina:      "0eb02dde8d76b65115e15c7b7bcf4e3f01558c7d7fae34860bb43b76aa50248c"
-    sha256 cellar: :any,                 mojave:        "60051e861dd08440c5594e99bc45ed7c6599bcb6763eb135f5f8007fa98883b8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ad8c0be2711f0cd4b99d7d88054a8a85dacf4ae81410a5012a3907017cc7541a"
+    sha256 cellar: :any,                 arm64_monterey: "3887b21bad6630db6cadbda77a28c4d426be9e9223584e54025876315ecfa3df"
+    sha256 cellar: :any,                 arm64_big_sur:  "7136a0a7dfe5c0ae2fe97bfd530cd2e649172f4887486d076a7ad283a56b1d7f"
+    sha256 cellar: :any,                 monterey:       "7552042ab27893957554b8eb38f204eb072527cb60f401b54530e3b774ba1b96"
+    sha256 cellar: :any,                 big_sur:        "03d428f146009b987141dd5dca7a763d250af5be7e87eab6a8fcf7faf78e92ce"
+    sha256 cellar: :any,                 catalina:       "66d2551f4f6bf33cbf26d2e6baf7de8bfc7b8176a2f663b2362bc6566be1b527"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d9655db65f68bfc49ed365cfc4201603dc229e972d5f9b88f07791b9e471b4e2"
   end
 
   keg_only :versioned_formula
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "brotli"
   depends_on "c-ares"
   depends_on "icu4c"
@@ -30,21 +30,11 @@ class NodeAT14 < Formula
   depends_on "libuv"
   depends_on "openssl@1.1"
 
+  uses_from_macos "python"
   uses_from_macos "zlib"
 
   on_macos do
     depends_on "macos-term-size"
-  end
-
-  # Fix build with brewed c-ares.
-  # https://github.com/nodejs/node/pull/39739
-  #
-  # Remove when the following lands in a *c-ares* release:
-  # https://github.com/c-ares/c-ares/commit/7712fcd17847998cf1ee3071284ec50c5b3c1978
-  # https://github.com/c-ares/c-ares/pull/417
-  patch do
-    url "https://github.com/nodejs/node/commit/8699aa501c4d4e1567ebe8901e5ec80cadaa9323.patch?full_index=1"
-    sha256 "678643c79258372d5054d3da16bc0c5db17130f151f0e72b6e4f20817987aac9"
   end
 
   def install

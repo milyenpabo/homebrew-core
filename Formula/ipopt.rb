@@ -1,17 +1,18 @@
 class Ipopt < Formula
   desc "Interior point optimizer"
   homepage "https://coin-or.github.io/Ipopt/"
-  url "https://github.com/coin-or/Ipopt/archive/releases/3.14.4.tar.gz"
-  sha256 "60865150b6fad19c5968395b57ff4a0892380125646c3afa2a714926f5ac9487"
-  license "EPL-1.0"
-  head "https://github.com/coin-or/Ipopt.git"
+  url "https://github.com/coin-or/Ipopt/archive/releases/3.14.6.tar.gz"
+  sha256 "e4f2ac6968107003ab6a7b226cc12b94cfc59443159d6bdbf74d9a07047e1d84"
+  license "EPL-2.0"
+  head "https://github.com/coin-or/Ipopt.git", branch: "stable/3.14"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "ed14dc7358fe73373f237fb4d282ba8f1e744af8b7b851e799fe99d7e507d487"
-    sha256 cellar: :any,                 big_sur:       "86f5e863ace34e7e65aeade03cb700a5f8749bc6c5912e85a42ae5316fc148b3"
-    sha256 cellar: :any,                 catalina:      "7ee50053077dbbbe2f8f8597c9f2a8ea7b9ec279789b07b17271a03e63978a4d"
-    sha256 cellar: :any,                 mojave:        "082977c7306528c34fec92cf501b30788c4e6e2da025155f449887d099a060fd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "09d25507147da744581f9522b2d1900d6a17eb615d69300630a482658a769662"
+    sha256 cellar: :any,                 arm64_monterey: "86a8cb8db896796eabe19c34cd411b67cf46a238b5eee6bbf316c9c887aab3d5"
+    sha256 cellar: :any,                 arm64_big_sur:  "4bcf4fe0e9d0ad032779342a0c0774ee794fd904f66a4bb6ded4926b75255c26"
+    sha256 cellar: :any,                 monterey:       "0244c011e27c359763c7c24d710a5dd5e0e09e5300771e45716c01cdbc4076d0"
+    sha256 cellar: :any,                 big_sur:        "48d13cffe2b93922c7def38cd9ff9d726eef6fe4545184d5a1e0b9ce723f023f"
+    sha256 cellar: :any,                 catalina:       "b977a8a4b28ce23acfd59057153355808f6bbbee9a2ebfb635228a58ce80c4bd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "46256acf4fd0fa41f981ad26464c113208c16a707ba66f1cb5a6ee62668c3cda"
   end
 
   depends_on "openjdk" => :build
@@ -39,8 +40,8 @@ class Ipopt < Formula
   end
 
   resource "test" do
-    url "https://github.com/coin-or/Ipopt/archive/releases/3.14.4.tar.gz"
-    sha256 "60865150b6fad19c5968395b57ff4a0892380125646c3afa2a714926f5ac9487"
+    url "https://github.com/coin-or/Ipopt/archive/releases/3.14.6.tar.gz"
+    sha256 "e4f2ac6968107003ab6a7b226cc12b94cfc59443159d6bdbf74d9a07047e1d84"
   end
 
   def install

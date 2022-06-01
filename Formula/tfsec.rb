@@ -1,8 +1,8 @@
 class Tfsec < Formula
   desc "Static analysis security scanner for your terraform code"
   homepage "https://tfsec.dev/"
-  url "https://github.com/aquasecurity/tfsec/archive/v0.58.14.tar.gz"
-  sha256 "79b37aed43dc12e4d5383e138603fe59f9cfd503d9ec839a5ec08322cfd544ee"
+  url "https://github.com/aquasecurity/tfsec/archive/v1.21.2.tar.gz"
+  sha256 "eb59ecf6b66f6b67a7e94dc9a348fea4fe1eb85359de9082594b4c6f26a09488"
   license "MIT"
   head "https://github.com/aquasecurity/tfsec.git", branch: "master"
 
@@ -12,11 +12,12 @@ class Tfsec < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4ce616515955602888c219c8393571e1a3f353ee728d84292edf050198bd9786"
-    sha256 cellar: :any_skip_relocation, big_sur:       "fd870c2295481d4185e20302da68bb9ba7a210fba9fb1583f94759ad42b864f7"
-    sha256 cellar: :any_skip_relocation, catalina:      "520309c5407048736ef13bf7abad8a6b46c6ee462e0b417ab48436290ab3afe4"
-    sha256 cellar: :any_skip_relocation, mojave:        "3bc49accf1843bf7ec4a2837c8a45bc2891d9a85b0b0b2a549dfbeffa178f656"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bf6d12881ff0dd427a43ea0aaa9a6547c6f6c6a857f4e8649fdc9bae724a3808"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "37abdc81068315bc28b1f51b70877dff29fca0b7b026aa158b04ae97eb6bfacd"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a41ccbfb9aefdfc5d3b99df0de877d4d4dd7b661bc0f2ccd85ff305baadfa7d2"
+    sha256 cellar: :any_skip_relocation, monterey:       "e53d9d0f0cb11ea3ef3f16a777f59018a5b408b7490df6db0ac9dfebad7c08c5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "db193129fa9522ae867c4a646f54a95caec689b07b2cf9c3965e334261dcf03f"
+    sha256 cellar: :any_skip_relocation, catalina:       "a372d10eb95f1cc483712a5db9caba56d823c18a9892593042a1cc5438839327"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8282a1549f6deb468802ff08db7206683c096ca89bf6ecc2703000dfc8648d39"
   end
 
   depends_on "go" => :build
@@ -44,6 +45,6 @@ class Tfsec < Formula
     good_output = shell_output("#{bin}/tfsec #{testpath}/good")
     assert_match "No problems detected!", good_output
     bad_output = shell_output("#{bin}/tfsec #{testpath}/bad 2>&1", 1)
-    assert_match "1 potential problems detected.", bad_output
+    assert_match "1 potential problem(s) detected.", bad_output
   end
 end

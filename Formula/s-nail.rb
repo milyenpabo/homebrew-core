@@ -1,8 +1,16 @@
 class SNail < Formula
   desc "Fork of Heirloom mailx"
   homepage "https://www.sdaoden.eu/code.html"
-  url "https://www.sdaoden.eu/downloads/s-nail-14.9.22.tar.xz"
-  sha256 "e5dfb7d5bcc5d2d1126f2e826569ee0f149aac3f2a8a6b7c23985ffc3a1def0b"
+  url "https://www.sdaoden.eu/downloads/s-nail-14.9.24.tar.xz"
+  sha256 "2714d6b8fb2af3b363fc7c79b76d058753716345d1b6ebcd8870ecd0e4f7ef8c"
+  license all_of: [
+    "BSD-2-Clause", # file-dotlock.h
+    "BSD-3-Clause",
+    "BSD-4-Clause",
+    "ISC",
+    "HPND-sell-variant", # GSSAPI code
+    "RSA-MD", # MD5 code
+  ]
 
   livecheck do
     url :homepage
@@ -10,11 +18,12 @@ class SNail < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "b8bde9083dd42cef197e98608fc9ce2dc69b3d9cf56ff05268c565ba7acdb67b"
-    sha256 big_sur:       "20825afa468b7d368b71dfc73314412eb9e6930cecd5794f71b527422e63d28c"
-    sha256 catalina:      "e2dd4f1ede94f221fffffce676a2a605edb49235d5bf875e2cad917c9a4d6c73"
-    sha256 mojave:        "1c33bcd338bf27c5f7f3a61e9b6a4070a5cf9e9e7cfefd58afe178959dd35f5a"
-    sha256 x86_64_linux:  "b3331d1cd2c8856e02fc3ba876530df8538ec52dd5bef29ccfdc88cbbe71fe89"
+    sha256 arm64_monterey: "c76c42e8a887cf6ab33dbcecfd0644c6bc6aef38e27234bdf97e56aac6cd5372"
+    sha256 arm64_big_sur:  "f3124f53d46be06a975bd71b9ddebb1eead0104094a32c97e55a8e6f0b3cc635"
+    sha256 monterey:       "4d68b331ebc8b46aad429e3e91adc5009ee9ea936467979c2744b24b5304b35d"
+    sha256 big_sur:        "60c960dbe634d90101cd9c1fb9efc6119ae896a9ed8387592cf9300b6ac81573"
+    sha256 catalina:       "7eebdbe58288d603c2f584e961839fd233437c887b1e3bcd0f200c7f6a3436a5"
+    sha256 x86_64_linux:   "1783d8ab84a3d696f709685f91dff33cc1decbc5424271d9f2adc0f39e43aeef"
   end
 
   depends_on "awk" => :build

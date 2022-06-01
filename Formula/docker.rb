@@ -2,10 +2,10 @@ class Docker < Formula
   desc "Pack, ship and run any application as a lightweight container"
   homepage "https://www.docker.com/"
   url "https://github.com/docker/cli.git",
-      tag:      "v20.10.9",
-      revision: "c2ea9bc90bacf19bdbe37fd13eec8772432aca99"
+      tag:      "v20.10.16",
+      revision: "aa7e414fdcb23a66e8fabbef0a560ef1769eace5"
   license "Apache-2.0"
-  head "https://github.com/docker/cli.git"
+  head "https://github.com/docker/cli.git", branch: "master"
 
   livecheck do
     url :stable
@@ -13,11 +13,12 @@ class Docker < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "06a4f27c2c0a84b0321ba20e6c6f8d37de44eddc66bddda737d6a725a9b8c07e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f0cf1c8352a7172bdbbc28d7c16f4b5f91f65dad382abe76b99a7622b0fd3659"
-    sha256 cellar: :any_skip_relocation, catalina:      "34d879c9c88c4df9c676d2cc6e1d5fa348f5530f1420cb5d35b15ea49fe7f87d"
-    sha256 cellar: :any_skip_relocation, mojave:        "5098c15dcc506cbbcc2916556ee2e034b0e5143139c7541da751aa194076e9ec"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "687d2a22221cd497810d4564a2abfb01e9de12019808e9a9f75a65d81d10b4f6"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3e2549cc84e09e7faafb11025bd732cdba63149a97432cb5da6fd4bb2f365dd2"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2369b3c69866e93196b343cf623c5c1ea66338b91f6348386a345d4ef432aa49"
+    sha256 cellar: :any_skip_relocation, monterey:       "a74f1ea366019a6b92f4130d487ba6e180cdecc8d28c294c796f8c11b5869df5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "89e2bbca9ea87ab0f66b40101c4bf1f0e055aed2867ee73fa2a65974cfc7b069"
+    sha256 cellar: :any_skip_relocation, catalina:       "b5c8e6b1c69441e0a225f3ab1f92b1c4ddc3f0612b364d052f9019fb84839c53"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e7124e15cd9f187e561bef9fe42edcf21f149f37fc77524f177b4b3c40037aea"
   end
 
   depends_on "go" => :build
@@ -34,7 +35,7 @@ class Docker < Formula
       ldflags = ["-X \"github.com/docker/cli/cli/version.BuildTime=#{time.iso8601}\"",
                  "-X github.com/docker/cli/cli/version.GitCommit=#{Utils.git_short_head}",
                  "-X github.com/docker/cli/cli/version.Version=#{version}",
-                 "-X \"github.com/docker/cli/cli/version.PlatformName=Docker Engine - Community\""].join(" ")
+                 "-X \"github.com/docker/cli/cli/version.PlatformName=Docker Engine - Community\""]
       system "go", "build", *std_go_args(ldflags: ldflags), "github.com/docker/cli/cmd/docker"
 
       Pathname.glob("man/*.[1-8].md") do |md|
@@ -51,6 +52,12 @@ class Docker < Formula
 
   test do
     assert_match "Docker version #{version}", shell_output("#{bin}/docker --version")
-    assert_match "ERROR: Cannot connect to the Docker daemon", shell_output("#{bin}/docker info", 1)
+
+    expected = if OS.mac?
+      "ERROR: Cannot connect to the Docker daemon"
+    else
+      "ERROR: Got permission denied while trying to connect to the Docker daemon socket"
+    end
+    assert_match expected, shell_output("#{bin}/docker info", 1)
   end
 end

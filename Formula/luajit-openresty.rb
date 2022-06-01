@@ -1,8 +1,8 @@
 class LuajitOpenresty < Formula
   desc "OpenResty's Branch of LuaJIT 2"
   homepage "https://github.com/openresty/luajit2"
-  url "https://github.com/openresty/luajit2/archive/refs/tags/v2.1-20210510.tar.gz"
-  sha256 "1ee6dad809a5bb22efb45e6dac767f7ce544ad652d353a93d7f26b605f69fe3f"
+  url "https://github.com/openresty/luajit2/archive/refs/tags/v2.1-20220411.tar.gz"
+  sha256 "d3f2c870f8f88477b01726b32accab30f6e5d57ae59c5ec87374ff73d0794316"
   license "MIT"
   version_scheme 1
   head "https://github.com/openresty/luajit2.git", branch: "v2.1-agentzh"
@@ -19,11 +19,12 @@ class LuajitOpenresty < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "96e3a886e94e5db4b61c56abb5901143e33e532b4f12cd8da1a0afd92ec56fa1"
-    sha256 cellar: :any,                 big_sur:       "e25634b88ac6fac6a0b9b10d0ba3f3b44d2becdef2459e95bfab7c4367035e9f"
-    sha256 cellar: :any,                 catalina:      "6d969910e7805c1e4655a43321370e68f150efbb0825b12add00ecacdea75513"
-    sha256 cellar: :any,                 mojave:        "c80ab72984ae032b2a04cd4ac8d4c759ca3fe8a0a33f6b0252b2556cf4a3cc79"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b8be8074cdf1059884413badca8589ed6581828e6cae3fa94e59404c1a63bea2"
+    sha256 cellar: :any,                 arm64_monterey: "97b49b1612b5579992fe7e825b91f2b192bc0a28433534ac0acc222065b8aeaa"
+    sha256 cellar: :any,                 arm64_big_sur:  "6cc059ffbc72123fae17b51b47709495f0edd2e737d1fcc9d8cec1ba8cf073b7"
+    sha256 cellar: :any,                 monterey:       "cb382c21c8e0239aa7a73b031157298670369db20d247adf200ad488d6d3e61e"
+    sha256 cellar: :any,                 big_sur:        "21bb7476cda22b1fc1265f708a4b357860b238a15ccb9f8866c95a16a98dda10"
+    sha256 cellar: :any,                 catalina:       "92eadb859be61c3553a79f5b8f00ce9feeb8a0d3d9d898125aae40fce016eeec"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5d4e0b55a6e9f1397b50799fd33b4f0ee86bf749c1f36a595a309ca4b866dd6f"
   end
 
   keg_only "it conflicts with the LuaJIT formula"

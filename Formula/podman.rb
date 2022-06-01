@@ -1,59 +1,61 @@
 class Podman < Formula
   desc "Tool for managing OCI containers and pods"
   homepage "https://podman.io/"
-  url "https://github.com/containers/podman/archive/v3.4.0.tar.gz"
-  sha256 "558dcc8fbf72095aa1ec8abeb84ca2093dd0d51b77f0115ef855e640e2f03146"
   license "Apache-2.0"
-  revision 1
-  head "https://github.com/containers/podman.git", branch: "main"
+
+  stable do
+    url "https://github.com/containers/podman/archive/v4.1.0.tar.gz"
+    sha256 "f814e12a7311d486c1ccdc4eb021bc6dd24499569de7a572e436342876f70e95"
+    resource "gvproxy" do
+      url "https://github.com/containers/gvisor-tap-vsock/archive/v0.3.0.tar.gz"
+      sha256 "6ca454ae73fce3574fa2b615e6c923ee526064d0dc2bcf8dab3cca57e9678035"
+    end
+  end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "03f38f5d89276c5b448812e4add56822e9e85c912d8fd078d87c0606b781cc5b"
-    sha256 cellar: :any_skip_relocation, big_sur:       "8bce96d8fd2067f0fdd5ea9c1d6d76ddeb9177cfef3309a85a60013b037e0b33"
-    sha256 cellar: :any_skip_relocation, catalina:      "04544f80c3bd97f7da4650822ac0b982335eed1d18032d4e118bd9a181dbdf94"
-    sha256 cellar: :any_skip_relocation, mojave:        "e56623493f090b800054d70a611b087528576b3ba3cb9efd59bcd549497beebe"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "34b03da74b82f34694d6f464ff77898d1fe707a63ed3349d19c87763793bd272"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7bc69157851c143df0ba30e985ff0595e5ed4f3d3ce67be896eb43d5aec3fa6d"
+    sha256 cellar: :any_skip_relocation, monterey:       "856d167796145995c33442db516e427ec441883ac1378ef48b3d2fd801fedcb8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6a0e56bcc3f326dd293de7b735fed378fcf5a026d2293d18c7a9c9fe874f069b"
+    sha256 cellar: :any_skip_relocation, catalina:       "b815a6573cf499978877e5512d3a18586bbf76a603b02cf331b377fd58355344"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5e744b5d2c8d7e8808d9e1fb42a72ecdd25a42ae7c4c33e89634c8165bcd5413"
+  end
+
+  head do
+    url "https://github.com/containers/podman.git", branch: "main"
+
+    resource "gvproxy" do
+      url "https://github.com/containers/gvisor-tap-vsock.git", branch: "main"
+    end
   end
 
   depends_on "go" => :build
   depends_on "go-md2man" => :build
   depends_on "qemu"
 
-  resource "gvproxy" do
-    url "https://github.com/containers/gvisor-tap-vsock/archive/v0.1.0.tar.gz"
-    sha256 "e1e1bec2fc42039da1ae68d382d4560a27c04bbe2aae535837294dd6773e88e0"
-  end
-
-  patch do
-    url "https://github.com/containers/podman/commit/cd4e10fdf93009f8ecba5f0c82c1c2a4a46f3e4f.patch?full_index=1"
-    sha256 "d173f27ff530022244cc6895bfd08fbb7546e1457b2edee0854732200aabfde5"
-  end
-
   def install
-    os = if OS.mac?
-      "darwin"
-    else
-      "linux"
-    end
+    ENV["CGO_ENABLED"] = "1"
+    os = OS.kernel_name.downcase
+
+    inreplace "vendor/github.com/containers/common/pkg/config/config_#{os}.go",
+              "/usr/local/libexec/podman",
+              libexec
 
     system "make", "podman-remote-#{os}"
     if OS.mac?
       bin.install "bin/#{os}/podman" => "podman-remote"
       bin.install_symlink bin/"podman-remote" => "podman"
+      bin.install "bin/#{os}/podman-mac-helper" => "podman-mac-helper"
     else
       bin.install "bin/podman-remote"
     end
 
     resource("gvproxy").stage do
-      system "make"
+      system "make", "gvproxy"
       libexec.install "bin/gvproxy"
     end
 
-    if build.head?
-      system "make", "podman-remote-#{os}-docs"
-    else
-      system "make", "install-podman-remote-#{os}-docs"
-    end
-
+    system "make", "podman-remote-#{os}-docs"
     man1.install Dir["docs/build/remote/#{os}/*.1"]
 
     bash_completion.install "completions/bash/podman"

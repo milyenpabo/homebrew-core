@@ -1,30 +1,30 @@
 class Monetdb < Formula
   desc "Column-store database"
   homepage "https://www.monetdb.org/"
-  url "https://www.monetdb.org/downloads/sources/Jul2021-SP1/MonetDB-11.41.11.tar.xz"
-  sha256 "2e81a98e06820dfaf56770af027e8da4a8dcc533d3599b9cc2b5a2e1efdc07af"
+  url "https://www.monetdb.org/downloads/sources/Jan2022-SP3/MonetDB-11.43.15.tar.xz"
+  sha256 "2a322be251027b86b68177d8a81d4730fcec0b6e1a6e4dfae8c4a2d2f95843bb"
   license "MPL-2.0"
   head "https://dev.monetdb.org/hg/MonetDB", using: :hg
 
   livecheck do
-    url "https://www.monetdb.org/downloads/sources/Latest/"
+    url "https://www.monetdb.org/downloads/sources/archive/"
     regex(/href=.*?MonetDB[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    sha256 arm64_big_sur: "6d8d1d9adac551e246d2079458e9adf3838ada6ce4d37baabf60837e9aab953f"
-    sha256 big_sur:       "94f9b822f40a13cb4188b0308f59c66549356f03db8c63c3b621d79b4ed3ec28"
-    sha256 catalina:      "0559cff129551b30d75668d818bce67e1d210b3dba3673c174341d8cd5d3f8e4"
-    sha256 mojave:        "ed43da831a5b713d0f37f2c105b8bfb6983902def2379dfd6b0c8872ef293460"
-    sha256 x86_64_linux:  "43cc8b7b220456f0098613659cf7db0c389de3971eb7679e619726cebf486b45"
+    sha256 arm64_monterey: "2d3bd76078287f35bbdb5dc42f5a57f9e28d9e31f74d389ffce239e2a01b0886"
+    sha256 arm64_big_sur:  "aac092c1ad676920c0e151bf47cdebd262304c7deb792393917adb72b126e089"
+    sha256 monterey:       "e385257a57518d2564a40e026b7e820e846b60a21beb94a440a2de805feec564"
+    sha256 big_sur:        "aba39e6d1446cfc0f40181777c0b17db781ea8ba888364c3c00fed96e3c58d3c"
+    sha256 catalina:       "11eb359ac8ef94e9253c827e8ac9374ca7300fb01eba03fcfa815342b70bf65d"
+    sha256 x86_64_linux:   "bde6b3bb04c35c2a23bedc5efb68dd057e3366b1f93dfbb5d7db4a270716ec7f"
   end
 
   depends_on "bison" => :build # macOS bison is too old
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "lz4"
-  depends_on "openssl@1.1"
   depends_on "pcre"
   depends_on "readline" # Compilation fails with libedit
   depends_on "xz"
@@ -52,9 +52,7 @@ class Monetdb < Formula
                       "-DWITH_PROJ=OFF",
                       "-DWITH_SNAPPY=OFF",
                       "-DWITH_XML2=ON",
-                      "-DWITH_ZLIB=ON",
-                      "-DOPENSSL_ROOT_DIR=#{Formula["openssl@1.1"].opt_prefix}",
-                      "-DREADLINE_ROOT=#{Formula["readline"].opt_prefix}"
+                      "-DWITH_ZLIB=ON"
       # remove reference to shims directory from compilation/linking info
       inreplace "tools/mserver/monet_version.c", %r{"/[^ ]*/}, "\""
       system "cmake", "--build", "."

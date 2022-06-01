@@ -1,21 +1,26 @@
 class Solana < Formula
   desc "Web-Scale Blockchain for decentralized apps and marketplaces"
   homepage "https://solana.com"
-  url "https://github.com/solana-labs/solana/archive/v1.7.14.tar.gz"
-  sha256 "65b4b9c3ea53b3cd06f905c685b938fad75f675ee9c46c044474d3c1302287d5"
+  url "https://github.com/solana-labs/solana/archive/v1.9.25.tar.gz"
+  sha256 "ebed35ae8ccdb8abfe12b865e175fafc15ab05715fb14081be3fa7fe764e6b9a"
   license "Apache-2.0"
 
+  # This formula tracks the stable channel but the "latest" release on GitHub
+  # varies between Mainnet and Testnet releases. This identifies versions by
+  # checking the releases page and only matching Mainnet releases.
   livecheck do
-    url :stable
-    regex(/^v?(\d+(?:\.\d+)+)$/i)
+    url "https://github.com/solana-labs/solana/releases?q=prerelease%3Afalse"
+    regex(%r{href=["']?[^"' >]*?/tag/v?(\d+(?:\.\d+)+)["' >][^>]*?>[^<]*?Mainnet}i)
+    strategy :page_match
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "485304d958dfb5d600aefcfc3a21ee01bd945ea6541e63d2fc6ea9df74fbc778"
-    sha256 cellar: :any_skip_relocation, big_sur:       "51f4d134efffb4a4540352d023f11d41f5d009c4aff96d2168ccdf9ba8d51f79"
-    sha256 cellar: :any_skip_relocation, catalina:      "e4b03e4b49d11c8470f2840d4a02ec6064b9f8d16cf72049e7e1918c5221cb39"
-    sha256 cellar: :any_skip_relocation, mojave:        "492571db8917742be619a29652b9a48a34b64e7f1f7147e259290f64b056015a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bd202a01d453fcbd4942f98b906a39e9e9bc595d3b369a0a21eaeef978973a15"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a7f6179c458520b720dd6fd461e75b0d055ace7440219b77ff0e2acdd1e7b3f4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9661639a87ab70426b666df30424068d93d123a7a0ea5f0dda5fb5d5e67f52fc"
+    sha256 cellar: :any_skip_relocation, monterey:       "a59209517d1f3bfe7f3a7661f1a3c9f97fd00cbaf0b429625ba04c1e9cf2064c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ad3ad3fd59944d016c2860898fdfd425ae16c1c552c44abd3f1d11ac9a92bc8d"
+    sha256 cellar: :any_skip_relocation, catalina:       "796dce1296b08dd5d3ee6c1b818a01a372e4ebf0669df0eb83272a6c9881d96f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "089c7073a5e9faeff8cfc3ed10906c277cd1bf13040785e678b9c795225db014"
   end
 
   depends_on "protobuf" => :build
@@ -50,6 +55,8 @@ class Solana < Formula
   end
 
   test do
-    assert_match(/pubkey: \w{44}/, shell_output("#{bin}/solana-keygen new --no-bip39-passphrase --no-outfile"))
+    assert_match "Generating a new keypair",
+      shell_output("#{bin}/solana-keygen new --no-bip39-passphrase --no-outfile")
+    assert_match version.to_s, shell_output("#{bin}/solana-keygen --version")
   end
 end

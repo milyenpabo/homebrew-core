@@ -1,17 +1,18 @@
 class Hyperfine < Formula
   desc "Command-line benchmarking tool"
   homepage "https://github.com/sharkdp/hyperfine"
-  url "https://github.com/sharkdp/hyperfine/archive/v1.11.0.tar.gz"
-  sha256 "740f4826f0933c693fb281e3542d312da9ccc8fd68cebe883359a8085ddd77e9"
-  license "Apache-2.0"
+  url "https://github.com/sharkdp/hyperfine/archive/v1.14.0.tar.gz"
+  sha256 "59018c22242dd2ad2bd5fb4a34c0524948b7921d02aa79419ccec4c1ffd3da14"
+  license any_of: ["Apache-2.0", "MIT"]
+  head "https://github.com/sharkdp/hyperfine.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "8bc60ab84503e4369129988d410083e3fdf0653ee68f650ea8a64d0d7abe3edd"
-    sha256 cellar: :any_skip_relocation, big_sur:       "011b82bcab88e4c6f9d3e45323d625dab76802baf2da59757ca76da6f92273c8"
-    sha256 cellar: :any_skip_relocation, catalina:      "f00c3c13082cb07e6c40bace87ab0e1a03572d1296661d6d217fefc525f2075e"
-    sha256 cellar: :any_skip_relocation, mojave:        "162a1fac5ab92895d620f85a2a9de1e77786ba3a5a02037cfee57a9d50048c72"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "588d7e8466b0fa4303eda838677bb68fe888521bbce1ce89dbf6f28b304ffbc6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ea1f3fa3105b1e97979fd912ab5f28dde6d6c221c3d1c8830b872a52efaf29a2"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "61e64962c77b0387eb137dd42ed6c38dc0a4a610bb273b9f98c31be53f3ce5f2"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "31b4e01149900865afa6f5687beb754a310502206239ff757dc6ce887d85655f"
+    sha256 cellar: :any_skip_relocation, monterey:       "e9f20fa5e53757fdf3030470460bcd436584aa2ad1781b8405dbc8c5f6b93ec9"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5c3c41d5640e7a8a059720d9cb47ccf9c876e5c5c6c81151b0cf50dbcf3b8b7f"
+    sha256 cellar: :any_skip_relocation, catalina:       "010f1150a75973eb265055af64412bb2f5a51ffbafc5ca122b8f45cd092b2b0b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f829610b0d1976c1bbd34aabb8c73eab362702b6045d3266bdcf970bb1fe487f"
   end
 
   depends_on "rust" => :build
@@ -27,6 +28,6 @@ class Hyperfine < Formula
 
   test do
     output = shell_output("#{bin}/hyperfine 'sleep 0.3'")
-    assert_match "Benchmark #1: sleep", output
+    assert_match "Benchmark 1: sleep", output
   end
 end

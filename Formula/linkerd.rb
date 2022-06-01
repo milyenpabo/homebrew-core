@@ -2,8 +2,8 @@ class Linkerd < Formula
   desc "Command-line utility to interact with linkerd"
   homepage "https://linkerd.io"
   url "https://github.com/linkerd/linkerd2.git",
-      tag:      "stable-2.11.0",
-      revision: "02064b02fc913655783e05caf7210fb1e8cf020e"
+      tag:      "stable-2.11.2",
+      revision: "d7a3ddf4bf41babc32aef79fdc5c40ef2bfb9283"
   license "Apache-2.0"
 
   livecheck do
@@ -12,11 +12,12 @@ class Linkerd < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f24abf0fa75860523155127f372b718c1f70015c1929fa58ac56cd037ac329d3"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a3d1e5b47ea8c6e0b1e591bf8793036f56d669c3a84a87d61f17096bc6023927"
-    sha256 cellar: :any_skip_relocation, catalina:      "216c9582db9a0c44543e1bc720cbb7d8a414fb2804e97ecdb5b6d643e5537b9a"
-    sha256 cellar: :any_skip_relocation, mojave:        "e26dd71cfa2cdd85a8a6fe91bf8fa836f6efa5f953532b200b5b581a4e09ba49"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2826a7fdb324368e5ffbb756cf917cde769a4e7cbd930ddb9026eaccd108dcfb"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6ff7239e59c2dc7df4c0eec295ea0600b9f50934a62c79c800a761b460cf0ce5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d4471f37f007e692273b7d728b3c5e1ac777df9c84138f8b6462cea9f5261fdd"
+    sha256 cellar: :any_skip_relocation, monterey:       "390524f64fb60db36fae593913f53db00e7d5cefdd17c30a268209b0d3218d2c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fd681ff6e6bde2b7cbda7570d6be502aefad32999d9cbeb9838d985d4ff5d254"
+    sha256 cellar: :any_skip_relocation, catalina:       "b139ca606439df485559376ba834346acd64bc4b8b4ed34bb0e44387183bf054"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6616fd9ede77e1942513ba6e615896a65fa6081b16eaa6ce0ea341b9811064da"
   end
 
   depends_on "go" => :build
@@ -26,16 +27,19 @@ class Linkerd < Formula
 
     system "bin/build-cli-bin"
     bin.install Dir["target/cli/*/linkerd"]
+    prefix.install_metafiles
 
     # Install bash completion
-    output = Utils.safe_popen_read("#{bin}/linkerd", "completion", "bash")
+    output = Utils.safe_popen_read(bin/"linkerd", "completion", "bash")
     (bash_completion/"linkerd").write output
 
     # Install zsh completion
-    output = Utils.safe_popen_read("#{bin}/linkerd", "completion", "zsh")
-    (zsh_completion/"linkerd").write output
+    output = Utils.safe_popen_read(bin/"linkerd", "completion", "zsh")
+    (zsh_completion/"_linkerd").write output
 
-    prefix.install_metafiles
+    # Install fish completion
+    output = Utils.safe_popen_read(bin/"linkerd", "completion", "fish")
+    (fish_completion/"linkerd.fish").write output
   end
 
   test do
@@ -44,9 +48,8 @@ class Linkerd < Formula
 
     version_output = shell_output("#{bin}/linkerd version --client 2>&1")
     assert_match "Client version: ", version_output
-    stable_resource = stable.instance_variable_get(:@resource)
-    assert_match stable_resource.instance_variable_get(:@specs)[:tag], version_output if build.stable?
+    assert_match stable.specs[:tag], version_output if build.stable?
 
-    system "#{bin}/linkerd", "install", "--ignore-cluster"
+    system bin/"linkerd", "install", "--ignore-cluster"
   end
 end

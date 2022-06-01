@@ -1,17 +1,18 @@
 class Texlab < Formula
   desc "Implementation of the Language Server Protocol for LaTeX"
   homepage "https://texlab.netlify.com/"
-  url "https://github.com/latex-lsp/texlab/archive/v3.2.0.tar.gz"
-  sha256 "230fe594ceeb2e64f60776ef00c2674dda5b2e10e960b051536336c94c7523b0"
+  url "https://github.com/latex-lsp/texlab/archive/v4.0.0.tar.gz"
+  sha256 "18149b8b4f79c18144eed3ae6d501e89dd5790b92ec5bf523201a8f713b353b7"
   license "GPL-3.0-only"
   head "https://github.com/latex-lsp/texlab.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ace13aa023a0f469b5a8d6f84866df772aec49df9da25ed8f3956655178ebf4e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "bc5bbf32d1c5faf7dd0996b992a2f9c78b27c3ed6187850521917ea61849b6e1"
-    sha256 cellar: :any_skip_relocation, catalina:      "f8801c58a8bf07e9a4a9b506b11ce538fa17db718338f0fd1d962378a3791e8b"
-    sha256 cellar: :any_skip_relocation, mojave:        "662267d2e6bd6d36cc5066b36807625d0de0fc03cb5c4709434872d51700803c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f17ba954bc373e843a9a1be540e6b08551c3e5fc9d35fb27f883369bcfa361ca"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "04320f6d1985d27064e7608942be21744ec057eace805099abca67071f4c7fd1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d62fa4354e7333387e6b1772f5a3d9a2064310a8ec1701ee01bc59a14ed2f4ee"
+    sha256 cellar: :any_skip_relocation, monterey:       "f7433890664185e3d9330d9784b7d8ae3cb7ea0efc959fe1e59bf0dd09df03e4"
+    sha256 cellar: :any_skip_relocation, big_sur:        "da6fb8de103851d1bbda4ea290bcd7bafc03c23fdf3a56666847af80e66bd69e"
+    sha256 cellar: :any_skip_relocation, catalina:       "ce88085446349d27c9d6ca31de09f86caa3eedbaa51c4408f861b5ebd33a83c5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f839df3586c0f26e257df122ca98397b5330f64c592db41a801f7818eb4bf370"
   end
 
   depends_on "rust" => :build

@@ -3,8 +3,9 @@ class Simgrid < Formula
 
   desc "Studies behavior of large-scale distributed systems"
   homepage "https://simgrid.org/"
-  url "https://framagit.org/simgrid/simgrid/uploads/5d171dff8b988c639fe52baa24952a2c/simgrid-3.28.tar.gz"
-  sha256 "558276e7f8135ce520d98e1bafa029c6c0f5c2d0e221a3a5e42c378fe0c5ef2c"
+  url "https://framagit.org/simgrid/simgrid/uploads/6ca357e80bd4d401bff16367ff1d3dcc/simgrid-3.29.tar.gz"
+  sha256 "83e8afd653555eeb70dc5c0737b88036c7906778ecd3c95806c6bf5535da2ccf"
+  revision 1
 
   livecheck do
     url :homepage
@@ -12,24 +13,30 @@ class Simgrid < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "71d9b098d5fd0039bbc7005555d0f1abbc1af8d816a8946629f55046a1b47615"
-    sha256 big_sur:       "def3ab73795d0c11ce112ad3fb3abcd325815bda779637961c6a8b4c43e1ef06"
-    sha256 catalina:      "ee5bc62941284de0277bc1ea39467ea06c4cb611d8144a689c2060a1b2c3588e"
-    sha256 mojave:        "b7c787533f73e4a8fcfa07f50171879e949ffc1d615c680ccb98bd985e14de60"
-    sha256 x86_64_linux:  "4a050cf056536a6d8574c22d5c8aebf4a6b19b0874019596a171d58523a73eea"
+    sha256 arm64_monterey: "f842c89e78c2cc0e3d8a7be9e86375ad003c27e6b58d98c979de1774276539c3"
+    sha256 arm64_big_sur:  "fe40ff68cf7f114399e88f509be1fcf74a83cc5f98876f4152af1c0f0c3f00dd"
+    sha256 monterey:       "e94b0a7096d04a00db2edec83439173f1ac884da520ccdb71821a3e28f41e537"
+    sha256 big_sur:        "8ef7cfe90c699af81d0ccc7d870d88ed6ba1cb3054ea7c9873f2a261346273d6"
+    sha256 catalina:       "619eabbb9f950b247fe0c6b840ec0c47f24965ddf607bd0c5bc08215244a5cd4"
+    sha256 x86_64_linux:   "2c8061e2f328aa583babf64b511da54f219a1cdb1b9a2b87a5e1621c1591a679"
   end
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
   depends_on "boost"
   depends_on "graphviz"
-  depends_on "pcre"
   depends_on "python@3.9"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
 
   def install
     # Avoid superenv shim references
-    inreplace "src/smpi/smpicc.in", "@CMAKE_C_COMPILER@", "/usr/bin/clang"
-    inreplace "src/smpi/smpicxx.in", "@CMAKE_CXX_COMPILER@", "/usr/bin/clang++"
+    inreplace "src/smpi/smpicc.in", "@CMAKE_C_COMPILER@", DevelopmentTools.locate(ENV.cc)
+    inreplace "src/smpi/smpicxx.in", "@CMAKE_CXX_COMPILER@", DevelopmentTools.locate(ENV.cxx)
 
     system "cmake", ".",
                     "-Denable_debug=on",
@@ -38,7 +45,7 @@ class Simgrid < Formula
                     *std_cmake_args
     system "make", "install"
 
-    bin.find { |f| rewrite_shebang detected_python_shebang, f }
+    rewrite_shebang detected_python_shebang, *bin.children
   end
 
   test do

@@ -1,32 +1,24 @@
 class Miller < Formula
   desc "Like sed, awk, cut, join & sort for name-indexed data such as CSV"
   homepage "https://github.com/johnkerl/miller"
-  url "https://github.com/johnkerl/miller/releases/download/v5.10.2/mlr-5.10.2.tar.gz"
-  sha256 "4f41ff06c1fbf524127574663873ba83bb3f4e3eb31e29faf5c2ef3fc6595cb4"
+  url "https://github.com/johnkerl/miller/releases/download/v6.2.0/miller-6.2.0.tar.gz"
+  sha256 "da26531fe9bca1c1917ea41dd1f1d7338c61f50275ad3ea41d3bc4685da34687"
   license "BSD-2-Clause"
-  head "https://github.com/johnkerl/miller.git"
+  head "https://github.com/johnkerl/miller.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "43dbaa91eb0f047f2189f6108860b7fcf572315186e21ad3f32e753ed9826969"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f6a4e253c2f653c0d988aca0a2ed81cf8b8e2ce4040cc43a27582759ba8759f6"
-    sha256 cellar: :any_skip_relocation, catalina:      "5538dc76e119ce1507806b67eaa7612af4c68a9a491257a10844545ee2d5a669"
-    sha256 cellar: :any_skip_relocation, mojave:        "c04494a29315e246aaa9a553eff17ee4ab4e83a1dfe9a46995ea6e0eebc1221a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a7557c7a09a9c3fa1b49fdc7d163efdb6a0916f2fc3b3e9748584a73e0fce3b1"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1977b6173f9cc825908d298f16b8a26eab46e394bbccdaf23b1cee94ab1b62f5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "58b751816639241f329df20252c4acaf24df5293296ef2149753b2633765116e"
+    sha256 cellar: :any_skip_relocation, monterey:       "431da10bb1143add10132eb5a033f5ac75e554b097294a7717e8b5bba71aaccb"
+    sha256 cellar: :any_skip_relocation, big_sur:        "15fda6eeac690a33c7ed80f841861c7ac6fb16b12244079e8257bf70771e4c67"
+    sha256 cellar: :any_skip_relocation, catalina:       "a1df60ba5a5b9227490ecd0fb1b1bdbd5042fdbf52d97f2ebfcb30d391b5007c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a217a9914c35405facc39fff757eb36d129b60dafed198eaeb7f2a7a29aa45b8"
   end
 
-  depends_on "autoconf" => :build
-  depends_on "automake" => :build
-  depends_on "libtool" => :build
-
-  uses_from_macos "flex" => :build
+  depends_on "go" => :build
 
   def install
-    # Profiling build fails with Xcode 11, remove it
-    inreplace "c/Makefile.am", /noinst_PROGRAMS=\s*mlrg/, ""
-    system "autoreconf", "-fvi"
-
-    system "./configure", "--prefix=#{prefix}", "--disable-silent-rules",
-                          "--disable-dependency-tracking"
+    system "./configure", "--prefix=#{prefix}"
     system "make"
     system "make", "install"
   end

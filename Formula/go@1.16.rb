@@ -1,25 +1,23 @@
 class GoAT116 < Formula
   desc "Go programming environment (1.16)"
   homepage "https://golang.org"
-  url "https://golang.org/dl/go1.16.8.src.tar.gz"
-  mirror "https://fossies.org/linux/misc/go1.16.8.src.tar.gz"
-  sha256 "8f2a8c24b793375b3243df82fdb0c8387486dcc8a892ca1c991aa99ace086b98"
+  url "https://golang.org/dl/go1.16.15.src.tar.gz"
+  mirror "https://fossies.org/linux/misc/go1.16.15.src.tar.gz"
+  sha256 "90a08c689279e35f3865ba510998c33a63255c36089b3ec206c912fc0568c3d3"
   license "BSD-3-Clause"
 
-  livecheck do
-    url "https://golang.org/dl/"
-    regex(/href=.*?go[._-]?v?(1\.16(?:\.\d+)*)[._-]src\.t/i)
-  end
-
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b0c1d66b93db44100aaff13db28c4f72a957647ae8bc6d3883589051694841f4"
-    sha256 cellar: :any_skip_relocation, big_sur:       "5025baf8fea14c61cbe0f0e797f9eba3a54ca9bae474324cc58b740e21370b56"
-    sha256 cellar: :any_skip_relocation, catalina:      "c7bf89d6cc4adcc21fdb4a46acd95b59ee056bab60923848acd83480393286bf"
-    sha256 cellar: :any_skip_relocation, mojave:        "004114a71d46cc558a211623e1f1c8305cf4a9fe963aec277ee324bffdc89056"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "af0f4c5162491c414d4d4d952b158eca702d8c3fa2513b0fc61079ed2b10604c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "d0500786661f7cddfc20403a9daa9af648404e0564363783fb7d9fc44e884fe3"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5dcd84f44f1231cf1d32cbe6ca5d5f158de11efe7ea24b1ae24b4ede68cc6361"
+    sha256 cellar: :any_skip_relocation, monterey:       "b57fe6d2c36ea1529189bd3b7c9687a17c5b66660843f8f8db80b3a437693743"
+    sha256 cellar: :any_skip_relocation, big_sur:        "2ba14df4f397d33f51bc22b9da40f07836990e6eb2e876aba96f3da82e12babe"
+    sha256 cellar: :any_skip_relocation, catalina:       "80d62cf6ed5b2fedfd714b1f02e7bb660a23d6f061f7ecdfdbbdf0257072401f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "aaee729abff3f20350c5af642bea0e39257fe077dde752873f8539fbfed874d9"
   end
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-03-15", because: :unsupported
 
   depends_on "go" => :build
 

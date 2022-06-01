@@ -1,16 +1,17 @@
 class Xauth < Formula
   desc "X.Org Applications: xauth"
   homepage "https://www.x.org/"
-  url "https://www.x.org/pub/individual/app/xauth-1.1.tar.bz2"
-  sha256 "6d1dd1b79dd185107c5b0fdd22d1d791ad749ad6e288d0cdf80964c4ffa7530c"
+  url "https://www.x.org/pub/individual/app/xauth-1.1.2.tar.xz"
+  sha256 "78ba6afd19536ced1dddb3276cba6e9555a211b468a06f95f6a97c62ff8ee200"
   license "MIT-open-group"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "61736627fc5a8de3a4d566d756b851db16848fb10b29dc2c55feb558711acff9"
-    sha256 cellar: :any,                 big_sur:       "1ba364d7d302b895362673b14bebf77ea16c1c5525592499cbc73623508556f9"
-    sha256 cellar: :any,                 catalina:      "cd48b1934547120de25f81ba710ccb134ad1d0c3ab14873a4ddb690bd8046471"
-    sha256 cellar: :any,                 mojave:        "5f16dfc006000d6d7a747d9454aedee5774f11506bf4b1c6d15dc07e332b8f79"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7943dee98633ad605c760f993ce115e4a3c3970242aa45d83ae305e277897a8b"
+    sha256 cellar: :any,                 arm64_monterey: "887aa5b806204265a7b1492a6a14c550bfb6e182f60e08e22fd333f3f984938d"
+    sha256 cellar: :any,                 arm64_big_sur:  "ab2e13c48d988abfea7724b4e41b4fbb14db314ae802f1d720ee58068af10772"
+    sha256 cellar: :any,                 monterey:       "ef65c645298705f261fd277ade0693902141a979c95fcdd80c9ef1e2e52f403f"
+    sha256 cellar: :any,                 big_sur:        "7e8d65d24dfb49d88d01433c7d62e20e0cf392cdf76acdeb905eda0e72369439"
+    sha256 cellar: :any,                 catalina:       "82fda3853f90ede7a88e637b544cd9e36b59f29ba8a53d6fa52f293483657c80"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ba603e95a0e62e22545fb3d3f985d5f698289c6dfb66e19f039c33988dac0b97"
   end
 
   depends_on "pkg-config" => :build

@@ -3,23 +3,31 @@ require "language/node"
 class TreeSitter < Formula
   desc "Parser generator tool and incremental parsing library"
   homepage "https://tree-sitter.github.io/"
-  url "https://github.com/tree-sitter/tree-sitter/archive/v0.20.0.tar.gz"
-  sha256 "4a8070b9de17c3b8096181fe8530320ab3e8cca685d8bee6a3e8d164b5fb47da"
+  url "https://github.com/tree-sitter/tree-sitter/archive/v0.20.6.tar.gz"
+  sha256 "4d37eaef8a402a385998ff9aca3e1043b4a3bba899bceeff27a7178e1165b9de"
   license "MIT"
+  revision 1
   head "https://github.com/tree-sitter/tree-sitter.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "cbf44029649cea921fe3334545ede3adc7620449cf6110fdf29fdd47e8fff166"
-    sha256 cellar: :any,                 big_sur:       "bca73c6fabacffbfb96a5b953096e81fca5a0a24a55d545baa5da0aebb9657cc"
-    sha256 cellar: :any,                 catalina:      "e161adbd53340e764920272a32ae14fb116ffd42b5933b442a9e5b0b1695ed58"
-    sha256 cellar: :any,                 mojave:        "7a8114f4d71105d93fb63db37ea3dc557e09993d66862eeadd36b1d0c8277ace"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2ca5f4559c6aca25064b3866f9bd0e54bdcdb19229291b8bc676f9021d92c76b"
+    sha256 cellar: :any,                 arm64_monterey: "05e634e8682ee3cf14c22518255b2d73be8d0a3370d806d5bf4ba1141ce6439a"
+    sha256 cellar: :any,                 arm64_big_sur:  "674d1925f358902b0d8eec68114e11e754227e927cf0b1845cc2c697dffb314b"
+    sha256 cellar: :any,                 monterey:       "80387d9d1eccb9be160e3f8b535476e1626312930cdb706d8f214773caaa7783"
+    sha256 cellar: :any,                 big_sur:        "b1e7629302fc421a676ada74e8b556d136482c2f5459f16429815acd8e8011e3"
+    sha256 cellar: :any,                 catalina:       "1a969186a6841f3d92cd55858dbe652b6a588ccb7a2207a4e6df84d12cd6c930"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a026eeeb802cb31b2de45b6c7bf63112ac16cc84ce7263cf9aafa7b3db6dc969"
   end
 
   depends_on "emscripten" => [:build, :test]
   depends_on "node" => [:build, :test]
   depends_on "rust" => :build
+
+  # fix build with emscripten 3.1.11
+  # remove in next release
+  patch do
+    url "https://github.com/chenrui333/tree-sitter/commit/9e9462538f2fa30fb8c7a3386c1cb2a8ded3d0eb.patch?full_index=1"
+    sha256 "ce6e2305da20848aa20399c36a170f03ec0a0a7624f695b158403babbe15ee30"
+  end
 
   def install
     system "make", "AMALGAMATED=1"
@@ -55,7 +63,7 @@ class TreeSitter < Formula
         }
       });
     EOS
-    system bin/"tree-sitter", "generate"
+    system bin/"tree-sitter", "generate", "--abi=latest"
 
     # test `tree-sitter parse`
     (testpath/"test/corpus/hello.txt").write <<~EOS

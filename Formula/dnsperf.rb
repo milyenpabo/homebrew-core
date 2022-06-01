@@ -1,10 +1,9 @@
 class Dnsperf < Formula
   desc "Measure DNS performance by simulating network conditions"
   homepage "https://www.dns-oarc.net/tools/dnsperf"
-  url "https://www.dns-oarc.net/files/dnsperf/dnsperf-2.7.1.tar.gz"
-  sha256 "9b4d72aab6713ecab6946ea3d4b69ec694c5749c3a115fc4a006e989c8ed4875"
+  url "https://www.dns-oarc.net/files/dnsperf/dnsperf-2.9.0.tar.gz"
+  sha256 "952d8b7c9d8a6decbf6f77164728fac6d60bfa1857acc0df8c5404500d0f11dd"
   license "Apache-2.0"
-  revision 2
 
   livecheck do
     url :homepage
@@ -12,11 +11,12 @@ class Dnsperf < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "9058dc5367702b9bb5ceb1fc417a34f60344eea124384beca9c75b333351265b"
-    sha256 cellar: :any,                 big_sur:       "33f81adab77f7d988a927144bdf77f5090d3489e0d3ef812f3b273c74cd07e25"
-    sha256 cellar: :any,                 catalina:      "88b0ae4ee57e39b8e87f97d5b1aac1c12b5f44e744aad1316b45619781e25b34"
-    sha256 cellar: :any,                 mojave:        "4d9debb3fb6b0a43620a205abf27d083d6b731e355afcb8c55f23812347f7aa2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cae9a4ea9e132cc17ab2c378c5e12b7c1159edf536dc839438afdbffb43bb858"
+    sha256 cellar: :any,                 arm64_monterey: "f5fe8421406e1c6d506c5d9e83d5b9256935ce34e443286f1c2162dd3f4fc8fe"
+    sha256 cellar: :any,                 arm64_big_sur:  "a3987ac2cbf7f703623d31962866146794453c00afde10892eeba979c8cdeb3d"
+    sha256 cellar: :any,                 monterey:       "afe4e17621d4201df2a5bc5da377f330d89e1b80d7ecbbfb37c9020175aa46f1"
+    sha256 cellar: :any,                 big_sur:        "fd360d4eb9f870d1e69b4dbfcce4f8c6ca6449937ce7006d392eed24a7c23926"
+    sha256 cellar: :any,                 catalina:       "aa03ee74c9117ead14fc42dfed419e404cc48e232ddf8b898ebb3925ec8ab89d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "26ff62ca6ede5ad01175e0035145c6f4680fa0e9a742f6bfd2d16f415aed6b4a"
   end
 
   depends_on "pkg-config" => :build

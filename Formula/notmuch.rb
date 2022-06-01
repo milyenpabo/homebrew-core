@@ -1,9 +1,8 @@
 class Notmuch < Formula
   desc "Thread-based email index, search, and tagging"
   homepage "https://notmuchmail.org/"
-  # NOTE: Keep this in sync with notmuch-mutt.
-  url "https://notmuchmail.org/releases/notmuch-0.33.2.tar.xz"
-  sha256 "244892f6ab52a84f6b013b387cd6652d461effd36b14ef9e576604b5850b2cae"
+  url "https://notmuchmail.org/releases/notmuch-0.36.tar.xz"
+  sha256 "130231b830fd980efbd2aab12214392b8841f5d2a5a361aa8c79a79a6035ce40"
   license "GPL-3.0-or-later"
   head "https://git.notmuchmail.org/git/notmuch", using: :git, branch: "master"
 
@@ -13,11 +12,12 @@ class Notmuch < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "19a4915d3f8c1aa97bc78e77121cbdbe11a4647415865f4b38fb2dcf147beee3"
-    sha256 cellar: :any,                 big_sur:       "2052642bf19bff4a20e4a4103b24900c3d839817653a591cc4eb339a17c560aa"
-    sha256 cellar: :any,                 catalina:      "4edc75b0e0a4afb9077dbcfb2d0f424c042ba034d72ba5b8b6d2bc2d5ee4d939"
-    sha256 cellar: :any,                 mojave:        "0857fa398d721fd77960c3150332f2b50b665e7505a0c726f2207c4f1ec956ac"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b59b68037db892584372fb30f15ba88673755158a5ac514435cc38495dfe0dbf"
+    sha256 cellar: :any,                 arm64_monterey: "033f8194e3012df7af907c92dce400b622e37dd01553b570b688804902ac9ece"
+    sha256 cellar: :any,                 arm64_big_sur:  "941cb39c18b3eca969dac2e3d639330cf59d06eb1d57a2c906d0cdf7364d12a2"
+    sha256 cellar: :any,                 monterey:       "0869abd8e2652d1bec38753910e14493335c5341ea1de2dbeae58b9f7126b7ec"
+    sha256 cellar: :any,                 big_sur:        "1e4c00ec1ac42f7f87aeab54c1701fc1565fa25e262abe2a35c5c25393bc4592"
+    sha256 cellar: :any,                 catalina:       "21b8fb998d0d725869ceb48107fa5ea2c964af8a5849eb2c83d9761277846778"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a3e4c34716845a8371803a77a01a6159dc9bf576142ed25552a9abe25431917b"
   end
 
   depends_on "doxygen" => :build

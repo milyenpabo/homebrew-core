@@ -1,10 +1,10 @@
 class Libspectre < Formula
   desc "Small library for rendering Postscript documents"
   homepage "https://wiki.freedesktop.org/www/Software/libspectre/"
-  url "https://libspectre.freedesktop.org/releases/libspectre-0.2.9.tar.gz"
-  sha256 "49ae9c52b5af81b405455c19fe24089d701761da2c45d22164a99576ceedfbed"
+  url "https://libspectre.freedesktop.org/releases/libspectre-0.2.10.tar.gz"
+  sha256 "cf60b2a80f6bfc9a6b110e18f08309040ceaa755210bf94c465a969da7524d07"
   license "GPL-2.0-or-later"
-  revision 2
+  revision 1
 
   livecheck do
     url "https://libspectre.freedesktop.org/releases/"
@@ -12,11 +12,12 @@ class Libspectre < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "569048e256adf2200f0d78bb9e0e69124bfc95d048942a7e7302021d4f26a725"
-    sha256 cellar: :any,                 big_sur:       "dd24fcf3da06f8020b4c5439ca40d1b2eb17a518b62f205e8d34d4e259b0fd7e"
-    sha256 cellar: :any,                 catalina:      "b6010400519844d7e3c0ead42e613279dcf301b69775bbc75f8e93c2cadf797b"
-    sha256 cellar: :any,                 mojave:        "03c755d7c557ed3b53e73f398be9d2a04fd87143fa91d8dcbb010d8a36f313a0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e9d02c4c372a70e15e3a180fc9f8abd855ec7d15086b1d3969aad657735156d0"
+    sha256 cellar: :any,                 arm64_monterey: "de303c8dc164622e39d9091dbe666b508616d85701a1f41382e80cb0f7ee3092"
+    sha256 cellar: :any,                 arm64_big_sur:  "e94302c8cda17fbcdc68e912d5ed673572f6c08812b582db9bebdbc3fc837945"
+    sha256 cellar: :any,                 monterey:       "cc40497e1a32f03ef88145402e4b1c8c4ffb0c6686ca1c6777819be09e4065e8"
+    sha256 cellar: :any,                 big_sur:        "27e180a019179942a0131eac3f8a52422194af080313ea730390624a8ab83e28"
+    sha256 cellar: :any,                 catalina:       "125aaff11e8e92efdd6159d21133689ba8af9d3f13208994850ce4f8a7e7a9dd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5ec70453fc82893b76d4e4c57585d582b99fde8b8f3340df02c580a04f494192"
   end
 
   depends_on "ghostscript"

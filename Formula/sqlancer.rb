@@ -1,15 +1,17 @@
 class Sqlancer < Formula
   desc "Detecting Logic Bugs in DBMS"
   homepage "https://github.com/sqlancer/sqlancer"
-  url "https://github.com/sqlancer/sqlancer/archive/1.1.0.tar.gz"
-  sha256 "ce36d338e7af3649256ff1af89d26ca59fee8e8965529c293ef5592e103953fc"
+  url "https://github.com/sqlancer/sqlancer/archive/v2.0.0.tar.gz"
+  sha256 "4811fea3d08d668cd2a41086be049bdcf74c46a6bb714eb73cdf6ed19a013f41"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "92a80ca266d0c95b5030d5745a7eb3d42ea30059c07d84b42ed97160e080f744"
-    sha256 cellar: :any_skip_relocation, big_sur:       "29f1b9a3d118889abcaa721e5ce5ee48a0e3205a5a6e1ca4fcd1ceef3668f7dc"
-    sha256 cellar: :any_skip_relocation, catalina:      "9f37e37e733fe9afd2b70f3feadf73638fa0ac6c445172e6afcce4e51d68a530"
-    sha256 cellar: :any_skip_relocation, mojave:        "a7ebed5feab8b8f95b938c24f061dd89323f7735c04da967c5fa471390acd280"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3e7fba8aa71ddb6e684ec75b414f4920a4e7f9d6cd50cbadd9952a5ae18366e8"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "3c92f7d690ed61405369d71a0ae3ce6cb0f5f102d3e330d20f9c2dd20831d434"
+    sha256 cellar: :any_skip_relocation, monterey:       "132c2d5e369de21ea6e7e7860ca95f44d2a36c5f50325896cf170bb3e49a8d8d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c355a181b18f9c30e07f98dc66b3075a56baeb775646a7b7a0417231110f49a6"
+    sha256 cellar: :any_skip_relocation, catalina:       "0bd64f69b4f7f052c5c6b43ef8f5835e41aca4a2e8cd991cdcc21bd27da91e4b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "afe59e6d912d3a7b055f7cc05ad72ae6f7af06b0cd208241cf0aa4a0e0506d5d"
   end
 
   depends_on "maven" => :build

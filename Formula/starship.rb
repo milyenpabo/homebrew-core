@@ -1,17 +1,18 @@
 class Starship < Formula
   desc "Cross-shell prompt for astronauts"
   homepage "https://starship.rs"
-  url "https://github.com/starship/starship/archive/v0.58.0.tar.gz"
-  sha256 "8bd4cfad4bcf9694633f228de0c7dc6cfab6bb6955e2a7299ed28dd8c4d6f5e4"
+  url "https://github.com/starship/starship/archive/v1.6.3.tar.gz"
+  sha256 "a6219189eb1e9182eb092213ce4cdd5fba84ae148cb9c4188610a907231a77c7"
   license "ISC"
   head "https://github.com/starship/starship.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b5cdf15b3acc6d79796801ccecec7abbec07a80cd0930d8b8eb0ea0eca5c4234"
-    sha256 cellar: :any_skip_relocation, big_sur:       "497ab79648951d3c78c19ad71e58059e1a810cf6acd70bac6e82369c61d7afd6"
-    sha256 cellar: :any_skip_relocation, catalina:      "cf3eece649108cd3e0f0a06d60917798baa94df0b9e6cc5b47a9f74946bc5f71"
-    sha256 cellar: :any_skip_relocation, mojave:        "b81cf067b32c42429b1509a9349cfd931e6b738429b52e221411c8d00af89098"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c587f2f64efd31838b3c23ba82f13a0301d58e21a10b1795cf0c253ee55a7dae"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "920364a41c1e577b1fe4bec560726aaf50a89f3dcf9486ed738eb7656a1e1185"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4588bd9ccc90492cea6c10c5d8baed30c50bf64ce94e763b93c59323050df426"
+    sha256 cellar: :any_skip_relocation, monterey:       "d25ca5b4b747cc986812b0afcc6d93e0da753ca316c8d577c5d8b2dcd823fc25"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d7e512dadd8939073e29e3799be65ed86c817a6290b03ec453cec27b2e1ad726"
+    sha256 cellar: :any_skip_relocation, catalina:       "7fe13f054e186b3a654f46444090610b3356095f6400631350040dc6fcb0e8e5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3ead91c278f2bf0afadbd6e373c9b83f29930cc221b132a04e4324f12e8e97bb"
   end
 
   depends_on "rust" => :build
@@ -25,7 +26,7 @@ class Starship < Formula
   end
 
   def install
-    system "cargo", "install", "--features", "notify-rust", *std_cargo_args
+    system "cargo", "install", *std_cargo_args
 
     bash_output = Utils.safe_popen_read("#{bin}/starship", "completions", "bash")
     (bash_completion/"starship").write bash_output

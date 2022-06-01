@@ -1,20 +1,22 @@
 class Broot < Formula
   desc "New way to see and navigate directory trees"
   homepage "https://dystroy.org/broot/"
-  url "https://github.com/Canop/broot/archive/v1.6.4.tar.gz"
-  sha256 "609bd9e6c7fea85b68586435280b37cb90c2af3cb0a3f63a5a37dfdcc822fdc7"
+  url "https://github.com/Canop/broot/archive/v1.13.1.tar.gz"
+  sha256 "95b4b01c43f23b8d4f06030b57c9b2e47a4fbbc4f6099acaf6e42d1f1697385e"
   license "MIT"
   head "https://github.com/Canop/broot.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "76c0ce8c6a5da128401bc3995524a07a360a075779a7d26a3a526fbd26004fec"
-    sha256 cellar: :any_skip_relocation, big_sur:       "6f16ac65f8a9b27a21db5b1fb38049ad9b5d243832927574bfe78b825221421c"
-    sha256 cellar: :any_skip_relocation, catalina:      "75b055853c97b9ff18c23595686beeeeaa7e3cbfc5af6b64eedc6a497e839c1d"
-    sha256 cellar: :any_skip_relocation, mojave:        "807051360e34a92cce8c261261141674c14570b697796a72cbc8db5be59b8e1d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f395a2003f2d70a6ee4c08bf95977c9a617895aec8d67320f3f0007d948be4f9"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "089f401e6464a3e61dc2d09492b718628c115102e2fe66baaf4d4936acd8fe54"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "54fe36df295d4518d77ab1d1b9e5fc5a86cb7d2f505f92c6bc67c23dae624f76"
+    sha256 cellar: :any_skip_relocation, monterey:       "3a4a98c852d5ebf2be5dda8a1a982d4d59f3bff447eca38b4796b599d016c6d1"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4479526a4e39cdbe9a3f1d7703c8c8a657d7bbc6cb249a7c0157a2d7f4f0a023"
+    sha256 cellar: :any_skip_relocation, catalina:       "2d6782ad1d0791b27cf471af9cd8ccfd3dc945ae481add2732f1c5d811dc9656"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "998bf7371bcfecdba277ad955b5b0da3d1a807d747b79a5a4fb8d8a32609f429"
   end
 
   depends_on "rust" => :build
+  depends_on "libxcb"
 
   uses_from_macos "curl" => :build
   uses_from_macos "zlib"
@@ -41,9 +43,7 @@ class Broot < Formula
   end
 
   test do
-    on_linux do
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     assert_match "A tree explorer and a customizable launcher", shell_output("#{bin}/broot --help 2>&1")
 

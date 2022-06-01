@@ -1,8 +1,8 @@
 class Yaws < Formula
   desc "Webserver for dynamic content (written in Erlang)"
   homepage "http://yaws.hyber.org"
-  url "https://github.com/erlyaws/yaws/archive/yaws-2.0.9.tar.gz"
-  sha256 "a2bbfe10c780ef2c3b238eaf76d902f4921c63b49d135bb9878b163ef1870a6d"
+  url "https://github.com/erlyaws/yaws/archive/yaws-2.1.1.tar.gz"
+  sha256 "aeb74f0051fe9a2925b1a1b4f13af31ec5404acfbe000ac32cda25ee9779f4bf"
   license "BSD-3-Clause"
   head "https://github.com/erlyaws/yaws.git", branch: "master"
 
@@ -13,11 +13,12 @@ class Yaws < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "55f35e91696552c9e0240835f8fc02c733b2bd657733c86123ee3d472ef5e9f6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "79fe292028db08b81a2f66f80cbc2fd7c52e9801692c416ea275663c61dd4533"
-    sha256 cellar: :any_skip_relocation, catalina:      "99c7e7a4fb01e682a1f1cf513ac6b4202f9f030fea64836a0b71354802fde033"
-    sha256 cellar: :any_skip_relocation, mojave:        "f8b43c32a42426bc2e0b774e8abde8c7b32206ad19c230231ba22f32a1312eb5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "30dbc3c5951396f785b714bcf486d0247d399ecae66903a7e3a1872b3165d01f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "915f2debcd29895c2dd235232fae27c6b93a8df74600324fc6281c037a8f0a9f"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a9e8b1c12a01f2a69f60629ce7e9238b502cefca4838c7ec8f10add24560c66a"
+    sha256 cellar: :any_skip_relocation, monterey:       "c8ed14ebe8b7754b382567af80237d9622197e3a10b1aa673aaf6201c9d8cc17"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c8ed6901333af5bda880682772f53eb3cbcfc89323527d0820696e9a0d963979"
+    sha256 cellar: :any_skip_relocation, catalina:       "1c84e7ed9b5329b5d79eeed7fabcf63bac90ae398481b1d71104ee97958056df"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a98f436c58c2cc58eebfaf052387faf4c02f9554138935f674d6b6dd5cb8df94"
   end
 
   depends_on "autoconf" => :build

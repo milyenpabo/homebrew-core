@@ -1,17 +1,18 @@
 class Terrascan < Formula
   desc "Detect compliance and security violations across Infrastructure as Code"
-  homepage "https://github.com/accurics/terrascan"
-  url "https://github.com/accurics/terrascan/archive/v1.10.0.tar.gz"
-  sha256 "4fcfc99e64b081f7a202eb9b6edd4e31e9b477bbcc2c21b70090f94c636d0460"
+  homepage "https://github.com/tenable/terrascan"
+  url "https://github.com/tenable/terrascan/archive/v1.15.1.tar.gz"
+  sha256 "3d0588ea411f3cd2a47803ab1fe3e0f92b75a48e29109f843cb99700c083fc66"
   license "Apache-2.0"
-  head "https://github.com/accurics/terrascan.git", branch: "master"
+  head "https://github.com/tenable/terrascan.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "566ae3a7be2f51b3e51d6756c84e5809e14af6c4b883eb9eb14b6e3e1784521c"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a4f13faec599cfe1586d6ea8512052e98f72783578f09ff182e6d4d7f01088a3"
-    sha256 cellar: :any_skip_relocation, catalina:      "8a064db94da0f9eb0a3ec7e76983a8efae5f450e2537dbfc391688f9da487174"
-    sha256 cellar: :any_skip_relocation, mojave:        "eb86095118573dd1bf4435bb54eab1515ab3feb5699fbc8acf3875ecf8064671"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "565bf4e1b475f82f0b3e1dd2485bc787cbe651580b63a039a5e733391a42d6c5"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6391e53f88655344b1bcf87c5d7b762beeca98617695bd2443744f60e38b0ace"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2bd8ac2c007ea3769acce43a7afcc0e1d167a1642643e78ee9b5587cab85f806"
+    sha256 cellar: :any_skip_relocation, monterey:       "ddccc3912725170ddc975c7128fd4d973209a958f36649b014e3e7b90ca4e1ab"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6605379f6b8641891f4a60906987256e82d2b5fce6819d5b0981cd73e1fc5500"
+    sha256 cellar: :any_skip_relocation, catalina:       "b50cbe49d7d715da3c9b3d2c4d47fb00a34b7fd2c807d26596e280a16366b3ac"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "92231bf958a345a8fac5673ae056802178271c7608f2337710b4e266ccf7b687"
   end
 
   depends_on "go" => :build

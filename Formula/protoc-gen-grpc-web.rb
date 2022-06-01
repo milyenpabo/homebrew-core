@@ -3,17 +3,17 @@ require "language/node"
 class ProtocGenGrpcWeb < Formula
   desc "Protoc plugin that generates code for gRPC-Web clients"
   homepage "https://github.com/grpc/grpc-web"
-  url "https://github.com/grpc/grpc-web/archive/1.2.1.tar.gz"
-  sha256 "23cf98fbcb69743b8ba036728b56dfafb9e16b887a9735c12eafa7669862ec7b"
+  url "https://github.com/grpc/grpc-web/archive/1.3.1.tar.gz"
+  sha256 "d292df306b269ebf83fb53a349bbec61c07de4d628bd6a02d75ad3bd2f295574"
   license "Apache-2.0"
-  revision 3
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "8625843e386cf1aec90d4f750ad1480586f10e90fa5f8d2092037b92583379d3"
-    sha256 cellar: :any,                 big_sur:       "c706a6449039679963254536a30511f031fe11705ac36ed5d2f3ab2fd83a2aba"
-    sha256 cellar: :any,                 catalina:      "3917c4c2ff273a01472cd46265b5d12a6df0012e721cb271f4c512a894e3ccd5"
-    sha256 cellar: :any,                 mojave:        "b4486c699cd657005acd262ef592784f3bbf3b50408e90d2a84d42dcb5205853"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2f57d007f37bd720b813f7254d32c6683257de8c1afe95a93f3dc23c9641c093"
+    sha256 cellar: :any,                 arm64_monterey: "e679f48db0744502049cda46308f89de294134b522ba731fcfc88486589e992d"
+    sha256 cellar: :any,                 arm64_big_sur:  "fcf29b351eb68c7db6dbe314dd819bd5f89909e46135008745362e345934d898"
+    sha256 cellar: :any,                 monterey:       "0834212bc2e4be2c88985582ba06b15481cbd0fe2b8da2f1543c69089f64b5dd"
+    sha256 cellar: :any,                 big_sur:        "e93c341c55c974b7be14075b248a1cac4722b3371ddd46dd5a1656e1ea5d817e"
+    sha256 cellar: :any,                 catalina:       "4e46ddd1da2a1d3ddd2081ab8870b8cf813bf099b48a7a000e4bf8e524b3d748"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "24c1d8d62acd218135d6cee0bfdfa0962604121cfcd3b42c6c56d0edb14b49c7"
   end
 
   depends_on "cmake" => :build
@@ -23,8 +23,7 @@ class ProtocGenGrpcWeb < Formula
 
   def install
     bin.mkpath
-    inreplace "javascript/net/grpc/web/Makefile", "/usr/local/bin/", "#{bin}/"
-    system "make", "install-plugin"
+    system "make", "install-plugin", "PREFIX=#{prefix}"
   end
 
   test do

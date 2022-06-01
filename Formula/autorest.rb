@@ -3,15 +3,19 @@ require "language/node"
 class Autorest < Formula
   desc "Swagger (OpenAPI) Specification code generator"
   homepage "https://github.com/Azure/autorest"
-  url "https://registry.npmjs.org/autorest/-/autorest-3.4.1.tgz"
-  sha256 "0fea952adae8d60ec2eeb5aade8f4faa9df6add9d39a8114e83f111bf9f9a1e8"
+  url "https://registry.npmjs.org/autorest/-/autorest-3.6.1.tgz"
+  sha256 "a517e0e9dee7b3d36e4e03fd78e3f6bd7792de824e2faec2b64e44f2c2034758"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "44c7f269ae1056c3e3cbe1752301db1d957ce16fbe6fcea5d864439e3ff1dc6c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "90a2d7073768ce71a496fae6ff517dd6fe39541c1ca6b97b1f6332ed282a432e"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "90a2d7073768ce71a496fae6ff517dd6fe39541c1ca6b97b1f6332ed282a432e"
+    sha256 cellar: :any_skip_relocation, monterey:       "ec88baabdae6900f41ea43ead3b79bba2d5cda45e2b73fd996f7778b86f63b62"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ec88baabdae6900f41ea43ead3b79bba2d5cda45e2b73fd996f7778b86f63b62"
+    sha256 cellar: :any_skip_relocation, catalina:       "ec88baabdae6900f41ea43ead3b79bba2d5cda45e2b73fd996f7778b86f63b62"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "90a2d7073768ce71a496fae6ff517dd6fe39541c1ca6b97b1f6332ed282a432e"
   end
 
-  depends_on arch: :x86_64
   depends_on "node"
 
   resource "homebrew-petstore" do
@@ -27,7 +31,7 @@ class Autorest < Formula
   test do
     resource("homebrew-petstore").stage do
       system (bin/"autorest"), "--input-file=petstore.yaml",
-                               "--nodejs",
+                               "--typescript",
                                "--output-folder=petstore"
       assert_includes File.read("petstore/package.json"), "Microsoft Corporation"
     end

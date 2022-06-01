@@ -3,18 +3,18 @@ class TranslateToolkit < Formula
 
   desc "Toolkit for localization engineers"
   homepage "https://toolkit.translatehouse.org/"
-  url "https://files.pythonhosted.org/packages/51/db/eabac6fb11d18cf0f2e55db661d98207ca3edfe7a90ea14c82ce5c87ac53/translate-toolkit-3.4.1.tar.gz"
-  sha256 "2edc72794513e33ece2a2ee5ee25709fe4fbeac4686ecf80366d4999dd98cfd0"
+  url "https://files.pythonhosted.org/packages/b6/71/1b7b4b74cfe2c3ec0ec25da29555d487c0a68be03112246a34d1f380dfec/translate-toolkit-3.6.2.tar.gz"
+  sha256 "91b247b159f4fa2ae2ed9b0a6c88a2dc207f1cd3cb93f754a9059e7eaebe8c54"
   license "GPL-2.0-or-later"
-  revision 1
   head "https://github.com/translate/translate.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "93c67f8692eb7e00b6d1ef243dfafd79ebbc821130c65c4d1a748893c6d45676"
-    sha256 cellar: :any_skip_relocation, big_sur:       "6285d1de148f1c0d7407454194ad3fdb1bd510e73017cab6d6b5d91c07aa5d79"
-    sha256 cellar: :any_skip_relocation, catalina:      "c6ac5d4c0f9e945ab107f42f3f74f4f4c3eb42c39055019edc901255b5f2303d"
-    sha256 cellar: :any_skip_relocation, mojave:        "c8b8eb31015877d2052636d3cf440be4da5b29936cc2a76bb04d968ba00aa330"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bd2c1adeb663005f98249505678ebd9a4270c13fd3b75f8d060f8df07b5c847d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a966fc23b7cb5653e4c70fd4477cc36636aca09f6b28f30c03821dfbf07e4d02"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "fc61978f1aeb8339da055caa3c5d1e5a10fdba4ba826ec436f22651f677bbe2b"
+    sha256 cellar: :any_skip_relocation, monterey:       "797e27d307ed6059a53b5d991628ff9c86326149618844c68eb51323be3ffcf0"
+    sha256 cellar: :any_skip_relocation, big_sur:        "2b6267bd9493ae5e52202e4efda11a8e61d4fc4b12f862e04d83cfc3fc49d44a"
+    sha256 cellar: :any_skip_relocation, catalina:       "08dbd30adbae99af7b16978294d8c774392a2cdb06b8cfdca49d013b1fb6a8ce"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d766dbe1b73c8b5518e8e5ec33eb7e6ba75e2b3662ab8bfcef1260b63826be8e"
   end
 
   depends_on "python@3.10"
@@ -23,8 +23,8 @@ class TranslateToolkit < Formula
   uses_from_macos "libxslt"
 
   resource "lxml" do
-    url "https://files.pythonhosted.org/packages/e5/21/a2e4517e3d216f0051687eea3d3317557bde68736f038a3b105ac3809247/lxml-4.6.3.tar.gz"
-    sha256 "39b78571b3b30645ac77b95f7c69d1bffc4cf8c3b157c435a34da72e78c82468"
+    url "https://files.pythonhosted.org/packages/3b/94/e2b1b3bad91d15526c7e38918795883cee18b93f6785ea8ecf13f8ffa01e/lxml-4.8.0.tar.gz"
+    sha256 "f63f62fc60e6228a4ca9abae28228f35e1bd3ce675013d1dfb828688d50c6e23"
   end
 
   def install

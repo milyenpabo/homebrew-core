@@ -4,8 +4,8 @@
 class Mu < Formula
   desc "Tool for searching e-mail messages stored in the maildir-format"
   homepage "https://www.djcbsoftware.nl/code/mu/"
-  url "https://github.com/djcb/mu/releases/download/1.6.6/mu-1.6.6.tar.xz"
-  sha256 "42cd3d20f2a670fe57bedcde049b6b2b030fe51c507fdfdfeb6aa865f1f443b5"
+  url "https://github.com/djcb/mu/releases/download/1.6.10/mu-1.6.10.tar.xz"
+  sha256 "0bc224aab2bfe40b5209af14e0982e637789292b7979872658d4498b29e900b6"
   license "GPL-3.0-or-later"
 
   # We restrict matching to versions with an even-numbered minor version number,
@@ -17,11 +17,12 @@ class Mu < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "3e8e35eb6318b5ed58556f9ac0c4fa25c808c9a264c00b14d71390f34c983381"
-    sha256 cellar: :any,                 big_sur:       "29f19a1002c14ad90add4cac9a68b3144fab66db2ed5909ee6cd45984a9b4147"
-    sha256 cellar: :any,                 catalina:      "10c340b63a84e07431cdeea94682bfd41920a667abf2657cc21c495ca022fcda"
-    sha256 cellar: :any,                 mojave:        "f3fbce2bc43a6bc45bd2ca9d5ef2ad4a16bea47e80a0ffc42349ff3ec56f8ded"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1f42f127087629f91b9591530523b3a52172839282c36135c8d5a8933c25945a"
+    sha256 cellar: :any,                 arm64_monterey: "aa8f0261f5d5feca647e4fef6918423f75b0dac0e266688efcf12fda8ff0b014"
+    sha256 cellar: :any,                 arm64_big_sur:  "073b588a7ebfe1c9139994ac3e1f775b8c3106a41625b9c5c7f0019b9d3a6524"
+    sha256 cellar: :any,                 monterey:       "317f48616821ba58b5d63161dfb73b83fdd1088147baa67af5f017608f63b166"
+    sha256 cellar: :any,                 big_sur:        "984ff5adf341446c8d7741d1413d6943e3ddf6cff86165a9af402f5c1f639bb6"
+    sha256 cellar: :any,                 catalina:       "0299242cd384e4cc8fe2ae4397c8778572fd01e726bf0fe46a756e098ee98343"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ec71ae61fccf1d797994a23bb4db6fa2c28ba11fd1000bcbcc5777f1dd7ca5f2"
   end
 
   head do
@@ -46,6 +47,8 @@ class Mu < Formula
   on_linux do
     depends_on "gcc"
   end
+
+  conflicts_with "mu-repo", because: "both install `mu` binaries"
 
   fails_with gcc: "5"
 

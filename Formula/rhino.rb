@@ -1,18 +1,20 @@
 class Rhino < Formula
   desc "JavaScript engine"
-  homepage "https://www.mozilla.org/rhino/"
-  url "https://github.com/mozilla/rhino/releases/download/Rhino1_7_13_Release/rhino-1.7.13.zip"
-  sha256 "8531e0e0229140c80d743ece77ffda155d4eb3fa56cca4f36fbfba1088478b3e"
+  homepage "https://mozilla.github.io/rhino/"
+  url "https://github.com/mozilla/rhino/releases/download/Rhino1_7_14_Release/rhino-1.7.14.zip"
+  sha256 "bf4d2d0c5ff8889fd494486db09291cb7965f0bf2f93ef005d3b08070a5a4f5c"
   license "MPL-2.0"
 
   livecheck do
     url :stable
-    strategy :github_latest
-    regex(%r{href=.*?/tag/.*?>Rhino (\d+(?:\.\d+)+)<}i)
+    regex(/^(?:Rhino[._-]?)v?(\d+(?:[._]\d+)+)[._-]Release$/i)
+    strategy :git do |tags, regex|
+      tags.map { |tag| tag[regex, 1]&.tr("_", ".") }
+    end
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "0ee2cee36979875331df35909efc3757c8734e540f6ed82f8449193d8579587d"
+    sha256 cellar: :any_skip_relocation, all: "0d158d59b8822455d058f47f138f79331189aa286b1354b241c4d8b547861016"
   end
 
   depends_on "openjdk@11"

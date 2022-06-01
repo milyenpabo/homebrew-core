@@ -1,16 +1,12 @@
 class Doctest < Formula
   desc "Feature-rich C++11/14/17/20 single-header testing framework"
-  homepage "https://github.com/onqtam/doctest"
-  url "https://github.com/onqtam/doctest/archive/2.4.6.tar.gz"
-  sha256 "39110778e6baf373ef04342d7cb3fe35da104cb40769103e8a2f0035f5a5f1cb"
+  homepage "https://github.com/doctest/doctest"
+  url "https://github.com/doctest/doctest/archive/v2.4.8.tar.gz"
+  sha256 "f52763630aa17bd9772b54e14b6cdd632c87adf0169455a86a49bd94abf2cd83"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "5271dde9d139e921ef3618dffa2475896123cfc9bb868cd9c1013d8fd66f8529"
-    sha256 cellar: :any_skip_relocation, big_sur:       "48897cfd764b2b3b241c67a8aa8d6f0d203846fa42939a35b2de64e96aff5031"
-    sha256 cellar: :any_skip_relocation, catalina:      "d72ed1e3e4f5897da6e9686cd048f38ad22307d0414b9cbc7496ca9d1f161c63"
-    sha256 cellar: :any_skip_relocation, mojave:        "54e5a4919e7fb93c7eb8cf7001cccf0fc90cac50531138c3966d2c4174953283"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e2e9c84fbfb8698c529078bf132aef8686cc65931ea8f0ca86e0bc8e8e2317ef"
+    sha256 cellar: :any_skip_relocation, all: "9f7b53e1e826a73f32c687a52635fd55885151f3f5d167234e20b3acd3eb058f"
   end
 
   depends_on "cmake" => :build

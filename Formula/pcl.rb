@@ -1,16 +1,19 @@
 class Pcl < Formula
   desc "Library for 2D/3D image and point cloud processing"
   homepage "https://pointclouds.org/"
-  url "https://github.com/PointCloudLibrary/pcl/archive/pcl-1.12.0.tar.gz"
-  sha256 "21dfa9a268de9675c1f94d54d9402e4e02120a0aa4215d064436c52b7d5bd48f"
+  url "https://github.com/PointCloudLibrary/pcl/archive/pcl-1.12.1.tar.gz"
+  sha256 "dc0ac26f094eafa7b26c3653838494cc0a012bd1bdc1f1b0dc79b16c2de0125a"
   license "BSD-3-Clause"
+  revision 2
   head "https://github.com/PointCloudLibrary/pcl.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "dcaa7b792b192a7f0032ba29f9fd6958ec9ff8d436ac3ddbf38c7d6472928ae4"
-    sha256 cellar: :any, big_sur:       "734d0e3bb156a42f02a50f5aeddd825b11384f00915ac5c0a50e22ae38d3df9e"
-    sha256 cellar: :any, catalina:      "7259cc6d04a3c34726ae749cc36cbd108bef21f2e40d2d7b2629cb5773e71a0f"
-    sha256 cellar: :any, mojave:        "810e7a8c44c5ea132186cc9303efb6db5a65501d7513095b0e3a5f03e1b8df2c"
+    sha256 cellar: :any,                 arm64_monterey: "506ae8aa44c231fee8cf4d066ea8e887d79c715061b3350c77d1525821e156b9"
+    sha256 cellar: :any,                 arm64_big_sur:  "70314d35cc85b9cc971a03c8e7b24c3ce5fd15034863aada8b43516243523151"
+    sha256 cellar: :any,                 monterey:       "30ab2097f58b8eb99de71640a110776d519339bc636de51d2b9f9ac083ff50b1"
+    sha256 cellar: :any,                 big_sur:        "d2bf3b0c51fb5214f079f1816f86bf944472c689a5ce7383277f67d05f178a04"
+    sha256 cellar: :any,                 catalina:       "f4f7c9ae6c3d46c43af1b56454a75a5ae293edd628bb7d841efc6a15512f59f5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ad772e3f05d40a6314c6d6539036b0ba0e92a2719e4e5ec676e94ee897b19b2b"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -26,6 +29,12 @@ class Pcl < Formula
   depends_on "qhull"
   depends_on "qt@5"
   depends_on "vtk"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # qt@5 is built with GCC
 
   def install
     args = std_cmake_args + %w[

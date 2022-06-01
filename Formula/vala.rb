@@ -1,16 +1,17 @@
 class Vala < Formula
   desc "Compiler for the GObject type system"
   homepage "https://wiki.gnome.org/Projects/Vala"
-  url "https://download.gnome.org/sources/vala/0.54/vala-0.54.2.tar.xz"
-  sha256 "884de745317d4d56e4e8cede993dc8f04d50cfca36cf60d2f2f278c30c2b1311"
+  url "https://download.gnome.org/sources/vala/0.56/vala-0.56.1.tar.xz"
+  sha256 "c518b81dfdda82d1cdf586b3f9b2323162cb96bd3cb5a2c03650cea025d91fb9"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256 arm64_big_sur: "ceeb3986a46df983a1a7214e23495cd5598ef361bf371462049fdfa58aaef159"
-    sha256 big_sur:       "15309c367ad3751b17b8e274bbd6afd1f94a5a5aa1b526672c822c60f8d851cc"
-    sha256 catalina:      "871355ef358a6133dbaac527150d0ea0904e9e965a4f43c851f11250e177200d"
-    sha256 mojave:        "6ab2bde47eb60c760f6696c0e3c1cca03be3b9f93de34251065ba81731faf249"
-    sha256 x86_64_linux:  "07e428998840409599525d35796b354873ad6bb45ca2bc6f3d9c89ac54ce6fcc"
+    sha256 arm64_monterey: "05e5872db764a41a0ffca75b7ca821b360f5c0679ad7d81b7149d95e61752ee8"
+    sha256 arm64_big_sur:  "6e4934b74281acc5e52ee9563f61c09174ebe70c977ae1dadf9d65cd4e249763"
+    sha256 monterey:       "a409a776c4be95e1821a3141f1eb9dfb32f42ed3529e510fe723adceacf64957"
+    sha256 big_sur:        "ce8e50536096acbd6b82dcb7a39e6d93cece591a842c69b3926c9b26c2c22082"
+    sha256 catalina:       "d6a029fd04014b02ba31360d2b37b010dd9b6cc3ac1f43a9705994a755a934b5"
+    sha256 x86_64_linux:   "859df562798f623ff036c3f82cc4e35a2af07fc04063b835f3601c478494560e"
   end
 
   depends_on "gettext"
@@ -22,9 +23,7 @@ class Vala < Formula
   uses_from_macos "flex" => :build
 
   def install
-    system "./configure", "--disable-dependency-tracking",
-                          "--disable-silent-rules",
-                          "--prefix=#{prefix}"
+    system "./configure", *std_configure_args
     system "make" # Fails to compile as a single step
     system "make", "install"
   end

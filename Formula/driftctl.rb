@@ -1,16 +1,17 @@
 class Driftctl < Formula
   desc "Detect, track and alert on infrastructure drift"
   homepage "https://driftctl.com"
-  url "https://github.com/cloudskiff/driftctl/archive/v0.15.0.tar.gz"
-  sha256 "d9c62b6fd8d29a6fc5d78f1d744adcee4ad8639b8a75209b96c18825b993544a"
+  url "https://github.com/snyk/driftctl/archive/v0.31.1.tar.gz"
+  sha256 "7c555e182b020690aaa7a26e5a400b05c01503f417462dff28423173a887a9ac"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "3f055f970fb73143ac04857a5861a0403aa6822e529c7a3107f7740883320163"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a5859c618977054048bc290f54ba567f5f56db1d880b7489690d3b6a9317c277"
-    sha256 cellar: :any_skip_relocation, catalina:      "a5859c618977054048bc290f54ba567f5f56db1d880b7489690d3b6a9317c277"
-    sha256 cellar: :any_skip_relocation, mojave:        "a5859c618977054048bc290f54ba567f5f56db1d880b7489690d3b6a9317c277"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "01210e4350dba7c4d75e84119c02e7d01ea5f6efc51b5bdf984cd30de445b908"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2f9cb483758fcf60b3435e556f0512454397eb51365f88cc31ea988fe2ad9f4e"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2f9cb483758fcf60b3435e556f0512454397eb51365f88cc31ea988fe2ad9f4e"
+    sha256 cellar: :any_skip_relocation, monterey:       "93203ceb509ea125661246661550e097b04671baf5c4d4ddaf1ee3e8384f6e26"
+    sha256 cellar: :any_skip_relocation, big_sur:        "93203ceb509ea125661246661550e097b04671baf5c4d4ddaf1ee3e8384f6e26"
+    sha256 cellar: :any_skip_relocation, catalina:       "93203ceb509ea125661246661550e097b04671baf5c4d4ddaf1ee3e8384f6e26"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a1291b0a06616f09b6a6b3d09c564df2cca3a200739183ad0b5cef77970683d8"
   end
 
   depends_on "go" => :build
@@ -20,9 +21,9 @@ class Driftctl < Formula
 
     ldflags = %W[
       -s -w
-      -X github.com/cloudskiff/driftctl/build.env=release
-      -X github.com/cloudskiff/driftctl/pkg/version.version=v#{version}
-    ].join(" ")
+      -X github.com/snyk/driftctl/build.env=release
+      -X github.com/snyk/driftctl/pkg/version.version=v#{version}
+    ]
 
     system "go", "build", *std_go_args(ldflags: ldflags)
 
@@ -38,6 +39,7 @@ class Driftctl < Formula
 
   test do
     assert_match "v#{version}", shell_output("#{bin}/driftctl version")
-    assert_match "Invalid AWS Region", shell_output("#{bin}/driftctl --no-version-check scan 2>&1", 1)
+    assert_match "Downloading terraform provider: aws",
+      shell_output("#{bin}/driftctl --no-version-check scan 2>&1", 2)
   end
 end

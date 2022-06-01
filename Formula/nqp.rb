@@ -1,24 +1,30 @@
 class Nqp < Formula
   desc "Lightweight Perl 6-like environment for virtual machines"
   homepage "https://github.com/Raku/nqp"
-  # NOTE: Please keep these values in sync with moarvm & rakudo when updating.
-  url "https://github.com/Raku/nqp/releases/download/2021.09/nqp-2021.09.tar.gz"
-  sha256 "7f296eecb3417e28a08372642247124ca2413b595f30e959a0c9938a625c82d8"
+  url "https://github.com/Raku/nqp/releases/download/2022.04/nqp-2022.04.tar.gz"
+  sha256 "556d458e25d3c0464af9f04ea3e92bbde10046066b329188a88663943bd4e79c"
   license "Artistic-2.0"
 
   bottle do
-    sha256 arm64_big_sur: "e051ae40df0024c1da8535526281d9e4792d09df5f3fe73200919d8b09e21eed"
-    sha256 big_sur:       "cc89fa68750a499ac0b163d68090d846cf112c4de6c21bfedddfe963dfdc3e18"
-    sha256 catalina:      "a3a1c7bf1f1eebbb5b02c23f705a4857ca96607410babfed6258b05d2a692e28"
-    sha256 mojave:        "a15709a3ef54e9cba15b708db9fdc8b8a8421344fe7bff7e1462757906389b7a"
+    sha256 arm64_monterey: "96bf32b98852990200a2c1af4bd599089bffaa4b3eee61f9dd00644343f844ee"
+    sha256 arm64_big_sur:  "0785544010d6d154145f2f01c88e7016ecdcb2e79298ff6f0f2ed8f796d02429"
+    sha256 monterey:       "ac4a36b97a26107ba0170048e8a689a68db643a185d84b455f88fe91464e0204"
+    sha256 big_sur:        "39b6baf2607cdb1843f1419786dcb8a2940498e351a5990330dfea2d96cfce62"
+    sha256 catalina:       "59f28fef93a815c2fa15be4b3c448886a2bd9cc59fcae8c58fcdb554fc8e3d07"
+    sha256 x86_64_linux:   "36ff4fcc84b071b261501dea0500acf9539cf631d4b6ffa2e5bb7dbdebf400e5"
   end
 
   depends_on "libtommath"
   depends_on "moarvm"
 
+  uses_from_macos "perl" => :build
+
   conflicts_with "rakudo-star", because: "rakudo-star currently ships with nqp included"
 
   def install
+    # Work around Homebrew's directory structure and help find moarvm libraries
+    inreplace "tools/build/gen-version.pl", "$libdir, 'MAST'", "'#{Formula["moarvm"].opt_share}/nqp/lib/MAST'"
+
     system "perl", "Configure.pl",
                    "--backends=moar",
                    "--prefix=#{prefix}",

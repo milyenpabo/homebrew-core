@@ -1,17 +1,18 @@
 class Ngs < Formula
   desc "Powerful programming language and shell designed specifically for Ops"
   homepage "https://ngs-lang.org/"
-  url "https://github.com/ngs-lang/ngs/archive/v0.2.12.tar.gz"
-  sha256 "bd3f3b7cca4a36150405f26bb9bcc2fb41d0149388d3051472f159072485f962"
-  license "GPL-3.0"
+  url "https://github.com/ngs-lang/ngs/archive/v0.2.14.tar.gz"
+  sha256 "9432377548ef76c57918b020b2abb258137703ff0172016d58d713186fcafed3"
+  license "GPL-3.0-only"
   head "https://github.com/ngs-lang/ngs.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "fc20adda0f39a4e22d54081c55b3299dced4078c96f5e7869d1903ac66c843ea"
-    sha256 cellar: :any,                 big_sur:       "f92d46bbd5c75caadce87ba7856fd49367cdeae26f94f9875cad7bc3f87187db"
-    sha256 cellar: :any,                 catalina:      "56844fed9b44e5d1cca3634051245eb43f6758f995e1a0ffd8b919e17df51510"
-    sha256 cellar: :any,                 mojave:        "d5d04636b7d4a6de1028fedbe36fe15c1938d7dd5d5e09a9bfda0680e39d17ad"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "90df083108ebf23aeda5ab859a96cc901e43ee53d0f1962f3869de1c3c3df9ea"
+    sha256 cellar: :any,                 arm64_monterey: "7ac61b5c9438473a5f71c38284858266792591132258e22a49430aa15d06e25d"
+    sha256 cellar: :any,                 arm64_big_sur:  "b41e5bc67f4f5bf5a3ccc4d84e59e89097da7e425c3b17417fcb09f064edfbb3"
+    sha256 cellar: :any,                 monterey:       "2a233c86f9388f3a867954b702e0291ac348c0203f3a343e8b6a0d43422ded68"
+    sha256 cellar: :any,                 big_sur:        "4e5dd77c036e3e9d1abdd16618c547795083cd0f3a28eb652ccf3a3a7227804d"
+    sha256 cellar: :any,                 catalina:       "6347f2636910e87893aa7be12672472f030aba05bdde2445d8ed7d585f98b322"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "144cae041e5e211ec773a0c60c9c3d835ac979d1ebc61cd769339bc5d5f8b632"
   end
 
   depends_on "cmake" => :build
@@ -26,11 +27,10 @@ class Ngs < Formula
   uses_from_macos "libffi"
 
   def install
-    mkdir "build" do
-      system "cmake", "..", *std_cmake_args
-      system "make", "install"
-    end
-    share.install prefix/"man"
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
+    share.install prefix/"man" unless OS.mac?
   end
 
   test do

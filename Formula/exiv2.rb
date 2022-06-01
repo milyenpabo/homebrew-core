@@ -1,22 +1,24 @@
 class Exiv2 < Formula
   desc "EXIF and IPTC metadata manipulation library and tools"
-  homepage "https://www.exiv2.org/"
-  url "https://www.exiv2.org/builds/exiv2-0.27.4-Source.tar.gz"
-  sha256 "84366dba7c162af9a7603bcd6c16f40fe0e9af294ba2fd2f66ffffb9fbec904e"
+  homepage "https://exiv2.org/"
+  url "https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz"
+  sha256 "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2"
   license "GPL-2.0-or-later"
-  head "https://github.com/Exiv2/exiv2.git"
+  revision 1
+  head "https://github.com/Exiv2/exiv2.git", branch: "main"
 
   livecheck do
-    url "https://www.exiv2.org/builds/"
+    url "https://exiv2.org/download.html"
     regex(/href=.*?exiv2[._-]v?(\d+(?:\.\d+)+)-Source\.t/i)
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "2bde081b463a93a9672b7a842c9e37c55795643077b8b71b06b77381579cb8e4"
-    sha256 cellar: :any,                 big_sur:       "2142d3d9ac41a438aec051a364d76458a7e3be1e2b5b9aa5568f56094ed8b928"
-    sha256 cellar: :any,                 catalina:      "b07c163f12af0b32df8f5cf728bf8751312c9f04962df2c2cb00b4b13f9ef8da"
-    sha256 cellar: :any,                 mojave:        "97f623c1b9562b8e39354829c59b766c2c964234899c60e8a982c90c915d59dc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bfba79e0025add90a988ca5343c1cd91e8f525ee223de719394cbcef1c140f21"
+    sha256 cellar: :any,                 arm64_monterey: "df5a064e5e5828cab5d4dace6d467c0880168f2cfe4eff96d95805f4ec0a1090"
+    sha256 cellar: :any,                 arm64_big_sur:  "3de53aea67fdf1b2e0db0d360d4d594c84cfa6e602207764cf69587bbb08ab98"
+    sha256 cellar: :any,                 monterey:       "bc67f1f00301efd37e9c4b69fc174260c95016d751757f099426a33515a85a73"
+    sha256 cellar: :any,                 big_sur:        "3577a686dde0a3441b0aa655dc176cefd3d6897dfb790458c86ba00f5ed12cb9"
+    sha256 cellar: :any,                 catalina:       "78976c980580a1286b077679225902a444dff19a17e392a7d5e2f609f8619f2b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d0e727a5c7cac7fcd2238ab707976c8e049394d166dd2e382898a7bd94d66523"
   end
 
   depends_on "cmake" => :build
@@ -40,6 +42,7 @@ class Exiv2 < Formula
       -DEXIV2_ENABLE_WEBREADY=ON
       -DEXIV2_ENABLE_CURL=ON
       -DEXIV2_ENABLE_SSH=ON
+      -DEXIV2_ENABLE_BMFF=ON
       -DEXIV2_BUILD_SAMPLES=OFF
       -DSSH_LIBRARY=#{Formula["libssh"].opt_lib}/#{shared_library("libssh")}
       -DSSH_INCLUDE_DIR=#{Formula["libssh"].opt_include}

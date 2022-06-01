@@ -1,23 +1,30 @@
 class Passenger < Formula
   desc "Server for Ruby, Python, and Node.js apps via Apache/NGINX"
   homepage "https://www.phusionpassenger.com/"
-  url "https://github.com/phusion/passenger/releases/download/release-6.0.10/passenger-6.0.10.tar.gz"
-  sha256 "3eb2c52652c96a136cc69cf342e3a61a8dd0e92cdbe9310a7aae249ab1abe0d4"
+  url "https://github.com/phusion/passenger/releases/download/release-6.0.14/passenger-6.0.14.tar.gz"
+  sha256 "41cd40acfadca1e8adffca3b23d63a1d6d37f976d8c29e4eff0de6250f4113a2"
   license "MIT"
-  revision 2
   head "https://github.com/phusion/passenger.git", branch: "stable-6.0"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "322a82e590f235bd5946ad7b6a782c0b1b2c0ce01785e77b2b310f0245c22070"
-    sha256 cellar: :any, big_sur:       "b5dad8756d80c5b6a4835d788ab7295ac8f8add33ad7d68b6cb97098989db36d"
-    sha256 cellar: :any, catalina:      "f58d1742fd4eb7bc4eeadab3cdb83b4e1b9c536fd57222882da6577edee581a3"
-    sha256 cellar: :any, mojave:        "b4e1db5f28e1aaae96813f446c260fefd81c22abfa5059421b0dadcf263126af"
+    sha256 cellar: :any,                 arm64_monterey: "9f3146807fce26ed29ae3c576f32e3213b8c1146f2c104c1c9d4713ed7fdb65d"
+    sha256 cellar: :any,                 arm64_big_sur:  "13e63af285a276ce579aa90f03944a042956e76a8c7940b6c99da15c023b7d6b"
+    sha256 cellar: :any,                 monterey:       "9d4c7ebe69ab23942af751df02e77be7c81efe01a38778718980966290275faf"
+    sha256 cellar: :any,                 big_sur:        "b0f446a78f1a9007623e242dd26a236096ca3b7e44ccf28dc187babd5bd784a9"
+    sha256 cellar: :any,                 catalina:       "c4891710dedbf2346eee8aea53a21c0098116419b55049684bd70616ad8850bd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9657809f050e59304bb54dc12efe54369c5665c6d919df7a73f44f5e77badf63"
   end
 
-  # to build nginx module
-  depends_on "nginx" => [:build, :test]
+  depends_on "httpd" => :build # to build the apache2 module
+  depends_on "nginx" => [:build, :test] # to build nginx module
+  depends_on "apr"
+  depends_on "apr-util"
   depends_on "openssl@1.1"
   depends_on "pcre"
+
+  uses_from_macos "xz" => :build
+  uses_from_macos "curl"
+  uses_from_macos "libxcrypt"
   uses_from_macos "ruby", since: :catalina
 
   def install

@@ -1,10 +1,10 @@
 class Scala < Formula
   desc "JVM-based programming language"
   homepage "https://www.scala-lang.org/"
-  url "https://downloads.lightbend.com/scala/2.13.6/scala-2.13.6.tgz"
-  mirror "https://www.scala-lang.org/files/archive/scala-2.13.6.tgz"
-  mirror "https://downloads.typesafe.com/scala/2.13.6/scala-2.13.6.tgz"
-  sha256 "49df92503cd11cc3c649683db368e5878b7e792e40156d2377e52326e935ed43"
+  url "https://downloads.lightbend.com/scala/2.13.8/scala-2.13.8.tgz"
+  mirror "https://www.scala-lang.org/files/archive/scala-2.13.8.tgz"
+  mirror "https://downloads.typesafe.com/scala/2.13.8/scala-2.13.8.tgz"
+  sha256 "2cb31d8469c651839f0e9c837a1ab06550d031726752f54906be1b9de01314cf"
   license "Apache-2.0"
 
   livecheck do
@@ -13,7 +13,7 @@ class Scala < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "1fe2aea3424b7485a189895d56f5fa85b21a535a9375c045e2461bacc2a05fff"
+    sha256 cellar: :any_skip_relocation, all: "933846b03dd486789e966e81e8910129a4f4ccc3d6a29435440a9bf340ef2438"
   end
 
   depends_on "openjdk"

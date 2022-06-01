@@ -1,10 +1,9 @@
 class RomTools < Formula
   desc "Tools for Multiple Arcade Machine Emulator"
   homepage "https://mamedev.org/"
-  # NOTE: Please keep these values in sync with mame.rb when updating.
-  url "https://github.com/mamedev/mame/archive/mame0236.tar.gz"
-  version "0.236"
-  sha256 "c76b973d786311f86922101ab0050dac90af9b0fd614a33c20231e3451c7b2dd"
+  url "https://github.com/mamedev/mame/archive/mame0243.tar.gz"
+  version "0.243"
+  sha256 "8cddb7d6cee5d736d1ce7ef2022e2d09b5c61bea02b5df7e369010a47a5d2133"
   license "GPL-2.0-or-later"
   head "https://github.com/mamedev/mame.git", branch: "master"
 
@@ -13,15 +12,16 @@ class RomTools < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "c6a21882625c804cb4d71f4a92b971ba6089ec09fce1a2df980b0f2f0a7a4d6f"
-    sha256 cellar: :any,                 big_sur:       "32e98070f0f91e994dff48f5d899171d0ecafedce82162e5451d390923b10187"
-    sha256 cellar: :any,                 catalina:      "ba5f16986dc9b1e512ae0d19f8b11448e788ae8c678d8e95aa468fd1b23f8b18"
-    sha256 cellar: :any,                 mojave:        "7c9e3e329e515cc669f2df9049a75dd757ca0667e4d7455249a711154385e893"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c160755d1fc9d7101fd7d6047131e8b95fccf75425753e0fe4f74e210c1508a8"
+    sha256 cellar: :any,                 arm64_monterey: "34f4fab26e97d7e15000047848963032db3594b04f3d76520779840d0b3d2b42"
+    sha256 cellar: :any,                 arm64_big_sur:  "f7f8991916c44adb65f08f38f34b8ef73bd1b2013f1942e04f8082d0b8fd2786"
+    sha256 cellar: :any,                 monterey:       "4b57b97eef348e30932f9b1299435cbca13627c6d2540daec19a1cbd400fc2ba"
+    sha256 cellar: :any,                 big_sur:        "6a2f887c611ceba1707168b0aad6a734fd6dfba68416c2a958af836d7d3d032b"
+    sha256 cellar: :any,                 catalina:       "5dd0271e37131fbfa8bb205d0ac3822f87e2d9b7cc70da12bc6ccd666dd45886"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "178ffc8c6e16692e498383cef4ab695423d253ca16ef947f9d0f3603ca724766"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "flac"
   # Need C++ compiler and standard library support C++17.
   depends_on macos: :high_sierra
@@ -50,7 +50,7 @@ class RomTools < Formula
     # Use bundled asio instead of latest version.
     # See: <https://github.com/mamedev/mame/issues/5721>
     args = %W[
-      PYTHON_EXECUTABLE=#{Formula["python@3.9"].opt_bin}/python3
+      PYTHON_EXECUTABLE=#{which("python3")}
       TOOLS=1
       USE_LIBSDL=1
       USE_SYSTEM_LIB_EXPAT=1

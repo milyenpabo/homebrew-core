@@ -3,9 +3,10 @@ class Nginx < Formula
   homepage "https://nginx.org/"
   # Use "mainline" releases only (odd minor version number), not "stable"
   # See https://www.nginx.com/blog/nginx-1-12-1-13-released/ for why
-  url "https://nginx.org/download/nginx-1.21.3.tar.gz"
-  sha256 "14774aae0d151da350417efc4afda5cce5035056e71894836797e1f6e2d1175a"
+  url "https://nginx.org/download/nginx-1.21.6.tar.gz"
+  sha256 "66dc7081488811e9f925719e34d1b4504c2801c81dee2920e5452a86b11405ae"
   license "BSD-2-Clause"
+  revision 1
   head "https://hg.nginx.org/nginx/", using: :hg
 
   livecheck do
@@ -14,15 +15,16 @@ class Nginx < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "4060ccd3d6d64aebb74c0f0b4bd8f5d1e8218561bd8fcfd75c76f00b0f28735f"
-    sha256 big_sur:       "f26befe4e1b89ea7635fc96526f8770c92c88349e2fa696d1836d173beed0554"
-    sha256 catalina:      "8002b3221c5428be509f727892dbd185245354a15259308055a97c9818a889f1"
-    sha256 mojave:        "f5ee76946462f2a88d63993bb1241b5cd3a0ad8da95e8bfbf7dcd58495811a7c"
-    sha256 x86_64_linux:  "6c0d7245f21d7d421f75e071480ad51bdea69c49b3795cb30269bb7d6daffaaf"
+    sha256 arm64_monterey: "737ab2f1858bc8f3378f19da55e98d79f4014452e7ac37ab713b13c828ec95cc"
+    sha256 arm64_big_sur:  "3134aaef6f9b646784cc5dc5528958f57accff411e38feb137f2374e8d624ba9"
+    sha256 monterey:       "dba847687a67f4a25202f00c27821d2d39f0eddeb28fa8d3d1126e574706b042"
+    sha256 big_sur:        "4b6822266d64a0aa1baea76f01ead5ec163a90311747fa624cf9f234a7ee41b6"
+    sha256 catalina:       "e3f1eec4488b61a4c6bb56f338b30fbd1472a409db8a3bada92933fb92dc4b95"
+    sha256 x86_64_linux:   "1d64f3a67ccf10bb8e4529c148cc3244d7e2c8864126f3700fe57e775d7d6fd7"
   end
 
   depends_on "openssl@1.1"
-  depends_on "pcre"
+  depends_on "pcre2"
 
   uses_from_macos "xz" => :build
 
@@ -38,7 +40,7 @@ class Nginx < Formula
     end
 
     openssl = Formula["openssl@1.1"]
-    pcre = Formula["pcre"]
+    pcre = Formula["pcre2"]
 
     cc_opt = "-I#{pcre.opt_include} -I#{openssl.opt_include}"
     ld_opt = "-L#{pcre.opt_lib} -L#{openssl.opt_lib}"
@@ -142,7 +144,11 @@ class Nginx < Formula
   end
 
   service do
-    run [opt_bin/"nginx", "-g", "daemon off;"]
+    if OS.linux?
+      run [opt_bin/"nginx", "-g", "'daemon off;'"]
+    else
+      run [opt_bin/"nginx", "-g", "daemon off;"]
+    end
     keep_alive false
     working_dir HOMEBREW_PREFIX
   end

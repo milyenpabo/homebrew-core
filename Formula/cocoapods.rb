@@ -1,16 +1,17 @@
 class Cocoapods < Formula
   desc "Dependency manager for Cocoa projects"
   homepage "https://cocoapods.org/"
-  url "https://github.com/CocoaPods/CocoaPods/archive/1.11.2.tar.gz"
-  sha256 "c1f7454a93e334484cc15ec8a88ded4080bf5e39df2b0dff729a2e77044dc3df"
+  url "https://github.com/CocoaPods/CocoaPods/archive/1.11.3.tar.gz"
+  sha256 "91d31754611520529b101ee57a059c5caadcd7ddb3c5b3b1065edc0ef5c43372"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "4d468b2e7fdec4d80dfa63c3399e21519c842af012e310f15c0c5b4450642f0b"
-    sha256                               big_sur:       "594546dcde868d93407a2f056f7ee76769b90d4742f9a3b29bdfaba32addb61a"
-    sha256                               catalina:      "ca65ce465468779c6617a6fe27bc5e0768815b3ab49df11762e6a5196febf1b7"
-    sha256 cellar: :any,                 mojave:        "966d3229dc326393b68e8febe77540758650f555e9abcb8d70926be4aa67d3e9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "872f8d21b42f463d7b6f203f78121316b386c456c943425e17ca258bd17602be"
+    sha256 cellar: :any,                 arm64_monterey: "0e8ecf1b4a9028ffca29e1bba075b1cf572c9caf30ff6c0a8cf7f82f24563cea"
+    sha256 cellar: :any,                 arm64_big_sur:  "b55909267f5f2853f40ab081e6f6b1b47d725a16cabcd0df3900eecae2095957"
+    sha256                               monterey:       "92ea102a56b7f97ea877b289b92ac7005f10be6ad68917f451160f9734535895"
+    sha256                               big_sur:        "93e099815313bbf5efa3d3ab64113c57c3d5720089f8c76317bb18801456c3b9"
+    sha256                               catalina:       "ab21df98d9843b3ebc1ee0faa6a6573db5ee5af05bf5f188b01de4c743d28bae"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8ab2c8941c901fd4936ac10bd42c099ff81fb93de3d866e83630beb4027c1ef5"
   end
 
   depends_on "pkg-config" => :build

@@ -2,17 +2,18 @@ class Kubebuilder < Formula
   desc "SDK for building Kubernetes APIs using CRDs"
   homepage "https://github.com/kubernetes-sigs/kubebuilder"
   url "https://github.com/kubernetes-sigs/kubebuilder.git",
-      tag:      "v3.1.0",
-      revision: "92e0349ca7334a0a8e5e499da4fb077eb524e94a"
+      tag:      "v3.4.1",
+      revision: "d59d7882ce95ce5de10238e135ddff31d8ede026"
   license "Apache-2.0"
-  head "https://github.com/kubernetes-sigs/kubebuilder.git"
+  head "https://github.com/kubernetes-sigs/kubebuilder.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "5995e72a7882ed0bbceb0502fa67dae7c8c341f702ff418cad10009fc3418694"
-    sha256 cellar: :any_skip_relocation, big_sur:       "df42a3b0d95979ddde607db44ef7b068121144fb81a1cf3823e5d1f82c9aac4e"
-    sha256 cellar: :any_skip_relocation, catalina:      "7ea09c20fe9e1f8d59976b46ccf8719d55b2da0bebdb1e9843d56febb0440152"
-    sha256 cellar: :any_skip_relocation, mojave:        "4a1cd3cbbfd579bf148c1dac9939c6309c9558471ff92b9594b95caa9cf47936"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "52e39983c8bbcc14fc5a321163172cdcab74fddcaeaf98b0bb64ee8122eebb09"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2836fc2f9170bce9ba3d710f8aaf30c090207949bab292ac897caeda06277ef9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1768842af2ce2da90cfdcdfb35ec2e2daac0bcac7ea6f40be2fcfba381a24290"
+    sha256 cellar: :any_skip_relocation, monterey:       "9d7a00b0b28c0a0e086274628e272629847a2679823e9088828475b6f41843a6"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6d6ab7689cbda1d8742be5f29c9d2b2b49ef781c8b63ac5f22e921799ebd708a"
+    sha256 cellar: :any_skip_relocation, catalina:       "f946cc015dabdb2907cf8a46ec55f7832b0912748d56692dbc4839a89c60b859"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d06bc8fd9a63c4da9617b1aa2c9c4981dd3602bcc9fde4cdb77d3d56d032dd69"
   end
 
   depends_on "git-lfs" => :build
@@ -28,7 +29,7 @@ class Kubebuilder < Formula
       -X main.gitCommit=#{Utils.git_head}
       -X main.buildDate=#{time.iso8601}
     ]
-    system "go", "build", *std_go_args(ldflags: ldflags.join(" ")), "./cmd"
+    system "go", "build", *std_go_args(ldflags: ldflags), "./cmd"
 
     output = Utils.safe_popen_read(bin/"kubebuilder", "completion", "bash")
     (bash_completion/"kubebuilder").write output

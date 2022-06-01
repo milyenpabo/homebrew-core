@@ -1,8 +1,8 @@
 class PkgConfigWrapper < Formula
   desc "Easier way to include C code in your Go program"
   homepage "https://github.com/influxdata/pkg-config"
-  url "https://github.com/influxdata/pkg-config/archive/v0.2.8.tar.gz"
-  sha256 "9d3f3bbcac7c787f6e8846e70172d06bd4d7394b4bcd0b8572fe2f1d03edc11b"
+  url "https://github.com/influxdata/pkg-config/archive/v0.2.12.tar.gz"
+  sha256 "23b2ed6a2f04d42906f5a8c28c8d681d03d47a1c32435b5df008adac5b935f1a"
   license "MIT"
   head "https://github.com/influxdata/pkg-config.git", branch: "master"
 
@@ -12,11 +12,12 @@ class PkgConfigWrapper < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "132d305934de84c9d98d82912312f0cbb7204dbf203277730fd1ef2238ee5621"
-    sha256 cellar: :any_skip_relocation, big_sur:       "0c13ac5e30bafee95d4190ba733305bf481195299cc07d665bf25c7b34183f63"
-    sha256 cellar: :any_skip_relocation, catalina:      "164299afc7de07a790856a3a6c3aa05a129584e1d60b9d40d0d429775f5b2fff"
-    sha256 cellar: :any_skip_relocation, mojave:        "c6d86cb0821de7c39da2ee6f6b4ee30638f61d63a0a851bbd0b6ccc6ea811710"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6c737a65676cc36f64a90c9ee8e2d8c3f9c1dc9d7c1d57a8f844473d7e0f64df"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "73e0e3154ccc02d0fccf377426069944d80b112e671471ea93ab852001b3cf45"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0859f0c9900ff75118937dfb5fb4c819ea946cf85b28c26e00ed17471688da2b"
+    sha256 cellar: :any_skip_relocation, monterey:       "dfaba417b6359e63e6a16426f0cbf3368ed111294dadfd63f9b89435c2612003"
+    sha256 cellar: :any_skip_relocation, big_sur:        "68d05c1c5e5310b4bd7a68d6aaad6cedf9190935a47513be58dd85e06909a556"
+    sha256 cellar: :any_skip_relocation, catalina:       "d1a3561a851957ec62856bc5a1407501976c48fe54ef290abe102a3d357207d0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "61e696135462df386455fd1d33703e5a96f0830eaaee28cc7932c8cd4d93c2f6"
   end
 
   depends_on "go" => :build

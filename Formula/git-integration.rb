@@ -4,7 +4,7 @@ class GitIntegration < Formula
   url "https://github.com/johnkeeping/git-integration/archive/v0.4.tar.gz"
   sha256 "b0259e90dca29c71f6afec4bfdea41fe9c08825e740ce18409cfdbd34289cc02"
   license "GPL-2.0"
-  head "https://github.com/johnkeeping/git-integration.git"
+  head "https://github.com/johnkeeping/git-integration.git", branch: "master"
 
   bottle do
     rebuild 1
@@ -15,6 +15,7 @@ class GitIntegration < Formula
     sha256 cellar: :any_skip_relocation, high_sierra:   "30757baa47338aaa0e43240237d1dfefc1b59e397b55f36d5b7176ca978d7698"
     sha256 cellar: :any_skip_relocation, sierra:        "30757baa47338aaa0e43240237d1dfefc1b59e397b55f36d5b7176ca978d7698"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "07b5ebb8403f9d421dccb3a4ab447d8f4b4f233282d9a5446434007104ec20e1"
+    sha256 cellar: :any_skip_relocation, all:           "07b5ebb8403f9d421dccb3a4ab447d8f4b4f233282d9a5446434007104ec20e1"
   end
 
   def install

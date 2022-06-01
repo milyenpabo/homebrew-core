@@ -1,13 +1,13 @@
 class Ffmpeg < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
-  url "https://ffmpeg.org/releases/ffmpeg-4.4.tar.xz"
-  sha256 "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
+  url "https://ffmpeg.org/releases/ffmpeg-5.0.1.tar.xz"
+  sha256 "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
   # None of these parts are used by default, you have to explicitly pass `--enable-gpl`
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  revision 2
-  head "https://github.com/FFmpeg/FFmpeg.git"
+  revision 1
+  head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
@@ -15,11 +15,12 @@ class Ffmpeg < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "d603441a90e72b165e70ef1787b2045c6e969f077dcadd1529d04162fbd18ab3"
-    sha256 big_sur:       "9da28933b9f1abc3b1cf92382d1a8ea051c98f9dd0f4ef47e8d37d2aa9a4769a"
-    sha256 catalina:      "3fcc129951906c60f6e2130131fde64e449bc562a605f64be74fc950cac930ea"
-    sha256 mojave:        "8becf08fae7806a6365b489c3dcde8f6f0ddb49a64e96386c2c190a15604a486"
-    sha256 x86_64_linux:  "303961f673338cc304e8a13daa7899cb807b6433be9a7bf78ceaed3fd48d5822"
+    sha256 arm64_monterey: "2f87ce2cc5a5f023f96e9a419f85f7539ac23400b318a816deb8dde62ade3d34"
+    sha256 arm64_big_sur:  "6c3b216f30e9801ad00a4b2e3589cd596d627f2850b96694695277fcc8bf4723"
+    sha256 monterey:       "8de128808253303cf3ebcd9d180092bfde295fd73f4d5c96f6396925963c97bd"
+    sha256 big_sur:        "a0f32352fae1020411953892e387ee801eef9fee90e82cf716aef31dfc547d27"
+    sha256 catalina:       "c147c88fd8a0246f70ecdc8280df604073fec7ccdf754d71f9843a5ec35108af"
+    sha256 x86_64_linux:   "57c3760421820319b0b916cb6336ef27525c6b59013c3ab091ec4a48201b2fac"
   end
 
   depends_on "nasm" => :build
@@ -33,8 +34,10 @@ class Ffmpeg < Formula
   depends_on "lame"
   depends_on "libass"
   depends_on "libbluray"
+  depends_on "librist"
   depends_on "libsoxr"
   depends_on "libvidstab"
+  depends_on "libvmaf"
   depends_on "libvorbis"
   depends_on "libvpx"
   depends_on "opencore-amr"
@@ -62,7 +65,10 @@ class Ffmpeg < Formula
 
   on_linux do
     depends_on "libxv"
+    depends_on "gcc" # because rubberband is compiled with gcc
   end
+
+  fails_with gcc: "5"
 
   def install
     args = %W[
@@ -82,12 +88,14 @@ class Ffmpeg < Formula
       --enable-libmp3lame
       --enable-libopus
       --enable-librav1e
+      --enable-librist
       --enable-librubberband
       --enable-libsnappy
       --enable-libsrt
       --enable-libtesseract
       --enable-libtheora
       --enable-libvidstab
+      --enable-libvmaf
       --enable-libvorbis
       --enable-libvpx
       --enable-libwebp
@@ -111,12 +119,18 @@ class Ffmpeg < Formula
       --disable-indev=jack
     ]
 
-    # libavresample has been deprecated and removed but some non-updated formulae are still linked to it
-    # Remove in the next release
-    args << "--enable-avresample" unless build.head?
-
     # Needs corefoundation, coremedia, corevideo
     args << "--enable-videotoolbox" if OS.mac?
+    args << "--enable-neon" if Hardware::CPU.arm?
+
+    # Replace hardcoded default VMAF model path
+    unless build.head?
+      %w[doc/filters.texi libavfilter/vf_libvmaf.c].each do |f|
+        inreplace f, "/usr/local/share/model", HOMEBREW_PREFIX/"share/libvmaf/model"
+        # Since libvmaf v2.0.0, `.pkl` model files have been deprecated in favor of `.json` model files.
+        inreplace f, "vmaf_v0.6.1.pkl", "vmaf_v0.6.1.json"
+      end
+    end
 
     system "./configure", *args
     system "make", "install"

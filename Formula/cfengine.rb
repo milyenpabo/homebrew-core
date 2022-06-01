@@ -1,8 +1,8 @@
 class Cfengine < Formula
   desc "Help manage and understand IT infrastructure"
   homepage "https://cfengine.com/"
-  url "https://cfengine-package-repos.s3.amazonaws.com/tarballs/cfengine-3.18.0.tar.gz"
-  sha256 "d601a3af30f3fba7d51a37476c9e1a00b750682149bf96f4a0002e804bc87783"
+  url "https://cfengine-package-repos.s3.amazonaws.com/tarballs/cfengine-3.19.0.tar.gz"
+  sha256 "bb43b23f76e6bd4f54e250675cfe8a01376326fa2c6c63c2a9e9bd091685d867"
   license all_of: ["BSD-3-Clause", "GPL-2.0-or-later", "GPL-3.0-only", "LGPL-2.0-or-later"]
 
   livecheck do
@@ -11,11 +11,12 @@ class Cfengine < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "3e755d3d93d4f9af8e38a035ae5dc43ee42fd6b5ff11e4dd8d9a42addc193de0"
-    sha256 big_sur:       "369f0b971ef4b7968d2e1a8934ce03e4d841b88c9c0a789ca52e8e5d3b619acd"
-    sha256 catalina:      "397a614052632c146a1a8668a5e0a1e8ab1569296d6bd94b411b5bf15a61c736"
-    sha256 mojave:        "bc4f67e00fa8dc773ab0fcc1b9bb1376513f507fa958bceae50ef943ef5ff670"
-    sha256 x86_64_linux:  "c0182838df4ece465cc5e1084657b650bc1190c1272a0cd50a6af1f7562dae32"
+    sha256 arm64_monterey: "aa60fed5e36e677b7843ab045ccc8d4b66e341bac8dc3a4fd99480e982be00b4"
+    sha256 arm64_big_sur:  "dff8edd10a1f2a2e3b283ad2c88a554e6c600744677ca2c64e237c6864d7e802"
+    sha256 monterey:       "79b62244153cba5951ae5bc810375152469abc193af8c70dd62d262b6f9ab648"
+    sha256 big_sur:        "b993d89162baab37487e3165f55292c31d867620cabc5bec0c947d0a3ae6a8de"
+    sha256 catalina:       "d4bb924c828107d1bd9466a9dabb33a08c8e8921d1686b3238a0181c6336ee18"
+    sha256 x86_64_linux:   "381e7a3a31baf315b5239dd71ee844c1289335b286687ed48d92850b4ab4d50d"
   end
 
   depends_on "lmdb"
@@ -27,8 +28,8 @@ class Cfengine < Formula
   end
 
   resource "masterfiles" do
-    url "https://cfengine-package-repos.s3.amazonaws.com/tarballs/cfengine-masterfiles-3.18.0.tar.gz"
-    sha256 "968faee4920936739f914b5fcae441cd03354e909bb26c5dcdeb6750f1fde156"
+    url "https://cfengine-package-repos.s3.amazonaws.com/tarballs/cfengine-masterfiles-3.18.1.tar.gz"
+    sha256 "b9f5554a9122861a9a13acb2e3920c2887c309f898685713f1a35ba5be741772"
   end
 
   def install

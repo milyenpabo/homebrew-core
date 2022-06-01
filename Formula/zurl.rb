@@ -1,21 +1,23 @@
 class Zurl < Formula
+  include Language::Python::Virtualenv
+
   desc "HTTP and WebSocket client worker with ZeroMQ interface"
   homepage "https://github.com/fanout/zurl"
-  url "https://github.com/fanout/zurl/releases/download/v1.11.0/zurl-1.11.0.tar.bz2"
-  sha256 "18aa3b077aefdba47cc46c5bca513ca2e20f2564715be743f70e4efa4fdccd7a"
+  url "https://github.com/fanout/zurl/releases/download/v1.11.1/zurl-1.11.1.tar.bz2"
+  sha256 "39948523ffbd0167bc8ba7d433b38577156e970fe9f3baa98f2aed269241d70c"
   license "GPL-3.0-or-later"
-  revision 3
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "d4252a3968cce4e2dbb442c16e9ceac0f917ea44f6fe29746fb62cc7b7fdbd36"
-    sha256 cellar: :any,                 big_sur:       "ec815b28c14380cbc309c11fb2becb4e0421b3d933dfbe4f3b881941b97069c3"
-    sha256 cellar: :any,                 catalina:      "2d34fd92311ba6e171d3bc3a5c567daa4238a0d06e0cd078c79ce4c5368890a3"
-    sha256 cellar: :any,                 mojave:        "21b2977646141c7d191a9f835c42b70eff3e793b799228386043ac62ae44a34b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "35c074c84d46a1310585b97afbb7f039fb427083d69182f959a07c279acd696a"
+    sha256 cellar: :any,                 arm64_monterey: "f4f20dfa4fa21116538bf6150b3ed05fb8e1ade026fa0a08b67d00f033c13de1"
+    sha256 cellar: :any,                 arm64_big_sur:  "dbe3e4510bfb54034ca28ad3eb228314d9bde1c68e666af0c76b7676136c105b"
+    sha256 cellar: :any,                 monterey:       "10197ca2f6b2b2e783781b0e33800f76c3a17d05cd423c19c228113c3b7d074b"
+    sha256 cellar: :any,                 big_sur:        "156dbba9a7152ab28f5f70670de6692857c7910a00449e7040fb7ae89431a08c"
+    sha256 cellar: :any,                 catalina:       "5d251122a34705e001a53b33539895698a31e8aad29a3bf7e0c6eaa3579b6a1c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5b83d6978ef49ead8934309eb8d3db989e849479bbcc0eb695f80df53a460db5"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :test
+  depends_on "python@3.10" => :test
   depends_on "qt@5"
   depends_on "zeromq"
 
@@ -28,8 +30,8 @@ class Zurl < Formula
   fails_with gcc: "5"
 
   resource "pyzmq" do
-    url "https://files.pythonhosted.org/packages/86/08/e5fc492317cc9d65b32d161c6014d733e8ab20b5e78e73eca63f53b17004/pyzmq-19.0.1.tar.gz"
-    sha256 "13a5638ab24d628a6ade8f794195e1a1acd573496c3b85af2f1183603b7bf5e0"
+    url "https://files.pythonhosted.org/packages/6c/95/d37e7db364d7f569e71068882b1848800f221c58026670e93a4c6d50efe7/pyzmq-22.3.0.tar.gz"
+    sha256 "8eddc033e716f8c91c6a2112f0a8ebc5e00532b4a6ae1eb0ccc48e027f9c671c"
   end
 
   def install
@@ -43,10 +45,8 @@ class Zurl < Formula
     ipcfile = testpath/"zurl-req"
     runfile = testpath/"test.py"
 
-    resource("pyzmq").stage do
-      system Formula["python@3.9"].opt_bin/"python3",
-      *Language::Python.setup_install_args(testpath/"vendor")
-    end
+    venv = virtualenv_create(testpath/"vendor", Formula["python@3.10"].opt_bin/"python3")
+    venv.pip_install resource("pyzmq")
 
     conffile.write(<<~EOS,
       [General]
@@ -103,9 +103,7 @@ class Zurl < Formula
     end
 
     begin
-      xy = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
-      ENV["PYTHONPATH"] = testpath/"vendor/lib/python#{xy}/site-packages"
-      system Formula["python@3.9"].opt_bin/"python3", runfile
+      system testpath/"vendor/bin/python3", runfile
     ensure
       Process.kill("TERM", pid)
       Process.wait(pid)

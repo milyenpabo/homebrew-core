@@ -1,19 +1,23 @@
 class CloudflareWrangler < Formula
   desc "CLI tool for Cloudflare Workers"
   homepage "https://github.com/cloudflare/wrangler"
-  url "https://github.com/cloudflare/wrangler/archive/v1.19.3.tar.gz"
-  sha256 "0e1a598c362564395f53d91a1b6225881e55492c3df554475d7d0dbc2a4db06d"
+  url "https://github.com/cloudflare/wrangler/archive/v1.19.12.tar.gz"
+  sha256 "42414fe79b089251a6a0f12d63dc635e5683825449e8960f70b66b810e5a60cd"
   license any_of: ["Apache-2.0", "MIT"]
+  head "https://github.com/cloudflare/wrangler.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "fd4f8cb1b47941301023218fb1426ea3d9310ff2e50ae57b1cd7f4ad6a897183"
-    sha256 cellar: :any_skip_relocation, big_sur:       "2ee3260b0bae182e891d0dc6e4a061d9173d870f9bec1f428277a574248364fa"
-    sha256 cellar: :any_skip_relocation, catalina:      "2687bd15305fb01d7e27bfcf04968893033662da7496630246cdd727d8c18585"
-    sha256 cellar: :any_skip_relocation, mojave:        "247cb94e3eea2f7da5f334dedb0de1bd690097c87ea27b385d0d441860650caa"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3fe8f17ead54b92b365ce717e8f0d7b1c6d54b18a6d4fb5d3be0eebc6a5cfa75"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f9db0420ebd94c15f4105f256f51e86b6e2de913376c28ece96a16d49e4c2156"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "817aafe1ff5f1e6b8ef0f8621c670abdf9a2a21c53eccfefbf37e36db352d3da"
+    sha256 cellar: :any_skip_relocation, monterey:       "ef78b187116ae4b44e09d11ce6e525414bf45023cfcf4e5dac8be415218aaf7f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e5f4b128976ed4c2ade0ca0574be3262d9c1d27c85ae200f7b35a0995b924a02"
+    sha256 cellar: :any_skip_relocation, catalina:       "9e4e3bd3be4a62b34bc8564ccc922ce96c844443849671940492a521f0d56c11"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2b7af18481d3b31af4579065fe4cfaeedb4a58b4cb7efbf58b3cfe5bde8c4b9e"
   end
 
   depends_on "rust" => :build
+
+  uses_from_macos "zlib"
 
   def install
     system "cargo", "install", *std_cargo_args

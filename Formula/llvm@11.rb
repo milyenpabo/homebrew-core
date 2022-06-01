@@ -5,7 +5,7 @@ class LlvmAT11 < Formula
   sha256 "74d2529159fd118c3eac6f90107b5611bccc6f647fdea104024183e8d5e25831"
   # The LLVM Project is under the Apache License v2.0 with LLVM Exceptions
   license "Apache-2.0" => { with: "LLVM-exception" }
-  revision 2
+  revision 4
 
   # This should be removed when LLVM 13 is released, so we only check the
   # current version (the `llvm` formula) and one major version before it
@@ -16,12 +16,12 @@ class LlvmAT11 < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "ef355c7412f279413c8ef0874405288c98b7cfe7c617d9e4decf1496abe7ca07"
-    sha256 cellar: :any,                 big_sur:       "28be37f5fc663e1916c230b9b94e63f11166dcc4f172e649c37fd3477bd725e5"
-    sha256 cellar: :any,                 catalina:      "d74e57328f28889026d6c480b82146d3e101a3671b8570ec54da008640f15f46"
-    sha256 cellar: :any,                 mojave:        "11e70193c46e3daac701cb4cd3b63234af30c61c8d8af7eb090c3610a73948f8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8ba60a5d7a7d42c01bf560eb2d31e776a6f0598faac3948e7c758f465f561f37"
+    sha256 cellar: :any,                 arm64_monterey: "1f9a2e81762d314611a01ac17cafa7cd8b0c2fc92d697a5cec9555e9e1598497"
+    sha256 cellar: :any,                 arm64_big_sur:  "64552a671357b02596313def4711086027b3e49079d65588dcca75572b87108d"
+    sha256 cellar: :any,                 monterey:       "4a368a132b47fa0b3c9678927d59b5bb4fee1538d4fab9f049fc80cf83464830"
+    sha256 cellar: :any,                 big_sur:        "375a61e449b4d1bbb9b3633a4b55d1676df0eb3943b6fcef3dc3355ad50d5539"
+    sha256 cellar: :any,                 catalina:       "00b2c6b12d4603e8e7fa472aa3c16ed7283d3feae15f0799e90632d1bcf192ab"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "46be09876c5a0c71d98f0d63e7eaaa323c3af97207670a691138ef743f6344de"
   end
 
   # Clang cannot find system headers if Xcode CLT is not installed
@@ -34,7 +34,7 @@ class LlvmAT11 < Formula
   # See: Homebrew/homebrew-core/issues/35513
   depends_on "cmake" => :build
   depends_on "swig" => :build
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   uses_from_macos "libedit"
   uses_from_macos "libffi", since: :catalina
@@ -317,7 +317,7 @@ class LlvmAT11 < Formula
     end
     assert_equal "Hello World!", shell_output("./testlibc++").chomp
 
-    on_linux do
+    if OS.linux?
       # Link installed libc++, libc++abi, and libunwind archives both into
       # a position independent executable (PIE), as well as into a fully
       # position independent (PIC) DSO for things like plugins that export
@@ -330,9 +330,9 @@ class LlvmAT11 < Formula
       # linking statically.
 
       system "#{bin}/clang++", "-v", "-o", "test_pie_runtimes",
-             "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
-             "-stdlib=libc++", "-rtlib=compiler-rt",
-             "-static-libstdc++", "-lpthread", "-ldl"
+                   "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
+                   "-stdlib=libc++", "-rtlib=compiler-rt",
+                   "-static-libstdc++", "-lpthread", "-ldl"
       assert_equal "Hello World!", shell_output("./test_pie_runtimes").chomp
       (testpath/"test_pie_runtimes").dynamically_linked_libraries.each do |lib|
         refute_match(/lib(std)?c\+\+/, lib)

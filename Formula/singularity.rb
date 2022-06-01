@@ -1,12 +1,12 @@
 class Singularity < Formula
   desc "Application container and unprivileged sandbox platform for Linux"
-  homepage "https://singularity.hpcng.org"
-  url "https://github.com/hpcng/singularity/releases/download/v3.8.3/singularity-3.8.3.tar.gz"
-  sha256 "2e22eb9ee1b73fdd51b8783149f0e4d83c0d2d8a0c1edf6034157d50eeefb835"
+  homepage "https://apptainer.org/"
+  url "https://github.com/apptainer/singularity/releases/download/v3.8.7/singularity-3.8.7.tar.gz"
+  sha256 "3329f2e583f84a8343cb2c0380a1d6cbceafae7d1e633b5cbcadf7143eac859b"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "eb1e536b16dc65858dc10c803663a9299c9922c342514dfee42f97a32c06f25b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "28682e7a4d9838c01e0caf9d675bf3cbf37a5cea66b7c8a2eda23291904bd755"
   end
 
   # No relocation, the localstatedir to find configs etc is compiled into the program

@@ -3,16 +3,17 @@ class Glib < Formula
 
   desc "Core application library for C"
   homepage "https://developer.gnome.org/glib/"
-  url "https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz"
-  sha256 "200d7df811c5ba634afbf109f14bb40ba7fde670e89389885da14e27c0840742"
+  url "https://download.gnome.org/sources/glib/2.72/glib-2.72.2.tar.xz"
+  sha256 "78d599a133dba7fe2036dfa8db8fb6131ab9642783fc9578b07a20995252d2de"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256 arm64_big_sur: "ad3316e2792c4c82f6821617c9eee6a6612663a982d87bf18b834328061cf63c"
-    sha256 big_sur:       "7d4a5cf540591f124ee50ee8c344ba823d170946350e71559a52a0e21eb38a81"
-    sha256 catalina:      "9050f98ed8bdaf71deda193160609a1a925824e7c437a2b671d6c2b6d0877254"
-    sha256 mojave:        "8d2fcda0fdbc4d98142a0638de313c2dd5333a0cc5388f7a7ea1550a9d88c0c0"
-    sha256 x86_64_linux:  "59cb076302fcb0396d82e9b6a9f428223d00e2dd79fa67f91f7e552504362320"
+    sha256 arm64_monterey: "dd94ffde0318591e91b826353d83387839c57b4455bd79243c7227a2ad83b677"
+    sha256 arm64_big_sur:  "d15faebb0bd544559668770ff5ce9b69ce464bd81af81c7d0761c63aacc5cbe6"
+    sha256 monterey:       "659c2c285a67d2679c89c039864fa38dc4df64cbfd67bd77ecbeb3f8c701db41"
+    sha256 big_sur:        "b747e3542fe204aa1dc1a5892806bdfe0257f7cdfdf0f27d3164742a82e77344"
+    sha256 catalina:       "b98e6592d4b92001719c9dd983a76231b352c60915176375a9954c557daf1477"
+    sha256 x86_64_linux:   "656c6a4aaa9c2a802e4167b46cccc8ee2dfaed3b33cdcc974a8f35903af0c09a"
   end
 
   depends_on "meson" => :build
@@ -51,7 +52,7 @@ class Glib < Formula
       system "meson", *args, ".."
       system "ninja", "-v"
       system "ninja", "install", "-v"
-      bin.find { |f| rewrite_shebang detected_python_shebang, f }
+      rewrite_shebang detected_python_shebang, *bin.children
     end
 
     # ensure giomoduledir contains prefix, as this pkgconfig variable will be

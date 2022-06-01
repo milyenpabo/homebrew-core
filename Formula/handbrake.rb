@@ -1,17 +1,18 @@
 class Handbrake < Formula
   desc "Open-source video transcoder available for Linux, Mac, and Windows"
   homepage "https://handbrake.fr/"
-  url "https://github.com/HandBrake/HandBrake/releases/download/1.4.2/HandBrake-1.4.2-source.tar.bz2"
-  sha256 "8b8e81b7dc2e3180f4e94e8c7f5337d2953f69f0d983ccce48096e29ed6dfb61"
+  url "https://github.com/HandBrake/HandBrake/releases/download/1.5.1/HandBrake-1.5.1-source.tar.bz2"
+  sha256 "3999fe06d5309c819799a73a968a8ec3840e7840c2b64af8f5cdb7fd8c9430f0"
   license "GPL-2.0-only"
   head "https://github.com/HandBrake/HandBrake.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ce915dd92e8ecea860c57f930fe059fbebb2f4282a64c68c77988d6e4e3ba090"
-    sha256 cellar: :any_skip_relocation, big_sur:       "bdaf789e29ad765f12f4ee1d6173bc7c4254019c979646f87b5054be3dd9c785"
-    sha256 cellar: :any_skip_relocation, catalina:      "405a3c3c9d3511ddcf31b93c800e6db7fe6c1dbfacc68b98891ef846dec1d390"
-    sha256 cellar: :any_skip_relocation, mojave:        "cd6a2f04d56322bd3f51ca0b64f54e51a98d3709d9c0a62e42c6475658bcbe60"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "036238b99cddfee4e7553d14a82aadf6e14293b8903126b620d88f0dc0d7a7b2"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6a3146d36d5099624726932901910c41a155189f6c058a49c6292003b52244a0"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1a6c02d2641f222f77f5e6d4d1f37c03ee8490f23b65d54c22fae01f9071038b"
+    sha256 cellar: :any_skip_relocation, monterey:       "a281ebf1ffb015c0f21d3697fdca14808da4ea1c38f90c2b83c85b92236308bf"
+    sha256 cellar: :any_skip_relocation, big_sur:        "da1aba2f8fb3eb2a3b9b54db36a0097426a342d4ce26da1e68a868f108ae5b5f"
+    sha256 cellar: :any_skip_relocation, catalina:       "6866723e84ed84c71ff48bf20b54e368ec418c9c830f91e33907bee00a14425b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "935b180f5dec7910f6c7d54ba2066c0574d39c68a69d4a93353c0a513e5a3319"
   end
 
   depends_on "autoconf" => :build
@@ -22,7 +23,7 @@ class Handbrake < Formula
   depends_on "nasm" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on xcode: ["10.3", :build]
   depends_on "yasm" => :build
 

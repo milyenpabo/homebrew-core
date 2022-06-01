@@ -1,20 +1,22 @@
 class CyrusSasl < Formula
   desc "Simple Authentication and Security Layer"
   homepage "https://www.cyrusimap.org/sasl/"
-  url "https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz"
-  sha256 "26866b1549b00ffd020f188a43c258017fa1c382b3ddadd8201536f72efb05d5"
+  url "https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz"
+  sha256 "7ccfc6abd01ed67c1a0924b353e526f1b766b21f42d4562ee635a8ebfc5bb38c"
   license "BSD-3-Clause-Attribution"
 
   bottle do
-    sha256 arm64_big_sur: "bf65079be801e9e99253d9b2329f42dcf50ce38a76fe0b9cfd0a776651764765"
-    sha256 big_sur:       "383f79bf7d14b883c1b60a1356f3b94e1194ee90ad34b58b722f7ba06b4751d2"
-    sha256 catalina:      "15c3df25dde7304adaf9ab246f6387e08029c49bfe4a52726f0d3d1add0452c7"
-    sha256 mojave:        "5db405a2496c27205077235e0074767ae35fab10946325f108b425332f6c5c5e"
-    sha256 x86_64_linux:  "bcb51adaeb42ea301684ac43c7e7158c2f0998723d9b36e01b9ebc033ce646d0"
+    sha256 arm64_monterey: "ab2db74328cfcf6e6e6d9871dbd9997abf9663f8406f7413eae3297f31df1af5"
+    sha256 arm64_big_sur:  "0a68a1a03c26d5c6d3efbab276bb41aef9cfbe2878e0b206a1a4046f326bb9fd"
+    sha256 monterey:       "5ae417c006bce921655450e65b34daa21c3c418ee39ae22a9686ffb68b15ae91"
+    sha256 big_sur:        "923ba97216a1c61c759b9b3ed961c44ebe8226429898e99785c5efa719b6517e"
+    sha256 catalina:       "9af6c7964abcbbad80aa2e9f1203e40f87488c42e5e13e32c74100dc286311ef"
+    sha256 x86_64_linux:   "d54ca2a32013569d63be2ce1f2dd92216d47a5e0a096d74561490a429e3b3dbf"
   end
 
   keg_only :provided_by_macos
 
+  depends_on "krb5"
   depends_on "openssl@1.1"
 
   def install

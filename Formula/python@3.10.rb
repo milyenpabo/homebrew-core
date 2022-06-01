@@ -1,11 +1,9 @@
 class PythonAT310 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  # Keep in sync with python-tk@3.10.
-  url "https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz"
-  sha256 "c4e0cbad57c90690cb813fb4663ef670b4d0f587d8171e2c42bd4c9245bd2758"
+  url "https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tgz"
+  sha256 "f3bcc65b1d5f1dc78675c746c98fcee823c038168fc629c5935b044d0911ad28"
   license "Python-2.0"
-  revision 1
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -13,11 +11,12 @@ class PythonAT310 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "8914e224d579320ff725802e25b3cfa48323cfab7c12795093a6bba42c5c782d"
-    sha256 big_sur:       "389edf233996c81128fe8e3522fea1100d035990ba73d75c89e653225b6f8910"
-    sha256 catalina:      "f8e57f0e9d4b9d1cea34457109b198415d702e6afb41a3fc39d6113a728a51d9"
-    sha256 mojave:        "b8f7b02958485ba50d54afbc4566cf5f0a237ed4ac1466824e5b22972968af65"
-    sha256 x86_64_linux:  "754947a31ae26ffdd3a4a035ea123ceba79fd3a86da86019abb07ad99004c3f9"
+    sha256 arm64_monterey: "03dd7d1e273eca8dabce7e7cf4660dfece8e63b40092dff0329adaa8c777b142"
+    sha256 arm64_big_sur:  "e5702c6b8576fc6ae41bd7dc405dbadeadb5d0cc9add6ea21c0d8d2f230b5aa2"
+    sha256 monterey:       "4a7df5e4d26ee1ecd7da234429b4d402abe3e2f32bd0cf38564ef830e3097cfa"
+    sha256 big_sur:        "7f7fab1c22cef32117babcf5ddba2e62651192de7058dbe67a938709c33fcbb2"
+    sha256 catalina:       "24b64cbc348c187b43292e8dd518da443ffd0b382fb682d982bf9804c28bb40a"
+    sha256 x86_64_linux:   "cf65764bbc258fa1bd05ed40f995b8009f654adbefc7a0425d2771fb46d566f7"
   end
 
   # setuptools remembers the build flags python is built with and uses them to
@@ -46,18 +45,33 @@ class PythonAT310 < Formula
               "bin/easy_install-3.7", "bin/easy_install-3.8", "bin/easy_install-3.9"
 
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/1e/5c/3d7b3d91a86d71faf5038c5d259ed36b5d05b7804648e2c43251d574a6e6/setuptools-58.2.0.tar.gz"
-    sha256 "2c55bdb85d5bb460bd2e3b12052b677879cffcf46c0c688f2e5bf51d36001145"
+    url "https://files.pythonhosted.org/packages/af/e8/894c71e914dfbe01276a42dfad40025cd96119f2eefc39c554b6e8b9df86/setuptools-60.10.0.tar.gz"
+    sha256 "6599055eeb23bfef457d5605d33a4d68804266e6cb430b0fb12417c5efeae36c"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/52/e1/06c018197d8151383f66ebf6979d951995cf495629fc54149491f5d157d0/pip-21.2.4.tar.gz"
-    sha256 "0eb8a1516c3d138ae8689c0c1a60fde7143310832f9dc77e11d8a4bc62de193b"
+    url "https://files.pythonhosted.org/packages/33/c9/e2164122d365d8f823213a53970fa3005eb16218edcfc56ca24cb6deba2b/pip-22.0.4.tar.gz"
+    sha256 "b3a9de2c6ef801e9247d1527a4b16f92f2cc141cd1489f3fffaf6a9e96729764"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/4e/be/8139f127b4db2f79c8b117c80af56a3078cc4824b5b94250c7f81a70e03b/wheel-0.37.0.tar.gz"
-    sha256 "e2ef7239991699e3355d54f8e968a21bb940a1dbf34a4d226741e64462516fad"
+    url "https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz"
+    sha256 "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4"
+  end
+
+  # Modify default sysconfig to match the brew install layout.
+  # Remove when a non-patching mechanism is added (https://bugs.python.org/issue43976).
+  # We (ab)use osx_framework_library to exploit pip behaviour to allow --prefix to still work.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/a1618a5005d0b01d63b720321806820a03432f1a/python/3.10-sysconfig.diff"
+    sha256 "51bc741a7f201bf7382067f5561a10968476c98d952e54a4f1931f17f1397ef8"
+  end
+
+  # Make bundled distutils look at preferred sysconfig scheme.
+  # Remove with Python 3.12.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/a1618a5005d0b01d63b720321806820a03432f1a/python/3.10-distutils-scheme.diff"
+    sha256 "d1a29b3c9ecf8aecd65e1e54efc42fb1422b2f5d05cba0c747178f4ef8a69683"
   end
 
   def lib_cellar
@@ -113,10 +127,6 @@ class PythonAT310 < Formula
     if OS.mac?
       args << "--enable-framework=#{frameworks}"
       args << "--with-dtrace"
-
-      # Override LLVM_AR to be plain old system ar.
-      # https://bugs.python.org/issue43109
-      args << "LLVM_AR=/usr/bin/ar"
     else
       args << "--enable-shared"
     end
@@ -140,6 +150,9 @@ class PythonAT310 < Formula
     end
     # Avoid linking to libgcc https://mail.python.org/pipermail/python-dev/2012-February/116205.html
     args << "MACOSX_DEPLOYMENT_TARGET=#{MacOS.version}"
+
+    # Resolve HOMEBREW_PREFIX in our sysconfig modification.
+    inreplace "Lib/sysconfig.py", "@@HOMEBREW_PREFIX@@", HOMEBREW_PREFIX
 
     # Disable _tkinter - this is built in a separate formula python-tk
     inreplace "setup.py", "DISABLED_MODULE_LIST = []", "DISABLED_MODULE_LIST = ['_tkinter']"
@@ -198,7 +211,7 @@ class PythonAT310 < Formula
       # Prevent third-party packages from building against fragile Cellar paths
       inreplace Dir[lib_cellar/"**/_sysconfigdata__darwin_darwin.py",
                     lib_cellar/"config*/Makefile",
-                    frameworks/"Python.framework/Versions/3*/lib/pkgconfig/python-3.?.pc"],
+                    frameworks/"Python.framework/Versions/3*/lib/pkgconfig/python-3*.pc"],
                 prefix, opt_prefix
 
       # Help third-party packages find the Python framework
@@ -215,7 +228,7 @@ class PythonAT310 < Formula
       inreplace Dir[lib_cellar/"**/_sysconfigdata_*linux_x86_64-*.py",
                     lib_cellar/"config*/Makefile",
                     bin/"python#{version.major_minor}-config",
-                    lib/"pkgconfig/python-3.?.pc"],
+                    lib/"pkgconfig/python-3*.pc"],
                 prefix, opt_prefix
 
       inreplace bin/"python#{version.major_minor}-config",
@@ -334,22 +347,6 @@ class PythonAT310 < Formula
     }.each do |unversioned_name, versioned_name|
       (libexec/"bin").install_symlink (bin/versioned_name).realpath => unversioned_name
     end
-
-    # Help distutils find brewed stuff when building extensions
-    include_dirs = [HOMEBREW_PREFIX/"include", Formula["openssl@1.1"].opt_include,
-                    Formula["sqlite"].opt_include]
-    library_dirs = [HOMEBREW_PREFIX/"lib", Formula["openssl@1.1"].opt_lib,
-                    Formula["sqlite"].opt_lib]
-
-    cfg = lib_cellar/"distutils/distutils.cfg"
-
-    cfg.atomic_write <<~EOS
-      [install]
-      prefix=#{HOMEBREW_PREFIX}
-      [build_ext]
-      include_dirs=#{include_dirs.join ":"}
-      library_dirs=#{library_dirs.join ":"}
-    EOS
   end
 
   def sitecustomize

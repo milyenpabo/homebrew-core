@@ -1,33 +1,33 @@
 class Gambit < Formula
   desc "Software tools for game theory"
   homepage "http://www.gambit-project.org"
-  url "https://github.com/gambitproject/gambit/archive/v16.0.1.tar.gz"
-  sha256 "56bb86fd17575827919194e275320a5dd498708fd8bb3b20845243d492c10fef"
+  url "https://github.com/gambitproject/gambit/archive/v16.0.2.tar.gz"
+  sha256 "49837f2ccb9bb65dad2f3bba9c436c7a7df8711887e25f6bf54b074508a682d4"
   license "Apache-2.0"
-  revision 3
+  revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "067cb4ce13d125296e4db92c28c63ae90c6107079b8cd4a6e1fc935565bf864f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "c99a930bc6bd33cd8ccd07602c472c9a64006b8a6ca2a846081c0faecaf39bf7"
-    sha256 cellar: :any_skip_relocation, catalina:      "ca119805ce3e9aa8a02d91362ba8cab410762b34e84c67616c78006acebd7d44"
-    sha256 cellar: :any_skip_relocation, mojave:        "0ed6547bd2c50529879b3f1d19dcd1afa685dcc3ed030866d6cbd104c6402dc6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "946f395529bd8d582781d198adac36c2617b0636db95b8b7b5337d0542f0f7eb"
+    sha256 cellar: :any,                 arm64_monterey: "41bbabeace9094509b989c0c9927766bf9152ac536141af8a9192cecc28fad48"
+    sha256 cellar: :any,                 arm64_big_sur:  "e7ad1df8904644a889496a9080ff1b988521daee6e39b701584ac78a9be70408"
+    sha256 cellar: :any,                 monterey:       "20a9da764deb1412b480a02594f73f11f3ea30096e00532550b31d1b7097aeed"
+    sha256 cellar: :any,                 big_sur:        "48efe04b8b27733e94777c0a1f0d87474718075b8591ff08913a475070cb9ec9"
+    sha256 cellar: :any,                 catalina:       "1ed09ec20d96eb987aa568a26cf2203386d99b01ff3603de632ad20ef6948b24"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "95e129d1fdcd1a734e96c5c73517760465e35b178895081f09c9d172524f2fbf"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
-  depends_on "wxwidgets@3.0"
+  depends_on "wxwidgets"
 
   def install
-    wxwidgets = Formula["wxwidgets@3.0"]
-    ENV["WX_CONFIG"] = wxwidgets.opt_bin/"wx-config-#{wxwidgets.version.major_minor}"
-
-    system "autoreconf", "-fvi"
+    system "autoreconf", "--force", "--install", "--verbose"
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
-                          "--prefix=#{prefix}"
+                          "--prefix=#{prefix}",
+                          "--with-wx-prefix=#{Formula["wxwidgets"].opt_prefix}"
     system "make", "install"
+
     # Sanitise references to Homebrew shims
     rm Dir["contrib/**/Makefile*"]
     pkgshare.install "contrib"

@@ -1,40 +1,75 @@
 class Chapel < Formula
   desc "Programming language for productive parallel computing at scale"
   homepage "https://chapel-lang.org/"
-  url "https://github.com/chapel-lang/chapel/releases/download/1.25.0/chapel-1.25.0.tar.gz"
-  sha256 "39f43fc6de98e3b1dcee9694fdd4abbfb96cc941eff97bbaa86ee8ad88e9349b"
+  url "https://github.com/chapel-lang/chapel/releases/download/1.26.0/chapel-1.26.0.tar.gz"
+  sha256 "ba396b581f0a17f8da3f365a3f8b079b8d2e229a393fbd1756966b0019931ece"
   license "Apache-2.0"
 
   bottle do
-    sha256 big_sur:      "beda2be8596ab9a15e88cbd19c5b0289ab15b88d7f63c56d61bb863137276c7a"
-    sha256 catalina:     "f4a653976006f3f5c54b57ebada3527f807af9cbc69713591945fa7003a89927"
-    sha256 mojave:       "6be57e2cd756b5cb822bf87ab069bea4915b42c141cda9865b6279c45917c6fb"
-    sha256 x86_64_linux: "9b1816e66d41d06e9be28682a8282c12280e228ed631aad2d97e479f2e006779"
+    sha256 arm64_monterey: "65a2b089a00f6a1c02f0cac3bad10cd372c937cf07f664354418b87d56221f72"
+    sha256 arm64_big_sur:  "4daa238828d07cff728e0ae602b3e6955a4d1f054cd02684aa1f9f3cd149996a"
+    sha256 monterey:       "c7050ba4fbf49fd22dade453009d7b0cd92556e2b5cb6cc2d7523422bff2c0ae"
+    sha256 big_sur:        "65a230e55331dd250dc43731ed5074982039d2a7b20a1d010e688381135b57e1"
+    sha256 catalina:       "5492f95a8bb2e0d95bcd39b5307edb3bf194fe5e23b467c70dd03a08ff235bab"
+    sha256 x86_64_linux:   "c4f03593a52e0deab8295d4356e823094bc1bd0fbd44ebd72f131269ef217c1a"
   end
 
-  depends_on "llvm@11"
-  depends_on "python@3.9"
+  depends_on "gmp"
+  depends_on "python@3.10"
+  on_macos do
+    depends_on "llvm" if MacOS.version > :catalina
+    depends_on "llvm@11" if MacOS.version <= :catalina
+  end
+  on_linux do
+    depends_on "llvm"
+  end
+
+  # LLVM is built with gcc11 and we will fail on linux with gcc version 5.xx
+  fails_with gcc: "5"
 
   def install
     libexec.install Dir["*"]
     # Chapel uses this ENV to work out where to install.
     ENV["CHPL_HOME"] = libexec
-    # This is for mason
-    ENV["CHPL_RE2"] = "bundled"
+    ENV["CHPL_GMP"] = "system"
+    # This enables a workaround for
+    #   https://github.com/llvm/llvm-project/issues/54438
+    ENV["CHPL_HOST_USE_SYSTEM_LIBCXX"] = "yes"
 
     # Must be built from within CHPL_HOME to prevent build bugs.
     # https://github.com/Homebrew/legacy-homebrew/pull/35166
     cd libexec do
+      (libexec/"chplconfig").write <<~EOS
+        CHPL_RE2=bundled
+        CHPL_GMP=system
+      EOS
+
+      if OS.mac?
+        if MacOS.version > :catalina
+          system "echo CHPL_LLVM_CONFIG=#{HOMEBREW_PREFIX}/opt/llvm@13/bin/llvm-config >> chplconfig"
+        else
+          system "echo CHPL_LLVM_CONFIG=#{HOMEBREW_PREFIX}/opt/llvm@11/bin/llvm-config >> chplconfig"
+        end
+      else
+        system "echo CHPL_LLVM_CONFIG=#{HOMEBREW_PREFIX}/opt/llvm@13/bin/llvm-config >> chplconfig"
+      end
+
+      # don't try to set CHPL_LLVM_GCC_PREFIX since the llvm@13
+      # package should be configured to use a reasonable GCC
+      system 'echo CHPL_LLVM_GCC_PREFIX="none" >> chplconfig'
       system "./util/printchplenv", "--all"
-      system "make"
-      # Need to let chapel choose target compiler with llvm
-      ENV["CHPL_HOST_CC"] = ENV["CC"]
-      ENV["CHPL_HOST_CXX"] = ENV["CXX"]
-      ENV.delete("CC")
-      ENV.delete("CXX")
-      system "./util/printchplenv", "--all"
-      system "make"
-      system "make", "chpldoc"
+      with_env(CHPL_PIP_FROM_SOURCE: "1") do
+        system "make", "test-venv"
+      end
+      with_env(CHPL_LLVM: "none") do
+        system "make"
+      end
+      with_env(CHPL_LLVM: "system") do
+        system "make"
+      end
+      with_env(CHPL_PIP_FROM_SOURCE: "1") do
+        system "make", "chpldoc"
+      end
       system "make", "mason"
       system "make", "cleanall"
       rm_rf("third-party/llvm/llvm-src/")
@@ -42,28 +77,34 @@ class Chapel < Formula
       rm_rf("third-party/libfabric/libfabric-src")
       rm_rf("third-party/fltk/fltk-1.3.5-source.tar.gz")
       rm_rf("third-party/libunwind/libunwind-1.1.tar.gz")
+      rm_rf("third-party/gmp/gmp-src/")
+      rm_rf("third-party/qthread/qthread-src/installed")
     end
-
-    prefix.install_metafiles
 
     # Install chpl and other binaries (e.g. chpldoc) into bin/ as exec scripts.
-    platform = if OS.mac?
-      "darwin-x86_64"
-    elsif Hardware::CPU.is_64_bit?
-      "linux64-x86_64"
+    platform = if OS.linux? && Hardware::CPU.is_64_bit?
+      "linux64-#{Hardware::CPU.arch}"
     else
-      "linux-x86_64"
+      "#{OS.kernel_name.downcase}-#{Hardware::CPU.arch}"
     end
 
-    bin.install Dir[libexec/"bin/#{platform}/*"]
-    bin.env_script_all_files libexec/"bin/#{platform}/", CHPL_HOME: libexec
-    man1.install_symlink Dir["#{libexec}/man/man1/*.1"]
+    bin.install libexec.glob("bin/#{platform}/*")
+    bin.env_script_all_files libexec/"bin"/platform, CHPL_HOME: libexec
+    man1.install_symlink libexec.glob("man/man1/*.1")
   end
 
   test do
     ENV["CHPL_HOME"] = libexec
+    ENV["CHPL_INCLUDE_PATH"] = HOMEBREW_PREFIX/"include"
+    ENV["CHPL_LIB_PATH"] = HOMEBREW_PREFIX/"lib"
     cd libexec do
-      system "util/test/checkChplInstall"
+      with_env(CHPL_LLVM: "system") do
+        system "util/test/checkChplInstall"
+      end
+      with_env(CHPL_LLVM: "none") do
+        system "util/test/checkChplInstall"
+      end
     end
+    system bin/"chpl", "--print-passes", "--print-commands", libexec/"examples/hello.chpl"
   end
 end

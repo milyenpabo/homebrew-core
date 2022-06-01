@@ -2,22 +2,23 @@ class Auditbeat < Formula
   desc "Lightweight Shipper for Audit Data"
   homepage "https://www.elastic.co/products/beats/auditbeat"
   url "https://github.com/elastic/beats.git",
-      tag:      "v7.15.0",
-      revision: "9023152025ec6251bc6b6c38009b309157f10f17"
+      tag:      "v8.2.2",
+      revision: "2f1e50cc31b960b1a975f2ebe08bd17be9a5e575"
   license "Apache-2.0"
-  head "https://github.com/elastic/beats.git", branch: "master"
+  head "https://github.com/elastic/beats.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "3b59124beec51c8b8279a33db39990217e36724431e8fc09e80c1354765e6ce8"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f4d421946ac70939670eafbdadc016d464d91e465ef245e6186c1e683f1558d5"
-    sha256 cellar: :any_skip_relocation, catalina:      "2ae9bbcf8b58469b17c4dd580a7be624ff4414a4f753d77fb912071b635c6aa5"
-    sha256 cellar: :any_skip_relocation, mojave:        "2ef737537a210c23dff6a0bd91f69b611585daa3616f92f64cf0dc63b3d7959f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "24da865a1679afec991afcf48e96351c2d66ffc860fe017f694a054c49353098"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "21b549fc80c79409793afe68d37eea855076c524ae15e5ceb26d200a51a99c3e"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5fd52c9931b56fe10f21d93b60c894adc5f0d62a487b7718a78107a17b80cc43"
+    sha256 cellar: :any_skip_relocation, monterey:       "118de845d8888e6ebcdab85a8d913d58e25310beea70eb48260471be6d2df633"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fe61dd55fb286f9ccb2d1259d930cbc10091830c1a452e93c48e2b61a95f8558"
+    sha256 cellar: :any_skip_relocation, catalina:       "b3a7c7ac26e2fe241f19607851c80d4274202ad7bb379205e062754a2617c65d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ffa2c2f87c42755632ed48942404ca6bc66a5e8bb45befaed03ecf2f968b732a"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   def install
     # remove non open source files
@@ -75,10 +76,12 @@ class Auditbeat < Formula
     end
     sleep 5
     touch testpath/"files/touch"
+
     sleep 30
-    s = File.readlines(testpath/"auditbeat/auditbeat").last(1)[0]
-    assert_match(/"action":\["(initial_scan|created)"\]/, s)
-    realdirpath = File.realdirpath(testpath)
-    assert_match "\"path\":\"#{realdirpath}/files/touch\"", s
+
+    assert_predicate testpath/"data/beat.db", :exist?
+
+    output = JSON.parse((testpath/"data/meta.json").read)
+    assert_includes output, "first_start"
   end
 end

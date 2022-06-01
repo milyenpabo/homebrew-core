@@ -1,18 +1,23 @@
 class PhpCsFixer < Formula
   desc "Tool to automatically fix PHP coding standards issues"
   homepage "https://cs.symfony.com/"
-  url "https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.2.1/php-cs-fixer.phar"
-  sha256 "5d77329b72ae79322fd24e1737f1606e50f77cd42140661e5d8ed6917ddc4617"
+  url "https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.8.0/php-cs-fixer.phar"
+  sha256 "90e749db1b92d3de7155d3f1a33e2afd7334069c89132e95fc2b64b9337f0a19"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "bdccc22b31bde4d2c8e83b203c7799393f2c5c689d2b7482898b16da07ba07e6"
+    sha256 cellar: :any_skip_relocation, all: "759eb7f5e66af70d647a52a547b90915690cd709be7152341b3ace25ce989e8b"
   end
 
-  uses_from_macos "php", since: :catalina
+  depends_on "php"
 
   def install
-    bin.install "php-cs-fixer.phar" => "php-cs-fixer"
+    libexec.install "php-cs-fixer.phar"
+
+    (bin/"php-cs-fixer").write <<~EOS
+      #!#{Formula["php"].opt_bin}/php
+      <?php require '#{libexec}/php-cs-fixer.phar';
+    EOS
   end
 
   test do

@@ -6,24 +6,24 @@ class JujuWait < Formula
   url "https://files.pythonhosted.org/packages/0c/2b/f4bd0138f941e4ba321298663de3f1c8d9368b75671b17aa1b8d41a154dc/juju-wait-2.8.4.tar.gz"
   sha256 "9e84739056e371ab41ee59086313bf357684bc97aae8308716c8fe3f19df99be"
   license "GPL-3.0-only"
-  revision 1
+  revision 3
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "e6b5a2374dcc6b496d184050039dcb233fdc695219518949ccb7b9d65ca98ef6"
-    sha256 cellar: :any,                 big_sur:       "6e73b48dd92446f5cb69ec22117b9907aeff53ea52524fc5a2a095425430e5a3"
-    sha256 cellar: :any,                 catalina:      "82f581e595e843682782737000c28646f59ce7ceda2572a094c616aeddf26709"
-    sha256 cellar: :any,                 mojave:        "3d09fe21c6290f6a055cae35c06e4cdd7682111b295eea2551430df1f618b3d0"
-    sha256 cellar: :any,                 high_sierra:   "5d6a6e8f8fe65ec7f7e0b132b75d85d3b918ec850f9f9b8d0f5742ab6d37f552"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3aaa7755893eb4a178332afd8e340209f533bb54cd164701e7e3abcc9726f033"
+    sha256 cellar: :any,                 arm64_monterey: "e04f8b657da7e878dda77d9c31306708e062f3f917c6f31426da41ecbc8dbad5"
+    sha256 cellar: :any,                 arm64_big_sur:  "755de97cf6751a7f122dab8c7333fc36010210f3e20a3869e6662a3686efac1c"
+    sha256 cellar: :any,                 monterey:       "110669824c007b0ad6a05f5b387711779377bf83e0e4e5229d7925b277c69310"
+    sha256 cellar: :any,                 big_sur:        "fadd2d52965a99d993bd11bf75de1b7e7373b4ce17c9af28118f8b211f1170d4"
+    sha256 cellar: :any,                 catalina:       "9d08ba7ec7decac831dc8d38137d028caa99f3545ffb2c75c7c1f7a51539618f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "53e1fa7c3e4fcaf849f6cdb515f63aeb5c12c2539b682b5cf3293b568ea35211"
   end
 
   depends_on "juju"
   depends_on "libyaml"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   resource "PyYAML" do
-    url "https://files.pythonhosted.org/packages/64/c2/b80047c7ac2478f9501676c988a5411ed5572f35d1beff9cae07d321512c/PyYAML-5.3.1.tar.gz"
-    sha256 "b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d"
+    url "https://files.pythonhosted.org/packages/36/2b/61d51a2c4f25ef062ae3f74576b01638bebad5e045f747ff12643df63844/PyYAML-6.0.tar.gz"
+    sha256 "68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"
   end
 
   def install

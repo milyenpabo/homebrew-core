@@ -7,10 +7,13 @@ class TemporalTables < Formula
   revision 3
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ace1bc50036de0db253faad559c125c6f47496308b78ae9c81796cb19576fb62"
-    sha256 cellar: :any_skip_relocation, big_sur:       "bbca0fa6293665bf8441fcaa6d560c7414b9cffb0e1e6ec0b05ae5abb75ead19"
-    sha256 cellar: :any_skip_relocation, catalina:      "232faff661afb06b3b5c9a496a7d6781cb4c5d469080fea2903429472c1049e6"
-    sha256 cellar: :any_skip_relocation, mojave:        "bbf936aa039c98a3226fa8c3635d192d807826a9753fcee99514f212fc6f85c3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "c0f993c548b4712d06a62910c41a8a3353f4787c150993066bc9065234e1c040"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ace1bc50036de0db253faad559c125c6f47496308b78ae9c81796cb19576fb62"
+    sha256 cellar: :any_skip_relocation, monterey:       "9261b086bc9ac6276b83d3b7a742f6eb1835c2a3dbc66e0e1030d577359d361b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "bbca0fa6293665bf8441fcaa6d560c7414b9cffb0e1e6ec0b05ae5abb75ead19"
+    sha256 cellar: :any_skip_relocation, catalina:       "232faff661afb06b3b5c9a496a7d6781cb4c5d469080fea2903429472c1049e6"
+    sha256 cellar: :any_skip_relocation, mojave:         "bbf936aa039c98a3226fa8c3635d192d807826a9753fcee99514f212fc6f85c3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0156446fd9b2de02039e4904e7198bf4ca036be805692a0f49c22fa9abfcc564"
   end
 
   depends_on "postgresql"
@@ -44,7 +47,12 @@ class TemporalTables < Formula
     mkdir "stage"
     system "make", "install", "DESTDIR=#{buildpath}/stage"
 
-    lib.install Dir["stage/**/lib/*"]
-    (share/"postgresql/extension").install Dir["stage/**/share/postgresql/extension/*"]
+    pgsql_prefix = Formula["postgresql"].prefix.realpath
+    pgsql_stage_path = File.join("stage", pgsql_prefix)
+    share.install (buildpath/pgsql_stage_path/"share").children
+
+    stage_path = File.join("stage", HOMEBREW_PREFIX)
+    lib.install (buildpath/stage_path/"lib").children
+    share.install (buildpath/stage_path/"share").children
   end
 end

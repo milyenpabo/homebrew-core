@@ -1,19 +1,21 @@
 class Nvc < Formula
   desc "VHDL compiler and simulator"
   homepage "https://github.com/nickg/nvc"
-  url "https://github.com/nickg/nvc/releases/download/r1.5.2/nvc-1.5.2.tar.gz"
-  sha256 "56b71a091d9bebeaca28e2cffb1546de91068de8788d96a92d209cec7402349c"
+  url "https://github.com/nickg/nvc/releases/download/r1.6.2/nvc-1.6.2.tar.gz"
+  sha256 "e6e2db8e086ef0e54e0745b0346e83fbc5664f9c4bda11645843656736382d3c"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 arm64_big_sur: "ed81b83101417314e47d4c9e27c1efc2cd5aa8b2f6d360d16ff4ff4a39693dd7"
-    sha256 big_sur:       "878fc444b7f6694cbb12ec4d1f6e644d1c7f853d109915ab49c5e77b151100ee"
-    sha256 catalina:      "fe88883631d30f010b06fc8c7ff7f5ae7cd8a67cdcde8e28f262ad4f1fcb3e29"
-    sha256 mojave:        "5d42447afee153063a563b0b32d8d2a98c955aff3860bbbe30d994d8c82f4dac"
+    sha256 arm64_monterey: "d94444247597cbc17c3e446519777ef98af2f890b4ddec04580aaab124f09fc3"
+    sha256 arm64_big_sur:  "b556f95f7dd3ad3fe13600a087c4a9b180a2f0299e6275648cf3af398e423868"
+    sha256 monterey:       "978ca721f49f993579acab15ba13ec1a6cd106107cb721d3f25ba4605178b0a3"
+    sha256 big_sur:        "85e996f111a1e044b618c3668e8a7e4f90d1199e62b541255a38ffff19220e39"
+    sha256 catalina:       "46167192b6dc41d9cc8ebd3f6e2fd51c5733541f83eaed8e53d06f57bdd25bb2"
+    sha256 x86_64_linux:   "12c4126806168b0c08fbd201e4b1cadefd2fb0dcafa24927ff11bc4c54826796"
   end
 
   head do
-    url "https://github.com/nickg/nvc.git"
+    url "https://github.com/nickg/nvc.git", branch: "master"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -23,29 +25,37 @@ class Nvc < Formula
   depends_on "pkg-config" => :build
   depends_on "llvm"
 
-  resource "vim-hdl-examples" do
+  uses_from_macos "flex" => :build
+
+  fails_with gcc: "5" # LLVM is built with GCC
+
+  resource "homebrew-test" do
     url "https://github.com/suoto/vim-hdl-examples.git",
         revision: "fcb93c287c8e4af7cc30dc3e5758b12ee4f7ed9b"
   end
 
-  # remove in next release
-  patch do
-    url "https://github.com/nickg/nvc/commit/64c2521260e868224ed94e6913f378c306ef2909.patch?full_index=1"
-    sha256 "3bdb4770df20751079d7c6899a7546cfe43c4a3b56387d5a6188ecd7617bb23a"
-  end
-
   def install
     system "./autogen.sh" if build.head?
+
+    # Avoid hardcoding path to the `ld` shim.
+    if build.head? && OS.linux?
+      inreplace "configure", "#define LINKER_PATH \\\"$linker_path\\\"", "#define LINKER_PATH \\\"ld\\\""
+    elsif OS.linux?
+      inreplace "configure", "#define LINKER_PATH \"$linker_path\"", "#define LINKER_PATH \"ld\""
+    end
+
     system "./configure", "--with-llvm=#{Formula["llvm"].opt_bin}/llvm-config",
                           "--prefix=#{prefix}",
-                          "--with-system-cc=/usr/bin/clang",
-                          "--enable-vhpi"
-    system "make"
-    system "make", "install"
+                          "--with-system-cc=#{ENV.cc}",
+                          "--enable-vhpi",
+                          "--disable-silent-rules"
+    ENV.deparallelize
+    system "make", "V=1"
+    system "make", "V=1", "install"
   end
 
   test do
-    resource("vim-hdl-examples").stage testpath
+    resource("homebrew-test").stage testpath
     system "#{bin}/nvc", "-a", "#{testpath}/basic_library/very_common_pkg.vhd"
   end
 end

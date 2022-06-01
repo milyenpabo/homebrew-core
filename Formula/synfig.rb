@@ -1,11 +1,11 @@
 class Synfig < Formula
   desc "Command-line renderer"
   homepage "https://synfig.org/"
-  # NOTE: Please keep these values in sync with etl.rb when updating.
   url "https://downloads.sourceforge.net/project/synfig/releases/1.4.2/synfig-1.4.2.tar.gz"
   mirror "https://github.com/synfig/synfig/releases/download/v1.4.2/synfig-1.4.2.tar.gz"
   sha256 "e66688b908ab2f05f87cc5a364f958a1351f101ccab3b3ade33a926453002f4e"
   license "GPL-3.0-or-later"
+  revision 1
   head "https://svn.code.sf.net/p/synfig/code/"
 
   livecheck do
@@ -14,10 +14,10 @@ class Synfig < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "c5a90497b2b4eb28f6c5a836fb623cad8f9fddfbddf488f3409f064b2e1df9a4"
-    sha256 big_sur:       "66e628cef26b73ac1dce71debf969be8b20ffec44c9bedd89634375467e7481f"
-    sha256 catalina:      "0ccb996e2cbb9eee74b8026396652ad804ef3c55b4fc1351805f7adaf8d8ef90"
-    sha256 mojave:        "506f2dd363424514817d44b47cf81dda7ac0a80f4df83f39aeca5eb2e2fb2f70"
+    sha256 arm64_big_sur: "248a8a69404babd55d6d1e678fb2022d42639f47e7e5a8b34c92a014abbbd7ed"
+    sha256 big_sur:       "f85dbdbe02942899a886ad52ae90250d92eab5d9d107274f29d2f58051db47d2"
+    sha256 catalina:      "5fab8763baffa4652cd3ff289ee4fad1530cd0a3dbbee0b74c17d0c52b785b4e"
+    sha256 x86_64_linux:  "b6865d57013ac63ae95ee4208b993e7123390758fe195bd278b377eb2f5b8823"
   end
 
   depends_on "intltool" => :build
@@ -36,7 +36,17 @@ class Synfig < Formula
   depends_on "openexr"
   depends_on "pango"
 
+  uses_from_macos "perl" => :build
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
   def install
+    ENV.prepend_path "PERL5LIB", Formula["intltool"].libexec/"lib/perl5" unless OS.mac?
+
     ENV.cxx11
     boost = Formula["boost"]
     system "./configure", "--disable-debug",
@@ -108,7 +118,6 @@ class Synfig < Formula
       -lglib-2.0
       -lglibmm-2.4
       -lgobject-2.0
-      -lintl
       -lmlt-7
       -lmlt++-7
       -lpango-1.0
@@ -119,6 +128,7 @@ class Synfig < Formula
       -lxml++-2.6
       -lxml2
     ]
+    flags << "-lintl" if OS.mac?
     system ENV.cxx, "-std=c++11", "test.cpp", "-o", "test", *flags
     system "./test"
   end

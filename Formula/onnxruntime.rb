@@ -2,8 +2,8 @@ class Onnxruntime < Formula
   desc "Cross-platform, high performance scoring engine for ML models"
   homepage "https://github.com/microsoft/onnxruntime"
   url "https://github.com/microsoft/onnxruntime.git",
-      tag:      "v1.9.1",
-      revision: "2a96b73a1afa9aaafb510749627e267c4e8dee63"
+      tag:      "v1.11.1",
+      revision: "366f4ebcb425b6a47c2b0decd3b39fa14eb9dbf6"
   license "MIT"
 
   livecheck do
@@ -12,18 +12,19 @@ class Onnxruntime < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "b201b295f91bb36ea1ddd9a1fc369698466e790d2db462c74adf07cb5a7bd764"
-    sha256 cellar: :any,                 big_sur:       "9df210ba239c623f6c0270db7c3e75089007422156be6c35867c37f060ede8f7"
-    sha256 cellar: :any,                 catalina:      "ff4acf5025be335fbb577682f2ba438f749a64d12b6f7167a11c1aff29235dcc"
-    sha256 cellar: :any,                 mojave:        "be2ce9d531cdc938a4587126364fa4fd7b237bc50d183d9aa3359969913e7b77"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "469682bee07c34a201802ba90f228893035f8f16d58ad3a7d9a58f06d4a64427"
+    sha256 cellar: :any,                 arm64_monterey: "67395f4da47c0fe369eca4f1ddefcd3bc1ac80602e5028ae831d3ea45a501cb1"
+    sha256 cellar: :any,                 arm64_big_sur:  "0aefe3bc18e877529c4558690872dc6427668830b49b234d3dfdc0fffc5994a4"
+    sha256 cellar: :any,                 monterey:       "d605eab89cf11209f25aab6eb4f371c0b345f5927132e5ff1a3e71d40b369a13"
+    sha256 cellar: :any,                 big_sur:        "0d781494db579b7a7297840ab2a899dde515a12f2c42e2e47d6c941830692815"
+    sha256 cellar: :any,                 catalina:       "c27046441db151b7f36a23b4685b4e30de6e7b8223306e5a7837353b3f7cc077"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "38ae3063265cd6fd3d177a482053e27d90891797cbc78513bcd8ed3651204e98"
   end
 
   depends_on "cmake" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   on_linux do
-    depends_on "gcc" => :build
+    depends_on "gcc"
   end
 
   fails_with gcc: "5" # GCC version < 7 is no longer supported
@@ -32,7 +33,7 @@ class Onnxruntime < Formula
     cmake_args = %W[
       -Donnxruntime_RUN_ONNX_TESTS=OFF
       -Donnxruntime_GENERATE_TEST_REPORTS=OFF
-      -DPYTHON_EXECUTABLE=#{Formula["python@3.9"].opt_bin}/python3
+      -DPYTHON_EXECUTABLE=#{Formula["python@3.10"].opt_bin}/python3
       -Donnxruntime_BUILD_SHARED_LIB=ON
       -Donnxruntime_BUILD_UNIT_TESTS=OFF
     ]

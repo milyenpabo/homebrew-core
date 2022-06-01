@@ -1,10 +1,10 @@
 class Gstreamer < Formula
   desc "Development framework for multimedia applications"
   homepage "https://gstreamer.freedesktop.org/"
-  url "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz"
-  sha256 "9aeec99b38e310817012aa2d1d76573b787af47f8a725a65b833880a094dfbc5"
+  url "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.20.2.tar.xz"
+  sha256 "df24e8792691a02dfe003b3833a51f1dbc6c3331ae625d143b17da939ceb5e0a"
   license "LGPL-2.0-or-later"
-  head "https://gitlab.freedesktop.org/gstreamer/gstreamer.git"
+  head "https://gitlab.freedesktop.org/gstreamer/gstreamer.git", branch: "main"
 
   livecheck do
     url "https://gstreamer.freedesktop.org/src/gstreamer/"
@@ -12,11 +12,12 @@ class Gstreamer < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "d62ea2ea98bd22267eabf676f8ec577df5eac27e7656e56545767b909d2224d5"
-    sha256 big_sur:       "a2d62c11bf92e6d4f2d02d1dff4558e945f6dc10b27f435c14824de9d2fdba48"
-    sha256 catalina:      "9fcc5eb54cebede4c30ed3bacbf82fb8272471bd0a80cbc0a63b503a79994371"
-    sha256 mojave:        "259ae892b842f10c590240abfc97e2af6d6c93f67d1362da1d858e913d3ddbd1"
-    sha256 x86_64_linux:  "ed6878d62c1ae4e7f007ddad5d307b84bef65a8ce7637aa65dcf9e2b6aebaaf9"
+    sha256 arm64_monterey: "59f2c5fb93a71647932931aca4a8153720f4f22fa2a7a2b9d41886bae3e10dab"
+    sha256 arm64_big_sur:  "2c97a9e6e80fd43b98302c34f485e27aebdba41207030e3273b503542c4744a0"
+    sha256 monterey:       "b63640fb86a0594a227bfc5331a90152a2cd68514577920f6ded7861b724743e"
+    sha256 big_sur:        "063346f124b3676c3ec964e274f94e78e1a255a80f0711b7afcb49a38ecfad11"
+    sha256 catalina:       "5d923ac9be1094abb372ee3b0c98ff34b7483ff65a6b2cd9b0a759d03df36b98"
+    sha256 x86_64_linux:   "91b93bceab35daf1981c5927a0ae4bf108ce79d7863eda08e6e2845dc1f517c2"
   end
 
   depends_on "bison" => :build
@@ -50,6 +51,8 @@ class Gstreamer < Formula
       system "ninja", "-v"
       system "ninja", "install", "-v"
     end
+
+    bin.env_script_all_files libexec/"bin", GST_PLUGIN_SYSTEM_PATH: HOMEBREW_PREFIX/"lib/gstreamer-1.0"
   end
 
   def caveats

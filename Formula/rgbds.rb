@@ -1,8 +1,8 @@
 class Rgbds < Formula
   desc "Rednex GameBoy Development System"
   homepage "https://rgbds.gbdev.io"
-  url "https://github.com/gbdev/rgbds/archive/v0.5.1.tar.gz"
-  sha256 "1e5331b5638076c1f099a961f8663256e9f8be21135427277eb0000d3d6ee887"
+  url "https://github.com/gbdev/rgbds/archive/v0.5.2.tar.gz"
+  sha256 "29172a43c7a4f41e5809d8c40cb76b798a0d01dfc9f5340b160a405b89b3b182"
   license "MIT"
   head "https://github.com/gbdev/rgbds.git", branch: "master"
 
@@ -12,11 +12,12 @@ class Rgbds < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "44cca5083d32dfa42a6d7d120079eabff0c375ff432851de28a61a943725ceb8"
-    sha256 cellar: :any,                 big_sur:       "3f02c082066bc835f042a37ae3e972cb58a77a615634f299e33f301dab46b6c1"
-    sha256 cellar: :any,                 catalina:      "9927685009fa383bc393eb32e36cb44d1db0cce12f06640b323f44d6589ad50c"
-    sha256 cellar: :any,                 mojave:        "e778e85fdb6ea1b00d1d25648e6da9fbfe92c35779dd6be1ae62abc8eb459077"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "21221704428b141cc9ea34e5d69598791620a22a68022d98b39d4d78bbbbfa4d"
+    sha256 cellar: :any,                 arm64_monterey: "e505b8cbcbd0616827dd30b6f721d22934033035245298eb38ccbc068826845d"
+    sha256 cellar: :any,                 arm64_big_sur:  "8bcf6b7c935fb4a1e16ab5d4aeb17ed219326eb4a0af16d29a0c8b0df7a23cb4"
+    sha256 cellar: :any,                 monterey:       "48ac9ac9428dfcc172424bcbb38b54513ba771862f1213bed99103b99d8adca3"
+    sha256 cellar: :any,                 big_sur:        "c437b7d82e464e25d20f9e68520afe1e9af9bb9f541947c81249803a30464cca"
+    sha256 cellar: :any,                 catalina:       "36d32f696c7cd52e92a5fc6fa61684f2672bf4f68fbabde56ad738ce8d2531aa"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "03516bc2b7b6c848d9e0caa8d32802da53cc226901ece9eddd1b1e49e1833af9"
   end
 
   depends_on "bison" => :build
@@ -36,6 +37,7 @@ class Rgbds < Formula
       man1.install "rgbobj.1"
     end
     zsh_completion.install Dir["contrib/zsh_compl/_*"]
+    bash_completion.install Dir["contrib/bash_compl/_*"]
   end
 
   test do

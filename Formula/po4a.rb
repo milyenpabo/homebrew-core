@@ -5,17 +5,18 @@ class Po4a < Formula
 
   desc "Documentation translation maintenance tool"
   homepage "https://po4a.org"
-  url "https://github.com/mquinson/po4a/releases/download/v0.64/po4a-0.64.tar.gz"
-  sha256 "34d14042e1925cf9a77649cb64f5b900125d2fc9ca5298c67889a76c2d3975e5"
+  url "https://github.com/mquinson/po4a/releases/download/v0.66/po4a-0.66.tar.gz"
+  sha256 "854a75b91b2b39f4c2a4ed244dba22c9b01be675e2bd1448dce68c8e90d2f2ff"
   license "GPL-2.0-or-later"
   head "https://github.com/mquinson/po4a.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "1a2d060d1faf7ecd75bd470748a5d303cd0c411811968078b05641878a474348"
-    sha256 cellar: :any,                 big_sur:       "80abc550f5bbd50a8aaa768842a4edafafeaca49cf1ff89082c8fab02b0abf63"
-    sha256 cellar: :any,                 catalina:      "3b54ccc0bad5fd40b0ce169475ae7f19043a107ba3434494ecee1e1cebb397c6"
-    sha256 cellar: :any,                 mojave:        "3c076870955edacccc0c14499074db4345426dd64e39723b517f854938d3510c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4ac177d948930e43469b72dad6b04b5810c766e1b1221c2f2ec12ba4a5dc119b"
+    sha256 cellar: :any,                 arm64_monterey: "b7dfd568f731a09e3da3ac0032e87fbbc591d67382156fc84a48ef5932504e78"
+    sha256 cellar: :any,                 arm64_big_sur:  "5b9b2e358d4d5fe41c553a1f4643f412c9ba7dad56c49df234be1d7d6c6aa8d6"
+    sha256 cellar: :any,                 monterey:       "fe7df5df2385cb52c14b3976c061af33a030d6e28c5b6d5df0b94642d45f8c50"
+    sha256 cellar: :any,                 big_sur:        "5b07035f584ee757311fd08f82bef27efe4511627e36d14535ebe46846382fa4"
+    sha256 cellar: :any,                 catalina:       "3dfc1f4cde97217205752346004841e0f7c95af44ef3d56806c061c059ba6dad"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b9d248005fdc21a472cc730b4af982078a2e2d0164c579153b3841df1e7e860b"
   end
 
   depends_on "docbook-xsl" => :build

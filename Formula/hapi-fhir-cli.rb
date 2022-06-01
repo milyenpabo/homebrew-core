@@ -1,8 +1,8 @@
 class HapiFhirCli < Formula
   desc "Command-line interface for the HAPI FHIR library"
   homepage "https://hapifhir.io/"
-  url "https://github.com/hapifhir/hapi-fhir/releases/download/v5.4.0/hapi-fhir-5.4.0-cli.zip"
-  sha256 "142022d1d5b1d849e9a894bac0a8269bfccf3be4b1364b3eaeb685c588966995"
+  url "https://github.com/hapifhir/hapi-fhir/releases/download/v6.0.1/hapi-fhir-6.0.1-cli.zip"
+  sha256 "9779b9ac721a93ec59fe88c202290682c79bf6f23fc2f5e55b652aafac004f66"
   license "Apache-2.0"
 
   livecheck do
@@ -11,12 +11,12 @@ class HapiFhirCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "d4b76b90a1600c2356dd8a5d5746421317b72adddef280a7786c9a77657d68b0"
+    sha256 cellar: :any_skip_relocation, all: "d04f74807861d4f532d851c9a909a0bbf47989db96a0cd5d1fd428718ac30d1e"
   end
 
   depends_on "openjdk"
 
-  resource "test_resource" do
+  resource "homebrew-test_resource" do
     url "https://github.com/hapifhir/hapi-fhir/raw/v5.4.0/hapi-fhir-structures-dstu3/src/test/resources/specimen-example.json"
     sha256 "4eacf47eccec800ffd2ca23b704c70d71bc840aeb755912ffb8596562a0a0f5e"
   end
@@ -29,7 +29,7 @@ class HapiFhirCli < Formula
   end
 
   test do
-    testpath.install resource("test_resource")
+    testpath.install resource("homebrew-test_resource")
     system bin/"hapi-fhir-cli", "validate", "--file", "specimen-example.json",
            "--fhir-version", "dstu3"
   end

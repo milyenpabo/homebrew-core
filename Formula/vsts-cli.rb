@@ -5,17 +5,19 @@ class VstsCli < Formula
   homepage "https://docs.microsoft.com/en-us/cli/vsts"
   url "https://files.pythonhosted.org/packages/f9/c2/3ed698480ab30d2807fc961eef152099589aeaec3f1407945a4e07275de5/vsts-cli-0.1.4.tar.gz"
   sha256 "27defe1d8aaa1fcbc3517274c0fdbd42b5ebe2c1c40edfc133d98fe4bb7114de"
-  revision 4
+  license "MIT"
+  revision 5
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "046a0a188502277cfefe4ac62665a654aa161e2e727382c182be93c47c72252f"
-    sha256 cellar: :any, big_sur:       "c3bdc4320322286d34f0030a787ae04059822d352fe5de2a136932b0d787b5cb"
-    sha256 cellar: :any, catalina:      "cabfe93b0a12cb130c8acc879f6858083d8e80bbfe727eb3e4f653410943cf5b"
-    sha256 cellar: :any, mojave:        "c6857c4daa283ec757a22d1bde0f628d5201e92d3b98c51aa6153537ad7bee31"
+    sha256 cellar: :any, arm64_monterey: "4dc169e5bbff8bd9eaa9db72b8b2a83d83716e40202854906cd8ac59cdc0bc5c"
+    sha256 cellar: :any, arm64_big_sur:  "752413507a6e22fe0b1a2c1ac153b71707d18cd169ae3449de5f273fd703b990"
+    sha256 cellar: :any, monterey:       "d584b9d130263ae074a4c4c7332ecd46108c527939407dbef22a7d9cbb4b0126"
+    sha256 cellar: :any, big_sur:        "d7efb21997c73cca1c609e1e720f7322ff5329961fb8908c4ad3d40370c167e8"
+    sha256 cellar: :any, catalina:       "f77d99672e32d1b8a5fc5fc01d8dcc6a4959af4a369d67c32a595fc1503fdbaf"
   end
 
   # https://github.com/Azure/azure-devops-cli-extension/pull/219#issuecomment-456404611
-  deprecate! date: "2019-01-22", because: :unsupported
+  disable! date: "2022-05-27", because: :unsupported
 
   depends_on "rust" => :build
   depends_on "python@3.9"
@@ -52,8 +54,8 @@ class VstsCli < Formula
   end
 
   resource "cryptography" do
-    url "https://files.pythonhosted.org/packages/fa/2d/2154d8cb773064570f48ec0b60258a4522490fcb115a6c7c9423482ca993/cryptography-3.4.6.tar.gz"
-    sha256 "2d32223e5b0ee02943f32b19245b61a62db83a882f0e76cc564e1cec60d48f87"
+    url "https://files.pythonhosted.org/packages/cc/98/8a258ab4787e6f835d350639792527d2eb7946ff9fc0caca9c3f4cf5dcfe/cryptography-3.4.8.tar.gz"
+    sha256 "94cc5ed4ceaefcbe5bf38c8fba6a21fc1d365bb8fb826ea1688e3370b2e24a1c"
   end
 
   resource "entrypoints" do

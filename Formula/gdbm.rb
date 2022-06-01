@@ -1,25 +1,25 @@
 class Gdbm < Formula
   desc "GNU database manager"
   homepage "https://www.gnu.org/software/gdbm/"
-  url "https://ftp.gnu.org/gnu/gdbm/gdbm-1.21.tar.gz"
-  mirror "https://ftpmirror.gnu.org/gdbm/gdbm-1.21.tar.gz"
-  sha256 "b0b7dbdefd798de7ddccdd8edf6693a30494f7789777838042991ef107339cc2"
+  url "https://ftp.gnu.org/gnu/gdbm/gdbm-1.23.tar.gz"
+  mirror "https://ftpmirror.gnu.org/gdbm/gdbm-1.23.tar.gz"
+  sha256 "74b1081d21fff13ae4bd7c16e5d6e504a4c26f7cde1dca0d963a484174bbcacd"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "15e097602373e698a4c89507a781215eac68f83ff28cf8d2a25d637340e1d179"
-    sha256 cellar: :any, big_sur:       "7abb94a713a1e25f5fc4c5218067abf6ad09bbd68967c21f01d5d69f88308dd4"
-    sha256 cellar: :any, catalina:      "4bdb9659a78c19dc10778ecbf078c2c96ae68ab75c75145260b88e95fc80f86f"
-    sha256 cellar: :any, mojave:        "a4e992de96a5f68d72c0d47da69cf70d5e3c315e15f8f77e0554a6758cadb805"
-    sha256               x86_64_linux:  "3c1999d4430a0004c0a333993d32f1fdcc1695ecd23715d4986722d0b6703b13"
+    sha256 cellar: :any, arm64_monterey: "62a2c1994737a2677f318a97ac64a32690f9f958086310a49f37e3fcfd5b6731"
+    sha256 cellar: :any, arm64_big_sur:  "09f52f15b2a2d126213ea5631bdd35722006540f0086bd285a4f611a4b4b8a78"
+    sha256 cellar: :any, monterey:       "0d0aeea95f9e7b4ccfa1e8d7f3a83b3b4d604eac1178e4f88ad51d132ad1f7cd"
+    sha256 cellar: :any, big_sur:        "d52ed8dbb258f11b14eb10494aeb8a2dab91c3626b11e37d8197d2fb183c489b"
+    sha256 cellar: :any, catalina:       "47e4821fa03790827af24698bf7cb833656d48e56bfb141b3093e8cabf5b1c88"
+    sha256               x86_64_linux:   "7d5728174c3de6c048a233459a1b8ac9e8c53645ca14962d9a1deb60fd58a568"
   end
 
-  # Fix build failure on macOS. Merged upstream as
-  # https://git.gnu.org.ua/gdbm.git/commit/?id=32517af75ac8c32b3ff4870e14ff28418696c554
-  #
-  # Patch taken from:
-  # https://puszcza.gnu.org.ua/bugs/?521
-  patch :p0, :DATA
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+  end
 
   # --enable-libgdbm-compat for dbm.h / gdbm-ndbm.h compatibility:
   #   https://www.gnu.org.ua/software/gdbm/manual/html_chapter/gdbm_19.html
@@ -48,22 +48,3 @@ class Gdbm < Formula
     assert_match "2", pipe_output("#{bin}/gdbmtool --norc test", "fetch 1\nquit\n")
   end
 end
-
-__END__
---- src/gdbmshell.c.orig
-+++ src/gdbmshell.c
-@@ -1010,7 +1010,13 @@ print_snapshot (char const *snapname, FILE *fp)
-       fprintf (fp, "%s: ", snapname);
-       fprintf (fp, "%03o %s ", st.st_mode & 0777,
- 	       decode_mode (st.st_mode, buf));
--      fprintf (fp, "%ld.%09ld", st.st_mtim.tv_sec, st.st_mtim.tv_nsec);
-+      struct timespec mtimespec;
-+#ifdef __APPLE__
-+      mtimespec = st.st_mtimespec;
-+#else
-+      mtimespec = st.st_mtim;
-+#endif
-+      fprintf (fp, "%ld.%09ld", mtimespec.tv_sec, mtimespec.tv_nsec);
-       if (S_ISREG (st.st_mode))
- 	{
- 	  GDBM_FILE dbf;

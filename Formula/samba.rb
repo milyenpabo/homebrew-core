@@ -4,8 +4,8 @@ class Samba < Formula
   # option. The shared folder appears in the guest as "\\10.0.2.4\qemu".
   desc "SMB/CIFS file, print, and login server for UNIX"
   homepage "https://www.samba.org/"
-  url "https://download.samba.org/pub/samba/stable/samba-4.15.0.tar.gz"
-  sha256 "b1f3470838623156283733e6295f49cd6ae44a7e61bb9c346315d1e668d24640"
+  url "https://download.samba.org/pub/samba/stable/samba-4.16.1.tar.gz"
+  sha256 "c058b563a36dbb552464b63afde2431b79050471723fd9ee83219f997efb66ce"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -14,32 +14,34 @@ class Samba < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "3ebb7f73273a7f80d7f3fceddcadd8d5402c2c6488e942fad911f11ad0e41c6d"
-    sha256 big_sur:       "76112aca4b4c50474f3485d5c7444de66fad7570036e557ef87114db31baca5d"
-    sha256 catalina:      "703ed0f1c7f58212ea24a6272d700d847a9d06d4e459843f487c2e559104cf02"
-    sha256 mojave:        "bffc6ff612d37b26ae0a9f1fc3b5d66c78fb6d0e4e31ee096d2d5b749fcb0dfe"
-    sha256 x86_64_linux:  "8b4c8a0cddd2c1ad635a712a5931fd6d9dfe642691cc42bbe4aa940131b447d2"
+    sha256 arm64_monterey: "dc13ba86a32accb7926815c3ee99cf8a931e12ceab3cf17a4b5e83f1bce6ff30"
+    sha256 arm64_big_sur:  "c3c427941dc6f45634bc36232c936cb7235d20901c4d345a4351f74a20dbaf6b"
+    sha256 monterey:       "cefde3cb711786beb34957176723ea183edc02f395b6833a3f5fd89c5d84d85e"
+    sha256 big_sur:        "8702b348afd92dbd91851c9cab68dd44a1fa3ecd0d02e6aec084e29789cf12eb"
+    sha256 catalina:       "cc0d22918d3d3d4db0d225e0bc1bfe5d5c1efce27c178fa7883045042742c81b"
+    sha256 x86_64_linux:   "660f770615e3a2207e177f8abd55c7443d3778bedb5db35acb4c3468cf8c84b1"
   end
 
   # configure requires python3 binary to be present, even when --disable-python is set.
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "gnutls"
+  depends_on "krb5"
+  depends_on "libtasn1"
+  depends_on "readline"
 
   uses_from_macos "bison" => :build
   uses_from_macos "flex" => :build
   uses_from_macos "perl" => :build
+  uses_from_macos "libxcrypt"
+  uses_from_macos "zlib"
+
+  on_macos do
+    depends_on "openssl@1.1"
+  end
 
   resource "Parse::Yapp" do
     url "https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz"
     sha256 "3810e998308fba2e0f4f26043035032b027ce51ce5c8a52a8b8e340ca65f13e5"
-  end
-
-  # Workaround for "charset_macosxfs.c:278:4: error: implicit declaration of function 'DEBUG' is invalid in C99"
-  # Can be removed when https://bugzilla.samba.org/show_bug.cgi?id=14680 gets resolved.
-  # Merge request: https://gitlab.com/samba-team/samba/-/merge_requests/2160
-  patch do
-    url "https://attachments.samba.org/attachment.cgi?id=16579"
-    sha256 "86fce5306349d1c8f3732ca978a31065df643c8770114dc9d068b7b4dfa7d282"
   end
 
   def install
@@ -72,6 +74,7 @@ class Samba < Formula
            "--without-utmp",
            "--without-winbind",
            "--with-shared-modules=!vfs_snapper",
+           "--with-system-mitkrb5",
            "--prefix=#{prefix}",
            "--sysconfdir=#{etc}",
            "--localstatedir=#{var}"
@@ -97,9 +100,10 @@ class Samba < Formula
   end
 
   test do
-    smbd = "#{sbin}/smbd"
-    on_macos do
-      smbd = "#{sbin}/samba-dot-org-smbd"
+    smbd = if OS.mac?
+      "#{sbin}/samba-dot-org-smbd"
+    else
+      "#{sbin}/smbd"
     end
 
     system smbd, "--build-options", "--configfile=/dev/null"

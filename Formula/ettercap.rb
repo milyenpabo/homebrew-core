@@ -4,16 +4,16 @@ class Ettercap < Formula
   url "https://github.com/Ettercap/ettercap/archive/v0.8.3.1.tar.gz"
   sha256 "d0c3ef88dfc284b61d3d5b64d946c1160fd04276b448519c1ae4438a9cdffaf3"
   license "GPL-2.0-or-later"
-  head "https://github.com/Ettercap/ettercap.git"
+  head "https://github.com/Ettercap/ettercap.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 arm64_big_sur: "9e53f689acd75a9aa32129e3aa3d81af5f799889ed3144adb3e867c6f2470369"
-    sha256 big_sur:       "471e0a6f6fb68103bc56ccf90b873cd86c235c34e88972828b6ba69dd2fd9f44"
-    sha256 catalina:      "e52f75a8579926652f5c53ef77db1eeab39f0ff388ad77fbbe70a17a52554c2b"
-    sha256 mojave:        "c49b5293922b69715b05c1bc1374cec3cfe72a63750ab0fb08d559683d253afc"
-    sha256 high_sierra:   "3ab1aa27eef60cb9099bdd95ca330c0fd63dad10c169c968672bb44d97ae32e1"
-    sha256 x86_64_linux:  "58d95c7e206ac3c4f3ccb46f8427b40e63b70bf068239211a1e15656244a0b85"
+    rebuild 2
+    sha256 arm64_monterey: "a8532b43e6d6c1bed08ae62506ad32d75bbd39da7c7fcdfde1cbcf758717b932"
+    sha256 arm64_big_sur:  "581fbb637481f46c59b355f5bbde58a2d25da7e3f22ec9e07edab8f3a6c54999"
+    sha256 monterey:       "46f9eae5abfe8bb43e56cb0d333de5304911229b003e19fd495a5394383ce340"
+    sha256 big_sur:        "bc9dd754581b99d9f86a98e6ac5844fe41ba0ac017cc16086c39168efc2f1859"
+    sha256 catalina:       "a131e2c7a6d1360ce74ed8f91abe43b92f2b1bcf843bfcddca8bef01dea97c6f"
+    sha256 x86_64_linux:   "46e8ef6cfe822480232a0218a1d563086bb6df3cf4f7c71fa1edad9cde0bbf9f"
   end
 
   depends_on "cmake" => :build
@@ -25,6 +25,7 @@ class Ettercap < Formula
   depends_on "pcre"
 
   uses_from_macos "curl"
+  uses_from_macos "flex"
   uses_from_macos "libpcap"
   uses_from_macos "ncurses"
   uses_from_macos "zlib"
@@ -39,6 +40,7 @@ class Ettercap < Formula
 
     args = std_cmake_args + %W[
       -DBUNDLED_LIBS=OFF
+      -DCMAKE_INSTALL_RPATH=#{rpath}
       -DENABLE_CURSES=ON
       -DENABLE_GTK=ON
       -DENABLE_IPV6=ON

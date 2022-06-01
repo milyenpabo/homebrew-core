@@ -2,17 +2,18 @@ class Kn < Formula
   desc "Command-line interface for managing Knative Serving and Eventing resources"
   homepage "https://github.com/knative/client"
   url "https://github.com/knative/client.git",
-      tag:      "v0.26.0",
-      revision: "61b8a754149a1442fd76a32e98e45dbce2d09b78"
+      tag:      "knative-v1.4.1",
+      revision: "c53658bd0ee61dc0c87e2cda589f1bc79ec84983"
   license "Apache-2.0"
   head "https://github.com/knative/client.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "61c1e60bb5a297b50c19b29fc64420bdd2da3c1d9a104a5fd7c0f908d7b9465c"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b02d96368c5d026876ecc9168b36b1c494e5b3ff9724853ce470a969f739c5a2"
-    sha256 cellar: :any_skip_relocation, catalina:      "b02d96368c5d026876ecc9168b36b1c494e5b3ff9724853ce470a969f739c5a2"
-    sha256 cellar: :any_skip_relocation, mojave:        "b02d96368c5d026876ecc9168b36b1c494e5b3ff9724853ce470a969f739c5a2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0f4b4f870fe3845c801cb10108dbd69cbdf1029e1dbf1c24c3c607df0c9eeba1"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5079eb41c1fe910fae52c955e8b32d0479119e4b596f5795a00b1f5a4f539451"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5079eb41c1fe910fae52c955e8b32d0479119e4b596f5795a00b1f5a4f539451"
+    sha256 cellar: :any_skip_relocation, monterey:       "5693752cf475cff80fc71cde8002e6350c2c2ad060430569774d2975348eda4a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5693752cf475cff80fc71cde8002e6350c2c2ad060430569774d2975348eda4a"
+    sha256 cellar: :any_skip_relocation, catalina:       "5693752cf475cff80fc71cde8002e6350c2c2ad060430569774d2975348eda4a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0229c56bf8f68cae3185965bf5d7bcde59090778b19c49538774724ebf96625b"
   end
 
   depends_on "go" => :build
@@ -24,7 +25,7 @@ class Kn < Formula
       -X knative.dev/client/pkg/kn/commands/version.Version=v#{version}
       -X knative.dev/client/pkg/kn/commands/version.GitRevision=#{Utils.git_head(length: 8)}
       -X knative.dev/client/pkg/kn/commands/version.BuildDate=#{time.iso8601}
-    ].join(" ")
+    ]
 
     system "go", "build", "-mod=vendor", *std_go_args(ldflags: ldflags), "./cmd/..."
   end

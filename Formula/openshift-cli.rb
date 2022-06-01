@@ -6,65 +6,52 @@ class OpenshiftCli < Formula
 
   stable do
     url "https://github.com/openshift/oc.git",
-        tag:      "openshift-clients-4.6.0-202006250705.p0",
-        revision: "51011e4849252c723b520643d27d3fa164d28c61"
-    version "4.6.0"
-
-    # Add Makefile target to build arm64 binary
-    # Upstream PR: https://github.com/openshift/oc/pull/889
-    patch :DATA
+        tag:      "openshift-clients-4.11.0-202204020828",
+        revision: "f1f09a392fd18029f681c06c3bd0c44420684efa"
   end
 
   livecheck do
     url :stable
-    regex(/^openshift-clients[._-](\d+(?:\.\d+)+)(?:[._-]p?\d+)?$/i)
+    regex(/^openshift-clients[._-](\d+(?:\.\d+)+(?:[._-]p?\d+)?)$/i)
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "bdaeb2d2bb5a31dcc8048ec1da4567ce4917f4ef4c571c24907a6bab730fa685"
-    sha256 cellar: :any_skip_relocation, big_sur:       "fb1f2ce0b1741e9003b66883629b61d0ccfade7802b8ccc763aaccb629815177"
-    sha256 cellar: :any_skip_relocation, catalina:      "5e8849de6efa9e03eda20c3bcffb7bdda0b26324d85d3b9f71ebdd1bfe198df0"
-    sha256 cellar: :any_skip_relocation, mojave:        "dbeaf8a6fa3d95f78fd69a26140cdbdbee890f539e0419fc5c7757b587466ff1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c98afc19240a133585d6f2303223744c933a0eb078b3b810c6ccd550ae1991bc"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8867063efd49d665866b2c6f64ec115f4469c08f90e2949b9b0b5b89cf5ab6d2"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f977ed51222df9a313f867141a568c2c6ce914fc599d71f758802ab1c3f68dd5"
+    sha256 cellar: :any_skip_relocation, monterey:       "e5b18766f67d10b16b519ada978371026ee4685cbbd975f7ffe29affd3073b37"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e17bae8eb69b676aadc58a4b2fcc2d10491270f8a138c447bd8fdae2fee462fb"
+    sha256 cellar: :any_skip_relocation, catalina:       "c6111d9e409c22734dd9bd841a80be4dd5c448f30e6928d0edc9a3cb3685c0cb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b0663c5b9780e503ba3eec7c23e3d8dd27f2485bcbc86a84701371ae3ebf1b3f"
   end
 
   depends_on "coreutils" => :build
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release.
+  depends_on "go@1.17" => :build
   depends_on "heimdal" => :build
   depends_on "socat"
 
   uses_from_macos "krb5"
 
   def install
-    arch = Hardware::CPU.arm? ? "arm64" : "amd64"
-    os = if OS.mac?
-      "darwin"
+    arch = Hardware::CPU.intel? ? "amd64" : Hardware::CPU.arch.to_s
+    os = OS.kernel_name.downcase
+
+    # See https://github.com/golang/go/issues/26487
+    ENV.O0 if OS.linux?
+
+    args = ["cross-build-#{os}-#{arch}"]
+    args << if build.stable?
+      "WHAT=cmd/oc"
     else
-      # See https://github.com/golang/go/issues/26487
-      ENV.O0
-
-      "linux"
+      "WHAT=staging/src/github.com/openshift/oc/cmd/oc"
     end
-    ENV["GOPATH"] = buildpath
-    dir = buildpath/"src/github.com/openshift/oc"
-    dir.install buildpath.children - [buildpath/".brew_home"]
+    args << "SHELL=/bin/bash" if OS.linux?
 
-    cd dir do
-      args = ["cross-build-#{os}-#{arch}"]
-      args << if build.stable?
-        "WHAT=cmd/oc"
-      else
-        "WHAT=staging/src/github.com/openshift/oc/cmd/oc"
-      end
-      args << "SHELL=/bin/bash" if OS.linux?
+    system "make", *args
+    bin.install "_output/bin/#{os}_#{arch}/oc"
 
-      system "make", *args
-      bin.install "_output/bin/#{os}_#{arch}/oc"
-
-      bash_completion.install "contrib/completions/bash/oc"
-      zsh_completion.install "contrib/completions/zsh/oc" => "_oc"
-    end
+    bash_completion.install "contrib/completions/bash/oc"
+    zsh_completion.install "contrib/completions/zsh/oc" => "_oc"
   end
 
   test do
@@ -75,20 +62,3 @@ class OpenshiftCli < Formula
     assert_match "foo", context_output
   end
 end
-
-__END__
-diff --git a/Makefile b/Makefile
-index 940a90415..a3584fbc9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -88,6 +88,10 @@ cross-build-darwin-amd64:
- 	+@GOOS=darwin GOARCH=amd64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_DARWIN)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/darwin_amd64
- .PHONY: cross-build-darwin-amd64
-
-+cross-build-darwin-arm64:
-+	+@GOOS=darwin GOARCH=arm64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_DARWIN)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/darwin_arm64
-+.PHONY: cross-build-darwin-arm64
-+
- cross-build-windows-amd64:
- 	+@GOOS=windows GOARCH=amd64 $(MAKE) --no-print-directory build GO_BUILD_PACKAGES:=./cmd/oc GO_BUILD_FLAGS:="$(GO_BUILD_FLAGS_WINDOWS)" GO_BUILD_BINDIR:=$(CROSS_BUILD_BINDIR)/windows_amd64
- .PHONY: cross-build-windows-amd64

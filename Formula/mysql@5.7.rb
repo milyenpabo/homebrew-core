@@ -1,8 +1,8 @@
 class MysqlAT57 < Formula
   desc "Open source relational database management system"
   homepage "https://dev.mysql.com/doc/refman/5.7/en/"
-  url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.35.tar.gz"
-  sha256 "6b30c93e5927857e31769bf5356eb23a5cff59c0a0205e5772b51b09bf3f9e12"
+  url "https://cdn.mysql.com/Downloads/MySQL-5.7/mysql-boost-5.7.38.tar.gz"
+  sha256 "89d2c42aaa7fd2e31f33b21c5619d2b4c7e1dc2081f820f9f6eec2f30c5fbbf8"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,12 +11,12 @@ class MysqlAT57 < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 arm64_big_sur: "7482f0344cef38c37b41d2153bf03e6c4d6b0681a2236f25e5bac7b50b011983"
-    sha256 big_sur:       "983b9015ebe2bf32c43eb309de1712a289eaf22c6a17de3e5f34c8d0f9189f1a"
-    sha256 catalina:      "b2c5526552206c305b1bc10f76d34bc02fcb7a22dd69a4ef81905db361b75a78"
-    sha256 mojave:        "28b664ce06979ca687d1f57353ce79275d0838c4f0edf0c1f5a34273f93bd0bc"
-    sha256 x86_64_linux:  "06074a2cd551e6c62848614cbf378ecfec540c3097deeffe5aeb6ec11e547779"
+    sha256 arm64_monterey: "3c0acf8ec8261fb566698d24f8812b7393aed682213fa1f551cd3736c0f933d1"
+    sha256 arm64_big_sur:  "69fd8ebc670790c8c00adcc4fb0745e103d0b5aa5a7ae4d3569ce4272bdb5766"
+    sha256 monterey:       "ad4b3ffeb40b1864b5d519003f4aefae28c9a25d034d6fdd5e6feecdfb29bfe3"
+    sha256 big_sur:        "926681492ac45b200b034f9ccab34e85d30a5612d3672e4a7b19d0cffa545379"
+    sha256 catalina:       "77200927c2cdc73db992c105ecedec9027098cf7ad98d25a859f829edb19b51c"
+    sha256 x86_64_linux:   "24d14fba74969405696af96393cb6a9c10a8df4801d19ff1098fb1a9c997a835"
   end
 
   keg_only :versioned_formula
@@ -70,6 +70,8 @@ class MysqlAT57 < Formula
       -DENABLED_LOCAL_INFILE=1
       -DWITH_INNODB_MEMCACHED=ON
     ]
+
+    args << "-DENABLE_DTRACE=0" if OS.linux?
 
     system "cmake", ".", *std_cmake_args, *args
     system "make"

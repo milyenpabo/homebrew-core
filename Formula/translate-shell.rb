@@ -13,6 +13,7 @@ class TranslateShell < Formula
     sha256 cellar: :any_skip_relocation, mojave:        "858d52386202bbcb1313a72b642d9d5f4cbfe2ca35fd9556f6cf5275d7d2b9a1"
     sha256 cellar: :any_skip_relocation, high_sierra:   "858d52386202bbcb1313a72b642d9d5f4cbfe2ca35fd9556f6cf5275d7d2b9a1"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "58c6925d91ce326635abb6614b951e33aa14c7b565a3c73cc854870d3f896c59"
+    sha256 cellar: :any_skip_relocation, all:           "58c6925d91ce326635abb6614b951e33aa14c7b565a3c73cc854870d3f896c59"
   end
 
   depends_on "fribidi"
@@ -40,6 +41,6 @@ class TranslateShell < Formula
 
   test do
     assert_equal "hello\n",
-      shell_output("#{bin}/trans -no-init -b -s fr -t en bonjour").downcase
+      shell_output("#{bin}/trans -no-init -b -s es -t en hola").downcase
   end
 end

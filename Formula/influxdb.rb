@@ -2,8 +2,8 @@ class Influxdb < Formula
   desc "Time series, events, and metrics database"
   homepage "https://influxdata.com/time-series-platform/influxdb/"
   url "https://github.com/influxdata/influxdb.git",
-      tag:      "v2.0.8",
-      revision: "e91d41810f3f44061db544e771f0fc14515aff84"
+      tag:      "v2.2.0",
+      revision: "a2f85388377fe454257b6da6ad1e723e52b5438b"
   license "MIT"
   head "https://github.com/influxdata/influxdb.git", branch: "master"
 
@@ -14,44 +14,44 @@ class Influxdb < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "5f89b13d719f852125fc25acc78c5fd17836f9a9018798978c29501e0eb26295"
-    sha256 cellar: :any_skip_relocation, big_sur:       "1577d8326e21e87a25277c98f1467022f304e4fefae49e28933ec3260811f492"
-    sha256 cellar: :any_skip_relocation, catalina:      "0f879b93be65d98dae7e61459dbbd986ee75eb408fb7da9f5827f29fc43e8789"
-    sha256 cellar: :any_skip_relocation, mojave:        "9730427bea4a9debb5861f696b2e783960e42cd6696ab34022ab16dfef2a91e9"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "413f77a266d349110b0f3dd6d31b3b8d504aca072e42700a786f78409ee0c29d"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "fc3011b138388f8fc7b3c7a26ffcb69b0984c76ae887b2a9aaa96df2d48ffc63"
+    sha256 cellar: :any_skip_relocation, monterey:       "5a9344498c796383d0ac7f99ab7b23daa6b215f71275734d52459abe98831ebd"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fac54d7d0332e8c8a7dc457f1ad2696ab1af0afbf807da07639448a61475fa48"
+    sha256 cellar: :any_skip_relocation, catalina:       "dee85db3544e4ab2dbd8ae022d8dfe8318e355d8ffa180cd54adcceda16624fd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0de0b0c00c70d8edf7add72aee60cd05fda3201f808810a5001bdf2a9a9ecde8"
   end
 
-  depends_on "bazaar" => :build
+  depends_on "breezy" => :build
   depends_on "go" => :build
   depends_on "pkg-config" => :build
   depends_on "protobuf" => :build
   depends_on "rust" => :build
-  depends_on "influxdb-cli"
 
   # NOTE: The version here is specified in the go.mod of influxdb.
   # If you're upgrading to a newer influxdb version, check to see if this needs upgraded too.
   resource "pkg-config-wrapper" do
-    url "https://github.com/influxdata/pkg-config/archive/refs/tags/v0.2.8.tar.gz"
-    sha256 "9d3f3bbcac7c787f6e8846e70172d06bd4d7394b4bcd0b8572fe2f1d03edc11b"
+    url "https://github.com/influxdata/pkg-config/archive/refs/tags/v0.2.11.tar.gz"
+    sha256 "52b22c151163dfb051fd44e7d103fc4cde6ae8ff852ffc13adeef19d21c36682"
   end
 
   # NOTE: The version/URL here is specified in scripts/fetch-ui-assets.sh in influxdb.
   # If you're upgrading to a newer influxdb version, check to see if this needs upgraded too.
   resource "ui-assets" do
-    url "https://github.com/influxdata/ui/releases/download/OSS-v2.0.8/build.tar.gz"
-    sha256 "94965ae999a1098c26128141fbb849be3da9a723d509118eb6e0db4384ee01fc"
+    url "https://github.com/influxdata/ui/releases/download/OSS-2.1.2/build.tar.gz"
+    sha256 "7d78d284d25f28dfd940d407a17f7f3aee1706b5dabc237eadc3bef0031ce548"
   end
 
   def install
     # Set up the influxdata pkg-config wrapper to enable just-in-time compilation & linking
     # of the Rust components in the server.
     resource("pkg-config-wrapper").stage do
-      system "go", "build", *std_go_args, "-o", buildpath/"bootstrap/pkg-config"
+      system "go", "build", *std_go_args(output: buildpath/"bootstrap/pkg-config")
     end
     ENV.prepend_path "PATH", buildpath/"bootstrap"
 
     # Extract pre-build UI resources to the location expected by go-bindata.
     resource("ui-assets").stage(buildpath/"static/data/build")
-
     # Embed UI files into the Go source code.
     system "make", "generate-web-assets"
 
@@ -62,10 +62,10 @@ class Influxdb < Formula
       -X main.version=#{version}
       -X main.commit=#{Utils.git_short_head(length: 10)}
       -X main.date=#{time.iso8601}
-    ].join(" ")
+    ]
 
-    system "go", "build", *std_go_args(ldflags: ldflags),
-           "-tags", "assets", "-o", bin/"influxd", "./cmd/influxd"
+    system "go", "build", *std_go_args(output: bin/"influxd", ldflags: ldflags),
+           "-tags", "assets,sqlite_foreign_keys,sqlite_json", "./cmd/influxd"
 
     data = var/"lib/influxdb2"
     data.mkpath
@@ -79,6 +79,13 @@ class Influxdb < Formula
 
     # Create directory for DB stdout+stderr logs.
     (var/"log/influxdb2").mkpath
+  end
+
+  def caveats
+    <<~EOS
+      This formula does not contain command-line interface; to install it, run:
+        brew install influxdb-cli
+    EOS
   end
 
   service do
@@ -102,9 +109,6 @@ class Influxdb < Formula
                              "--log-level=error"
     end
     sleep 30
-
-    # Check that the CLI works and can talk to the server.
-    assert_match "OK", shell_output("influx ping")
 
     # Check that the server has properly bundled UI assets and serves them as HTML.
     curl_output = shell_output("curl --silent --head #{influx_host}")

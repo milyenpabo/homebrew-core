@@ -1,9 +1,10 @@
 class Digdag < Formula
   desc "Workload Automation System"
   homepage "https://www.digdag.io/"
-  url "https://dl.digdag.io/digdag-0.10.3.jar"
-  sha256 "200911b6a35a3d8b40e25f028753fb9652aeb19dbd05b8f950dc35ff69547c34"
+  url "https://dl.digdag.io/digdag-0.10.4.jar"
+  sha256 "2020fa9395e74e14fdf4ada93bff0684dcea64f564788afd6a3ecc54e3bbd4bf"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url "https://github.com/treasure-data/digdag.git"
@@ -11,15 +12,14 @@ class Digdag < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "ced88f755a68bdddb42517597bc686f066b954c511c47de4180357f65d46d16b"
+    sha256 cellar: :any_skip_relocation, all: "1e8af040e14f05c1f648ef90f3e0e7da9037d7e813cfb1fc7c644d174244d0cf"
   end
 
-  depends_on arch: :x86_64 # openjdk@8 is not supported on ARM
-  depends_on "openjdk@8"
+  depends_on "openjdk@11"
 
   def install
     libexec.install "digdag-#{version}.jar"
-    bin.write_jar_script libexec/"digdag-#{version}.jar", "digdag", java_version: "1.8"
+    bin.write_jar_script libexec/"digdag-#{version}.jar", "digdag", java_version: "11"
   end
 
   test do

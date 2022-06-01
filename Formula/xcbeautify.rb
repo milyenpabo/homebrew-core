@@ -1,19 +1,24 @@
 class Xcbeautify < Formula
   desc "Little beautifier tool for xcodebuild"
-  homepage "https://github.com/thii/xcbeautify"
-  url "https://github.com/thii/xcbeautify.git",
-      tag:      "0.9.1",
-      revision: "21c64495bb3eb9a46ecc9b5eea056d06383eb17c"
+  homepage "https://github.com/tuist/xcbeautify"
+  url "https://github.com/tuist/xcbeautify.git",
+      tag:      "0.13.0",
+      revision: "a3f5db18e7218a3817031b1b8227b1cb5704cb93"
   license "MIT"
-  head "https://github.com/thii/xcbeautify.git", branch: "master"
+  head "https://github.com/tuist/xcbeautify.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "07f7226da16337b9947871edf3e6112e042d9371872eea692877cd83e3f4e18c"
-    sha256 cellar: :any_skip_relocation, big_sur:       "1b95942893695e6ea3d30c17064939161f6e573243cc92035e930b4e1a39deef"
-    sha256 cellar: :any_skip_relocation, catalina:      "5b053728e2ee73f3542cf2b7178af1a5d309970f5374fd1342da93e6dfcb57af"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "68ad1f6b9862d756a3ff9ba893b09ecb8f7b6572ce0d8f82cf64cad6736b3932"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "388db60d60c9a11545d0b4a558aeb4d8e0202b4d5b2f03e250959449e2a803b0"
+    sha256 cellar: :any_skip_relocation, monterey:       "54971517fc3bdc96deef9509ccf6ec8e1715e5fb571d58616dbf3f877ae6afb3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "67465b77816c0254a88c79555e63ad964e0b53d9455f22f9ef36d68cbfd6738d"
+    sha256 cellar: :any_skip_relocation, catalina:       "63b7eaada4012033b5bbd0cce21b03691e446283faa5770a2b5ba9da3e383bdc"
+    sha256                               x86_64_linux:   "602e001f5c1660034c0e4688ad7ac30293cfab880f932849f186c563c45b589e"
   end
 
   depends_on xcode: ["11.4", :build]
+
+  uses_from_macos "swift"
 
   def install
     system "swift", "build", "--disable-sandbox", "--configuration", "release"

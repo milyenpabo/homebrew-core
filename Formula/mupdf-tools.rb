@@ -1,22 +1,22 @@
 class MupdfTools < Formula
   desc "Lightweight PDF and XPS viewer"
   homepage "https://mupdf.com/"
-  url "https://mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.xz"
-  sha256 "592d4f6c0fba41bb954eb1a41616661b62b134d5b383e33bd45a081af5d4a59a"
-  license "AGPL-3.0"
-  head "https://git.ghostscript.com/mupdf.git"
+  url "https://mupdf.com/downloads/archive/mupdf-1.19.1-source.tar.xz"
+  sha256 "b5eac663fe74f33c430eda342f655cf41fa73d71610f0884768a856a82e3803e"
+  license "AGPL-3.0-or-later"
+  head "https://git.ghostscript.com/mupdf.git", branch: "master"
 
   livecheck do
     formula "mupdf"
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d78a3ae676e2872d42aefa36563a2cacaa2ad04203d6b8d1c8257ccdebcea847"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a62ca2ae12f896d22a6fc609fadc96cf729e46206f9a1127f6f21e4846eaa2ba"
-    sha256 cellar: :any_skip_relocation, catalina:      "e985551872925ed4b66ce995c551fda59152c1e7f9cf2bdbd205ab749e867e17"
-    sha256 cellar: :any_skip_relocation, mojave:        "50f1628c7c396fdfd65eb5ce84541a5b9a695bc6fe003cc7abc732e212762bc3"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "2a7a4799ca7e75e948331ce00f5799ae8cb6ae2f23e1143955b9d03d8eccbcd9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b6b1dc0ca4d5b77bc906f991f382f2f40c57a151e963b04ce87795a1f620e235"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "86ecef46f23f8939c14b955a7e11cb2e96698f178bfc32467e55f4e99e473267"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "118715fa212034b534eec4e145577e81968b49959da8e6b817a41724fc343f96"
+    sha256 cellar: :any_skip_relocation, monterey:       "b934ff3f384b9a4e28e0cde1c87112b6b8908b7c2c19c30dee6cdc289e7bce3d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fbbe6aaecc0e80090c021f92606295dac1f7258f958fbed685eb4c75492b5fb0"
+    sha256 cellar: :any_skip_relocation, catalina:       "21d3b0129446781d43f07b07af39c2bfa566c5301b3d408d647779d2c8300895"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "09b118451dcf86336226085392df196a2545c66e02d508fdbb75a102d56da886"
   end
 
   conflicts_with "mupdf",

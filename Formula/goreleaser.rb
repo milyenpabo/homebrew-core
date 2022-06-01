@@ -2,17 +2,18 @@ class Goreleaser < Formula
   desc "Deliver Go binaries as fast and easily as possible"
   homepage "https://goreleaser.com/"
   url "https://github.com/goreleaser/goreleaser.git",
-      tag:      "v0.181.1",
-      revision: "aca255493b9672a103e1d483b48c7a98d03e2795"
+      tag:      "v1.9.2",
+      revision: "b869ea44b7e211c59d856307a5d308b594030218"
   license "MIT"
-  head "https://github.com/goreleaser/goreleaser.git", branch: "master"
+  head "https://github.com/goreleaser/goreleaser.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "bcc856ac601cf019f63c88ea0a46a7a6792933dbf6a7b61d33de7d252efe1831"
-    sha256 cellar: :any_skip_relocation, big_sur:       "4ad1d30329fe082f77718c6a2e5a3cf63206fb505b165745679f44d5a3fadb53"
-    sha256 cellar: :any_skip_relocation, catalina:      "e0819b3f339736d11ff8b1c8038f0c7bd104d6e65802088f42726a23ac0c9d74"
-    sha256 cellar: :any_skip_relocation, mojave:        "c415f7373fbfebb201a22a687cba3c1ce0496962d539a7932c38838ab0c22ceb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7ce3e808c29f416fd9b8268491f71713b86b78ef8d8eab34c4634bbf3f7619ab"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "184459318155f699c8d63f0c6d779d33239fe34abaa184e0a00e449b9f3a9697"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "596d74a03415d72d79fc774b69ceab8a4dbdebe534fc4005172bfd2360184ba7"
+    sha256 cellar: :any_skip_relocation, monterey:       "2c7bdea3b73a99ed4bbcd1704aa35ac3024402a27476273e01df569759db48f8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "03e658072106cc4f94b81846aa306d85201b216277aae7453bbc4fa5a46ca923"
+    sha256 cellar: :any_skip_relocation, catalina:       "ed5cdd6178e6e16bedf78fbb1861270f6f8539b1017a3f13c08cda640b043a90"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e63b43901a832a15b53ede138a755a6d953a74ffe071b8f03ac3d0a036b80c1a"
   end
 
   depends_on "go" => :build
@@ -23,7 +24,7 @@ class Goreleaser < Formula
       -X main.version=#{version}
       -X main.commit=#{Utils.git_head}
       -X main.builtBy=homebrew
-    ].join(" ")
+    ]
 
     system "go", "build", *std_go_args(ldflags: ldflags)
 

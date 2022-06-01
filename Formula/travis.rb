@@ -1,28 +1,23 @@
 class Travis < Formula
   desc "Command-line client for Travis CI"
   homepage "https://github.com/travis-ci/travis.rb/"
-  url "https://github.com/travis-ci/travis.rb/archive/v1.10.0.tar.gz"
-  sha256 "b63991faebbd5da0e92bf1547775b69a0dbed01dd57e8b469d23a2a7bd79da43"
+  url "https://github.com/travis-ci/travis.rb/archive/v1.11.0.tar.gz"
+  sha256 "76cb0821aeb60e3e302932365dd437a393674de80e02972873bf3e511af564ca"
   license "MIT"
-  revision 2
+  revision 1
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "d375256f1da626583d3ec2bd1a096da42e6a36facfab5f9bd7c0e1283518eda5"
-    sha256 cellar: :any,                 big_sur:       "2b230db93002dd126dd0d4112c7146a006f82e8ee3b7ff57bba26c78552be830"
-    sha256 cellar: :any,                 catalina:      "a395916ba611da1b47582d4284a528ba1dc1b5b76980a7768f10be8b2e5dea58"
-    sha256 cellar: :any,                 mojave:        "be4f48dadb0133a60437fe931b61415b9989a2967d8c569bd271b27fb9cafc19"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "43eaf0a12ed95626c1f65c7c358370106b08a51a08e2bdf7e5a9694b7abd1d53"
+    sha256 cellar: :any,                 arm64_monterey: "668e747cf04776b79f25d587e0927e0c3a64d37e09db4e84db6ecded29d5a672"
+    sha256 cellar: :any,                 arm64_big_sur:  "bf2c4092341390a13aafcf999b963402a3a40543913123e5064972a3448d8980"
+    sha256 cellar: :any,                 monterey:       "53b7abaa30cc82ad4aebba780820f275eab14fe967c2d1b5f2297013dfdb36a1"
+    sha256 cellar: :any,                 big_sur:        "fd1df0523c4c5ff90c18749eea5414c422a1256f31086207401b079c4dd922d4"
+    sha256 cellar: :any,                 catalina:       "96ee2f88a4b5c58aeb3a8518190e798ba4c33d4080bcd758789328b4c3c10bc1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "aff57e5c66026ee18ba8e67894148caa8443cbf52f2712ee0773583fd497e79b"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "ruby"
-
-  if MacOS.version < :catalina
-    depends_on "libffi"
-  else
-    uses_from_macos "libffi"
-  end
+  depends_on "ruby@3.0"
+  uses_from_macos "libffi", since: :catalina
 
   resource "activesupport" do
     url "https://rubygems.org/gems/activesupport-5.2.4.4.gem"

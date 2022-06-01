@@ -1,8 +1,8 @@
 class Libbsd < Formula
   desc "Utility functions from BSD systems"
   homepage "https://libbsd.freedesktop.org/"
-  url "https://libbsd.freedesktop.org/releases/libbsd-0.11.3.tar.xz"
-  sha256 "ff95cf8184151dacae4247832f8d4ea8800fa127dbd15033ecfe839f285b42a1"
+  url "https://libbsd.freedesktop.org/releases/libbsd-0.11.6.tar.xz"
+  sha256 "19b38f3172eaf693e6e1c68714636190c7e48851e45224d720b3b5bc0499b5df"
   license "BSD-3-Clause"
 
   livecheck do
@@ -11,7 +11,7 @@ class Libbsd < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "47ff83f8f952f71030f61444df19635a5eb3d98edc346be4ee3955efc8f7d4fa"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "0c566df81d56032ca6d454c6cc7eb3895e50ea2c8f231edbfe8e1af3ec459842"
   end
 
   depends_on "libmd"
@@ -26,6 +26,6 @@ class Libbsd < Formula
   end
 
   test do
-    assert_match "strtonum", shell_output("nm #{lib/"libbsd.so"}")
+    assert_match "strtonum", shell_output("nm #{lib/"libbsd.so.#{version}"}")
   end
 end

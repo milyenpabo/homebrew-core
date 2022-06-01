@@ -1,9 +1,9 @@
 class X8664ElfBinutils < Formula
   desc "GNU Binutils for x86_64-elf cross development"
   homepage "https://www.gnu.org/software/binutils/"
-  url "https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.xz"
-  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.37.tar.xz"
-  sha256 "820d9724f020a3e69cb337893a0b63c2db161dadcb0e06fc11dc29eb1e84a32c"
+  url "https://ftp.gnu.org/gnu/binutils/binutils-2.38.tar.xz"
+  mirror "https://ftpmirror.gnu.org/binutils/binutils-2.38.tar.xz"
+  sha256 "e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048ecfe024"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class X8664ElfBinutils < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "c1cc0eeef6981f55e0df57f0e8115956ab5b4d94d043daf805c8833ed843dc1d"
-    sha256 big_sur:       "085e8d5b89905e85c00951d3f12a6b36ea2e085b07e6af28b4138956b9c53384"
-    sha256 catalina:      "8853d7a257c9cbe3243e9cb48837222768b6a211c0a0b7733cd40effdb56cb72"
-    sha256 mojave:        "efb90bb7f3e96087317c35a824fbe46e4dda1ccaaa6cd2fc26f889b6210b4d5a"
-    sha256 x86_64_linux:  "94bb83f893103b9be998affaec0cc210691fa4b71c27d9491a7598c2c9a30576"
+    sha256 arm64_monterey: "864342c720566a79bd30617e74365c206ebcc9ff1b20c2582ad647711a066b2d"
+    sha256 arm64_big_sur:  "830cd093f6b42aca05346d933bcbb64a93a9eead2a5ec13920f6d313516ef730"
+    sha256 monterey:       "42afd81a158f1fe611fb8ffb8e91b3436d706ff4ad78752a6b4b16d4a69c0cd5"
+    sha256 big_sur:        "a43738a9cb6aca9e002aa843c0eef8f28c1e1ece2221d0009a4611b536676ab1"
+    sha256 catalina:       "aa3cb73baeda44aae190cd7b8c3160dbabd42164aaf852f49fa65a7641b647ef"
+    sha256 x86_64_linux:   "598e0d52a3eb37d1284e4f7ace39e6cdbb6d620db54252e25e895cbd230a3ec9"
   end
 
   uses_from_macos "texinfo"
@@ -23,6 +24,7 @@ class X8664ElfBinutils < Formula
   def install
     target = "x86_64-elf"
     system "./configure", "--target=#{target}",
+                          "--enable-targets=x86_64-pep",
                           "--prefix=#{prefix}",
                           "--libdir=#{lib}/#{target}",
                           "--infodir=#{info}/#{target}",

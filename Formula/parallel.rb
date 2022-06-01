@@ -1,9 +1,9 @@
 class Parallel < Formula
   desc "Shell command parallelization utility"
   homepage "https://savannah.gnu.org/projects/parallel/"
-  url "https://ftp.gnu.org/gnu/parallel/parallel-20210922.tar.bz2"
-  mirror "https://ftpmirror.gnu.org/parallel/parallel-20210922.tar.bz2"
-  sha256 "dedca94fc41f2054dbadd9b8361e56015fc8af5d1961c1b982b63e6d86494d66"
+  url "https://ftp.gnu.org/gnu/parallel/parallel-20220522.tar.bz2"
+  mirror "https://ftpmirror.gnu.org/parallel/parallel-20220522.tar.bz2"
+  sha256 "bb6395f8d964e68f3bdb26a764d3c48b69bc5b759a92ac3ab2bd1895c7fa8c1f"
   license "GPL-3.0-or-later"
   version_scheme 1
   head "https://git.savannah.gnu.org/git/parallel.git", branch: "master"
@@ -14,7 +14,7 @@ class Parallel < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "cee19b1369bf47aebd0a91a162b16c5af13996e4d8354080b29d46600b8cd0eb"
+    sha256 cellar: :any_skip_relocation, all: "3d24270fd722dfa991eb0211aef7f64b585ab72c37b5ee0c0fe8c5347876b48e"
   end
 
   conflicts_with "moreutils", because: "both install a `parallel` executable"
@@ -31,6 +31,14 @@ class Parallel < Formula
       man7/"parallel_design.7",
     ]
     inreplace inreplace_files, "/usr/local", HOMEBREW_PREFIX
+  end
+
+  def caveats
+    <<~EOS
+      To use the --csv option, the Perl Text::CSV module has to be installed.
+      You can install it via:
+        perl -MCPAN -e'install Text::CSV'
+    EOS
   end
 
   test do

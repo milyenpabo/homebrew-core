@@ -1,25 +1,27 @@
 class Pazpar2 < Formula
   desc "Metasearching middleware webservice"
   homepage "https://www.indexdata.com/resources/software/pazpar2/"
-  url "https://ftp.indexdata.com/pub/pazpar2/pazpar2-1.14.0.tar.gz"
-  sha256 "3b0012450c66d6932009ac0decb72436690cc939af33e2ad96c0fec85863d13d"
+  url "https://ftp.indexdata.com/pub/pazpar2/pazpar2-1.14.1.tar.gz"
+  sha256 "9baf590adb52cd796eccf01144eeaaf7353db1fd05ae436bdb174fe24362db53"
   license "GPL-2.0-or-later"
-  revision 4
+  revision 1
 
   livecheck do
-    url :homepage
+    url "https://ftp.indexdata.com/pub/pazpar2/"
     regex(/href=.*?pazpar2[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "0021f3e79b53e697e1cf36eb6b2bd47d84941c9f8318577c1e46aaccb4cee28b"
-    sha256 cellar: :any, big_sur:       "d3d553d0d264f72f7da041463b670c52afd453e233434113ff48676874ee4fe8"
-    sha256 cellar: :any, catalina:      "e36beb9a3bbc585db1682cca88ff38d5599aa7559a5cbad55bb1ca578be167f1"
-    sha256 cellar: :any, mojave:        "48abe4b5d2e20e541a1e9d2a5a96be12e3f886daa354cffcd93220a296a9164a"
+    sha256 cellar: :any,                 arm64_monterey: "3aa56446afff401c334ab750e18eb49161bdbc576abed93c8b604f2466c65043"
+    sha256 cellar: :any,                 arm64_big_sur:  "10a49c1be55e77d741cb5e5a78037fe123fafd371087bca63114ce3622f662aa"
+    sha256 cellar: :any,                 monterey:       "eaa9630b359a5e829528011599c7f3aeda1464562b13cb5258c461ce11d8657e"
+    sha256 cellar: :any,                 big_sur:        "4ccab6ab3e93d2e41fd19053aa14bf3cfa79016be44c42203a81098cb92e42b2"
+    sha256 cellar: :any,                 catalina:       "ef08edbcc9fa2d979dbd31fbe8ee32f296fd0b4d29d2091f0b0cf3b39f8f25e6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9e0de42993b51c92330d1556e2e5b3e8cbdc805f561ebd6333b58d6d72feef47"
   end
 
   head do
-    url "https://github.com/indexdata/pazpar2.git"
+    url "https://github.com/indexdata/pazpar2.git", branch: "master"
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build

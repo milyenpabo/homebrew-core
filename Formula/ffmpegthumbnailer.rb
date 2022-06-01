@@ -3,24 +3,30 @@ class Ffmpegthumbnailer < Formula
   homepage "https://github.com/dirkvdb/ffmpegthumbnailer"
   url "https://github.com/dirkvdb/ffmpegthumbnailer/archive/2.2.2.tar.gz"
   sha256 "8c4c42ab68144a9e2349710d42c0248407a87e7dc0ba4366891905322b331f92"
-  license "GPL-2.0"
-  revision 5
-  head "https://github.com/dirkvdb/ffmpegthumbnailer.git"
+  license "GPL-2.0-or-later"
+  revision 7
+  head "https://github.com/dirkvdb/ffmpegthumbnailer.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "0fcbba2353da43ce4c08e4b69d8c43143d8cf3813d240957a4fa783fe85c654c"
-    sha256 cellar: :any,                 big_sur:       "0bca865df4298da35227da4090554bc0ee787f05cb6ef5a823d023346e5b48c8"
-    sha256 cellar: :any,                 catalina:      "dd032464ff83d935e388a997365f6f0131a70e080c7f4da682a1e6220e60c127"
-    sha256 cellar: :any,                 mojave:        "ebdda9295e17e1ca9c7acc0cc392ab995fbf2a3bcbe0ca6eee0a3ced49a4eb5e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c71bee7c064ce6d4838f05ddf09709e8191d5f3fd449f2d735ced5dc5acf85f9"
+    sha256 cellar: :any,                 arm64_monterey: "692c0b3202acf1e7d3bb6e0dc49abfeb9eae91d87f7ace9f52fcce45caf77889"
+    sha256 cellar: :any,                 arm64_big_sur:  "044ab71c693e108bcc7734cee4377ee53400e95eedee527618e480d06e0f0caa"
+    sha256 cellar: :any,                 monterey:       "c3151551d8b47f7d7314cd08144a22214ef47ca9c079b14dc84a799ce4cd9a12"
+    sha256 cellar: :any,                 big_sur:        "a1ea81c204ac623893693f403375053eb8fce33ca9fddd1964630786147cc1e5"
+    sha256 cellar: :any,                 catalina:       "0bacb1352eb215908d5217433493d11867ec205f9364dfb33a2b62323f70090a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5b35981ab4fc303232a0602adceff292e014f8d6e248d2a60581891436affd1b"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
-  depends_on "ffmpeg"
+  depends_on "ffmpeg@4"
   depends_on "jpeg"
   depends_on "libpng"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # rubberband is built with GCC
 
   def install
     args = std_cmake_args
@@ -36,7 +42,7 @@ class Ffmpegthumbnailer < Formula
   end
 
   test do
-    f = Formula["ffmpeg"].opt_bin/"ffmpeg"
+    f = Formula["ffmpeg@4"].opt_bin/"ffmpeg"
     png = test_fixtures("test.png")
     system f.to_s, "-loop", "1", "-i", png.to_s, "-c:v", "libx264", "-t", "30",
                    "-pix_fmt", "yuv420p", "v.mp4"

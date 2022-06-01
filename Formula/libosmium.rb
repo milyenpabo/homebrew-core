@@ -1,28 +1,25 @@
 class Libosmium < Formula
   desc "Fast and flexible C++ library for working with OpenStreetMap data"
   homepage "https://osmcode.org/libosmium/"
-  url "https://github.com/osmcode/libosmium/archive/v2.17.0.tar.gz"
-  sha256 "4a7672d7caf4da3bc68619912b298462370c423c697871a0be6273c6686e10d6"
+  url "https://github.com/osmcode/libosmium/archive/v2.18.0.tar.gz"
+  sha256 "c05a3e95c9c811521ebad8637e90f43ab8fb053b310875acce741cc4c17d6f59"
   license "BSL-1.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a670f374f814891e2db3d00de8a156d2d177cbce453435388fa180de343d1f27"
-    sha256 cellar: :any_skip_relocation, big_sur:       "71432c9f74dfe76886bbe1e89d128bf5fa80e2e1ef9d3ea15a18fc9d7a739f34"
-    sha256 cellar: :any_skip_relocation, catalina:      "71432c9f74dfe76886bbe1e89d128bf5fa80e2e1ef9d3ea15a18fc9d7a739f34"
-    sha256 cellar: :any_skip_relocation, mojave:        "3e4d4f6cc29087f12b21f8354c44b0088d7dea65064b9d705d95217ddc9ab248"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5a6340fd662dcc9498a48493fb7124964d250f532ef3d2a75e19de09452b9ff7"
+    sha256 cellar: :any_skip_relocation, all: "629bd00d6aa05b58f2b937560b5edff6dbc1b47e53714ab7d005d9d54eb952fe"
   end
 
   depends_on "boost" => :build
   depends_on "cmake" => :build
+  depends_on "lz4"
 
   uses_from_macos "bzip2"
   uses_from_macos "expat"
   uses_from_macos "zlib"
 
   resource "protozero" do
-    url "https://github.com/mapbox/protozero/archive/v1.7.0.tar.gz"
-    sha256 "beffbdfab060854fd770178a8db9c028b5b6ee4a059a2fed82c46390a85f3f31"
+    url "https://github.com/mapbox/protozero/archive/v1.7.1.tar.gz"
+    sha256 "27e0017d5b3ba06d646a3ec6391d5ccc8500db821be480aefd2e4ddc3de5ff99"
   end
 
   def install

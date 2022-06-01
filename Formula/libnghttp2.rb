@@ -1,19 +1,23 @@
 class Libnghttp2 < Formula
   desc "HTTP/2 C Library"
   homepage "https://nghttp2.org/"
-  # Keep in sync with nghttp2.
-  url "https://github.com/nghttp2/nghttp2/releases/download/v1.45.1/nghttp2-1.45.1.tar.gz"
-  mirror "http://fresh-center.net/linux/www/nghttp2-1.45.1.tar.gz"
-  mirror "http://fresh-center.net/linux/www/legacy/nghttp2-1.45.1.tar.gz"
-  sha256 "2379ebeff7b02e14b9a414551d73540ddce5442bbecda2748417e8505916f3e7"
+  url "https://github.com/nghttp2/nghttp2/releases/download/v1.47.0/nghttp2-1.47.0.tar.gz"
+  mirror "http://fresh-center.net/linux/www/nghttp2-1.47.0.tar.gz"
+  mirror "http://fresh-center.net/linux/www/legacy/nghttp2-1.47.0.tar.gz"
+  sha256 "62f50f0e9fc479e48b34e1526df8dd2e94136de4c426b7680048181606832b7c"
   license "MIT"
 
+  livecheck do
+    formula "nghttp2"
+  end
+
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "75ed9aea6aad424ff9406f7c8849d340d5f2fb36b05c9352f8416201fe03d1df"
-    sha256 cellar: :any,                 big_sur:       "6edccdb5f700fa3602caa4ed902c18cdab02e64f33bdaf318a867b30b972a472"
-    sha256 cellar: :any,                 catalina:      "f9d462cb615767a7af790b54af5f377ab80c0a993b7938c8743118db52822984"
-    sha256 cellar: :any,                 mojave:        "58aa1edc1bc6d578976ba92fd7356628f660a5a1dcdad72da9d9e6c63f66dd8d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "88cb5305619855077a4f21256f150de396de0d9e3616c52b85bd39ffff1e9344"
+    sha256 cellar: :any,                 arm64_monterey: "75e16ae0404213dbb7f034e51af8fbbbc4090aaf93ad15d9d6be1b78d15cc5df"
+    sha256 cellar: :any,                 arm64_big_sur:  "b526bb06eb62c9b6366814b4feb6044a1c4df86ff39512de4ab01fc0f903bfc0"
+    sha256 cellar: :any,                 monterey:       "71cc16ddaac1f8eab66b1ca3b910e7c1369f38daf269aba7e8a65ff7f3451a8f"
+    sha256 cellar: :any,                 big_sur:        "bfffdfc64adc8be4e663239d8705d68b5ce6ff7a7091a778397b5305fab1d3d5"
+    sha256 cellar: :any,                 catalina:       "1678ce30b34cdeff9d62d0786c81496027a04e894e002dd26953eb3e47a3d2cb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "85fcb5b98c7d3d607c02742146146c92363f5bfaf95b0cb8924b207cb1fc9082"
   end
 
   head do
@@ -31,6 +35,8 @@ class Libnghttp2 < Formula
   link_overwrite "lib/libnghttp2.a"
   link_overwrite "lib/libnghttp2.dylib"
   link_overwrite "lib/libnghttp2.14.dylib"
+  link_overwrite "lib/libnghttp2.so"
+  link_overwrite "lib/libnghttp2.so.14"
   link_overwrite "lib/pkgconfig/libnghttp2.pc"
 
   def install

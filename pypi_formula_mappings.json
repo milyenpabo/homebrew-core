@@ -5,9 +5,10 @@
   "ansible": {
     "extra_packages": [
       "apache-libcloud", "boto3", "dnspython", "docker", "junos-eznc", "jxmlease", "kerberos", "ntc-templates",
-      "openshift", "passlib", "pexpect", "pysphere3", "python-consul", "python-neutronclient",
+      "openshift", "passlib", "pexpect", "proxmoxer", "pysphere3", "python-consul", "python-neutronclient",
       "pywinrm", "requests-credssp", "shade", "zabbix-api"
-    ]
+    ],
+    "exclude_packages": ["six"]
   },
   "ansible@2.8": false,
   "ansible@2.9": {
@@ -18,32 +19,59 @@
     ],
     "exclude_packages": ["pycrypto", "six"]
   },
+  "arxiv_latex_cleaner": {
+    "exclude_packages": ["pillow", "six"]
+  },
   "athenacli": {
     "exclude_packages": ["six", "tabulate"]
   },
   "aws-google-auth": {
-    "exclude_packages": ["pillow", "tabulate"]
+    "exclude_packages": ["pillow", "six", "tabulate"]
+  },
+  "aws-sso-util": {
+    "exclude_packages": ["six"]
   },
   "awscli@1": {
+    "exclude_packages": ["six"]
+  },
+  "awsume": {
     "exclude_packages": ["six"]
   },
   "b2-tools": {
     "exclude_packages": ["six"]
   },
+  "bandcamp-dl": {
+    "exclude_packages": ["six"]
+  },
   "black": "black[d]",
+  "bpython": {
+    "exclude_packages": ["six"]
+  },
   "bpytop": "bpytop",
   "breezy": {
     "exclude_packages": ["six"]
   },
   "buku": {
     "package_name": "buku[server]",
+    "extra_packages": ["flask==1.1.4"],
     "exclude_packages": ["six"]
   },
+  "bzt": {
+    "exclude_packages": ["numpy", "six"]
+  },
   "certbot": {
-    "extra_packages": ["certbot-apache", "certbot-nginx"]
+    "extra_packages": ["certbot-apache", "certbot-nginx"],
+    "exclude_packages": ["six"]
+  },
+  "cfn-flip": {
+    "exclude_packages": ["six"]
   },
   "cfn-lint": {
     "exclude_packages": ["junit-xml", "six"]
+  },
+  "charmcraft": {
+    "extra_packages": ["appdirs", "pydantic", "pyyaml"],
+    "exclude_packages": ["six", "tabulate"]
   },
   "ciphey": {
     "exclude_packages": ["six"]
@@ -53,22 +81,49 @@
     "exclude_packages": ["junit-xml", "six"]
   },
   "charm-tools": {
+    "exclude_packages": ["six"],
     "extra_packages": ["wheel"]
   },
   "checkov": {
     "exclude_packages": ["junit-xml", "six", "tabulate"],
     "extra_packages": ["junit-xml-2"]
   },
+  "cloudiscovery": {
+    "exclude_packages": ["six"]
+  },
   "conan": {
+    "exclude_packages": ["six"],
+    "extra_packages": ["distro"]
+  },
+  "cookiecutter": {
     "exclude_packages": ["six"]
   },
   "cppman": {
     "exclude_packages": ["six"]
   },
+  "credstash": {
+    "exclude_packages": ["six"]
+  },
+  "cruft": {
+    "exclude_packages": ["six"]
+  },
+  "csvkit": {
+    "exclude_packages": ["six"]
+  },
+  "cyral-gimme-db-token": {
+    "exclude_packages": ["six"]
+  },
   "datalad": {
     "exclude_packages": ["six"]
   },
+  "datasette": {
+    "exclude_packages": ["six"]
+  },
   "diffoscope": "diffoscope[cmdline]",
+  "dnstwist": "dnstwist[full]",
+  "docker-squash": {
+    "exclude_packages": ["six"]
+  },
   "duplicity": {
     "extra_packages": [
       "azure-storage-blob", "b2sdk", "boto", "boto3", "boxsdk[jwt]",
@@ -81,19 +136,20 @@
     "exclude_packages": ["six"]
   },
   "dvc": {
-    "extra_packages": [
-        "gcsfs", "pydrive2", "adlfs", "azure-identity", "knack",
-        "oss2", "pycryptodome", "sshfs", "webdav4",
-        "s3fs", "aiobotocore[boto3]"
-    ],
-    "exclude_packages": ["grandalf", "protobuf", "six", "tabulate"]
+    "package_name": "dvc[all]",
+    "exclude_packages": ["protobuf", "pyarrow", "six", "tabulate"]
   },
   "dxpy": {
     "exclude_packages": ["six"]
   },
-  "ipython": {
-    "exclude_packages": ["six"],
-    "extra_packages": ["ipykernel"]
+  "esphome": {
+    "exclude_packages": ["protobuf", "six", "tabulate"]
+  },
+  "esptool": {
+    "exclude_packages": ["six"]
+  },
+  "fabric": {
+    "exclude_packages": ["six"]
   },
   "fava": {
     "exclude_packages": ["six"]
@@ -105,27 +161,63 @@
   "flintrock": {
     "exclude_packages": ["six"]
   },
+  "gimme-aws-creds": {
+    "package_name": "gimme-aws-creds",
+    "exclude_packages": ["six"],
+    "extra_packages": ["pyobjc-framework-LocalAuthentication", "SecretStorage", "jeepney"]
+  },
+  "git-remote-codecommit": {
+    "exclude_packages": ["six"]
+  },
+  "gitlint": {
+    "exclude_packages": ["six"]
+  },
+  "hatch": {
+    "exclude_packages": ["six"]
+  },
   "homeassistant-cli": {
     "exclude_packages": ["tabulate"]
   },
   "howdoi": {
     "exclude_packages": ["six"]
   },
+  "http-prompt": {
+    "exclude_packages": ["six"]
+  },
   "internetarchive": {
+    "exclude_packages": ["six"]
+  },
+  "ipython": {
+    "exclude_packages": ["six"],
+    "extra_packages": ["ipykernel"]
+  },
+  "iredis": {
     "exclude_packages": ["six"]
   },
   "jenkins-job-builder": {
     "exclude_packages": ["six"]
   },
+  "jinja2-cli": "jinja2-cli[yaml,toml,xml]",
+  "jrnl": {
+    "exclude_packages": ["six"]
+  },
   "jupyterlab": {
-    "exclude_packages": ["six"],
-    "extra_packages": ["pydevd"]
+    "exclude_packages": ["six"]
+  },
+  "keepkey-agent": {
+    "exclude_packages": ["six"]
+  },
+  "khal": {
+    "exclude_packages": ["six"]
   },
   "khard": {
     "exclude_packages": ["six"]
   },
+  "legit": {
+    "exclude_packages": ["six"]
+  },
   "litecli": {
-    "exclude_packages": ["tabulate"]
+    "exclude_packages": ["six", "tabulate"]
   },
   "localstack": {
     "exclude_packages": ["six", "tabulate"]
@@ -133,7 +225,11 @@
   "locust": {
     "exclude_packages": ["six"]
   },
+  "mackup": {
+    "exclude_packages": ["six"]
+  },
   "magic-wormhole": {
+    "exclude_packages": ["six"],
     "extra_packages": ["wheel"]
   },
   "mkdocs": {
@@ -145,15 +241,22 @@
   },
   "moto": {
     "package_name": "moto[all,server]",
-    "exclude_packages": ["junit-xml"],
+    "exclude_packages": ["junit-xml", "six"],
     "extra_packages": ["junit-xml-2"]
   },
   "mycli": {
     "exclude_packages": ["tabulate"]
   },
+  "nbdime": {
+    "exclude_packages": ["six"]
+  },
+  "nicotine-plus": {
+    "exclude_packages": ["pycairo", "PyGObject"]
+  },
   "nox": {
     "exclude_packages": ["six"]
   },
+  "nvchecker": "nvchecker[pypi]",
   "oci-cli": {
     "exclude_packages": ["six"]
   },
@@ -164,15 +267,30 @@
     "extra_packages": ["python-heatclient", "python-octaviaclient"],
     "exclude_packages": ["six"]
   },
-  "nicotine-plus": {
-    "exclude_packages": ["pycairo", "PyGObject"]
+  "organize-tool": {
+    "exclude_packages": ["six"]
+  },
+  "osc-cli": {
+    "exclude_packages": ["six"]
+  },
+  "parliament": {
+    "exclude_packages": ["six"]
   },
   "pdm": {
     "exclude_packages": ["six"],
     "extra_packages": ["wheel"]
   },
+  "percol": {
+    "exclude_packages": ["six"]
+  },
   "pgcli": {
     "exclude_packages": ["six", "tabulate"]
+  },
+  "pip-audit": {
+    "exclude_packages": ["six"]
+  },
+  "pipenv": {
+    "exclude_packages": ["six"]
   },
   "pipgrip": {
     "exclude_packages": ["six"],
@@ -181,9 +299,11 @@
   "platformio": {
     "exclude_packages": ["tabulate"]
   },
+  "pocsuite3": {
+    "exclude_packages": ["six"]
+  },
   "poetry": {
-    "exclude_packages": ["six"],
-    "extra_packages": ["importlib-metadata", "typing-extensions"]
+    "exclude_packages": ["six"]
   },
   "pre-commit": {
     "exclude_packages": ["six"]
@@ -197,6 +317,9 @@
   "protobuf": {
     "exclude_packages": ["six"]
   },
+  "pwntools": {
+    "exclude_packages": ["six"]
+  },
   "pydocstyle": "pydocstyle[toml]",
   "pyqt-builder": {
     "exclude_packages": ["packaging", "pyparsing", "sip", "toml"]
@@ -207,6 +330,9 @@
   "pywhat": {
     "exclude_packages": ["six"]
   },
+  "rbtools": {
+    "exclude_packages": ["six"]
+  },
   "regipy": {
     "exclude_packages": ["tabulate"],
     "extra_packages": ["click"]
@@ -214,8 +340,12 @@
   "remarshal": {
     "exclude_packages": ["six"]
   },
+  "restview": {
+    "exclude_packages": ["six"]
+  },
   "robot-framework": {
-    "extra_packages": ["robotframework-archivelibrary", "robotframework-selenium2library", "robotframework-sshlibrary"]
+    "extra_packages": ["robotframework-archivelibrary", "robotframework-selenium2library", "robotframework-sshlibrary"],
+    "exclude_packages": ["six"]
   },
   "s3cmd": {
     "exclude_packages": ["six"]
@@ -223,7 +353,10 @@
   "s4cmd": {
     "exclude_packages": ["six"]
   },
-  "sail": "sailed-io",
+  "sail": {
+    "package_name": "sailed-io",
+    "exclude_packages": ["six"]
+  },
   "salt": {
     "extra_packages": ["pycryptodome", "pygit2"],
     "exclude_packages": [
@@ -350,6 +483,9 @@
       "six"
    	]
   },
+  "rtv": {
+    "exclude_packages": ["six"]
+  },
   "sceptre": {
     "exclude_packages": ["six"]
   },
@@ -357,25 +493,61 @@
     "exclude_packages": ["numpy"]
   },
   "semgrep": "semgrep",
+  "shallow-backup": {
+    "exclude_packages": ["six"]
+  },
   "sphinx-doc": {
     "extra_packages": ["numpydoc"]
   },
   "sqlite-utils": {
     "exclude_packages": ["tabulate", "six"]
   },
+  "stormssh": {
+    "exclude_packages": ["six"]
+  },
+  "streamlink": {
+    "exclude_packages": ["six"]
+  },
+  "tarsnapper": {
+    "exclude_packages": ["six"]
+  },
+  "termius": {
+    "package_name": "termius",
+    "exclude_packages": ["six"]
+  },
   "theharvester": {
     "exclude_packages": ["six"]
   },
   "todoman": {
-    "exclude_packages": ["tabulate"]
+    "exclude_packages": ["six", "tabulate"]
   },
   "tox": {
     "exclude_packages": ["six"]
   },
+  "trezor-agent": {
+    "exclude_packages": ["pillow", "six"],
+    "extra_packages": ["ledger-agent", "keepkey-agent"]
+  },
+  "trzsz": {
+    "extra_packages": ["trzsz-iterm2"],
+    "exclude_packages": ["protobuf"]
+  },
   "twarc": {
     "exclude_packages": ["six"]
   },
+  "twine-pypi": {
+    "exclude_packages": ["six"]
+  },
   "virtualenv": {
+    "exclude_packages": ["six"]
+  },
+  "volatility": {
+    "extra_packages": ["capstone", "pycryptodome", "yara-python"]
+  },
+  "watson": {
+    "exclude_packages": ["six"]
+  },
+  "west": {
     "exclude_packages": ["six"]
   },
   "woob": {

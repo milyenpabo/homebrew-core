@@ -1,25 +1,17 @@
 class Lout < Formula
   desc "Text formatting like TeX, but simpler"
   homepage "https://savannah.nongnu.org/projects/lout"
-  url "https://download.savannah.gnu.org/releases/lout/lout-3.40.tar.gz"
-  sha256 "3d16f1ce3373ed96419ba57399c2e4d94f88613c2cb4968cb0331ecac3da68bd"
-  license "GPL-3.0"
-
-  livecheck do
-    url "https://download.savannah.gnu.org/releases/lout/"
-    regex(/href=.*?lout[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
+  url "https://github.com/william8000/lout/archive/refs/tags/3.42.1.tar.gz"
+  sha256 "b0b2f66a0f959bc80835966c69ae4d4eef2cb0def2b03e634bf1c7e55b1fe6dd"
+  license "GPL-3.0-or-later"
 
   bottle do
-    sha256 arm64_big_sur: "3164a9e3f8d721f43d2596518c15493ee8d0ab9817f799c2cbcb72f9ca3e5a67"
-    sha256 big_sur:       "744551b3b7479af62015ceb2f54736ea4f4c68f4c87862a0fb0af62c731ed454"
-    sha256 catalina:      "67aec968bd2e1957d7b4fe7a2ae201b701ef45dd98c9766ffbc7a0ae3ca1af70"
-    sha256 mojave:        "2f69e0d4097fbf53f05855b5eeb2def0efcaf08c3a5b2487b1fa041031c2eacc"
-    sha256 high_sierra:   "2de1b1b7526f7427b8a57b6239a5a8c199ee05365ead7ed8d722a9e7e3123a0e"
-    sha256 sierra:        "2cfc68ddba21e6f485a4a57df9e810b6996d5364374c66e77b06d41ce230f060"
-    sha256 el_capitan:    "2fbc90ffc3f12312dc11e31996ba94da3b8a4ba1c55f33ca60a5d81aef4e137f"
-    sha256 yosemite:      "366023d41536d0220a3d226a9f7a5e65b89fcf8ec212bfd6e53f8c2b4110abce"
-    sha256 x86_64_linux:  "3b6e15578cc9b6dbe6f4b0ea9e18fce710974e552381b0b61a931577bb6c384f"
+    sha256 arm64_monterey: "63e654e4a8a80650fd93e7753b02324fadf155859ed2033eefb86ff1e197d1c2"
+    sha256 arm64_big_sur:  "e582d850d93ad8ce569374f5154598dc0a0f4b96d99406cba59192765c7bb825"
+    sha256 monterey:       "58484f4b661d7717a51d040b24c5e713f2338b4f64ac9e9bb553ad1801df0ad0"
+    sha256 big_sur:        "9bd926fea1d826e067041b86414ef4b8fbe46db5a2ed56d0a4416be908c87d09"
+    sha256 catalina:       "600c4e098a6b6b72ea3b55d3e6c4ce2369181c1292f4529e14ab43a336eaccfb"
+    sha256 x86_64_linux:   "2f1be7368fbe1290b5c8e1751ad56ab8291b9369fa67c11d6ef999b51516f3a7"
   end
 
   def install

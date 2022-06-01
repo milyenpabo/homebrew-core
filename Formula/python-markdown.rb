@@ -3,18 +3,18 @@ class PythonMarkdown < Formula
 
   desc "Python implementation of Markdown"
   homepage "https://python-markdown.github.io"
-  url "https://files.pythonhosted.org/packages/49/02/37bd82ae255bb4dfef97a4b32d95906187b7a7a74970761fca1360c4ba22/Markdown-3.3.4.tar.gz"
-  sha256 "31b5b491868dcc87d6c24b7e3d19a0d730d59d3e46f4eea6430a321bed387a49"
+  url "https://files.pythonhosted.org/packages/d6/58/79df20de6e67a83f0d0bbfe6c19bb82adf68cdf362885257eb01099f930a/Markdown-3.3.7.tar.gz"
+  sha256 "cbb516f16218e643d8e0a95b309f77eb118cb138d39a4f27851e6a63581db874"
   license "BSD-3-Clause"
-  revision 1
   head "https://github.com/Python-Markdown/markdown.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "7a0926148f224393a9d718e9ae032d503af50e4651aa799aacfcd6ae234f4909"
-    sha256 cellar: :any_skip_relocation, big_sur:       "17410bd96abac23079f5746f78077457b2abed0fafeb544f0b0e28ee23451587"
-    sha256 cellar: :any_skip_relocation, catalina:      "cd69e83d7367882f20a1704c583ea03f8b70af2b9e4b92d6575eaea674951c62"
-    sha256 cellar: :any_skip_relocation, mojave:        "4c511d30c1aac5d2db8bc48143cee680c5cfc0447aebf25e225270a1e54ada4f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "16cf6291aa7788af874d97da72492b7de0dc16c2eaa15c4d11a39ad2cf756a96"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "28d3ac4ef942f4b316f5f7fc70fd5e84d2f11854d983fad86ffbf5088d9d52d5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ecf032f9bcd6c4951c8460933b5ce77929b9921aabcccdb902d89cd7947b5100"
+    sha256 cellar: :any_skip_relocation, monterey:       "7c0fc31fedf83687330b982bf5cc8a0f8ab37bdfe1237866832ba1794e90d0db"
+    sha256 cellar: :any_skip_relocation, big_sur:        "43cd65bb521ae69854123efe0c67581be69782b9f962ee66c31e95ac4ea943b6"
+    sha256 cellar: :any_skip_relocation, catalina:       "80bb1c032f4eb2c2c6321623f273ff90aa04d1ae6b9a32dce48b80678ef7ab88"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fd8cf1bc63bd2effe8e6f4ae7ba0f6680e4f0d238c7e969b6fdf98994b83e67f"
   end
 
   depends_on "python@3.10"

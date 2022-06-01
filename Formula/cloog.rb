@@ -1,42 +1,32 @@
 class Cloog < Formula
   desc "Generate code for scanning Z-polyhedra"
-  homepage "http://www.bastoul.net/cloog/"
-  url "http://www.bastoul.net/cloog/pages/download/count.php3?url=./cloog-0.18.4.tar.gz"
-  sha256 "325adf3710ce2229b7eeb9e84d3b539556d093ae860027185e7af8a8b00a750e"
-  revision 3
-
-  livecheck do
-    url "http://www.bastoul.net/cloog/download.php"
-    regex(/href=.*?cloog[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
+  homepage "https://github.com/periscop/cloog"
+  url "https://github.com/periscop/cloog/releases/download/cloog-0.20.0/cloog-0.20.0.tar.gz"
+  sha256 "835c49951ff57be71dcceb6234d19d2cc22a3a5df84aea0a9d9760d92166fc72"
+  license "LGPL-2.1-or-later"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "fd2c1ec09cd145694be31a83b63ce8d12a78475a9329337d17c54acf32a5bdab"
-    sha256 cellar: :any,                 big_sur:       "f7c327b7541e01820a0b70ac9877dae9263609de74480aad14568a505ee7af83"
-    sha256 cellar: :any,                 catalina:      "7899742ca2ecd424f8354679f710d86329abf9935017dd0952950b485b0d9967"
-    sha256 cellar: :any,                 mojave:        "604d9bd3eaab93d10f50d3dacf0c9c49b2b986b3a6379a95586fe4c4cbf26622"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3fc2e061afb37bcc0d067989d11dba0997cd840d1ee627ec0be561c6bec4924c"
+    sha256 cellar: :any,                 arm64_monterey: "e6e5952ded447b71b8742c7110512d9afc91b7399a900ec8f7b3317c47731f49"
+    sha256 cellar: :any,                 arm64_big_sur:  "7e9717c9f378f51c40282abd7defb978d0a0edd960eb84410f493bd96a27e222"
+    sha256 cellar: :any,                 monterey:       "7238821fcae5761ac240e91f19287ac119eab3db509b7f1b040ba7f9e5b562ff"
+    sha256 cellar: :any,                 big_sur:        "d5e21a7bc40be89004c107f89e49c8dbda04cc1b9fb54e15d4225823562b8b19"
+    sha256 cellar: :any,                 catalina:       "52c35562f93176d8f3e5216f5f2867aa857e3f0b8b238eb036dea9dbc077595e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b700274e30904d1827d5ec5eacd0809b13183ca532305437a15592dc61167bc0"
   end
 
   depends_on "pkg-config" => :build
   depends_on "gmp"
+  depends_on "isl"
 
-  resource "isl" do
-    url "http://isl.gforge.inria.fr/isl-0.18.tar.xz"
-    mirror "https://deb.debian.org/debian/pool/main/i/isl/isl_0.18.orig.tar.xz"
-    sha256 "0f35051cc030b87c673ac1f187de40e386a1482a0cfdf2c552dd6031b307ddc4"
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
   end
 
   def install
-    resource("isl").stage do
-      system "./configure", "--disable-dependency-tracking",
-                            "--disable-silent-rules",
-                            "--prefix=#{libexec}",
-                            "--with-gmp=system",
-                            "--with-gmp-prefix=#{Formula["gmp"].opt_prefix}"
-      system "make", "install"
-    end
+    # Avoid doc build.
+    ENV["ac_cv_prog_TEXI2DVI"] = ""
 
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
@@ -44,7 +34,7 @@ class Cloog < Formula
                           "--with-gmp=system",
                           "--with-gmp-prefix=#{Formula["gmp"].opt_prefix}",
                           "--with-isl=system",
-                          "--with-isl-prefix=#{libexec}"
+                          "--with-isl-prefix=#{Formula["isl"].opt_prefix}"
     system "make", "install"
   end
 

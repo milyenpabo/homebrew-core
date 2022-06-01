@@ -3,17 +3,18 @@ require "language/node"
 class Hexo < Formula
   desc "Fast, simple & powerful blog framework"
   homepage "https://hexo.io/"
-  url "https://registry.npmjs.org/hexo/-/hexo-5.4.0.tgz"
-  sha256 "bf80f6d840f2e6cc5f6dd5e4ea0246dc45ae8f387d66f3b8d1ba3d49474f8399"
+  url "https://registry.npmjs.org/hexo/-/hexo-6.2.0.tgz"
+  sha256 "d577729d6b0c21cccf7c6e81b395a3bfe2f058f29fca8c569643639f3b571772"
   license "MIT"
-  head "https://github.com/hexojs/hexo.git"
+  head "https://github.com/hexojs/hexo.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4c38e6ac4e73f52e5ecbcfb75cd80e8997653bc1c8d9967f5813486517ccaa01"
-    sha256 cellar: :any_skip_relocation, big_sur:       "55bcaac970db5cb434a16c27e5165dc338cdcf6498b8243936c5bcc509ea2eae"
-    sha256 cellar: :any_skip_relocation, catalina:      "5bcbf7709254e2615b78b583f8c70336ecc5f20702ae5a855d7c6bb9ac2c4908"
-    sha256 cellar: :any_skip_relocation, mojave:        "dbc44b1c38643e08908e1978f0142c2caf1a6ec8a3ee6663c8038855de222612"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1cd4a6bb23bbec22299b6ee1e350f14a48b562a54ace403dab0ee0eae84f608e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "247799071e0e7e6b2ad7d99c87fa6346e79f86c01d176565373190cdff3b07d9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "247799071e0e7e6b2ad7d99c87fa6346e79f86c01d176565373190cdff3b07d9"
+    sha256 cellar: :any_skip_relocation, monterey:       "e81819487b36ddb1288988183f7b923aa5c206daf530c64b804b350aec75e08d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e81819487b36ddb1288988183f7b923aa5c206daf530c64b804b350aec75e08d"
+    sha256 cellar: :any_skip_relocation, catalina:       "e81819487b36ddb1288988183f7b923aa5c206daf530c64b804b350aec75e08d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "129c5b4637e726823ce327942b94043e98318ca45eb56d2e3c50814c0edc3806"
   end
 
   depends_on "node"
@@ -22,6 +23,9 @@ class Hexo < Formula
     mkdir_p libexec/"lib"
     system "npm", "install", *Language::Node.std_npm_install_args(libexec)
     bin.install_symlink Dir["#{libexec}/bin/*"]
+
+    # Replace universal binaries with their native slices.
+    deuniversalize_machos
   end
 
   test do

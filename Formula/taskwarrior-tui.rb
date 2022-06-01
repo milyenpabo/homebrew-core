@@ -1,8 +1,8 @@
 class TaskwarriorTui < Formula
   desc "Terminal user interface for taskwarrior"
   homepage "https://github.com/kdheepak/taskwarrior-tui"
-  url "https://github.com/kdheepak/taskwarrior-tui/archive/v0.13.34.tar.gz"
-  sha256 "6d5c5a67420204f603e61054382fb39432098fd2daa758029b5ac848a9356024"
+  url "https://github.com/kdheepak/taskwarrior-tui/archive/v0.23.4.tar.gz"
+  sha256 "a394994c545ddfc382b14e34b9d348d9df03caf906273b77b1f23c78e0928aa3"
   license "MIT"
   head "https://github.com/kdheepak/taskwarrior-tui.git", branch: "main"
 
@@ -12,27 +12,20 @@ class TaskwarriorTui < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f521dc2b7ca87148f47822e726927c9c1e575cf0793eb7050e6a687035d3201d"
-    sha256 cellar: :any_skip_relocation, big_sur:       "197bc9a387b5752f1b84db88a16b7ebba69161b7724dd22676075557cd79efe7"
-    sha256 cellar: :any_skip_relocation, catalina:      "ac8aea1c340f56da67d7f96c1d1be8e1255bf15ac1c0b0cd406f6ce952015c61"
-    sha256 cellar: :any_skip_relocation, mojave:        "d22296faf0a3da4788b045a78ba4f74b824671613c17fe40b3f7e13ce08a3d27"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "95c1222fbb2992322127e066e10cc954ff33a1fbbbd41997b48b07cf1f31cb48"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0b96f20c184620df16e7c9a5c594a64d4ddbf6a77967de5f719ab61f8a1e5ab6"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2f830cb45bff81d92f31728686f9510f0b8e3ea1f56fd2e80b4f7a8737ab48c0"
+    sha256 cellar: :any_skip_relocation, monterey:       "c45c8fe791f3dd97a832cba0303b3662c4923b6f7e5deafb7447b8d538f57cd8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "dc7cebca0baf7e0d4ec9f9d04da6b808116cd55e9991e43aa89e5a191b198b9c"
+    sha256 cellar: :any_skip_relocation, catalina:       "be4aa9a3f5aee31ba46d66c52533f61de4c2a0a79757f993e992bb7c0f7e6ecb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4c6a1176ffaacbf527eda62da7966dc3b170230836a8092db4a1448e749b2df3"
   end
 
-  depends_on "pandoc" => :build
   depends_on "rust" => :build
   depends_on "task"
 
   def install
     system "cargo", "install", *std_cargo_args
-
-    args = %w[
-      --standalone
-      --to=man
-    ]
-    system "pandoc", *args, "docs/taskwarrior-tui.1.md", "-o", "taskwarrior-tui.1"
-    man1.install "taskwarrior-tui.1"
-
+    man1.install "docs/taskwarrior-tui.1"
     bash_completion.install "completions/taskwarrior-tui.bash"
     fish_completion.install "completions/taskwarrior-tui.fish"
     zsh_completion.install "completions/_taskwarrior-tui"

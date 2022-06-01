@@ -1,9 +1,9 @@
 class Ooniprobe < Formula
   desc "Network interference detection tool"
   homepage "https://ooni.org/"
-  url "https://github.com/ooni/probe-cli/archive/v3.10.1.tar.gz"
-  sha256 "2b81c14133f39ac91c4ea6761be7a27d768cd88989b52ae72376d1d7b69de322"
-  license "BSD-3-Clause"
+  url "https://github.com/ooni/probe-cli/archive/v3.14.2.tar.gz"
+  sha256 "a0b71089444c899ba99c7f63f9e05819cdbe964cfa17bb95ca5672343e6aec22"
+  license "GPL-3.0-or-later"
 
   livecheck do
     url :stable
@@ -11,16 +11,19 @@ class Ooniprobe < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "746cd38569b353bd25d8984e90b83754c7ec5c1ee48417ff007d43a8a935fb5e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "89e6b871207538537ae7dfd73c5cd40885aad95e2440fce531100df0b4957dd5"
-    sha256 cellar: :any_skip_relocation, catalina:      "b8268996f24122c5bf53c27b225f5fca1b8cd16b217eb8ecdf8395aabead0348"
-    sha256 cellar: :any_skip_relocation, mojave:        "6e049ae4eb2529c020aa4dd5d09fcfdde562a05b99f9ad41a9183ac38dab8054"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6175151c2c03b2ce67ee64b6e467b5a23805649bc4269261e02bf10704537c77"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "86d43020ae3046726ae70e6e846dfbd8abff179a0ac60ed0092e3175b5209563"
+    sha256 cellar: :any_skip_relocation, monterey:       "e4a8ee479c263c4fa720b61b75b8ebcd0053d6fd3e704d45ac4d154e79b3c724"
+    sha256 cellar: :any_skip_relocation, big_sur:        "9db39adc27ca6f68798393d77658e5db77320e6ce8dbcd4eae0f667df70f2cfe"
+    sha256 cellar: :any_skip_relocation, catalina:       "26cc9170c9a9b3b92dc8617dd9ce94d71d032b864adee1b6899777ef88166d20"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f6029598cdad5d2317cb9e6b0ca25c86d6c7aae00224950491e7ea6a1cc43d96"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
+  depends_on "tor"
 
   def install
-    system "go", "run", "./internal/cmd/getresources"
     system "go", "build", *std_go_args, "-ldflags", "-s -w", "./cmd/ooniprobe"
     (var/"ooniprobe").mkpath
   end

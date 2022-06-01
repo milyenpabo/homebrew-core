@@ -3,23 +3,24 @@ class Mesa < Formula
 
   desc "Graphics Library"
   homepage "https://www.mesa3d.org/"
-  url "https://mesa.freedesktop.org/archive/mesa-21.2.3.tar.xz"
-  sha256 "7245284a159d2484770e1835a673e79e4322a9ddf43b17859668244946db7174"
+  url "https://mesa.freedesktop.org/archive/mesa-22.0.3.tar.xz"
+  sha256 "9f2b30f5276a9abaf71aafc6979685e2636189de1a87aea2c9e69744a6d0ebb9"
   license "MIT"
   head "https://gitlab.freedesktop.org/mesa/mesa.git", branch: "main"
 
   bottle do
-    sha256 arm64_big_sur: "647680c6c57f129e8a468a24b1e3a292806e58678268eaaa7c041850e959b46a"
-    sha256 big_sur:       "0a32b4ff6af04519287fcc66da4942dc312bd42729ddfaa88014dea8fa8ccb23"
-    sha256 catalina:      "65b59e30dacdec6377fad8b31216e8be39e43bf710037fae96a62b8dc394d5ee"
-    sha256 mojave:        "be170207296c7caf6990afeed20b1d081f5bbd66a7a59c2cc365dd8fa8a2aede"
-    sha256 x86_64_linux:  "a164f6e33f6a4e8d7bac9d7cfc42600d2d7b96dd213515678255868bdc3264e6"
+    sha256 arm64_monterey: "b105483cdde050584207848c534f3ca3e988f5f38ba14c6288d915f88855fc44"
+    sha256 arm64_big_sur:  "e774f7177666f36f4702006bc2e5355a21fcc703231e643e86eaa64cfca0b225"
+    sha256 monterey:       "b3fc91b898ec4483d8edb260a568c3887ff207e0f75d1e0746ac3f7c1238226b"
+    sha256 big_sur:        "9c303730e2726fdc82e318d707f1d793a12dd161618c974f57f21fb4898fa32b"
+    sha256 catalina:       "95eb7bbe986579799e9b74f90f149aec1e773d7a58cc554ef1e27b450632b39c"
+    sha256 x86_64_linux:   "ed884f5b81ed8d10845138ff0d0c42c70767a7371d3edcee2679b83d6dce0ac4"
   end
 
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "expat"
   depends_on "gettext"
   depends_on "libx11"
@@ -36,6 +37,7 @@ class Mesa < Formula
   on_linux do
     depends_on "elfutils"
     depends_on "gcc"
+    depends_on "gzip"
     depends_on "libdrm"
     depends_on "libva"
     depends_on "libvdpau"
@@ -53,26 +55,39 @@ class Mesa < Formula
   fails_with gcc: "5"
 
   resource "Mako" do
-    url "https://files.pythonhosted.org/packages/d1/42/ff293411e980debfc647be9306d89840c8b82ea24571b014f1a35b2ad80f/Mako-1.1.5.tar.gz"
-    sha256 "169fa52af22a91900d852e937400e79f535496191c63712e3b9fda5a9bed6fc3"
+    url "https://files.pythonhosted.org/packages/50/ec/1d687348f0954bda388bfd1330c158ba8d7dea4044fc160e74e080babdb9/Mako-1.2.0.tar.gz"
+    sha256 "9a7c7e922b87db3686210cf49d5d767033a41d4010b284e747682c92bddd8b39"
+  end
+
+  resource "Pygments" do
+    url "https://files.pythonhosted.org/packages/94/9c/cb656d06950268155f46d4f6ce25d7ffc51a0da47eadf1b164bbf23b718b/Pygments-2.11.2.tar.gz"
+    sha256 "4e426f72023d88d03b2fa258de560726ce890ff3b630f88c21cbb8b2503b8c6a"
+  end
+
+  resource "MarkupSafe" do
+    url "https://files.pythonhosted.org/packages/1d/97/2288fe498044284f39ab8950703e88abbac2abbdf65524d576157af70556/MarkupSafe-2.1.1.tar.gz"
+    sha256 "7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"
   end
 
   resource "glxgears.c" do
-    url "https://gitlab.freedesktop.org/mesa/demos/-/raw/faaa319d704ac677c3a93caadedeb91a4a74b7a7/src/xdemos/glxgears.c"
+    url "https://gitlab.freedesktop.org/mesa/demos/-/raw/db5ad06a346774a249b22797e660d55bde0d9571/src/xdemos/glxgears.c"
     sha256 "3873db84d708b5d8b3cac39270926ba46d812c2f6362da8e6cd0a1bff6628ae6"
   end
 
   resource "gl_wrap.h" do
-    url "https://gitlab.freedesktop.org/mesa/demos/-/raw/faaa319d704ac677c3a93caadedeb91a4a74b7a7/src/util/gl_wrap.h"
+    url "https://gitlab.freedesktop.org/mesa/demos/-/raw/5435fc7fbd332e171da9a71e33a9b190e9462cf0/src/util/gl_wrap.h"
     sha256 "c727b2341d81c2a1b8a0b31e46d24f9702a1ec55c8be3f455ddc8d72120ada72"
   end
 
   def install
-    ENV.prepend_path "PATH", Formula["python@3.9"].opt_libexec/"bin"
+    ENV.prepend_path "PATH", Formula["python@3.10"].opt_libexec/"bin"
 
-    venv_root = libexec/"venv"
+    venv_root = buildpath/"venv"
     venv = virtualenv_create(venv_root, "python3")
-    venv.pip_install resource("Mako")
+
+    %w[Mako Pygments MarkupSafe].each do |res|
+      venv.pip_install resource(res)
+    end
 
     ENV.prepend_path "PATH", "#{venv_root}/bin"
 
@@ -83,15 +98,14 @@ class Mesa < Formula
         args << "-Dplatforms=x11,wayland"
         args << "-Dglx=auto"
         args << "-Ddri3=true"
-        args << "-Ddri-drivers=auto"
         args << "-Dgallium-drivers=auto"
         args << "-Dgallium-omx=disabled"
         args << "-Degl=true"
         args << "-Dgbm=true"
         args << "-Dopengl=true"
-        args << "-Dgles1=true"
-        args << "-Dgles2=true"
-        args << "-Dxvmc=true"
+        args << "-Dgles1=enabled"
+        args << "-Dgles2=enabled"
+        args << "-Dgallium-xvmc=disabled"
         args << "-Dvalgrind=false"
         args << "-Dtools=drm-shim,etnaviv,freedreno,glsl,nir,nouveau,xvmc,lima"
       end

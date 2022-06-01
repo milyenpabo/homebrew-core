@@ -6,7 +6,7 @@ class GenerateJsonSchema < Formula
   url "https://registry.npmjs.org/generate-schema/-/generate-schema-2.6.0.tgz"
   sha256 "1ddbf91aab2d649108308d1de7af782d9270a086919edb706f48d0216d51374a"
   license "MIT"
-  head "https://github.com/Nijikokun/generate-schema.git"
+  head "https://github.com/Nijikokun/generate-schema.git", branch: "master"
 
   bottle do
     sha256 cellar: :any_skip_relocation, arm64_big_sur: "d19c2a0542dea7690c93f7a8e97a25c8979c7e489dca485dcfc35f6073d47beb"
@@ -17,6 +17,7 @@ class GenerateJsonSchema < Formula
     sha256 cellar: :any_skip_relocation, sierra:        "a6ff075810774d44030a59a12032d302c64834d03c7aabeb32efb8dc86d276de"
     sha256 cellar: :any_skip_relocation, el_capitan:    "5a5b34d8e233d9b75648c39f8edada5077c8f6c6466bd3358f3f661062ccbe83"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "12487b77022ffd791d6fbd7a50362a08f5209ba50ad1cc67c3558d63db1e9264"
+    sha256 cellar: :any_skip_relocation, all:           "12487b77022ffd791d6fbd7a50362a08f5209ba50ad1cc67c3558d63db1e9264"
   end
 
   depends_on "node"

@@ -1,16 +1,17 @@
 class Seal < Formula
   desc "Easy-to-use homomorphic encryption library"
   homepage "https://github.com/microsoft/SEAL"
-  url "https://github.com/microsoft/SEAL/archive/v3.7.1.tar.gz"
-  sha256 "cdc7426d01f879a8b87204a5df9e01339262d4b53962f6fddc2f34a0dec71777"
+  url "https://github.com/microsoft/SEAL/archive/v4.0.0.tar.gz"
+  sha256 "616653498ba8f3e0cd23abef1d451c6e161a63bd88922f43de4b3595348b5c7e"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "23beceb2de3f10406360d6dd91ed9aa386e7e94a368c9457918d3581106c2a7b"
-    sha256 cellar: :any,                 big_sur:       "d6c02002668e4a85b55881dceab6d3e8f4b6ee7ee805c008cd0e8e0b5b991434"
-    sha256 cellar: :any,                 catalina:      "e73d859446af694f6914ee025a73d707cbc873ec3bba65e6f25a88850313f3f4"
-    sha256 cellar: :any,                 mojave:        "94cd84ae736c28a2c234333fb90b5c68933a26e60edbb569c8d2fb00326db170"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "fc947e560250392fc1a7128849d62cc9d6921e0dea814485ce8c8a1ad0b1061a"
+    sha256 cellar: :any,                 arm64_monterey: "ea53dd611311c919f58c7808143addd1998d7f2a3d28f58eed756ecb19ee98d4"
+    sha256 cellar: :any,                 arm64_big_sur:  "a0bf775b0bc6b873a92eb9dc52856c7119d4ea78b99acf4a08a1973dc5ebbd8f"
+    sha256 cellar: :any,                 monterey:       "992afd0a163c2aada6f229a5c8afb556d5a427f25b4561c793f3955a8460956f"
+    sha256 cellar: :any,                 big_sur:        "322c2cf9c05b472e0fb6622f0476d5f53ff17a3cfd09ae5c4b9988386cba2bfb"
+    sha256 cellar: :any,                 catalina:       "f3a21a40b17452fedb54680b5214faaafd1ef26f2e7c06d859a53985e83c771b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "409aab1c8e31f433ba23c9f08d4ae28ec858467043eedff6201b143beb9e8b63"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -26,8 +27,8 @@ class Seal < Formula
   fails_with gcc: "5"
 
   resource "hexl" do
-    url "https://github.com/intel/hexl/archive/v1.2.1.tar.gz"
-    sha256 "d09f4bf5309f4fa13f0046475f77e8c5a065d7b9c726eba2d3d943fc13cdae1a"
+    url "https://github.com/intel/hexl/archive/v1.2.3.tar.gz"
+    sha256 "f2cf33ee2035d12996d10b69d2f41a586b9954a29b99c70a852495cf5758878c"
   end
 
   def install
@@ -79,10 +80,11 @@ class Seal < Formula
               1_bfv_basics.cpp
               2_encoders.cpp
               3_levels.cpp
-              4_ckks_basics.cpp
-              5_rotation.cpp
-              6_serialization.cpp
-              7_performance.cpp
+              4_bgv_basics.cpp
+              5_ckks_basics.cpp
+              6_rotation.cpp
+              7_serialization.cpp
+              8_performance.cpp
       )
 
       # Import Microsoft SEAL

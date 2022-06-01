@@ -1,17 +1,22 @@
 class IsoCodes < Formula
   desc "Provides lists of various ISO standards"
   homepage "https://salsa.debian.org/iso-codes-team/iso-codes"
-  url "https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.7.0.orig.tar.xz"
-  sha256 "bdfd06cdd77d73d491dcd57d6c946cb95a939f19f7ffc6a31f2f93923412219b"
+  url "https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.9.0.orig.tar.xz"
+  sha256 "d090112a529dbe37a0a1b46b8246cc1cfca92e0281ba27239426a2b693e28967"
   license "LGPL-2.1-or-later"
-  head "https://salsa.debian.org/iso-codes-team/iso-codes.git"
+  head "https://salsa.debian.org/iso-codes-team/iso-codes.git", branch: "main"
+
+  livecheck do
+    url "https://deb.debian.org/debian/pool/main/i/iso-codes/"
+    regex(/href=.*?iso-codes[._-]v?(\d+(?:\.\d+)+)\.orig\.t/i)
+  end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "e73500953641acc8108dac1d15b3929b48c50f91140387af201a126581cbd05d"
+    sha256 cellar: :any_skip_relocation, all: "eec87541cb08d1862596b5768b2ee076259475a2b3d3d966acffdaf91d0f3388"
   end
 
   depends_on "gettext" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   def install
     system "./configure", "--prefix=#{prefix}"

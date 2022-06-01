@@ -1,10 +1,11 @@
 class Llvm < Formula
   desc "Next-gen compiler infrastructure"
   homepage "https://llvm.org/"
-  url "https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-project-13.0.0.src.tar.xz"
-  sha256 "6075ad30f1ac0e15f07c1bf062c1e1268c241d674f11bd32cdf0e040c71f2bf3"
+  url "https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-project-13.0.1.src.tar.xz"
+  sha256 "326335a830f2e32d06d0a36393b5455d17dc73e0bd1211065227ee014f92cbf8"
   # The LLVM Project is under the Apache License v2.0 with LLVM Exceptions
   license "Apache-2.0" => { with: "LLVM-exception" }
+  revision 1
   head "https://github.com/llvm/llvm-project.git", branch: "main"
 
   livecheck do
@@ -13,11 +14,12 @@ class Llvm < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "49f4101d2663dc0165b28d50f48bff45bbca54a6406842c1fc975661466102a4"
-    sha256 cellar: :any,                 big_sur:       "b70b2cf98830f727b0bf64fa648647d14136b9fe3cb0467b0128d475130f1f3b"
-    sha256 cellar: :any,                 catalina:      "f98e61dbcb1e7f1e7c5c8909c55565c221c6f527dd6d0de56b1a304c9acb9524"
-    sha256 cellar: :any,                 mojave:        "6d37d929258a567b28c08d51b8cdfa656ff278de5163f7214e371eb353588377"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3ef7c37bc20a46fa1c5af82f868f0c194de0f4a637607188ea9cd0357689b43f"
+    sha256 cellar: :any,                 arm64_monterey: "8242e90a3ee6b20d7fd782e7da2bda892ee8b877a6a0e9cf7d4ca62c693cc9cb"
+    sha256 cellar: :any,                 arm64_big_sur:  "67dfef6403fd3cdcd099862e67e88839e3783f37ab994e10f7c07df8324b3f54"
+    sha256 cellar: :any,                 monterey:       "3cb3cf8bcc9d1cc7b9b9f762673d16874bf82c2513daca356f1257db8d9718f3"
+    sha256 cellar: :any,                 big_sur:        "97f4e4bfa268d4db34ef833a19e790eea3499592112a3aaa775798ca4347bd55"
+    sha256 cellar: :any,                 catalina:       "9288725af78af4fe272748ba37a5d0fd8d0fb18525baf33748886e7772611b60"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "db8babd88a42213afdce1baf3ae1b55eb5c33fa4e9a9c6ab3a48cab822e89e6f"
   end
 
   # Clang cannot find system headers if Xcode CLT is not installed
@@ -30,7 +32,7 @@ class Llvm < Formula
   # See: Homebrew/homebrew-core/issues/35513
   depends_on "cmake" => :build
   depends_on "swig" => :build
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   uses_from_macos "libedit"
   uses_from_macos "libffi", since: :catalina
@@ -70,7 +72,9 @@ class Llvm < Formula
       projects << "openmp"
     end
 
-    py_ver = Language::Python.major_minor_version("python3")
+    python_versions = Formula.names
+                             .select { |name| name.start_with? "python@" }
+                             .map { |py| py.delete_prefix("python@") }
     site_packages = Language::Python.site_packages("python3").delete_prefix("lib/")
 
     # Apple's libstdc++ is too old to build LLVM
@@ -107,8 +111,8 @@ class Llvm < Formula
       -DLLDB_ENABLE_LZMA=ON
       -DLLDB_PYTHON_RELATIVE_PATH=libexec/#{site_packages}
       -DLIBOMP_INSTALL_ALIASES=OFF
-      -DCLANG_PYTHON_BINDINGS_VERSIONS=#{py_ver}
-      -DLLVM_CREATE_XCODE_TOOLCHAIN=#{MacOS::Xcode.installed? ? "ON" : "OFF"}
+      -DCLANG_PYTHON_BINDINGS_VERSIONS=#{python_versions.join(";")}
+      -DLLVM_CREATE_XCODE_TOOLCHAIN=OFF
       -DPACKAGE_VENDOR=#{tap.user}
       -DBUG_REPORT_URL=#{tap.issues_url}
       -DCLANG_VENDOR_UTI=org.#{tap.user.downcase}.clang
@@ -125,18 +129,15 @@ class Llvm < Formula
 
     # gcc-5 fails at building compiler-rt. Enable PGO
     # build on Linux when we switch to Ubuntu 18.04.
-    pgo_build = false
-    if OS.mac?
+    pgo_build = if OS.mac?
       args << "-DLLVM_BUILD_LLVM_C_DYLIB=ON"
       args << "-DLLVM_ENABLE_LIBCXX=ON"
       args << "-DRUNTIMES_CMAKE_ARGS=-DCMAKE_INSTALL_RPATH=#{rpath}"
       args << "-DDEFAULT_SYSROOT=#{macos_sdk}" if macos_sdk
 
       # Skip the PGO build on HEAD installs or non-bottle source builds
-      pgo_build = build.stable? && build.bottle?
-    end
-
-    if OS.linux?
+      build.stable? && build.bottle?
+    else
       ENV.append "CXXFLAGS", "-fpermissive -Wno-free-nonheap-object"
       ENV.append "CFLAGS", "-fpermissive -Wno-free-nonheap-object"
 
@@ -168,6 +169,8 @@ class Llvm < Formula
 
       # Prevent compiler-rt from building i386 targets, as this is not portable.
       args << "-DBUILTINS_CMAKE_ARGS=-DCOMPILER_RT_DEFAULT_TARGET_ONLY=ON"
+
+      false
     end
 
     llvmpath = buildpath/"llvm"
@@ -297,17 +300,42 @@ class Llvm < Formula
       system "cmake", "-G", "Unix Makefiles", "..", *(std_cmake_args + args)
       system "cmake", "--build", "."
       system "cmake", "--build", ".", "--target", "install"
-      system "cmake", "--build", ".", "--target", "install-xcode-toolchain" if MacOS::Xcode.installed?
     end
 
-    if OS.mac? && !build.head?
+    if OS.mac?
+      # Get the version from `llvm-config` to get the correct HEAD version too.
+      llvm_version = Version.new(Utils.safe_popen_read(bin/"llvm-config", "--version").strip)
+      soversion = llvm_version.major.to_s
+      soversion << "git" if build.head?
+
       # Install versioned symlink, or else `llvm-config` doesn't work properly
-      lib.install_symlink "libLLVM.dylib" => "libLLVM-#{version.major}.dylib"
+      lib.install_symlink "libLLVM.dylib" => "libLLVM-#{soversion}.dylib"
+
+      # Install Xcode toolchain. See:
+      # https://github.com/llvm/llvm-project/blob/main/llvm/tools/xcode-toolchain/CMakeLists.txt
+      # We do this manually in order to avoid:
+      #   1. installing duplicates of files in the prefix
+      #   2. requiring an existing Xcode installation
+      xctoolchain = prefix/"Toolchains/LLVM#{llvm_version}.xctoolchain"
+      xcode_version = MacOS::Xcode.installed? ? MacOS::Xcode.version : Version.new(MacOS::Xcode.latest_version)
+      compat_version = xcode_version < 8 ? "1" : "2"
+
+      system "/usr/libexec/PlistBuddy", "-c", "Add:CFBundleIdentifier string org.llvm.#{llvm_version}", "Info.plist"
+      system "/usr/libexec/PlistBuddy", "-c", "Add:CompatibilityVersion integer #{compat_version}", "Info.plist"
+      xctoolchain.install "Info.plist"
+      (xctoolchain/"usr").install_symlink [bin, include, lib, libexec, share]
     end
 
     # Install LLVM Python bindings
     # Clang Python bindings are installed by CMake
     (lib/site_packages).install llvmpath/"bindings/python/llvm"
+
+    # Create symlinks so that the Python bindings can be used with alternative Python versions
+    python_versions.each do |py_ver|
+      next if py_ver == Language::Python.major_minor_version("python3").to_s
+
+      (lib/"python#{py_ver}/site-packages").install_symlink (lib/site_packages).children
+    end
 
     # Install Vim plugins
     %w[ftdetect ftplugin indent syntax].each do |dir|
@@ -326,9 +354,14 @@ class Llvm < Formula
   end
 
   test do
+    llvm_version = Version.new(Utils.safe_popen_read(bin/"llvm-config", "--version").strip)
+    soversion = llvm_version.major.to_s
+    soversion << "git" if head?
+
+    assert_equal version, llvm_version unless head?
     assert_equal prefix.to_s, shell_output("#{bin}/llvm-config --prefix").chomp
-    assert_equal "-lLLVM-#{version.major}", shell_output("#{bin}/llvm-config --libs").chomp
-    assert_equal (lib/shared_library("libLLVM-#{version.major}")).to_s,
+    assert_equal "-lLLVM-#{soversion}", shell_output("#{bin}/llvm-config --libs").chomp
+    assert_equal (lib/shared_library("libLLVM-#{soversion}")).to_s,
                  shell_output("#{bin}/llvm-config --libfiles").chomp
 
     (testpath/"omptest.c").write <<~EOS
@@ -344,10 +377,8 @@ class Llvm < Formula
       }
     EOS
 
-    clean_version = version.to_s[/(\d+\.?)+/]
-
     system "#{bin}/clang", "-L#{lib}", "-fopenmp", "-nobuiltininc",
-                           "-I#{lib}/clang/#{clean_version}/include",
+                           "-I#{lib}/clang/#{llvm_version.major_minor_patch}/include",
                            "omptest.c", "-o", "omptest"
     testresult = shell_output("./omptest")
 
@@ -432,7 +463,7 @@ class Llvm < Formula
     end
     assert_equal "Hello World!", shell_output("./testlibc++").chomp
 
-    on_linux do
+    if OS.linux?
       # Link installed libc++, libc++abi, and libunwind archives both into
       # a position independent executable (PIE), as well as into a fully
       # position independent (PIC) DSO for things like plugins that export
@@ -445,9 +476,9 @@ class Llvm < Formula
       # linking statically.
 
       system "#{bin}/clang++", "-v", "-o", "test_pie_runtimes",
-             "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
-             "-stdlib=libc++", "-rtlib=compiler-rt",
-             "-static-libstdc++", "-lpthread", "-ldl"
+                   "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
+                   "-stdlib=libc++", "-rtlib=compiler-rt",
+                   "-static-libstdc++", "-lpthread", "-ldl"
       assert_equal "Hello World!", shell_output("./test_pie_runtimes").chomp
       (testpath/"test_pie_runtimes").dynamically_linked_libraries.each do |lib|
         refute_match(/lib(std)?c\+\+/, lib)

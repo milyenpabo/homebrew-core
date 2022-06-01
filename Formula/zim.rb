@@ -1,16 +1,13 @@
 class Zim < Formula
   desc "Graphical text editor used to maintain a collection of wiki pages"
   homepage "https://zim-wiki.org/"
-  url "https://github.com/zim-desktop-wiki/zim-desktop-wiki/archive/0.74.1.tar.gz"
-  sha256 "c2775df72d2877cfefb5357d807e853a0c361abf12e7b63222c30b972f43c954"
+  url "https://github.com/zim-desktop-wiki/zim-desktop-wiki/archive/0.74.3.tar.gz"
+  sha256 "4a5cff2f8bf99a89f9acaf1368df2ab711edee8d19dcbf3c4b4aeeba89e808aa"
   license "GPL-2.0-or-later"
   head "https://github.com/zim-desktop-wiki/zim-desktop-wiki.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:      "3c8cccfa08db73cd722d8fff32dc5e59c1211adc9ba986550d4641ce17f6f356"
-    sha256 cellar: :any_skip_relocation, catalina:     "3c8cccfa08db73cd722d8fff32dc5e59c1211adc9ba986550d4641ce17f6f356"
-    sha256 cellar: :any_skip_relocation, mojave:       "3c8cccfa08db73cd722d8fff32dc5e59c1211adc9ba986550d4641ce17f6f356"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "67d29ed5139d262e60140aa5ae478156b5170b3f42a7adca78a5561bd0c5312a"
+    sha256 cellar: :any_skip_relocation, all: "df1dd11baa2693ecf8686ea4fab05cc30b1475dbc16d8c758a6473b751c345fb"
   end
 
   depends_on "pkg-config" => :build
@@ -27,19 +24,25 @@ class Zim < Formula
   end
 
   def install
-    python_version = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{python_version}/site-packages"
+    python3 = which("python3")
+    ENV.prepend_create_path "PYTHONPATH", libexec/Language::Python.site_packages("python3")
     resource("pyxdg").stage do
-      system Formula["python@3.9"].opt_bin/"python3", *Language::Python.setup_install_args(libexec/"vendor")
+      system python3, *Language::Python.setup_install_args(libexec/"vendor")
     end
     ENV["XDG_DATA_DIRS"] = libexec/"share"
-    ENV.prepend_create_path "PYTHONPATH", libexec/"lib/python#{python_version}/site-packages"
-    system Formula["python@3.9"].opt_bin/"python3", "./setup.py", "install", "--prefix=#{libexec}"
+    system python3, "./setup.py", "install", "--prefix=#{libexec}"
     bin.install Dir[libexec/"bin/*"]
     bin.env_script_all_files libexec/"bin",
       PYTHONPATH:    ENV["PYTHONPATH"],
-      XDG_DATA_DIRS: ["#{HOMEBREW_PREFIX}/share", libexec/"share"].join(":")
+      XDG_DATA_DIRS: [HOMEBREW_PREFIX/"share", libexec/"share"].join(":")
     pkgshare.install "zim"
+
+    # Make the bottles uniform
+    inreplace [
+      libexec/Language::Python.site_packages("python3")/"zim/config/basedirs.py",
+      libexec/"vendor"/Language::Python.site_packages("python3")/"xdg/BaseDirectory.py",
+      pkgshare/"zim/config/basedirs.py",
+    ], "/usr/local", HOMEBREW_PREFIX
   end
 
   test do

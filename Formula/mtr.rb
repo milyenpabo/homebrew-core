@@ -1,23 +1,24 @@
 class Mtr < Formula
   desc "'traceroute' and 'ping' in a single tool"
   homepage "https://www.bitwizard.nl/mtr/"
-  url "https://github.com/traviscross/mtr/archive/v0.94.tar.gz"
-  sha256 "ea036fdd45da488c241603f6ea59a06bbcfe6c26177ebd34fff54336a44494b8"
+  url "https://github.com/traviscross/mtr/archive/v0.95.tar.gz"
+  sha256 "12490fb660ba5fb34df8c06a0f62b4f9cbd11a584fc3f6eceda0a99124e8596f"
   license "GPL-2.0-only"
-  head "https://github.com/traviscross/mtr.git"
+  head "https://github.com/traviscross/mtr.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "2e6e4509d128d1f3bc7e0594c8fb12b60971780e070523a2e4d8b896507cef57"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3625ac3eeb2409adfb156194c8bda385b98ebb7afa59229e302e9e61bb897004"
-    sha256 cellar: :any_skip_relocation, catalina:      "6ec962809c1c2381b7723647e16c2283dbef8042ae04af14ad675fa63c38a859"
-    sha256 cellar: :any_skip_relocation, mojave:        "6a768b9cd07026aec0276742fd3fb6723c0f545a8498dff1ab3bb5b9e23e85e0"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "9c9a9c995360d16581ef42b0a729a5d3c152e7195bcc88910cda9bd9315c3299"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9b87f19c7e5247304ef5c147fd8656516601c1a6051b51fd5a27ad32a30ebc6b"
+    sha256 cellar: :any,                 arm64_monterey: "832e28a80e1b4340c19c4dc3511504672ec03ff5cb54d7294e932b7d9aa80085"
+    sha256 cellar: :any,                 arm64_big_sur:  "0e41037f1e0f662b87155307468c740594d2e16761e2b120a3086e0922c7bda5"
+    sha256 cellar: :any,                 monterey:       "8388e7af1b04e7749ffa93b3a9479df605cbe16d7a88c02625ecd229e36043f9"
+    sha256 cellar: :any,                 big_sur:        "bb07a178a739fc8c8a15fc7645efc7fe749b81663752bcd66cb1efcd47217371"
+    sha256 cellar: :any,                 catalina:       "7ee23cbae756e561d02a0ffe3b32476cd635b54f70240a937c43e7608c27766d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4b2707211f207742525047d68e4b3e870b524f093ea8ce8f76b8fb3999e6f8d5"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "pkg-config" => :build
+  depends_on "jansson"
 
   def install
     # Fix UNKNOWN version reported by `mtr --version`.
@@ -46,7 +47,11 @@ class Mtr < Formula
   end
 
   test do
+    # We patch generation of the version, so let's check that we did that properly.
+    assert_match "mtr #{version}", shell_output("#{sbin}/mtr --version")
     # mtr will not run without root privileges
     assert_match "Failure to open", shell_output("#{sbin}/mtr google.com 2>&1", 1)
+    # Check that the `--json` flag is recognised.
+    assert_match "Failure to open", shell_output("#{sbin}/mtr --json google.com 2>&1", 1)
   end
 end

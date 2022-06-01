@@ -4,20 +4,22 @@ class LlvmAT8 < Formula
   url "https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/llvm-8.0.1.src.tar.xz"
   sha256 "44787a6d02f7140f145e2250d56c9f849334e11f9ae379827510ed72f12b75e7"
   license "NCSA"
-  revision 3
+  revision 4
 
   bottle do
-    sha256 cellar: :any,                 big_sur:      "3807a935c2ea14dab5336a75a8ed9d9f06c656673608c338b4b519a22f267c9c"
-    sha256 cellar: :any,                 catalina:     "ab099d84e5f0a58ea37172fd85753336d855fc25e9459ceff12ddc2dbb56ef71"
-    sha256 cellar: :any,                 mojave:       "ee795cbebce64f79bbcf7c42526093df7bd2e5e986a721197bca5cf6c822e87a"
-    sha256 cellar: :any,                 high_sierra:  "3f80b7119307b128b1e3ae8a2fea97a9878afb5a7436a7d35615b1e743bc7622"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "034ef9b106397716b532d6864139b172a2ff94a1094f23b307ec21b68387a539"
+    sha256 cellar: :any,                 monterey:     "5ebe0705eb065f2df31558355060b5243a4509053be3ce8061d1276065952a5b"
+    sha256 cellar: :any,                 big_sur:      "31c87844469bb97b0e7c851bfb0f9518f04528922bc0b05174a542e89774b243"
+    sha256 cellar: :any,                 catalina:     "e02899714a78423d88279e404f0a3e5936f54384176bde41bbb69915718867c8"
+    sha256 cellar: :any,                 mojave:       "734cc2980a64c8c0f6d475a8e22c03e8a0c18bf471da36953dbc37d7671b6271"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "e2c9ae5255fa95fd05c688ab77a912fe8aec559f27d4e24c089ced6817c31d0b"
   end
 
   # Clang cannot find system headers if Xcode CLT is not installed
   pour_bottle? only_if: :clt_installed
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-05-29", because: :versioned_formula
 
   # https://llvm.org/docs/GettingStarted.html#requirement
   depends_on "cmake" => :build
@@ -136,7 +138,7 @@ class LlvmAT8 < Formula
     # can almost be treated as an entirely different build from llvm.
     ENV.permit_arch_flags
 
-    args = %W[
+    args = %w[
       -DLIBOMP_ARCH=x86_64
       -DLINK_POLLY_INTO_TOOLS=ON
       -DLLVM_BUILD_LLVM_DYLIB=ON
@@ -149,12 +151,18 @@ class LlvmAT8 < Formula
       -DLLVM_OPTIMIZED_TABLEGEN=ON
       -DLLVM_TARGETS_TO_BUILD=all
       -DWITH_POLLY=ON
-      -DFFI_INCLUDE_DIR=#{Formula["libffi"].opt_lib}/libffi-#{Formula["libffi"].version}/include
-      -DFFI_LIBRARY_DIR=#{Formula["libffi"].opt_lib}
       -DLLDB_USE_SYSTEM_DEBUGSERVER=ON
       -DLLDB_DISABLE_PYTHON=1
       -DLIBOMP_INSTALL_ALIASES=OFF
     ]
+
+    if MacOS.version >= :catalina
+      args << "-DFFI_INCLUDE_DIR=#{MacOS.sdk_path}/usr/include/ffi"
+      args << "-DFFI_LIBRARY_DIR=#{MacOS.sdk_path}/usr/lib"
+    else
+      args << "-DFFI_INCLUDE_DIR=#{Formula["libffi"].opt_include}"
+      args << "-DFFI_LIBRARY_DIR=#{Formula["libffi"].opt_lib}"
+    end
 
     if OS.mac?
       args << "-DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON" if MacOS.version <= :mojave
@@ -352,7 +360,7 @@ class LlvmAT8 < Formula
     end
     assert_equal "Hello World!", shell_output("./testlibc++").chomp
 
-    on_linux do
+    if OS.linux?
       # Link installed libc++, libc++abi, and libunwind archives both into
       # a position independent executable (PIE), as well as into a fully
       # position independent (PIC) DSO for things like plugins that export
@@ -365,9 +373,9 @@ class LlvmAT8 < Formula
       # linking statically.
 
       system "#{bin}/clang++", "-v", "-o", "test_pie_runtimes",
-             "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
-             "-stdlib=libc++", "-rtlib=compiler-rt",
-             "-static-libstdc++", "-lpthread", "-ldl"
+                   "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
+                   "-stdlib=libc++", "-rtlib=compiler-rt",
+                   "-static-libstdc++", "-lpthread", "-ldl"
       assert_equal "Hello World!", shell_output("./test_pie_runtimes").chomp
       (testpath/"test_pie_runtimes").dynamically_linked_libraries.each do |lib|
         refute_match(/lib(std)?c\+\+/, lib)

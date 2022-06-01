@@ -3,58 +3,39 @@ class Awscli < Formula
 
   desc "Official Amazon AWS command-line interface"
   homepage "https://aws.amazon.com/cli/"
+  url "https://github.com/aws/aws-cli/archive/2.7.4.tar.gz"
+  sha256 "1e6c5a0c181056d0b501d8772ce280af817b5c2b6ab7f33f0b2aaf4ec297c7bf"
   license "Apache-2.0"
-
-  stable do
-    url "https://github.com/aws/aws-cli/archive/2.2.43.tar.gz"
-    sha256 "0284c0c33b682d7cf08975d1240838ac99901b744c83490b24a9bbf1ff1a4803"
-
-    # Botocore v2 is not available on PyPI and version commits are not tagged. One way to update:
-    # 1. Get `botocore` version at https://github.com/aws/aws-cli/blob/#{version}/setup.cfg
-    # 2. Get commit matching version at https://github.com/boto/botocore/commits/v2
-    resource "botocore" do
-      url "https://github.com/boto/botocore/archive/ec4c90582ce2b2446dc5c3e259bc5d146ef2973d.tar.gz"
-      sha256 "9243098716e79efb97204414e014db231e6e211fd7f471d3384eafd096232c15"
-      version "2.0.0dev151"
-    end
-  end
+  head "https://github.com/aws/aws-cli.git", branch: "v2"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "10ceeeba7dfcee2df9746e3442b72beced02a8d3c9811755144fc4257cfec418"
-    sha256 cellar: :any,                 big_sur:       "cfff09e6f43afbfa367f7bea2de8dc7c1462e4e9bc96fbf00461bad649326272"
-    sha256 cellar: :any,                 catalina:      "cbbaf1d8a5559c71b80dab7935baceb1e76ff4fde745f2f4b44f9ebf69512c51"
-    sha256 cellar: :any,                 mojave:        "0c13c38e32e34bdf0d6c9360b64cf8e1ca9957fe76bdeb28d9a057bbe3a28fb7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6204f57c2d60e941106aefa06150e05faf4c77048b03630d03ab42c22824d990"
-  end
-
-  head do
-    url "https://github.com/aws/aws-cli.git", branch: "v2"
-
-    resource "botocore" do
-      url "https://github.com/boto/botocore.git", branch: "v2"
-    end
+    sha256 cellar: :any,                 arm64_monterey: "d3b0d0b961036e102e72ac98ee700d9855e08ca9e62b1591062eadcd8c668c34"
+    sha256 cellar: :any,                 arm64_big_sur:  "1207ad728c3cc83ebfec3d7cd826979d72583729d2648aeee3022e7d87d00533"
+    sha256 cellar: :any,                 monterey:       "a599c5eb3aad86d769f4d41d9b0fca9b125442702982991fb19c0b341937ff1a"
+    sha256 cellar: :any,                 big_sur:        "d50928a9ea960f86e79d602e3d7a696656a654d7bf0935360a6964d2b43b0e02"
+    sha256 cellar: :any,                 catalina:       "3133733732dc07903b186e76049fe75fab92919b9e01905bf93e18dad6bfe896"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "48f01f468adda5653b5a87bd430b4b0d4c196d4369c2f5d52eb0c66146e84543"
   end
 
   depends_on "cmake" => :build
+  depends_on "rust" => :build # for cryptography
   depends_on "python@3.9"
   depends_on "six"
 
   uses_from_macos "groff"
 
   # Python resources should be updated based on setup.cfg. One possible way is:
-  # 1. Download source tarball
-  # 2. Remove `botocore` from setup.cfg
-  # 3. At top of source directory, run `pipgrip . --sort`
-  # 4. Ignore old `botocore` v1 and `six`. Update all other PyPI packages
+  # 1. Run `pipgrip 'awscli @ #{url}' --sort`
+  # 2. Ignore `six`. Update all other PyPI packages
 
   resource "awscrt" do
-    url "https://files.pythonhosted.org/packages/9f/e2/5a0b096fb73f2b33ad2cc7392d33d365d3b78b295b21dda5792dd481b38f/awscrt-0.11.24.tar.gz"
-    sha256 "b8aa68bca404bf0085be0570eff5b542d01f7e8e3c0f9b0859abfe5e070162ff"
+    url "https://files.pythonhosted.org/packages/56/3f/4ab8b2d37abc367983a4cbd0d4fc00053af0b725698d8e936672b9cdf881/awscrt-0.13.5.tar.gz"
+    sha256 "7543658cc2ac6e5e9e072844622bd681125ccd3070dcdd51565f2bddef3df268"
   end
 
   resource "cffi" do
-    url "https://files.pythonhosted.org/packages/2e/92/87bb61538d7e60da8a7ec247dc048f7671afe17016cd0008b3b710012804/cffi-1.14.6.tar.gz"
-    sha256 "c9a875ce9d7fe32887784274dd533c57909b7b1dcadcc128a2ac21331a9765dd"
+    url "https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz"
+    sha256 "920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954"
   end
 
   resource "colorama" do
@@ -63,8 +44,8 @@ class Awscli < Formula
   end
 
   resource "cryptography" do
-    url "https://files.pythonhosted.org/packages/d4/85/38715448253404186029c575d559879912eb8a1c5d16ad9f25d35f7c4f4c/cryptography-3.3.2.tar.gz"
-    sha256 "5a60d3780149e13b7a6ff7ad6526b38846354d11a15e21068e57073e29e19bed"
+    url "https://files.pythonhosted.org/packages/10/a7/51953e73828deef2b58ba1604de9167843ee9cd4185d8aaffcb45dd1932d/cryptography-36.0.2.tar.gz"
+    sha256 "70f8f4f7bb2ac9f340655cbac89d68c527af5bb4387522a8413e841e3e6628c9"
   end
 
   resource "distro" do
@@ -83,13 +64,13 @@ class Awscli < Formula
   end
 
   resource "prompt-toolkit" do
-    url "https://files.pythonhosted.org/packages/0c/37/7ad3bf3c6dbe96facf9927ddf066fdafa0f86766237cff32c3c7355d3b7c/prompt_toolkit-2.0.10.tar.gz"
-    sha256 "f15af68f66e664eaa559d4ac8a928111eebd5feda0c11738b5998045224829db"
+    url "https://files.pythonhosted.org/packages/37/34/c34c376882305c5051ed7f086daf07e68563d284015839bfb74d6e61d402/prompt_toolkit-3.0.28.tar.gz"
+    sha256 "9f1cd16b1e86c2968f2519d7fb31dd9d669916f515612c269d14e9ed52b51650"
   end
 
   resource "pycparser" do
-    url "https://files.pythonhosted.org/packages/0f/86/e19659527668d70be91d0369aeaa055b4eb396b0f387a4f92293a20035bd/pycparser-2.20.tar.gz"
-    sha256 "2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0"
+    url "https://files.pythonhosted.org/packages/5e/0b/95d387f5f4433cb0f53ff7ad859bd2c6051051cebbb564f139a999ab46de/pycparser-2.21.tar.gz"
+    sha256 "e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206"
   end
 
   resource "python-dateutil" do
@@ -102,14 +83,9 @@ class Awscli < Formula
     sha256 "8e42f3067a59e819935a2926e247170ed93c8f0b2ab64526f888e026854db2e4"
   end
 
-  resource "s3transfer" do
-    url "https://files.pythonhosted.org/packages/27/90/f467e516a845cf378d85f0a51913c642e31e2570eb64b352c4dc4c6cbfc7/s3transfer-0.4.2.tar.gz"
-    sha256 "cb022f4b16551edebbb31a377d3f09600dbada7363d8c5db7976e7f47732e1b2"
-  end
-
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/80/be/3ee43b6c5757cabea19e75b8f46eaf05a2f5144107d7db48c7cf3a864f73/urllib3-1.26.7.tar.gz"
-    sha256 "4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece"
+    url "https://files.pythonhosted.org/packages/1b/a5/4eab74853625505725cefdf168f48661b2cd04e7843ab836f3f63abf81da/urllib3-1.26.9.tar.gz"
+    sha256 "aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"
   end
 
   resource "wcwidth" do
@@ -127,10 +103,16 @@ class Awscli < Formula
       ENV.prepend "CFLAGS", "-I./build/deps/install/include"
       ENV.prepend "LDFLAGS", "-L./build/deps/install/lib"
     end
-    virtualenv_install_with_resources
+
+    # setuptools>=60 prefers its own bundled distutils, which is incompatabile with docutils~=0.15
+    # Force the previous behavior of using distutils from the stdlib
+    # Remove when fixed upstream: https://github.com/aws/aws-cli/pull/6011
+    with_env(SETUPTOOLS_USE_DISTUTILS: "stdlib") do
+      virtualenv_install_with_resources
+    end
     pkgshare.install "awscli/examples"
 
-    rm Dir["#{bin}/{aws.cmd,aws_bash_completer,aws_zsh_completer.sh}"]
+    rm Dir[bin/"{aws.cmd,aws_bash_completer,aws_zsh_completer.sh}"]
     bash_completion.install "bin/aws_bash_completer"
     zsh_completion.install "bin/aws_zsh_completer.sh"
     (zsh_completion/"_aws").write <<~EOS
@@ -141,8 +123,6 @@ class Awscli < Formula
         if [[ -f $e ]]; then source $e; fi
       }
     EOS
-
-    system libexec/"bin/python3", "scripts/gen-ac-index", "--include-builtin-index"
   end
 
   def caveats
@@ -154,7 +134,7 @@ class Awscli < Formula
 
   test do
     assert_match "topics", shell_output("#{bin}/aws help")
-    assert_includes Dir["#{libexec}/lib/python3.9/site-packages/awscli/data/*"],
+    assert_includes Dir[libexec/"lib/python3.9/site-packages/awscli/data/*"],
                     "#{libexec}/lib/python3.9/site-packages/awscli/data/ac.index"
   end
 end

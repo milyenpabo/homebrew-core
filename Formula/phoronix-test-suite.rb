@@ -1,8 +1,8 @@
 class PhoronixTestSuite < Formula
   desc "Open-source automated testing/benchmarking software"
   homepage "https://www.phoronix-test-suite.com/"
-  url "https://github.com/phoronix-test-suite/phoronix-test-suite/archive/v10.4.0.tar.gz"
-  sha256 "4feda834008c9844bbe675a6ce9b88a44d36965bc2d0a9d62c1407ba5b084935"
+  url "https://github.com/phoronix-test-suite/phoronix-test-suite/archive/v10.8.3.tar.gz"
+  sha256 "752012b6e94897f03a219157fe1ba6c4198eb16a5ddf026811b739f1f89cfd9e"
   license "GPL-3.0-or-later"
   head "https://github.com/phoronix-test-suite/phoronix-test-suite.git", branch: "master"
 
@@ -12,14 +12,15 @@ class PhoronixTestSuite < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "e6ef9090b342a82df1e6127d2b77e3a7cef93c943f469a7a0e7ea4a63b1d6ff4"
-    sha256 cellar: :any_skip_relocation, big_sur:       "021e080cf334bf2a07774987010e2ea1047e81348f4b020069c4c016522947de"
-    sha256 cellar: :any_skip_relocation, catalina:      "021e080cf334bf2a07774987010e2ea1047e81348f4b020069c4c016522947de"
-    sha256 cellar: :any_skip_relocation, mojave:        "021e080cf334bf2a07774987010e2ea1047e81348f4b020069c4c016522947de"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f3154fe9595db4a8e3e35c64c703bfde266c9625c6ddd06df63a26f2438bf3ec"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a3ef1554e954d39cbcbed7d749e4250bb94d0c71b0c3f8777ee43e0e9e05e4b1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a3ef1554e954d39cbcbed7d749e4250bb94d0c71b0c3f8777ee43e0e9e05e4b1"
+    sha256 cellar: :any_skip_relocation, monterey:       "69aa498eda75a3f1706ab0ed9cc33ba18060b19bbb56824b8dfc981d0fda5641"
+    sha256 cellar: :any_skip_relocation, big_sur:        "69aa498eda75a3f1706ab0ed9cc33ba18060b19bbb56824b8dfc981d0fda5641"
+    sha256 cellar: :any_skip_relocation, catalina:       "69aa498eda75a3f1706ab0ed9cc33ba18060b19bbb56824b8dfc981d0fda5641"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a3ef1554e954d39cbcbed7d749e4250bb94d0c71b0c3f8777ee43e0e9e05e4b1"
   end
 
-  uses_from_macos "php"
+  depends_on "php"
 
   def install
     ENV["DESTDIR"] = buildpath/"dest"

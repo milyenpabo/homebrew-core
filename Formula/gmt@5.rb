@@ -6,12 +6,12 @@ class GmtAT5 < Formula
   mirror "https://fossies.org/linux/misc/GMT/gmt-5.4.5-src.tar.gz"
   sha256 "225629c7869e204d5f9f1a384c4ada43e243f83e1ed28bdca4f7c2896bf39ef6"
   license "LGPL-3.0-or-later"
-  revision 12
+  revision 13
 
   bottle do
-    sha256 big_sur:  "f8d14f1c37b086a21aecf7ff3d744bfe5f3362af7c33de49890b77073c7227ef"
-    sha256 catalina: "f13e7d03b2ff5961cd7d0ccc294880574c5cddcbfc50274d7a75f8cf4d9f01c9"
-    sha256 mojave:   "d4af49c8a7680a26b9f7b344a7e9acdaa8cd2cfa320d9d04365308e2afb43765"
+    sha256 monterey: "be46e95fb3bb1cb83195f10338e991c3dcff7ffe68b9dfdaf0daa7c3777cb2c2"
+    sha256 big_sur:  "67c2cbd893bdb2d5e36aa034964df1d626547634608dc4b6385e0f64fe06163f"
+    sha256 catalina: "8c1f9855d6f7b0636b7bec1a2c6349a5cb1d6665598369f921b7b50b3c24b9d3"
   end
 
   keg_only :versioned_formula
@@ -22,7 +22,7 @@ class GmtAT5 < Formula
   depends_on "fftw"
   depends_on "gdal"
   depends_on "netcdf"
-  depends_on "pcre"
+  depends_on "pcre2"
 
   resource "gshhg" do
     url "https://github.com/GenericMappingTools/gshhg-gmt/releases/download/2.3.7/gshhg-gmt-2.3.7.tar.gz"
@@ -64,7 +64,8 @@ class GmtAT5 < Formula
       -DFFTW3_ROOT=#{Formula["fftw"].opt_prefix}
       -DGDAL_ROOT=#{Formula["gdal"].opt_prefix}
       -DNETCDF_ROOT=#{Formula["netcdf"].opt_prefix}
-      -DPCRE_ROOT=#{Formula["pcre"].opt_prefix}
+      -DPCRE2_ROOT=#{Formula["pcre2"].opt_prefix}
+      -DGMT_EXCLUDE_PCRE:BOOL=TRUE
       -DFLOCK:BOOL=TRUE
       -DGMT_INSTALL_MODULE_LINKS:BOOL=TRUE
       -DGMT_INSTALL_TRADITIONAL_FOLDERNAMES:BOOL=FALSE

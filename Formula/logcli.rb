@@ -1,24 +1,26 @@
 class Logcli < Formula
   desc "Run LogQL queries against a Loki server"
   homepage "https://grafana.com/loki"
-  url "https://github.com/grafana/loki/archive/v2.3.0.tar.gz"
-  sha256 "c71174a2fbb7b6183cb84fc3a5e328cb4276a495c7c0be8ec53c377ec0363489"
+  url "https://github.com/grafana/loki/archive/refs/tags/v2.5.0.tar.gz"
+  sha256 "f9ca9e52f4d9125cc31f9a593aba6a46ed6464c9cd99b2be4e35192a0ab4a76e"
   license "AGPL-3.0-only"
+  head "https://github.com/grafana/loki.git", branch: "main"
 
   livecheck do
     formula "loki"
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "944d78c7783b6ff9c93719b58fcf50b432a607b5714088c9ecf6753ef9896a1f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "010b87f09d3cdd55d1ef66fad6ef9176f56a41767fcad6ecb9ee350a37b76daf"
-    sha256 cellar: :any_skip_relocation, catalina:      "f23faf5499ddc695de6e60b669e86836e33b19c6395d6be6e60e705a627d054c"
-    sha256 cellar: :any_skip_relocation, mojave:        "003939be01f7a8293bd50df88e59bf20a280815afd7341562dcf139877d15e98"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c2de3bf7b13cbe31c833e6b610c86f6c201092a117d3dc2b5858866b6243a36f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "88e5bc3436ea5c2f26c8af399b6b6f6f54eacf8026130cd43f409ecb2779e4c3"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0dcb73f437252873bae70c90d45128b77e66c4f24923d40a17d31cbbad316a07"
+    sha256 cellar: :any_skip_relocation, monterey:       "22db2cd34d128a91c89c40b25fcbc6f5161f81559a1d4bdbd91ca668698ac339"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3ce5085f2333685aae241263f81d4ea6ae4f882a219dbaddd3cf68db2b3d85ad"
+    sha256 cellar: :any_skip_relocation, catalina:       "32a2e0e5a268502e3963f40534170b833cc2183a3e1eee547eb1cd333773c5a7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "42067a26764bbb5b3eeb1d03e5979a3f390107fbaeed9cd40df6f03e1c4f5132"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
   depends_on "loki" => :test
 
   resource "testdata" do

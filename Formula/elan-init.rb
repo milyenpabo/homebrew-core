@@ -1,16 +1,16 @@
 class ElanInit < Formula
   desc "Lean Theorem Prover installer and version manager"
   homepage "https://github.com/leanprover/elan"
-  url "https://github.com/leanprover/elan/archive/v1.0.8.tar.gz"
-  sha256 "fe93983c46ee83bc09e99b1cbd147f2ba4ad6fdda45ef3a57d386d9a84c8cc67"
-  license "Apache-2.0"
-  head "https://github.com/leanprover/elan.git"
+  url "https://github.com/leanprover/elan/archive/v1.4.1.tar.gz"
+  sha256 "eac4925100624e1d77d70a35408805fb88672e87b60a44fd93c31e8cfa4bfa91"
+  license any_of: ["Apache-2.0", "MIT"]
+  head "https://github.com/leanprover/elan.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:      "604903f0051ca238f3662d6376fd3855b105e24f62c654162deffe4a8a5fe1c7"
-    sha256 cellar: :any_skip_relocation, catalina:     "bd3940e048f0ad924e5c103201f61b38685ba56b180fb987599b05e76e43b8b7"
-    sha256 cellar: :any_skip_relocation, mojave:       "66da7b0f67a5a8a134e7fa9062003ebfe3f4369f8f1750e476c75041e55769a6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "04f452ebcaea14335dfcaa28701bd71cf9d95b189fb842df5e8f6897413dc732"
+    sha256 cellar: :any_skip_relocation, monterey:     "f07f593c8c3668c57cc595792c9ad1178a0949269342902c7d61d3ad85fe3046"
+    sha256 cellar: :any_skip_relocation, big_sur:      "7fd0d6b273632b3aeea56e8eab6514ce2d1517d02a5ed5d1b3063b5c26f5282e"
+    sha256 cellar: :any_skip_relocation, catalina:     "ec0943072965c84e5d190c6f725d562e28c998241e0226339dd0042115bc3240"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "97bd3b31c81ad7501e3c791399ba678b9014eada9f939ac42ccfcda7135f71d4"
   end
 
   depends_on "rust" => :build
@@ -28,7 +28,7 @@ class ElanInit < Formula
 
     system "cargo", "install", "--features", "no-self-update", *std_cargo_args
 
-    %w[lean leanpkg leanchecker leanc leanmake elan].each do |link|
+    %w[lean leanpkg leanchecker leanc leanmake lake elan].each do |link|
       bin.install_symlink "elan-init" => link
     end
 

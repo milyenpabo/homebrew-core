@@ -1,23 +1,24 @@
 class Gosec < Formula
   desc "Golang security checker"
   homepage "https://securego.io/"
-  url "https://github.com/securego/gosec/archive/v2.8.1.tar.gz"
-  sha256 "54820f7120265745710f54246ea5cde0fbdd6a9024cec8147f34b3c1855bdcec"
+  url "https://github.com/securego/gosec/archive/v2.11.0.tar.gz"
+  sha256 "24805fc392be01bbdd01bd192acde2effa4aa3b669b2938e46bca892889141cc"
   license "Apache-2.0"
-  head "https://github.com/securego/gosec.git"
+  head "https://github.com/securego/gosec.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4452d763462f9558721289ee8c1d9fbba04e36fb2b2eb1c9bf8ac59edaf759d9"
-    sha256 cellar: :any_skip_relocation, big_sur:       "54e7772a0413cc7ba0e45e3476ae51b7cb13b4b8232b52540a56a4eb9bb4059f"
-    sha256 cellar: :any_skip_relocation, catalina:      "805fce42a1339373b7cda4ed947ab57f0808600f3f02ffcd59567df2877e1e3f"
-    sha256 cellar: :any_skip_relocation, mojave:        "1c334b925541f89af00c3fe31194f67446dcf75beae2506713625e55376685c7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0482159716aee50b31fc9e6327e41750a032089e4ac3087447b4c50d3812779e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6545337d124c50ca122f10f9d44cd546fcea1fb26d1a712bb2884037335548f7"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ef7ec18d830fed477413c62fcb2195d77283e77a4e96a96dcd79fec8a321dc11"
+    sha256 cellar: :any_skip_relocation, monterey:       "63faceb6f282172e2f4483356ef22b087c79e554a789dc911ff0d56a5fa81e44"
+    sha256 cellar: :any_skip_relocation, big_sur:        "9c42f2b7a49a7579a664e23b7ec0fd2169ebbe15d3041590154557e1622dc1a9"
+    sha256 cellar: :any_skip_relocation, catalina:       "0815b07b4315bc430e374a91329550cc45dce6c617ad93ee8a8192c1df924bcc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "387b7b7a55d9cf05d8ba291636e1b34a40015d732ba4aa096b3a2e6160d93069"
   end
 
   depends_on "go"
 
   def install
-    system "go", "build", *std_go_args, "-ldflags", "-X main.version=v#{version}", "./cmd/gosec"
+    system "go", "build", *std_go_args(ldflags: "-X main.version=v#{version}"), "./cmd/gosec"
   end
 
   test do

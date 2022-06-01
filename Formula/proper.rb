@@ -6,11 +6,13 @@ class Proper < Formula
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "51b1bd82ce6b28f81a21d3dd4fc8e451cc1a11f2434d9e8f55121d233414d43a"
-    sha256 cellar: :any_skip_relocation, big_sur:       "61e21e04eaa32a05b64b00906c02ebe92b561d5eb087ca044e95cc529b500fc3"
-    sha256 cellar: :any_skip_relocation, catalina:      "06c64fa31d6e5adcf99fee3f9ed8351adb563404eb8c47bed79e6ba1bf4196f4"
-    sha256 cellar: :any_skip_relocation, mojave:        "b658a49385aabd1ee1c7a081873367a5b2aeb12c9ea0804804cedc38b2731c96"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f93b8f2a1a9c577ab5f29dc249da62eb8b7be0674eaec5875c74a50b16975ee2"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1fb7580b8ec4be37ae5eb66f3d474f5cb7134d91968b6a3ffd57e946601c3e7c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "77657642632df4b47ea81fe644f297b729b6727a65c14e4b55205878b7c2efa4"
+    sha256 cellar: :any_skip_relocation, monterey:       "61c38ab31cc8a971a833b3659cf7ca0907d2c3a8fe76ce9a83e17ae322154a2f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "90cc29581b44ff082445a03c2955dba09000b8d4734d739764c702e6da72dda3"
+    sha256 cellar: :any_skip_relocation, catalina:       "c24a2347c8832f7db7aa536c7761e1f7c24d1beecbf542feff21bc3a82ffb0fb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5ab7d497f0decd957772de50ce1ed18da6dd4a4d4f8583fa92fbf554fc69a64e"
   end
 
   depends_on "rebar3" => :build
@@ -19,6 +21,14 @@ class Proper < Formula
   def install
     system "make"
     prefix.install Dir["_build/default/lib/proper/ebin", "include"]
+    (prefix/"proper-#{version.major_minor}").install_symlink prefix/"ebin", include
+  end
+
+  def caveats
+    <<~EOS
+      To use PropEr in Erlang, you may need:
+        export ERL_LIBS=#{opt_prefix}/proper-#{version.major_minor}
+    EOS
   end
 
   test do

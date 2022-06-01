@@ -1,26 +1,23 @@
 class Pcapplusplus < Formula
   desc "C++ network sniffing, packet parsing and crafting framework"
   homepage "https://pcapplusplus.github.io"
-  url "https://github.com/seladb/PcapPlusPlus/archive/v21.05.tar.gz"
-  sha256 "f7bc2caea72544f42e3547c8acf65fca07ddd4cd45f7be2f5132dd1826ea27bb"
+  url "https://github.com/seladb/PcapPlusPlus/archive/v22.05.tar.gz"
+  sha256 "5f299c4503bf5d3c29f82b8d876a19be7dea29c2aadcb52f2f3b394846c21da9"
   license "Unlicense"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ebdc93c7ccb4ddb29c1fe4133657cdf9c55740927c85e1568a25a0e42debad66"
-    sha256 cellar: :any_skip_relocation, big_sur:       "c66896b5edabf916a4db8522e38f4b836f63a2b1bb3705a21e9d9309b9fb1307"
-    sha256 cellar: :any_skip_relocation, catalina:      "39ad69b47800c0d0c98f513750f1170e0dd56e0aca9e02eb29cb37e2e75c22f6"
-    sha256 cellar: :any_skip_relocation, mojave:        "098062050ba28c2c168edb8abd60a6fb0f7185df57f12e5aed897b8cd98f0d9d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a38e0066b0df3ee6a3ee87d0ad9dc33b57f49e65d377b7582cdb2f741bcb7229"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ff3ca668e89c2cc66c10d67921017931b3ceebecb67c5104ec93d6171a7ac873"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0688d833c5ffede68a0ccc000b3637279055a0c72aed10a9f4860ef605f7691f"
+    sha256 cellar: :any_skip_relocation, monterey:       "ddfea2d6e61387bf8bb94903bd710c747c9f159506da7f3cba0cdd50cab5757c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b61b98ef3a3c29249ffa14f74eab3b316db6122b39eb31602836e5bb74b00306"
+    sha256 cellar: :any_skip_relocation, catalina:       "859bdd63e138a4c388de4b68e95aa8181635679d8758555f9118f10c62d0e216"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c05be599c504e6cfc591880bfa8bfcb50d7be89a4d2410270408c6dad0be8bde"
   end
 
   uses_from_macos "libpcap"
 
   def install
-    os = if OS.mac?
-      "mac_os_x"
-    else
-      "linux"
-    end
+    os = OS.mac? ? "mac_os_x" : OS.kernel_name.downcase
     system "./configure-#{os}.sh", "--install-dir", prefix
 
     # library requires to run 'make all' and

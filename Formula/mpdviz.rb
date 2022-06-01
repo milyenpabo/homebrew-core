@@ -9,12 +9,16 @@ class Mpdviz < Formula
 
   bottle do
     rebuild 1
+    sha256 cellar: :any,                 monterey:     "789287aa34c69bce8cc78fd7d8c38674a32968ca73b48b925db9aa094f2a2ba4"
     sha256 cellar: :any,                 big_sur:      "3be0538c899cc10de1c50b27e6540e2e87ce5017c86ba1d0adeed563876072d9"
     sha256 cellar: :any,                 catalina:     "f65d98aebf9bee4de6dce79983fe91b20f95d731be71999021639bdd7c8c14e9"
     sha256 cellar: :any,                 mojave:       "dcc5deb65626637f6a4182f96e1ccd441a462c55657e134d2277a70be8246278"
     sha256 cellar: :any,                 high_sierra:  "1f1b0b01dcfd1c37b7820ae93a9775abcd5b1abcdb8a5a4038d348e517b3c87a"
     sha256 cellar: :any_skip_relocation, x86_64_linux: "b8b7f4496ea24badc34b33402603a2fbba5b92d0eecdddfbf9ff23b6e7b92db5"
   end
+
+  # https://github.com/lucy/mpdviz/issues/7
+  deprecate! date: "2021-02-22", because: :unmaintained
 
   depends_on "go" => :build
   depends_on "pkg-config" => :build

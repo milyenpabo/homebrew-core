@@ -3,8 +3,8 @@ class Pnpm < Formula
 
   desc "📦🚀 Fast, disk space efficient package manager"
   homepage "https://pnpm.io/"
-  url "https://registry.npmjs.org/pnpm/-/pnpm-6.16.1.tgz"
-  sha256 "2a40a3d8a56eaa411819fb8aa8cdd4d9fe729f74571929311247922387925f5a"
+  url "https://registry.npmjs.org/pnpm/-/pnpm-7.1.7.tgz"
+  sha256 "63e143444ad8d93774b6b420f47d27171a64b06cf6fdead68de60ca0b440e156"
   license "MIT"
 
   livecheck do
@@ -13,14 +13,17 @@ class Pnpm < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "cb66c095e837f64c0b857a2c60ac2fcc6035b82fb14b141bebf40ba1080ec74a"
-    sha256 cellar: :any_skip_relocation, big_sur:       "c421decbcf273ed94657f4a3225600ea1ed92899918c02411c9f39cc2013ca87"
-    sha256 cellar: :any_skip_relocation, catalina:      "c421decbcf273ed94657f4a3225600ea1ed92899918c02411c9f39cc2013ca87"
-    sha256 cellar: :any_skip_relocation, mojave:        "c421decbcf273ed94657f4a3225600ea1ed92899918c02411c9f39cc2013ca87"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cb66c095e837f64c0b857a2c60ac2fcc6035b82fb14b141bebf40ba1080ec74a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "24fc92011a665ad38e5d0fb6e0d738ce4b79cb7e6a1cf1f262d081f9a06d9ab3"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "24fc92011a665ad38e5d0fb6e0d738ce4b79cb7e6a1cf1f262d081f9a06d9ab3"
+    sha256 cellar: :any_skip_relocation, monterey:       "8eb08b69ae77c405a0bfc36d591cb00ee5af7e2a22ca4ab1903d02caea631819"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6cd78c228b3f735b08af91c6c8d9e6da2c455bf59d9aca31f8dd14322b6c1a7c"
+    sha256 cellar: :any_skip_relocation, catalina:       "6cd78c228b3f735b08af91c6c8d9e6da2c455bf59d9aca31f8dd14322b6c1a7c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "24fc92011a665ad38e5d0fb6e0d738ce4b79cb7e6a1cf1f262d081f9a06d9ab3"
   end
 
   depends_on "node"
+
+  conflicts_with "corepack", because: "both installs `pnpm` and `pnpx` binaries"
 
   def install
     system "npm", "install", *Language::Node.std_npm_install_args(libexec)
@@ -28,7 +31,7 @@ class Pnpm < Formula
   end
 
   test do
-    system "#{bin}/pnpm", "init", "-y"
+    system "#{bin}/pnpm", "init"
     assert_predicate testpath/"package.json", :exist?, "package.json must exist"
   end
 end

@@ -1,8 +1,8 @@
 class Rabbitmq < Formula
   desc "Messaging broker"
   homepage "https://www.rabbitmq.com"
-  url "https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.9.7/rabbitmq-server-generic-unix-3.9.7.tar.xz"
-  sha256 "efa268504eacf257e9ddd01c4b704d0502974cc45d930cef59db16c06ba5eb1f"
+  url "https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.10.2/rabbitmq-server-generic-unix-3.10.2.tar.xz"
+  sha256 "4075afddaad2f6dbddbaf8aff2fe19bc95901072d8c28d0717c7482ceb695d0c"
   license "MPL-2.0"
 
   livecheck do
@@ -11,10 +11,10 @@ class Rabbitmq < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "21329434f0dba08d2852f87279d503a6920be1188c9562f9dbd9c66dc3863f05"
+    sha256 cellar: :any_skip_relocation, all: "88db2e30452a7342d70bc250a802b6ab224d77aefbeec8480ab69e517ef40043"
   end
 
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "erlang"
 
   def install

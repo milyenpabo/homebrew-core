@@ -6,22 +6,24 @@ class Shyaml < Formula
   url "https://files.pythonhosted.org/packages/b9/59/7e6873fa73a476de053041d26d112b65d7e1e480b88a93b4baa77197bd04/shyaml-0.6.2.tar.gz"
   sha256 "696e94f1c49d496efa58e09b49c099f5ebba7e24b5abe334f15e9759740b7fd0"
   license "BSD-2-Clause"
+  revision 2
   head "https://github.com/0k/shyaml.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "ff1ab13915b1148905c77a4bac3ff65db4bc496d3b2fcdf031f30678f781c9f1"
-    sha256 cellar: :any,                 big_sur:       "bdfdbc881e2ef1cc0ae52ad5cafae3715bdfaf76a1ac905a6e3aa3a7fc1736a2"
-    sha256 cellar: :any,                 catalina:      "c95f616993a2fd70d3ed9fbb7556b582ef2aca26fbda97b36898bcfb9efbcee1"
-    sha256 cellar: :any,                 mojave:        "1f157591a67c0165af8492b3cb1b6049a7e151b0770aaed4c176c15fe3050f68"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6f3000c7847a03060e544f9eb06530071d2e38dbc561b817afc5ce3bf62bdb59"
+    sha256 cellar: :any,                 arm64_monterey: "9788455326ea60f6347e6b7f950505b265aa96a197aee6c7380b449cdc3d7605"
+    sha256 cellar: :any,                 arm64_big_sur:  "f875eb7002238f8636d85d8f6b3d5f64a0413c65f214b38d4efc2ac6dfa01b86"
+    sha256 cellar: :any,                 monterey:       "cbbc62f2a469c658c08693ad8c90e519404e63a7467e81ab81e033096c2e8838"
+    sha256 cellar: :any,                 big_sur:        "8e1c547e77addf803029fa7655a74f9f77ec3bdb9745631f46e08d7144a9fe48"
+    sha256 cellar: :any,                 catalina:       "a99ac074fcf20e8c16f532dc3a5f89016cb045c2c71695ad42a802fdd018c705"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "eb3df94c12dc3917a52251264f28a4ab8e24bf1e243412b231693f36df62368d"
   end
 
   depends_on "libyaml"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   resource "PyYAML" do
-    url "https://files.pythonhosted.org/packages/64/c2/b80047c7ac2478f9501676c988a5411ed5572f35d1beff9cae07d321512c/PyYAML-5.3.1.tar.gz"
-    sha256 "b8eac752c5e14d3eca0e6dd9199cd627518cb5ec06add0de9d32baeee6fe645d"
+    url "https://files.pythonhosted.org/packages/36/2b/61d51a2c4f25ef062ae3f74576b01638bebad5e045f747ff12643df63844/PyYAML-6.0.tar.gz"
+    sha256 "68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"
   end
 
   def install

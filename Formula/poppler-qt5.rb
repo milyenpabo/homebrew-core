@@ -1,9 +1,8 @@
 class PopplerQt5 < Formula
   desc "PDF rendering library (based on the xpdf-3.0 code base)"
   homepage "https://poppler.freedesktop.org/"
-  # NOTE: Keep this version in sync with poppler
-  url "https://poppler.freedesktop.org/poppler-21.10.0.tar.xz"
-  sha256 "964b5b16290fbec3fae57c2a5bcdea49bb0736bd750c3a3711c47995c9efc394"
+  url "https://poppler.freedesktop.org/poppler-22.05.0.tar.xz"
+  sha256 "a969ced458e050d6202367bd7427054e2bd19bae39e8f969910d3b9151abf958"
   license "GPL-2.0-only"
   head "https://gitlab.freedesktop.org/poppler/poppler.git", branch: "master"
 
@@ -12,11 +11,12 @@ class PopplerQt5 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "b04bd910e016cf419a9f4cd26426225194819043fbb03287ce05b5fe1e5738f5"
-    sha256 big_sur:       "9c3edf61ef29b2908c8e476c67163a6c0c8b689d834d93323431a32a86b44026"
-    sha256 catalina:      "dd442783223a090fc558d6515b8dac8d4fac6a522c1c9878a827e28638a40ea6"
-    sha256 mojave:        "0b3aa91d6df18c74425f17f4f0d194e91b62dacccd42e7caadb9e6342a77bca4"
-    sha256 x86_64_linux:  "806a60be7dbaeca537e075f4eb5f2eeb62641c2a0ebaf0a401bdb57d33308c39"
+    sha256 arm64_monterey: "e690694445f88518c4ec7006f62cf8f7d32a59eb26aea81e5117aa128e528d84"
+    sha256 arm64_big_sur:  "21b1482316c512b8750b6d830939b3e5928812e1b4d049c559828d67c38a3a1b"
+    sha256 monterey:       "719341456e4259509894b3ccbcea19ffd47629e08437fcbc062d5d9bcb2ef512"
+    sha256 big_sur:        "aebba944b3ed13916c0dbda8ee838a821f6eebbbf7bf460cb0e34a59f4abc31f"
+    sha256 catalina:       "15d251c060fee37a81fd2ca948e37cf4eaaab7f2bf2a54f2510220b043988dc1"
+    sha256 x86_64_linux:   "7305f6f279ea2676f2c6385031e6af2b35bf062127dfbd500750ace875bebabb"
   end
 
   keg_only "it conflicts with poppler"

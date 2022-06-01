@@ -1,37 +1,62 @@
 class Kubevela < Formula
   desc "Application Platform based on Kubernetes and Open Application Model"
   homepage "https://kubevela.io"
-  url "https://github.com/oam-dev/kubevela.git",
-      tag:      "v1.0.7",
-      revision: "44e8352d1e3f47f60cae25ebfc6fc590edfe5fa6"
+  url "https://github.com/kubevela/kubevela.git",
+      tag:      "v1.3.6",
+      revision: "54477eabf5313a85f22c0c92bc8e92878b533be3"
   license "Apache-2.0"
+  head "https://github.com/kubevela/kubevela.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b5db08df706d97e2316a3475438c34e3b4b0669e6b84c45118f9bd9a8a52c4d1"
-    sha256 cellar: :any_skip_relocation, big_sur:       "473bf094962235be87555ec7d0dc6effed7956b8acf3179bcfbbb8c512856ef5"
-    sha256 cellar: :any_skip_relocation, catalina:      "dead3061d729508c804bf71744b373b4354a202d437bf5f64e6d3c673a528152"
-    sha256 cellar: :any_skip_relocation, mojave:        "10f215c9e2b9e456035dd8012b269858a4069249c43d157d05b661ac853500cf"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3e06d2e14f5321fe6f4424e94624ea3dfa43b40daa415adfb8c121cf2be4690b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "9a58b8c247fbddd80a3eb628e65041b77edc4eb1a1af488d6a492c501e06c95f"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9a58b8c247fbddd80a3eb628e65041b77edc4eb1a1af488d6a492c501e06c95f"
+    sha256 cellar: :any_skip_relocation, monterey:       "23b607cd2d78c4573be5d3492a48fd328e10dad782790e8be6d865b394804339"
+    sha256 cellar: :any_skip_relocation, big_sur:        "23b607cd2d78c4573be5d3492a48fd328e10dad782790e8be6d865b394804339"
+    sha256 cellar: :any_skip_relocation, catalina:       "23b607cd2d78c4573be5d3492a48fd328e10dad782790e8be6d865b394804339"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "de90ff1cf98ba3853724c49ae7788a4c3cb50270ca825b295420413b786096f2"
   end
 
   depends_on "go" => :build
 
   def install
-    system "make", "vela-cli", "VELA_VERSION=#{version}"
-    bin.install "bin/vela"
+    ENV["CGO_ENABLED"] = "0"
+    ldflags = %W[
+      -s -w
+      -X github.com/oam-dev/kubevela/version.VelaVersion=#{version}
+      -X github.com/oam-dev/kubevela/version.GitRevision=#{Utils.git_head}
+    ]
 
-    # Install bash completion
-    output = Utils.safe_popen_read("#{bin}/vela", "completion", "bash")
-    (bash_completion/"vela").write output
-
-    # Install zsh completion
-    output = Utils.safe_popen_read("#{bin}/vela", "completion", "zsh")
-    (zsh_completion/"_vela").write output
+    system "go", "build", *std_go_args(output: bin/"vela", ldflags: ldflags), "./references/cmd/cli"
   end
 
   test do
     # Should error out as vela up need kubeconfig
     status_output = shell_output("#{bin}/vela up 2>&1", 1)
-    assert_match "Error: invalid configuration: no configuration has been provided", status_output
+    assert_match "error: no configuration has been provided", status_output
+
+    (testpath/"kube-config").write <<~EOS
+      apiVersion: v1
+      clusters:
+      - cluster:
+          certificate-authority-data: test
+          server: http://127.0.0.1:8080
+        name: test
+      contexts:
+      - context:
+          cluster: test
+          user: test
+        name: test
+      current-context: test
+      kind: Config
+      preferences: {}
+      users:
+      - name: test
+        user:
+          token: test
+    EOS
+
+    ENV["KUBECONFIG"] = testpath/"kube-config"
+    version_output = shell_output("#{bin}/vela version 2>&1")
+    assert_match "Version: #{version}", version_output
   end
 end

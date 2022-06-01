@@ -3,19 +3,30 @@ class Lit < Formula
 
   desc "Portable tool for LLVM- and Clang-style test suites"
   homepage "https://llvm.org"
-  url "https://files.pythonhosted.org/packages/7c/0c/2d58790cb0fa24812382289a584e05dd1df4b30ccf5e2218ee5a556a0529/lit-12.0.1.tar.gz"
-  sha256 "d2957aac5d560e98662a9fe7a2f5a485d2320ded2ef26e065e4fe871967ecf07"
+  url "https://files.pythonhosted.org/packages/65/0c/94e4da4d1dc0dd55a09257d16dd9c87ed2f8e4747278d78fd4254465d943/lit-14.0.3.tar.gz"
+  sha256 "a4126b5bfcb73b3ac0e8473cf365e844fce2867515ac56072b6950deda3d5d98"
   license "Apache-2.0" => { with: "LLVM-exception" }
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "1ff38c69b421d5ac0a758b5b2c0cd24fbdbef1c13757717e8a86181c4cd05503"
+    sha256 cellar: :any_skip_relocation, all: "83198fd6782b67a4b88874dc49d82f918cb5eb57dcd218bf948cc189e349aa66"
   end
 
   depends_on "llvm" => :test
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   def install
-    system "python3", *Language::Python.setup_install_args(prefix)
+    system "python3", *Language::Python.setup_install_args(prefix),
+                      "--install-lib=#{prefix/Language::Python.site_packages("python3")}"
+
+    # Install symlinks so that `import lit` works with multiple versions of Python
+    python_versions = Formula.names
+                             .select { |name| name.start_with? "python@" }
+                             .map { |py| py.delete_prefix("python@") }
+                             .reject { |xy| xy == Language::Python.major_minor_version("python3") }
+    site_packages = Language::Python.site_packages("python3").delete_prefix("lib/")
+    python_versions.each do |xy|
+      (lib/"python#{xy}/site-packages").install_symlink (lib/site_packages).children
+    end
   end
 
   test do
@@ -43,6 +54,15 @@ class Lit < Formula
     EOS
 
     system bin/"lit", "-v", "."
+
+    if OS.mac?
+      ENV.prepend_path "PYTHONPATH", prefix/Language::Python.site_packages("python3")
+    else
+      python = deps.reject { |d| d.build? || d.test? }
+                   .find { |d| d.name.match?(/^python@\d+(\.\d+)*$/) }
+                   .to_formula
+      ENV.prepend_path "PATH", python.opt_bin
+    end
     system "python3", "-c", "import lit"
   end
 end

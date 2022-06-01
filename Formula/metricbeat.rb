@@ -2,22 +2,23 @@ class Metricbeat < Formula
   desc "Collect metrics from your systems and services"
   homepage "https://www.elastic.co/beats/metricbeat"
   url "https://github.com/elastic/beats.git",
-      tag:      "v7.15.0",
-      revision: "9023152025ec6251bc6b6c38009b309157f10f17"
+      tag:      "v8.2.2",
+      revision: "2f1e50cc31b960b1a975f2ebe08bd17be9a5e575"
   license "Apache-2.0"
-  head "https://github.com/elastic/beats.git"
+  head "https://github.com/elastic/beats.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f0f47274e6a9225f42907ce2d4a4c352f38685b3e91217ef0bac0f26ad674934"
-    sha256 cellar: :any_skip_relocation, big_sur:       "294b316138c29b373cb3d7cd6f5416233af362f62a67feea6f6908cf35348f55"
-    sha256 cellar: :any_skip_relocation, catalina:      "c4803fa1e16677e8c510947c3c242d53fee6daff5385f80ed1a77e889fe692ab"
-    sha256 cellar: :any_skip_relocation, mojave:        "9fc0a2f697cf17627c18133e192e20062e4b45ad1ee539829f5bae5e71327ba1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4e1a733de765ab8c0ff6083dcb324f67e80d566177b50173c4f7d8ca3fc33d67"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "fea715cd3d5b511e51d65e5235b8d3a84749fd6eb342e9abd7f07e55c6985651"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f836e88661212186ffa904be38c59bb915172c25826b5c296438138ca0cc6936"
+    sha256 cellar: :any_skip_relocation, monterey:       "42469092c5977a71ae2d881d1800393760e0f13942296c2f75360a3813bb04d7"
+    sha256 cellar: :any_skip_relocation, big_sur:        "8626496dabde086e0635f8b2a57a1710c8a0d47ea17b87ad0f8d2436063f164d"
+    sha256 cellar: :any_skip_relocation, catalina:       "7062267a1bc6221fbef5719bfb82009b9131b1c3cf217775aa800b121897c006"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "11e2065d8fd1ffa3e85fe3f303e9f98d94825272127a777586a39dde5e923fc6"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   def install
     # remove non open source files
@@ -72,7 +73,14 @@ class Metricbeat < Formula
                              testpath/"data"
     end
 
-    sleep 30
-    assert_predicate testpath/"data/metricbeat", :exist?
+    sleep 15
+
+    output = JSON.parse((testpath/"data/meta.json").read)
+    assert_includes output, "first_start"
+
+    (testpath/"data").glob("metricbeat-*.ndjson") do |file|
+      s = JSON.parse(file.read.lines.first.chomp)
+      assert_match "metricbeat", s["@metadata"]["beat"]
+    end
   end
 end

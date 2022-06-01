@@ -1,8 +1,8 @@
 class Rubberband < Formula
   desc "Audio time stretcher tool and library"
   homepage "https://breakfastquay.com/rubberband/"
-  url "https://breakfastquay.com/files/releases/rubberband-1.9.2.tar.bz2"
-  sha256 "b3cff5968517141fcf9e1ef6b5a1fdb06a5511f148000609216cf182ff4ab612"
+  url "https://breakfastquay.com/files/releases/rubberband-2.0.2.tar.bz2"
+  sha256 "b9eac027e797789ae99611c9eaeaf1c3a44cc804f9c8a0441a0d1d26f3d6bdf9"
   license "GPL-2.0-or-later"
   head "https://hg.sr.ht/~breakfastquay/rubberband", using: :hg
 
@@ -12,11 +12,12 @@ class Rubberband < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "effbebb6fa0c2fe0ae0dfb034b7f583691391accf39ead4ae0f9a2933cfa747a"
-    sha256 cellar: :any, big_sur:       "6f8eb3495c3ab95737df9fd81ae7df3ecb122ebc7468df79049ef2b1fd363375"
-    sha256 cellar: :any, catalina:      "29fe97d7bb8bb2b23c2409d2465e56ea84326e9568dbcf6533b4bf4aed52b400"
-    sha256 cellar: :any, mojave:        "af62a07fc9604c1df76d654b662c949d75a4d4cb52171aa72fb911e8af533aed"
-    sha256               x86_64_linux:  "08e7e6cff8618bd5b8c525d82ad2ae7f564d057db01c0b4fce6a172106b8927c"
+    sha256 cellar: :any, arm64_monterey: "a70400b4694acfba6d59576c6854b083b1e1f7c80f9e849eb0266245ad1ff4cf"
+    sha256 cellar: :any, arm64_big_sur:  "91d25871f4588a70dc145fbbf92fa8fdb874e43d350001a66f235d537660ec4a"
+    sha256 cellar: :any, monterey:       "7b8eaf28f8ce6179e77651b04eba3e578d763e1ba1740381d5032f9f112ebee6"
+    sha256 cellar: :any, big_sur:        "ed69e5ffec5c5f5ebbe1557f020b57f188bb320d0c0ca1595f4eaead0f7cbf43"
+    sha256 cellar: :any, catalina:       "4f1fd0c9f7fd9870c502b8389f660819197a8b036570d70b16b06db0affd4443"
+    sha256               x86_64_linux:   "ab4a2484f146fb67825f2b37ce90c27829d754f854886dc7cf210425c5db9a5e"
   end
 
   depends_on "meson" => :build
@@ -27,10 +28,13 @@ class Rubberband < Formula
 
   on_linux do
     depends_on "fftw"
+    depends_on "gcc"
     depends_on "ladspa-sdk"
     depends_on "openjdk"
     depends_on "vamp-plugin-sdk"
   end
+
+  fails_with gcc: "5"
 
   def install
     mkdir "build" do

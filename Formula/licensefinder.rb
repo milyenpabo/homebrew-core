@@ -2,15 +2,17 @@ class Licensefinder < Formula
   desc "Find licenses for your project's dependencies"
   homepage "https://github.com/pivotal/LicenseFinder"
   url "https://github.com/pivotal/LicenseFinder.git",
-      tag:      "v6.14.1",
-      revision: "ced7de9f22a627cb7bd2f11f18e41ffb914ec0b0"
+      tag:      "v7.0.1",
+      revision: "b938cbfb33e8ec4eb9f2a4abcfb6e3462d226621"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "171e1492cd68d3bd895a9e15357861438be00e738e9b75131765fbe8c0a95568"
-    sha256 cellar: :any_skip_relocation, big_sur:       "9b1614bad0259f5924ae095dba5a0ef29dc7f7fdcf43e4aa832b4ee00c4ffe67"
-    sha256 cellar: :any_skip_relocation, catalina:      "9b1614bad0259f5924ae095dba5a0ef29dc7f7fdcf43e4aa832b4ee00c4ffe67"
-    sha256 cellar: :any_skip_relocation, mojave:        "217b3fca89c5ad77e84b0b20aca1daae8872b674d628c7c86d6f46b478c808c3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "64d7159ca202de5e3b51a6ab6833ca7e87219a899ef5bfa908f530aba8fb2af7"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e2053ded4e0ceda44a1d43f3dd29d57c6f7c118abeab2ee1c561a415666b960e"
+    sha256 cellar: :any_skip_relocation, monterey:       "369e2affccf92dfb4d1869d1abc23118094553f062b78c1470635fb2347bda41"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4944b6336d9316648a52b2a1a21a7f11cebcde1b746fc772f25d39d9672e2af3"
+    sha256 cellar: :any_skip_relocation, catalina:       "4944b6336d9316648a52b2a1a21a7f11cebcde1b746fc772f25d39d9672e2af3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8fad2104fa2186844235e5628d8afe03f34b08e7b9c62631399dde2b3947b493"
   end
 
   depends_on "ruby@2.7" if MacOS.version <= :mojave
@@ -26,7 +28,8 @@ class Licensefinder < Formula
   test do
     gem_home = testpath/"gem_home"
     ENV["GEM_HOME"] = gem_home
-    system "gem", "install", "bundler"
+    gem_command = (MacOS.version <= :mojave) ? Formula["ruby@2.7"].bin/"gem" : "gem"
+    system gem_command, "install", "bundler"
 
     mkdir "test"
     (testpath/"test/Gemfile").write <<~EOS

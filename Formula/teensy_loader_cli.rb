@@ -1,19 +1,18 @@
 class TeensyLoaderCli < Formula
   desc "Command-line integration for Teensy USB development boards"
   homepage "https://www.pjrc.com/teensy/loader_cli.html"
-  url "https://github.com/PaulStoffregen/teensy_loader_cli/archive/2.1.tar.gz"
-  sha256 "5c36fe45b9a3a71ac38848b076cd692bf7ca8826a69941c249daac3a1d95e388"
+  url "https://github.com/PaulStoffregen/teensy_loader_cli/archive/2.2.tar.gz"
+  sha256 "103c691f412d04906c4f46038c234d3e5f78322c1b78ded102df9f900724cd54"
   license "GPL-3.0-only"
-  revision 2
   head "https://github.com/PaulStoffregen/teensy_loader_cli.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "dedc1adc526aa3115e52603b7d69b9177f76fdda51698faf26c1a37d2b648cac"
-    sha256 cellar: :any_skip_relocation, big_sur:       "e2b86fdf7b04f907b5dbf5e1c31e1488b6de0f681be91acb8779d5d319fa0bbc"
-    sha256 cellar: :any_skip_relocation, catalina:      "05c0f806839f8af46bcf6d95bf58247805a5293d4c704d38c2934799b6aa9f1f"
-    sha256 cellar: :any_skip_relocation, mojave:        "13a4a0fe8cf9b185003da32206bf330c215a9e0ee99bc4c7a901c474f553e7b1"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "58f22f026085148841808fb0a9ec9f5f7558c1ef6fbf46a2ec2a0fea8b9f1c18"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cc204fbd5fcabd5e53f382c899fd97625b1d1f99958b3abc7d9bcb5db687a6c2"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a534e52c0de21164168c188ae60e929a17e183be3eba10ee7f4a1394c6bb94c6"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "06529ad4373a483829c4b7ffd9bcb262077e7242be60c4a8645601ccc4aea134"
+    sha256 cellar: :any_skip_relocation, monterey:       "0239cc41b148dea13c918f858930cca2631db5547e5aa17db57c9c5efdcdd2fe"
+    sha256 cellar: :any_skip_relocation, big_sur:        "1077e947102d333896796ada9f702fb11bfc43741b0ffe737292479624249ced"
+    sha256 cellar: :any_skip_relocation, catalina:       "5f622de032367bbd7d3325e1e3d88ee205f941908a111102cbb10d176474e197"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a3e61b76878c12cea8fbce6abbfcd7c2e26afbf79785fda38135009ae1d08f1f"
   end
 
   on_linux do

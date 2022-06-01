@@ -1,34 +1,28 @@
 class Uncrustify < Formula
   desc "Source code beautifier"
   homepage "https://uncrustify.sourceforge.io/"
-  url "https://github.com/uncrustify/uncrustify/archive/uncrustify-0.73.0.tar.gz"
-  sha256 "2df0326ba8c413d675b796e051d89a318b7c9cccebc993d66466e2e7fd970672"
+  url "https://github.com/uncrustify/uncrustify/archive/uncrustify-0.75.1.tar.gz"
+  sha256 "fd14acc0a31ed88b33137bdc26d32964327488c835f885696473ef07caf2e182"
   license "GPL-2.0-or-later"
   head "https://github.com/uncrustify/uncrustify.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "2dcaa936d7a4059325a7b8ed903de60ff871123c7d1840292737739b64648b46"
-    sha256 cellar: :any_skip_relocation, big_sur:       "aeaebd9ff33c221237ba005017f7d62012e82d7a0c9a10102bfa57ca71fb7358"
-    sha256 cellar: :any_skip_relocation, catalina:      "4f50d6e3159241c0f561515465d86b771910a2071407b7b5ed7a4f9d70599e3c"
-    sha256 cellar: :any_skip_relocation, mojave:        "58f40e9a613182248edb886953f23d3750580388effc02397ce04760d4f227a3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0b67ac94cb04cd58c14ed139a4718c440b4377e7fcf4b278a0313c7e1dcaa4d5"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "7eb7fec9fa0613684ce387cd7f139b50247ca224c971606c2496c5e4a1a75265"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a0c32a534c3fd8de75d6496b0d104ad160e8751c2a2f74640bd3b415b6c75a02"
+    sha256 cellar: :any_skip_relocation, monterey:       "cac15eb7c3979bf75b6a24c2f57a366878ea6a98befbdde5912798a4b1b4ea20"
+    sha256 cellar: :any_skip_relocation, big_sur:        "185507a328eaba61d4cf56ffeecd728aedbc800d6d84b8ea6a5f749f25c32e8b"
+    sha256 cellar: :any_skip_relocation, catalina:       "efb42357c245fc69f64d000b33043504e67d28c587df47ce5b1c237e7e6e11b5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "61ecc6df45fafbe1c44b02c154bf1a0aed9dad0e9694d20209ed16aed392ad88"
   end
 
   depends_on "cmake" => :build
+  uses_from_macos "python" => :build
 
   on_linux do
     depends_on "gcc"
   end
 
   fails_with gcc: "5"
-
-  # patches from https://github.com/uncrustify/uncrustify/pull/3178
-  # and https://github.com/uncrustify/uncrustify/pull/3179 that fix build failures
-  # can be removed for 0.74.0
-  patch do
-    url "https://raw.githubusercontent.com/Homebrew/formula-patches/52cd74a3a21841bd6dd6bf2d1e95af8e5e5dfa16/uncrustify/uncrustify-0.73.0.patch"
-    sha256 "9323551298cf2acdeffaa17737d2762241fd3403121272f0523402781cc750ee"
-  end
 
   def install
     ENV.cxx11

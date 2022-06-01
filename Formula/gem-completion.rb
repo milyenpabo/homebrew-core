@@ -5,7 +5,7 @@ class GemCompletion < Formula
       revision: "f3e4345042b0cc48317e45b673dfd3d23904b9a7"
   version "2"
   license "MIT"
-  head "https://github.com/mernen/completion-ruby.git"
+  head "https://github.com/mernen/completion-ruby.git", branch: "master"
 
   livecheck do
     formula "ruby-completion"
@@ -21,6 +21,6 @@ class GemCompletion < Formula
 
   test do
     assert_match "-F __gem",
-      shell_output("source #{bash_completion}/gem && complete -p gem")
+      shell_output("bash -c 'source #{bash_completion}/gem && complete -p gem'")
   end
 end

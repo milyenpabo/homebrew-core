@@ -1,8 +1,8 @@
 class MinimalRacket < Formula
   desc "Modern programming language in the Lisp/Scheme family"
   homepage "https://racket-lang.org/"
-  url "https://mirror.racket-lang.org/installers/8.2/racket-minimal-8.2-src.tgz"
-  sha256 "6f4dcbb17493898c954973ddde3daee1f18aa3197e6ece0d3e48dc2d4cfa84c7"
+  url "https://mirror.racket-lang.org/installers/8.5/racket-minimal-8.5-src.tgz"
+  sha256 "55d585e3ac9fbaacfbe840a6ec74ce3e7bee9fe85e32213f1b3e4f6f593cae39"
   license any_of: ["MIT", "Apache-2.0"]
 
   # File links on the download page are created using JavaScript, so we parse
@@ -15,11 +15,11 @@ class MinimalRacket < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "2fcbd22adcdf16e1a8a1618f3c06022cc4081752b0802767b4e48469b22f4f36"
-    sha256 big_sur:       "2549795768caa35126b4464af7dd15bd4d3f11755f9853ffc3f248d061e7b457"
-    sha256 catalina:      "a79ff7f036256aae9159f89897e32629641d889b4bd37c98e91b216a7f3085f5"
-    sha256 mojave:        "56d2c05a1f17765404dad099fa7565883447be394f2ecbe2b74a19c13d6b7ded"
-    sha256 x86_64_linux:  "5649130e99166343b0147b8fc992d1004f1dfd8529e8de0f284c0912217aa0c8"
+    sha256 arm64_monterey: "acf973e4a02fb8ccf6a9f882d67597c2106a580143cf2ab362fb1771d7df2921"
+    sha256 arm64_big_sur:  "8a8cb26ce71f6ca21a8896439cfd95dcc775167c3600ecbcb7e1b710dc175f0b"
+    sha256 big_sur:        "b107fab5bc5575c25db9e9e0c8193eed7aa111bf46d9ac7ffd8c178a6fbaf806"
+    sha256 catalina:       "7e42dd037afd1e8c8f44dea0c771c6483bf1794ee64470118fdf9193ff566073"
+    sha256 x86_64_linux:   "c39f5edd41c16a55b9df0e9b12b43de2407aa1bd18c40556143e6011a6652d4d"
   end
 
   depends_on "openssl@1.1"
@@ -55,6 +55,13 @@ class MinimalRacket < Formula
     end
   end
 
+  def post_install
+    # Run raco setup to make sure core libraries are properly compiled.
+    # Sometimes the mtimes of .rkt and .zo files are messed up after a fresh
+    # install, making Racket take 15s to start up because interpreting is slow.
+    system "#{bin}/raco", "setup"
+  end
+
   def caveats
     <<~EOS
       This is a minimal Racket distribution.
@@ -85,11 +92,10 @@ class MinimalRacket < Formula
     EOS
 
     # ensure Homebrew openssl is used
-    on_macos do
+    if OS.mac?
       output = shell_output("DYLD_PRINT_LIBRARIES=1 #{bin}/racket -e '(require openssl)' 2>&1")
-      assert_match(%r{loaded: .*openssl@1\.1/.*/libssl.*\.dylib}, output)
-    end
-    on_linux do
+      assert_match(%r{.*openssl@1\.1/.*/libssl.*\.dylib}, output)
+    else
       output = shell_output("LD_DEBUG=libs #{bin}/racket -e '(require openssl)' 2>&1")
       assert_match "init: #{Formula["openssl@1.1"].opt_lib}/#{shared_library("libssl")}", output
     end

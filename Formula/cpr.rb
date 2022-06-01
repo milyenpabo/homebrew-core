@@ -1,18 +1,18 @@
 class Cpr < Formula
   desc "C++ Requests, a spiritual port of Python Requests"
-  homepage "https://whoshuu.github.io/cpr/"
-  url "https://github.com/whoshuu/cpr.git",
-      tag:      "1.6.2",
-      revision: "f4622efcb59d84071ae11404ae61bd821c1c344b"
+  homepage "https://docs.libcpr.org/"
+  url "https://github.com/libcpr/cpr/archive/1.8.3.tar.gz"
+  sha256 "0784d4c2dbb93a0d3009820b7858976424c56578ce23dcd89d06a1d0bf5fd8e2"
   license "MIT"
-  head "https://github.com/whoshuu/cpr.git", branch: "master"
+  head "https://github.com/libcpr/cpr.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "6b725644e68fd8fd18ee1624248de28bff8e0c206d566852a4821714fed3099e"
-    sha256 cellar: :any,                 big_sur:       "f531320c598e51d6fa215fe35caf9766882349bb1e5d89319ec6a0937202f627"
-    sha256 cellar: :any,                 catalina:      "3c3d0ebe3de5371c93a5b1b68b599e9aee2d5abe2e8598a6775b463be05bcddc"
-    sha256 cellar: :any,                 mojave:        "608ac5168dd4ca3ab78d84827ccfce0abba0ad9699bef82ffad074a0b51aefc4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8de8dbf9435d2d5ed2bf84013134b6387354ae96f0c4ad8b7a8c2597bed20273"
+    sha256 cellar: :any,                 arm64_monterey: "610f141ca99ea251e5326cb26685fc509d750ab46157823ec683b01f919366f4"
+    sha256 cellar: :any,                 arm64_big_sur:  "c2dba3a539bb400f185806a36209da06f18dff628059a2853d3374fdbd138ca7"
+    sha256 cellar: :any,                 monterey:       "8fa911c8d3a1914c774f899a5746770070baf1cd72c2bea6f76e547486d1f96e"
+    sha256 cellar: :any,                 big_sur:        "09c5d92ac8e2e19c581765df2a7a7430fb9af9146c809b046252082ac954cbec"
+    sha256 cellar: :any,                 catalina:       "9a43c51be89eeab77ecbca2b575016b124099aadcbf1a13d356a750f382a0d96"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ba40b91ac436b5a0e9faf82c6358eeacd37b72f7147ca90ed587ce2a53f8b1f6"
   end
 
   depends_on "cmake" => :build

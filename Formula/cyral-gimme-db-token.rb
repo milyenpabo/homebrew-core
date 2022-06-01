@@ -2,22 +2,23 @@ class CyralGimmeDbToken < Formula
   include Language::Python::Virtualenv
 
   desc "Eases using Cyral for SSO login to databases"
-  homepage "https://cyral.com/docs/repo-connect#cli-token-retriever-for-sso"
-  url "https://files.pythonhosted.org/packages/18/05/afa2028e15ac618cb643001f8b4ede33f803307d30e9133286761a27eff1/cyral-gimme-db-token-0.5.0.tar.gz"
-  sha256 "df75d7e74545a3ebb32cc96279d42180cfdfc44d5a4b9def15b477ebcd9fc8c1"
+  homepage "https://cyral.com/docs/connect/repo-connect/#cli-token-retriever-for-sso"
+  url "https://files.pythonhosted.org/packages/3d/c8/506ef49b36301dbd335e18f4ba720983bfbb430ebe136f9807f6408e5062/cyral-gimme-db-token-0.8.0.tar.gz"
+  sha256 "6b8e907fcceb92601d26f74d613a2e8176a9a36e150727d4866631744434f2f9"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "317198a01a7721ce0d5bd63ead093613cfc1b05ff2ad5e141b0b0a24a21d2132"
-    sha256 cellar: :any,                 big_sur:       "66300b8d807d3a4c836216d1215349cb4187121420da3424e46e72e6d07de51c"
-    sha256 cellar: :any,                 catalina:      "040741f88d93debbb6a7e05683f0708dca22a0c65f90b8df12340e6e953b0190"
-    sha256 cellar: :any,                 mojave:        "380042da028a7c2256439008db9b51918b9c379f48483130a1b56625d1c7d228"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "32bad1be3faf5ba5b444f78d2d484e6a33485fa1b5ddb0ca013d15a4e0292865"
+    sha256 cellar: :any,                 arm64_monterey: "3c9d33ce975f531f505480e6c5b5a32f1acbc9106a4068d0d449e2cfb03bd808"
+    sha256 cellar: :any,                 arm64_big_sur:  "7dbdd977fc29ba7b4446f463e7ba9dbca774b8dc81719e9724ee8ee9049475e8"
+    sha256 cellar: :any,                 monterey:       "75ccf3d4b95ee01adc95f505871fcef2694dc0bcbaf495b83f7a222dcf7ebe76"
+    sha256 cellar: :any,                 big_sur:        "414a3a5270900f5e0b1431dda180c3de1ff6eaea4b3e042ce98d0468842de75e"
+    sha256 cellar: :any,                 catalina:       "6f98513a49a9f48ff1eb9486321fd3ee7f0f72e7783ab58216d8c0b38401d773"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d07cc33a68870bc798a08a87109d8f537a0bbe464df8fe26932c645ba8f8d2a3"
   end
 
   depends_on "rust" => :build # for cryptography
   depends_on "openssl@1.1"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "six"
 
   uses_from_macos "libffi"
@@ -27,33 +28,33 @@ class CyralGimmeDbToken < Formula
   end
 
   resource "awscli" do
-    url "https://files.pythonhosted.org/packages/4a/db/52ad6e83beab539244d5d34a90fd057c0da45f222e1a4256e2f7f3e45034/awscli-1.20.43.tar.gz"
-    sha256 "b7b6b8925afbf27146d86638ddeb44819416ed0f4a9142f07b2764d322b386c1"
+    url "https://files.pythonhosted.org/packages/1e/44/372fd82a5dd5800f3dc53d04bcc95e0702fad4039c3b7fa2fa8ee18b902d/awscli-1.22.58.tar.gz"
+    sha256 "567a5861f0101dabb05a5658e7aa1abb6c66e8a5a1a22360b8a7e17d2282cf4c"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/32/5c/74bf2c64cc27f5c8047692fe34c4aa64086d535b91962af21bf72835e68f/botocore-1.21.43.tar.gz"
-    sha256 "de7bf9c9098578d386b785b5b6eab954acccd3f79fe3e2eb971da608c967082b"
+    url "https://files.pythonhosted.org/packages/36/ae/e2a16367140d66a5b45df2f831da20dcb2cb8824e0e334554294647a2ac0/botocore-1.24.3.tar.gz"
+    sha256 "979e5c5e826ff115f4903fe9887b191f3809229f694a747f910e1221fe63efc7"
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/6d/78/f8db8d57f520a54f0b8a438319c342c61c22759d8f9a1cd2e2180b5e5ea9/certifi-2021.5.30.tar.gz"
-    sha256 "2bbf76fd432960138b3ef6dda3dde0544f27cbf8546c458e60baf371917ba9ee"
+    url "https://files.pythonhosted.org/packages/6c/ae/d26450834f0acc9e3d1f74508da6df1551ceab6c2ce0766a593362d6d57f/certifi-2021.10.8.tar.gz"
+    sha256 "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
   end
 
   resource "cffi" do
-    url "https://files.pythonhosted.org/packages/2e/92/87bb61538d7e60da8a7ec247dc048f7671afe17016cd0008b3b710012804/cffi-1.14.6.tar.gz"
-    sha256 "c9a875ce9d7fe32887784274dd533c57909b7b1dcadcc128a2ac21331a9765dd"
+    url "https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz"
+    sha256 "920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954"
   end
 
   resource "charset-normalizer" do
-    url "https://files.pythonhosted.org/packages/68/32/95ddb68b9abeb89efd461852cdff5791d42fc5e4c528536f541091ffded3/charset-normalizer-2.0.5.tar.gz"
-    sha256 "7098e7e862f6370a2a8d1a6398cd359815c45d12626267652c3f13dec58e2367"
+    url "https://files.pythonhosted.org/packages/56/31/7bcaf657fafb3c6db8c787a865434290b726653c912085fbd371e9b92e1c/charset-normalizer-2.0.12.tar.gz"
+    sha256 "2857e29ff0d34db842cd7ca3230549d1a697f96ee6d3fb071cfa6c7393832597"
   end
 
   resource "click" do
-    url "https://files.pythonhosted.org/packages/27/6f/be940c8b1f1d69daceeb0032fee6c34d7bd70e3e649ccac0951500b4720e/click-7.1.2.tar.gz"
-    sha256 "d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a"
+    url "https://files.pythonhosted.org/packages/dd/cf/706c1ad49ab26abed0b77a2f867984c1341ed7387b8030a6aa914e2942a0/click-8.0.4.tar.gz"
+    sha256 "8458d7b1287c5fb128c90e23381cf99dcde74beaf6c7ff6384ce84d6fe090adb"
   end
 
   resource "colorama" do
@@ -62,8 +63,8 @@ class CyralGimmeDbToken < Formula
   end
 
   resource "cryptography" do
-    url "https://files.pythonhosted.org/packages/cc/98/8a258ab4787e6f835d350639792527d2eb7946ff9fc0caca9c3f4cf5dcfe/cryptography-3.4.8.tar.gz"
-    sha256 "94cc5ed4ceaefcbe5bf38c8fba6a21fc1d365bb8fb826ea1688e3370b2e24a1c"
+    url "https://files.pythonhosted.org/packages/f9/4b/1cf8e281f7ae4046a59e5e39dd7471d46db9f61bb564fddbff9084c4334f/cryptography-36.0.1.tar.gz"
+    sha256 "53e5c1dc3d7a953de055d77bef2ff607ceef7a2aac0353b5d630ab67f7423638"
   end
 
   resource "docutils" do
@@ -72,8 +73,8 @@ class CyralGimmeDbToken < Formula
   end
 
   resource "idna" do
-    url "https://files.pythonhosted.org/packages/cb/38/4c4d00ddfa48abe616d7e572e02a04273603db446975ab46bbcd36552005/idna-3.2.tar.gz"
-    sha256 "467fbad99067910785144ce333826c71fb0e63a425657295239737f7ecd125f3"
+    url "https://files.pythonhosted.org/packages/62/08/e3fc7c8161090f742f504f40b1bccbfc544d4a4e09eb774bf40aafce5436/idna-3.3.tar.gz"
+    sha256 "9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"
   end
 
   resource "jmespath" do
@@ -87,8 +88,8 @@ class CyralGimmeDbToken < Formula
   end
 
   resource "pycparser" do
-    url "https://files.pythonhosted.org/packages/0f/86/e19659527668d70be91d0369aeaa055b4eb396b0f387a4f92293a20035bd/pycparser-2.20.tar.gz"
-    sha256 "2d475327684562c3a96cc71adf7dc8c4f0565175cf86b6d7a404ff4c771f15f0"
+    url "https://files.pythonhosted.org/packages/5e/0b/95d387f5f4433cb0f53ff7ad859bd2c6051051cebbb564f139a999ab46de/pycparser-2.21.tar.gz"
+    sha256 "e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206"
   end
 
   resource "python-dateutil" do
@@ -96,14 +97,14 @@ class CyralGimmeDbToken < Formula
     sha256 "0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"
   end
 
-  resource "pyyaml" do
+  resource "PyYAML" do
     url "https://files.pythonhosted.org/packages/a0/a4/d63f2d7597e1a4b55aa3b4d6c5b029991d3b824b5bd331af8d4ab1ed687d/PyYAML-5.4.1.tar.gz"
     sha256 "607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e"
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/e7/01/3569e0b535fb2e4a6c384bdbed00c55b9d78b5084e0fb7f4d0bf523d7670/requests-2.26.0.tar.gz"
-    sha256 "b8aa58f8cf793ffd8782d3d8cb19e66ef36f7aba4353eec859e74678b01b07a7"
+    url "https://files.pythonhosted.org/packages/60/f3/26ff3767f099b73e0efa138a9998da67890793bfa475d8278f84a30fec77/requests-2.27.1.tar.gz"
+    sha256 "68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"
   end
 
   resource "rsa" do
@@ -112,20 +113,22 @@ class CyralGimmeDbToken < Formula
   end
 
   resource "s3transfer" do
-    url "https://files.pythonhosted.org/packages/88/ef/4d1b3f52ae20a7e72151fde5c9f254cd83f8a49047351f34006e517e1655/s3transfer-0.5.0.tar.gz"
-    sha256 "50ed823e1dc5868ad40c8dc92072f757aa0e653a192845c94a3b676f4a62da4c"
+    url "https://files.pythonhosted.org/packages/66/e2/cc19f36aade1ef40cba69555fcf713d942ec9e31ecff2415948bd885911d/s3transfer-0.5.1.tar.gz"
+    sha256 "69d264d3e760e569b78aaa0f22c97e955891cd22e32b10c51f784eeda4d9d10a"
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/4f/5a/597ef5911cb8919efe4d86206aa8b2658616d676a7088f0825ca08bd7cb8/urllib3-1.26.6.tar.gz"
-    sha256 "f57b4c16c62fa2760b7e3d97c35b255512fb6b59a259730f36ba32ce9f8e342f"
+    url "https://files.pythonhosted.org/packages/b0/b1/7bbf5181f8e3258efae31702f5eab87d8a74a72a0aa78bc8c08c1466e243/urllib3-1.26.8.tar.gz"
+    sha256 "0e7c33d9a63e7ddfcb86780aac87befc2fbddf46c58dbb487e0855f7ceec283c"
   end
 
   def install
-    venv = virtualenv_create(libexec, "python3")
-    venv.pip_install resource("cffi")
-    venv.pip_install resources
-    venv.pip_install_and_link buildpath
+    # setuptools>=60 prefers its own bundled distutils, which is incompatabile with docutils~=0.15
+    # Force the previous behavior of using distutils from the stdlib
+    # Remove when fixed upstream: https://github.com/aws/aws-cli/pull/6011
+    with_env(SETUPTOOLS_USE_DISTUTILS: "stdlib") do
+      virtualenv_install_with_resources
+    end
   end
 
   test do

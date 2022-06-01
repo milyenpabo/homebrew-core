@@ -1,8 +1,8 @@
 class Suricata < Formula
   desc "Network IDS, IPS, and security monitoring engine"
   homepage "https://suricata.io"
-  url "https://www.openinfosecfoundation.org/download/suricata-6.0.3.tar.gz"
-  sha256 "daf134bb2d7c980035e9ae60f7aaf313323a809340009f26e48110ccde81f602"
+  url "https://www.openinfosecfoundation.org/download/suricata-6.0.5.tar.gz"
+  sha256 "0d4197047c84ba070dfc6b1d9f9ee92f52a71403bfac0e29b2554bb21fe00754"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,11 +11,12 @@ class Suricata < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "d0561f0b1d46352fa3fd8978595f33db686fedb8b8477aeae7933afdf8170212"
-    sha256 big_sur:       "4094fdeeaf0aa94612e22df2d45475f0e8c4063d8e17acf187c40f1af3943445"
-    sha256 catalina:      "7e9a56df59a2627ae561819f21213583d2b68156bcfbf0a07de2b96db7f67f66"
-    sha256 mojave:        "0d03f52c6826445b736021546b5fe8df9baeb06f41e4c4ebdc66e030229213f9"
-    sha256 x86_64_linux:  "2dfc82962d8f0dace13037232917a5bac8a2e7a2f096025d5106db9291590485"
+    sha256 arm64_monterey: "3906bfe769832e3b58a6235cf2d5ec2f0ddd0cb73e52f3d936030673c45dec09"
+    sha256 arm64_big_sur:  "0aa738fae1f48871764f67dd53a4461a9d346eb62a729e4ce7f711dd1dc733f0"
+    sha256 monterey:       "35b7a9bc0bbcd94b3b3feb747da63ac39d96d987799fac43717bb62fe2474051"
+    sha256 big_sur:        "93de537cdf9458a2afe0d23ab1dc8244c112f19f0af3d8a53c462983f8443837"
+    sha256 catalina:       "d57dba7dee03f3b79186b8f825924cdc12d2c24ed3a5d1448e8a5db7c07bb077"
+    sha256 x86_64_linux:   "c718c5ac1e30ad881fd09d4df360f94691ddbca3f4fc348280378a8aedeebf99"
   end
 
   depends_on "pkg-config" => :build
@@ -38,22 +39,27 @@ class Suricata < Formula
   end
 
   resource "PyYAML" do
-    url "https://files.pythonhosted.org/packages/a0/a4/d63f2d7597e1a4b55aa3b4d6c5b029991d3b824b5bd331af8d4ab1ed687d/PyYAML-5.4.1.tar.gz"
-    sha256 "607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e"
+    url "https://files.pythonhosted.org/packages/36/2b/61d51a2c4f25ef062ae3f74576b01638bebad5e045f747ff12643df63844/PyYAML-6.0.tar.gz"
+    sha256 "68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"
   end
 
   resource "simplejson" do
-    url "https://files.pythonhosted.org/packages/49/45/a16db4f0fa383aaf0676fb7e3c660304fe390415c243f41a77c7f917d59b/simplejson-3.17.2.tar.gz"
-    sha256 "75ecc79f26d99222a084fbdd1ce5aad3ac3a8bd535cd9059528452da38b68841"
+    url "https://files.pythonhosted.org/packages/7a/47/c7cc3d4ed15f09917838a2fb4e1759eafb6d2f37ebf7043af984d8b36cf7/simplejson-3.17.6.tar.gz"
+    sha256 "cf98038d2abf63a1ada5730e91e84c642ba6c225b0198c3684151b1f80c5f8a6"
+  end
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+    directory "libhtp"
   end
 
   def install
-    python3 = Formula["python@3.9"].opt_bin/"python3"
-    xy = Language::Python.major_minor_version python3
-    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor/lib/python#{xy}/site-packages"
+    ENV.prepend_create_path "PYTHONPATH", libexec/"vendor"/Language::Python.site_packages("python3")
     resources.each do |r|
       r.stage do
-        system python3, *Language::Python.setup_install_args(libexec/"vendor")
+        system "python3", *Language::Python.setup_install_args(libexec/"vendor")
       end
     end
 
@@ -75,15 +81,22 @@ class Suricata < Formula
       --with-libnet-libraries=#{libnet.opt_lib}
     ]
 
-    args << if OS.mac?
-      "--enable-ipfw"
+    if OS.mac?
+      args << "--enable-ipfw"
+      # Workaround for dyld[98347]: symbol not found in flat namespace '_iconv'
+      ENV.append "LIBS", "-liconv" if MacOS.version >= :monterey
     else
       args << "--with-libpcap-includes=#{Formula["libpcap"].opt_include}"
-      "--with-libpcap-libraries=#{Formula["libpcap"].opt_lib}"
+      args << "--with-libpcap-libraries=#{Formula["libpcap"].opt_lib}"
     end
 
     system "./configure", *args
-    system "make", "install-full"
+    # setuptools>=60 prefers its own bundled distutils, which breaks the installation
+    # pkg_resources.DistributionNotFound: The 'suricata-update==1.2.3' distribution was not found
+    # Remove when deprecated distutils installation is no longer used
+    with_env(SETUPTOOLS_USE_DISTUTILS: "stdlib") do
+      system "make", "install-full"
+    end
 
     bin.env_script_all_files(libexec/"bin", PYTHONPATH: ENV["PYTHONPATH"])
 

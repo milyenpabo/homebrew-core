@@ -1,8 +1,8 @@
 class Qscintilla2 < Formula
   desc "Port to Qt of the Scintilla editing component"
   homepage "https://www.riverbankcomputing.com/software/qscintilla/intro"
-  url "https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.0/QScintilla_src-2.13.0.tar.gz"
-  sha256 "05116938bedfceb2953d3c24f862e1ab4d68ba7845f135d1d7aa1086595449b2"
+  url "https://www.riverbankcomputing.com/static/Downloads/QScintilla/2.13.3/QScintilla_src-2.13.3.tar.gz"
+  sha256 "711d28e37c8fccaa8229e8e39a5b3b2d97f3fffc63da10b71c71b84fa3649398"
   license "GPL-3.0-only"
 
   # The downloads page also lists pre-release versions, which use the same file
@@ -16,11 +16,12 @@ class Qscintilla2 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "f1eeb393d30c064ff26b314e477ac04c49c65e1e4f0798eff6511b717be14c5a"
-    sha256 cellar: :any,                 big_sur:       "673822543d6b2469f6dbcf7a7227f070ede7a104f53a09a3ba1aeec6d1c4cc2c"
-    sha256 cellar: :any,                 catalina:      "43c3199750767469f77fb742f40273f9860fcafeef580da2998a055c9aab379c"
-    sha256 cellar: :any,                 mojave:        "a89b1ca10b6df95e3a2d76fb71ff71546f4e8c9a5de6765f950af54394e42f68"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "30a6aa3971a33551be6eecfc449d51a1a84a4b98ea0a97d5a587225dd08f565d"
+    sha256 cellar: :any,                 arm64_monterey: "5f7514bf089c4385d8bb6fc9ae394a94f10a839f571f0a8760cd7675fa1450d6"
+    sha256 cellar: :any,                 arm64_big_sur:  "942c121fe8d2ceba45c271ffd535b8420e669d39c33cf2ae8c924514c8eb7c83"
+    sha256 cellar: :any,                 monterey:       "4c2834dfde86fe935083340fd0742bf3ebf6bcfff8591d08bde06c5a84893a4f"
+    sha256 cellar: :any,                 big_sur:        "be13e0b8b5e441404cf4239bec231109cb3dfa7fc4fbfa58fbd05f9eb1e844af"
+    sha256 cellar: :any,                 catalina:       "a82243f91a8e6b85af879686f7e3eb45fd1eb1a5b22fb6e2c190b4bb2fa8abb5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cd59e09e37a09b02219ea6a21dc39b1a1153f3bc81dfb15b54add91de0edf55b"
   end
 
   depends_on "pyqt-builder" => :build

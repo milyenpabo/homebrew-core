@@ -2,8 +2,8 @@ class Wolfssl < Formula
   desc "Embedded SSL Library written in C"
   homepage "https://www.wolfssl.com"
   url "https://github.com/wolfSSL/wolfssl.git",
-      tag:      "v4.8.1-stable",
-      revision: "723ed009ae5dc68acc14cd7664f93503d64cd51d"
+      tag:      "v5.3.0-stable",
+      revision: "e722c15be860794179082a05d09e6a90dc77ccf0"
   license "GPL-2.0-or-later"
   head "https://github.com/wolfSSL/wolfssl.git", branch: "master"
 
@@ -14,11 +14,12 @@ class Wolfssl < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "630d303a592f178e4af58d75c1d957b8330e1e72ffb8b815aebd059c768f2452"
-    sha256 cellar: :any,                 big_sur:       "753f16d4de6f2a439ecdf3a554608edeaa7af98b9f6e724421c786a23c64a8e7"
-    sha256 cellar: :any,                 catalina:      "2cffe3c281ead906a9449ec5f85a4c1d7be09ab7a90d4c37ecac0d76f81d2428"
-    sha256 cellar: :any,                 mojave:        "13dcbf8ef5cbccb7bf18aeb017e04d8a1ac116a4ec0eb3e44a842eabd91a0aa9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b23130ec9484bdd913cd3fb7e8ec1ca6800b4f2c60d635bf5e5a0e66a98c21e2"
+    sha256 cellar: :any,                 arm64_monterey: "64c559df0293512a64b70db145245beae76cf6c3de5669670c639149d123361d"
+    sha256 cellar: :any,                 arm64_big_sur:  "d5130d61bcd95632eb1c30490c1d4f12637b94d77df3fc84185aa5ed6421191f"
+    sha256 cellar: :any,                 monterey:       "c6b263997ef7ddcce8e9572899c5da67cf5182192bd098dbbee09f2c7883f98d"
+    sha256 cellar: :any,                 big_sur:        "c81a8b0e81c3e110363656c0be38a1a0bafa0eb7f5da8e0405132ce4ceff12c2"
+    sha256 cellar: :any,                 catalina:       "c56496769a4d3520bc8dc9c2f6afb6ed1a81ac35fba444509156a846579e880a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "546eee011b5efcb7a972f7ac7650dbdb09b9dd04ffa130e059e4128729d8d528"
   end
 
   depends_on "autoconf" => :build

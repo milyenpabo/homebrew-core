@@ -6,18 +6,19 @@ class MpsYoutube < Formula
   url "https://files.pythonhosted.org/packages/b1/8e/5156416119545e3f5ba16ec0fdbb2c7d0b57fad9e19ee8554856cd4a41ad/mps-youtube-0.2.8.tar.gz"
   sha256 "59ce3944626fbd1a041e1e1b15714bbd138ebc71ceb89e32ea9470d8152af083"
   license "GPL-3.0-or-later"
-  revision 11
+  revision 12
 
   bottle do
-    rebuild 2
-    sha256 cellar: :any_skip_relocation, big_sur:      "2dd08756b9e62a90560e745bc04c143746d814083d4718e8b54907f7afd13403"
-    sha256 cellar: :any_skip_relocation, catalina:     "4e9a341a4d730d6b3ded045d3db8fc3bed53c181c380cb412c8ca87af512cb49"
-    sha256 cellar: :any_skip_relocation, mojave:       "7447cf6a16ec67bcfd0c11ede83ff5c2b91f4c8aebb12cd125f3c242473933e0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "50e8db839abc32629d5defe0b61efb71264de0841d30b3b0f3bb35a14af879a3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8836a41e83de7ffe7e9d3f804b67f7b2f6f0581cef0a63a944f01833fd11dc8c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8836a41e83de7ffe7e9d3f804b67f7b2f6f0581cef0a63a944f01833fd11dc8c"
+    sha256 cellar: :any_skip_relocation, monterey:       "4427c42e4efe37f8c550288610f1404a88d3124815cd19d5749eafbf9a9d6272"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4427c42e4efe37f8c550288610f1404a88d3124815cd19d5749eafbf9a9d6272"
+    sha256 cellar: :any_skip_relocation, catalina:       "4427c42e4efe37f8c550288610f1404a88d3124815cd19d5749eafbf9a9d6272"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c5b3fcc9a61653e8cdaa4ae05ef4c8e2fd4edaec0a79a48481ee625adf080b0e"
   end
 
   depends_on "mplayer"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   resource "pafy" do
     url "https://files.pythonhosted.org/packages/7e/02/b70f4d2ad64bbc7d2a00018c6545d9b9039208553358534e73e6dd5bbaf6/pafy-0.5.5.tar.gz"

@@ -1,17 +1,18 @@
 class Glfw < Formula
   desc "Multi-platform library for OpenGL applications"
   homepage "https://www.glfw.org/"
-  url "https://github.com/glfw/glfw/archive/3.3.4.tar.gz"
-  sha256 "cc8ac1d024a0de5fd6f68c4133af77e1918261396319c24fd697775a6bc93b63"
+  url "https://github.com/glfw/glfw/archive/3.3.7.tar.gz"
+  sha256 "fd21a5f65bcc0fc3c76e0f8865776e852de09ef6fbc3620e09ce96d2b2807e04"
   license "Zlib"
-  head "https://github.com/glfw/glfw.git"
+  head "https://github.com/glfw/glfw.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "254fab48c4f812c65cc73a046a664b0a914ef745c832ab01c8706ee77de6a195"
-    sha256 cellar: :any,                 big_sur:       "cc2a5ebed503daa988847659ce72bcbafd44387ecebb55fa422631edb731cade"
-    sha256 cellar: :any,                 catalina:      "b6505ca02cb672280ce332952dd188b7ffd139b4b48b1afb33a1619143bfd126"
-    sha256 cellar: :any,                 mojave:        "fb4c73abb6b230ffc2cacf187114584a1e589e67f399b78a56396911b2e1b483"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e8b8d18377e4dcf96cfdd986f9580ccab2a283707f7820d3024487a038ed4c0a"
+    sha256 cellar: :any,                 arm64_monterey: "8ee8f78d6379db633345f9d51bdd9924c0392521b09647e5a0db19231222431b"
+    sha256 cellar: :any,                 arm64_big_sur:  "05b75b5525eb543cd01deb20ff1fda5e606b62bc15d45e7a5d25c47eb7c7835a"
+    sha256 cellar: :any,                 monterey:       "76fa6ed8a21701f59d2d9fc3085f2e4fbd6dab4bf4cf12171ec2e9480fbe3b32"
+    sha256 cellar: :any,                 big_sur:        "2c7bf990e4a3c50884748cf8076f5cf7798a62797523f4100f7a8016e47d42d8"
+    sha256 cellar: :any,                 catalina:       "6732f2291ca4a5438818dda21411f18f37f14649fa13139f8e26988dbe14076e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d667993dc9496b0beebe0c52e8d9b878a76942e47836ff667bc5111b9abafc1d"
   end
 
   depends_on "cmake" => :build
@@ -50,10 +51,7 @@ class Glfw < Formula
     system ENV.cc, "test.c", "-o", "test",
                    "-I#{include}", "-L#{lib}", "-lglfw"
 
-    on_linux do
-      # glfw does not work in headless mode
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     system "./test"
   end

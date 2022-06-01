@@ -11,10 +11,13 @@ class Libswiftnav < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a25d1d7bab6a7c1fe2b53c6b22cd330abc8013a0c82764c96284e924dd9ef375"
-    sha256 cellar: :any_skip_relocation, big_sur:       "39097a000739be8211214f46f80bb94709d3cc2784f7b4930d1b74107aeb87fc"
-    sha256 cellar: :any_skip_relocation, catalina:      "48392c1a0f1d61146ec1cef2a3889b5c12355fea09360a7cbd2b9506f27259d0"
-    sha256 cellar: :any_skip_relocation, mojave:        "18baf5f5cae22f042d5e08fff1f25a81f33950723560dfb72ad3bc989c1c258e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "df259cd788dc4c271a2ae2296c17286163528eeb04cee8412fe450cf4a1549d8"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a25d1d7bab6a7c1fe2b53c6b22cd330abc8013a0c82764c96284e924dd9ef375"
+    sha256 cellar: :any_skip_relocation, monterey:       "b5e458c0d632aa814f63697a4a1fdd2a96d519f3846c9a5f7e04964df7cad26d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "39097a000739be8211214f46f80bb94709d3cc2784f7b4930d1b74107aeb87fc"
+    sha256 cellar: :any_skip_relocation, catalina:       "48392c1a0f1d61146ec1cef2a3889b5c12355fea09360a7cbd2b9506f27259d0"
+    sha256 cellar: :any_skip_relocation, mojave:         "18baf5f5cae22f042d5e08fff1f25a81f33950723560dfb72ad3bc989c1c258e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8c1648b6c5feaa7485011c42987bf2d6b7fbd2795130b83528d8a8960ef8f748"
   end
 
   depends_on "cmake" => :build
@@ -57,7 +60,7 @@ class Libswiftnav < Formula
         }
       }
     EOS
-    system ENV.cc, "-L", lib, "-lswiftnav", "-o", "test", "test.c"
+    system ENV.cc, "test.c", "-L", lib, "-lswiftnav", "-o", "test"
     system "./test"
   end
 end

@@ -1,16 +1,17 @@
 class Glibmm < Formula
   desc "C++ interface to glib"
   homepage "https://www.gtkmm.org/"
-  url "https://download.gnome.org/sources/glibmm/2.68/glibmm-2.68.1.tar.xz"
-  sha256 "6664e27c9a9cca81c29e35687f49f2e0d173a2fc9e98c3428311f707db532f8c"
+  url "https://download.gnome.org/sources/glibmm/2.72/glibmm-2.72.1.tar.xz"
+  sha256 "2a7649a28ab5dc53ac4dabb76c9f61599fbc628923ab6a7dd74bf675d9155cd8"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "c3b8849a9c84e3d1df3ad04a0d37b0e006d96d9a7e1881e45d1472e0f4a727d6"
-    sha256 cellar: :any, big_sur:       "a19057e4cdbcafddcdf0632c15c68fde2830e290a7516f89e26d5d2dab583b50"
-    sha256 cellar: :any, catalina:      "52fe443b93eacccd6a85ac9fa71fc45b66199a12af4fe313bbed3bceac58a368"
-    sha256 cellar: :any, mojave:        "51230b1f33200cc431c068bf00bc80c76267aacdea2382b4ec9a3d6323774398"
-    sha256               x86_64_linux:  "04b4baf39b3f533b9ec7fb28c13db868da76b30f42ba118f0492e7c67f671a2b"
+    sha256 cellar: :any, arm64_monterey: "c29aa04bc62b03add040f49af1002fdde20d9b4e5eb2cc4f96422cc937fce3c1"
+    sha256 cellar: :any, arm64_big_sur:  "58bfdbea84d605f3fa8ba7825b71e2f9ae6c7bf091fff97c8444a8b31adf54dd"
+    sha256 cellar: :any, monterey:       "c5772c2c3e829d36be16c89a05bb65e429f1558c2b3abe21172749574861220a"
+    sha256 cellar: :any, big_sur:        "aec0ad08f5deb73b234ef8d9ea60889db68429a2e6b037c812aa3b417c9cfcea"
+    sha256 cellar: :any, catalina:       "bfe5a02b9bd0517cb6f58feccd502538a2f4eae548b27509d9bd323ac5502d1e"
+    sha256               x86_64_linux:   "f14a1f30131ecb144ec9d8e615e360573074eb482e03987e0aa2435544ee617a"
   end
 
   depends_on "meson" => :build
@@ -65,9 +66,7 @@ class Glibmm < Formula
       -lgobject-2.0
       -lsigc-3.0
     ]
-    on_macos do
-      flags << "-lintl"
-    end
+    flags << "-lintl" if OS.mac?
     system ENV.cxx, "-std=c++17", "test.cpp", "-o", "test", *flags
     system "./test"
   end

@@ -4,8 +4,8 @@ class Mapnik < Formula
   url "https://github.com/mapnik/mapnik/releases/download/v3.1.0/mapnik-v3.1.0.tar.bz2"
   sha256 "43d76182d2a975212b4ad11524c74e577576c11039fdab5286b828397d8e6261"
   license "LGPL-2.1-or-later"
-  revision 4
-  head "https://github.com/mapnik/mapnik.git"
+  revision 9
+  head "https://github.com/mapnik/mapnik.git", branch: "master"
 
   livecheck do
     url :stable
@@ -13,13 +13,16 @@ class Mapnik < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "3ef717b40002e1bb09aa23fa69324a024a9af7322bd5bfa5fd2fe88f107d9d85"
-    sha256 cellar: :any, big_sur:       "9cf5f1873889a50fa8f661954cf3723dd80de77a97394097f47907c5a7ea27fc"
-    sha256 cellar: :any, catalina:      "f05ea69e03c726dde0d4b9711cd4fc94ce35e2e1f2a3abe75dc66949d34c563f"
-    sha256 cellar: :any, mojave:        "6416e7fa9760c9faed77382cce3e2209a28283e1174bde8bf394168d2cdc9947"
+    sha256 cellar: :any,                 arm64_monterey: "88c2bfae2fc095df973e6c1a24bd6424cdecb15a8cfe9e276cff215740e4150b"
+    sha256 cellar: :any,                 arm64_big_sur:  "940dd231a42ef131d258dbee54abc10ea97b21ae026e0ac6c852c0d836643eb8"
+    sha256 cellar: :any,                 monterey:       "16dcdc5257b5209a8447d806a0ff7500c6f6557c16b3238a0a2050e3b9e69431"
+    sha256 cellar: :any,                 big_sur:        "4afff60a6a7fc188c713e084a2a5e13ead96be504bd32c4ebb55990567b01052"
+    sha256 cellar: :any,                 catalina:       "9c2c0d3e4473fe2c55fc5d2449e2fd9ce4bad5ebf5e8b96a279bdca9813283ee"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0f327e497ffaa82ca9fa47bc4bbe8d0549e096150eea5bab669d262957a74b61"
   end
 
   depends_on "pkg-config" => :build
+  depends_on "python@3.9" => :build
   depends_on "boost"
   depends_on "cairo"
   depends_on "freetype"
@@ -30,19 +33,17 @@ class Mapnik < Formula
   depends_on "libpng"
   depends_on "libtiff"
   depends_on "postgresql"
-  depends_on "proj@7"
+  depends_on "proj"
   depends_on "webp"
 
   def install
     ENV.cxx11
 
+    ENV["PYTHON"] = Formula["python@3.9"].opt_bin/"python3"
+
     # Work around "error: no member named 'signbit' in the global namespace"
     # encountered when trying to detect boost regex in configure
     ENV.delete("SDKROOT") if DevelopmentTools.clang_build_version >= 900
-
-    # Use Proj 6.0.0 compatibility headers
-    # https://github.com/mapnik/mapnik/issues/4036
-    ENV.append_to_cflags "-DACCEPT_USE_OF_DEPRECATED_PROJ_API_H"
 
     boost = Formula["boost"].opt_prefix
     freetype = Formula["freetype"].opt_prefix
@@ -82,6 +83,8 @@ class Mapnik < Formula
       WEBP_INCLUDES=#{webp}/include
       WEBP_LIBS=#{webp}/lib
     ]
+
+    inreplace "Makefile", "PYTHON = python", "PYTHON = python3"
 
     system "./configure", *args
     system "make"

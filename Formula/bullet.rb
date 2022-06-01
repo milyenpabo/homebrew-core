@@ -1,25 +1,29 @@
 class Bullet < Formula
   desc "Physics SDK"
   homepage "https://bulletphysics.org/"
-  url "https://github.com/bulletphysics/bullet3/archive/3.17.tar.gz"
-  sha256 "baa642c906576d4d98d041d0acb80d85dd6eff6e3c16a009b1abf1ccd2bc0a61"
+  url "https://github.com/bulletphysics/bullet3/archive/3.24.tar.gz"
+  sha256 "6b1e987d6f8156fa8a6468652f4eaad17b3e11252c9870359e5bca693e35780b"
   license "Zlib"
   head "https://github.com/bulletphysics/bullet3.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "1f2000191b311d231c5e1a949aba892992e533df61cb3cf05cd1ec7ded01cb3f"
-    sha256 cellar: :any,                 big_sur:       "85bf74ad7500b0bc9b15f212cc45d1d3ad6e2a2e427a1878ac571e7fd7007d97"
-    sha256 cellar: :any,                 catalina:      "76e1c4ed888700e335545275f080f954071d76164784881488b0b31f295bdbb3"
-    sha256 cellar: :any,                 mojave:        "3b39c389a9b532dfdbc0f3652bf9530fc68e1d453d1df5e017028b41f448e6c6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c2887fa28d8a3e81b07eff60948ee01179438333e826e1692799d6253e3fcc27"
+    sha256 cellar: :any,                 arm64_monterey: "e62ed2decd835f7a0170558ff9823e1cd409af8718f171e909ba1d026b5b1857"
+    sha256 cellar: :any,                 arm64_big_sur:  "791078c5f49a76ab5ecfb1c0dec290ea4ba048c578d7fe49deee1ae2c108d9ee"
+    sha256 cellar: :any,                 monterey:       "4f025cbf5fb191f35fdfa59c663146265c4ad5789238e480b71f3422013aed72"
+    sha256 cellar: :any,                 big_sur:        "e53efaacaf22922dbd1280786f5d75b670a765ea105f9c6cc706aa0f0fdd3861"
+    sha256 cellar: :any,                 catalina:       "0d0863190a55bef157fb7955a4f2c9618ebae828f3661bf6c4d9ac7c5676d14a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ec9a230902ea3638a673b810a67a00f0aa5be9b577a4a8947d8bed8519fb33b5"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   def install
+    # C++11 for nullptr usage in examples. Can remove when fixed upstream.
+    # Issue ref: https://github.com/bulletphysics/bullet3/pull/4243
+    ENV.cxx11 if OS.linux?
+
     common_args = %w[
       -DBT_USE_EGL=ON
       -DBUILD_UNIT_TESTS=OFF
@@ -73,9 +77,10 @@ class Bullet < Formula
       }
     EOS
 
-    cxx_lib = "-lc++"
-    on_linux do
-      cxx_lib = "-lstdc++"
+    cxx_lib = if OS.mac?
+      "-lc++"
+    else
+      "-lstdc++"
     end
 
     # Test single-precision library

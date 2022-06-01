@@ -1,8 +1,8 @@
 class Modules < Formula
   desc "Dynamic modification of a user's environment via modulefiles"
   homepage "https://modules.sourceforge.io/"
-  url "https://downloads.sourceforge.net/project/modules/Modules/modules-5.0.0/modules-5.0.0.tar.bz2"
-  sha256 "1e4d0d7a64db85f316b5b8ef83b0df5e13e687a0021d3021b571581569ea71f4"
+  url "https://downloads.sourceforge.net/project/modules/Modules/modules-5.1.0/modules-5.1.0.tar.bz2"
+  sha256 "0fe84ee80f7470b5e6bd339bc04c464f06e2db4b5859b4ebd2847a84e9217e1c"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class Modules < Formula
   end
 
   bottle do
-    sha256                               arm64_big_sur: "fc00f6fefbed3d9e02cf6577829429da6cd65f42dc0672b480b6ee5a633cb0ba"
-    sha256                               big_sur:       "c61614ac6c3fc7903748b4cf2720d7024dcf1de5d0c8ef8e6ed005f75359da2d"
-    sha256 cellar: :any,                 catalina:      "b0287fc7e40fe32c6069807702f9ec881b3a152814db7d100005da6bf08ef300"
-    sha256 cellar: :any,                 mojave:        "7244741217d5e4e860dea4bbe2a2a828c22ee4f44e292450acd9a9a67af523bd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7afd9100bd3e96b4ad1e815467c82f46045ded65ad4bd10a8b53bcb718a6bacb"
+    sha256                               arm64_monterey: "334f813c5fcbf50c3f35f26a3fe6ad57e28d0277ea7d164570ccb3c719ec1680"
+    sha256                               arm64_big_sur:  "31b0d3ffc6aa3d331c3af1b7f9a5b44156f8756e21d6cc4beb966090d7e4bbd7"
+    sha256                               monterey:       "3586ebf3ff07fccf4b7663790ef0065ed8b714c95206b46d5ee5f3cf89b1fc7e"
+    sha256                               big_sur:        "5922381d6e9fcd567c4af9d599683601107984e1c538bd348b83e375a448cb2d"
+    sha256 cellar: :any,                 catalina:       "e5371939e1b942bcd7d968e2349faf9ba892aa8666975f1ab0875543b8b4c5cd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "527235069a340ba96eaddff6e456038157174b5de68192438b0f1489526d1201"
   end
 
   depends_on "tcl-tk"
@@ -44,9 +45,10 @@ class Modules < Formula
   def caveats
     <<~EOS
       To activate modules, add the following at the end of your .zshrc:
+
         source #{opt_prefix}/init/zsh
-      You will also need to reload your .zshrc:
-        source ~/.zshrc
+
+      You will also need to restart your terminal for this change to take effect.
     EOS
   end
 

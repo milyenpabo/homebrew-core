@@ -4,13 +4,15 @@ class OsmGpsMap < Formula
   url "https://github.com/nzjrs/osm-gps-map/releases/download/1.2.0/osm-gps-map-1.2.0.tar.gz"
   sha256 "ddec11449f37b5dffb4bca134d024623897c6140af1f9981a8acc512dbf6a7a5"
   license "GPL-2.0-or-later"
+  revision 1
 
   bottle do
-    sha256                               arm64_big_sur: "8d4bfe8a748f9c06582dda25792b96b98eab8b21cec98d58b521cb8b8d4c26cf"
-    sha256                               big_sur:       "54380e69472c5e9ae483823a3ec04c8b5bde31a1cdbc581dd9e14efeed2f8324"
-    sha256                               catalina:      "c02c8a26f0a806b356e84ef628f71243007da8811b887ddcde2627f3ad763d2b"
-    sha256                               mojave:        "af136c4438f1b2ff9fd45c1c89a39db9a5703b18d766137abdf2644c8d418ac2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8de5535ae547d6d74899e50979e191e84141262f10b2f746563a22304b577329"
+    rebuild 1
+    sha256                               arm64_big_sur: "69c8b2b22877a14f14d04d3f40a890f6b092b992bcb86270c1f82ff79f54ae50"
+    sha256                               monterey:      "322015ebc1b2ce52d40d2db2d27662f639725bd474aca83b1af9238abccb903e"
+    sha256                               big_sur:       "5e88cd60732ed86ec019f82a136d3445af500893435b804f68c41d25fe8de72c"
+    sha256                               catalina:      "3bd120a4480aaf535f90b4660a3029682adf413eca6243c5a69e15856be192fb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1a70b74c033694c33f50fdd6190676cf47deb46e7ed0425e5be4e085fbc3c357"
   end
 
   head do
@@ -27,7 +29,12 @@ class OsmGpsMap < Formula
   depends_on "gdk-pixbuf"
   depends_on "glib"
   depends_on "gtk+3"
-  depends_on "libsoup"
+  depends_on "libsoup@2"
+
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+  end
 
   def install
     system "./autogen.sh" if build.head?
@@ -84,10 +91,8 @@ class OsmGpsMap < Formula
     ]
     system ENV.cc, "test.c", "-o", "test", *flags
 
-    on_linux do
-      # (test:40601): Gtk-WARNING **: 23:06:24.466: cannot open display
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    # (test:40601): Gtk-WARNING **: 23:06:24.466: cannot open display
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     system "./test"
   end

@@ -8,17 +8,25 @@ class Ctemplate < Formula
   head "https://github.com/olafvdspek/ctemplate.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "3ef5f869569f3f4034fb55f1d15ceca68da21a01ff5c9e30d5b941addecf91db"
-    sha256 cellar: :any, big_sur:       "4211a546bfa2216bee5c09548525a01682be861a5ed98d64fa414b743a706863"
-    sha256 cellar: :any, catalina:      "450518a03eec232531f67655c372b5be4cdb9d35d532d7a8941863f74a45bca2"
-    sha256 cellar: :any, mojave:        "37f5073fec13f28f3869c6e80d89c9a8659e9fad4fecc30721abe964f927ddff"
-    sha256 cellar: :any, high_sierra:   "6f0e5b78eab78861361f4a4e27cb264ce33d641c71c5981950bb28209205cb1d"
+    rebuild 1
+    sha256 cellar: :any,                 arm64_monterey: "2af8837c0e6f6cb3405008c71795fcc3def16818aa2512365ec027cb3ad4b48e"
+    sha256 cellar: :any,                 arm64_big_sur:  "d9b6bdf4a7d13079ea3eb55d1cae8307513a8aaa7d782eda9333a3a96ff45523"
+    sha256 cellar: :any,                 monterey:       "407f8bdf5dea727de91e5436cab5b0e271fdd935806aa985d38d5ed4c2db57e9"
+    sha256 cellar: :any,                 big_sur:        "3e4c9c7028cf8037cc61000e24d25fd34bc8741a863b440653c087908ff33169"
+    sha256 cellar: :any,                 catalina:       "9451278bdf27133395761b18b00e88fb5ac3765bb1b5a0da7acb88a671ef7977"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "aef9050d0aa26b1a38f26df4e71d084ef439f5f26600f9defd8ce8b5de2221c6"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
 
   def install
     system "./autogen.sh"

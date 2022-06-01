@@ -2,17 +2,18 @@ class Minikube < Formula
   desc "Run a Kubernetes cluster locally"
   homepage "https://minikube.sigs.k8s.io/"
   url "https://github.com/kubernetes/minikube.git",
-      tag:      "v1.23.2",
-      revision: "0a0ad764652082477c00d51d2475284b5d39ceed"
+      tag:      "v1.25.2",
+      revision: "362d5fdc0a3dbee389b3d3f1034e8023e72bd3a7"
   license "Apache-2.0"
-  head "https://github.com/kubernetes/minikube.git"
+  head "https://github.com/kubernetes/minikube.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d070d46f911a23fa36f155179e9dd62c2a562d070d4a6c739978031a704cfd1e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "0f123e76f821fa427496a1d73551cdcd5c4b7cc74c3d6c8fb45f6259fd17635e"
-    sha256 cellar: :any_skip_relocation, catalina:      "faa91becd0ebb93d8af0ce849ff57516f3cb090a2c350b0b1800250729f7f573"
-    sha256 cellar: :any_skip_relocation, mojave:        "0103f2958d7609a9157e7de9c69b24bcc86e858a912080063aec594d0e07fcdb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "262e375995aab490eb42d8ac43304ed2b07916e6e82478bb68998f19268bbf0d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6dee5f22e08636346258f4a6daa646e9102e384ceb63f33981745d471f99aa97"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2eb8da6b2e82a10729008118534956b8f52427a130aeb8f48a8f86409c498070"
+    sha256 cellar: :any_skip_relocation, monterey:       "888a850d809aa5c62c3e3ccb40b059faf52a4519881f08bf93ec1267558b622e"
+    sha256 cellar: :any_skip_relocation, big_sur:        "61c39cf9518c3589039934da686210f3790c3644a872926f38dfd291c857f494"
+    sha256 cellar: :any_skip_relocation, catalina:       "7d59e9765d4d5359d71e3e2c5c359897502637d8864d2359bba1949bdd976521"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "01859de13052b91dbe5f12e3fd47fbd542e0ab6560c038e5f79e3df74098716b"
   end
 
   depends_on "go" => :build
@@ -23,13 +24,13 @@ class Minikube < Formula
     system "make"
     bin.install "out/minikube"
 
-    output = Utils.safe_popen_read("#{bin}/minikube", "completion", "bash")
+    output = Utils.safe_popen_read(bin/"minikube", "completion", "bash")
     (bash_completion/"minikube").write output
 
-    output = Utils.safe_popen_read("#{bin}/minikube", "completion", "zsh")
+    output = Utils.safe_popen_read(bin/"minikube", "completion", "zsh")
     (zsh_completion/"_minikube").write output
 
-    output = Utils.safe_popen_read("#{bin}/minikube", "completion", "fish")
+    output = Utils.safe_popen_read(bin/"minikube", "completion", "fish")
     (fish_completion/"minikube.fish").write output
   end
 

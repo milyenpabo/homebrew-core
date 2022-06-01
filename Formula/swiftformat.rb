@@ -1,16 +1,17 @@
 class Swiftformat < Formula
   desc "Formatting tool for reformatting Swift code"
   homepage "https://github.com/nicklockwood/SwiftFormat"
-  url "https://github.com/nicklockwood/SwiftFormat/archive/0.48.14.tar.gz"
-  sha256 "aba01d675a0fc068acb5501ce1861416a7c0172944847fe5ce2da34c989371c8"
+  url "https://github.com/nicklockwood/SwiftFormat/archive/0.49.9.tar.gz"
+  sha256 "0d015ea7d9e37f5410bfd0f788c719ab566eba9160f3a977388318b5c500c75c"
   license "MIT"
   head "https://github.com/nicklockwood/SwiftFormat.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "054c6410409c314f542a1cbdf346b97739cba7c428782102ee7da769a4a020f7"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3d8a45abe86cd14d39a878da61222290d5636c6ce83ca723d279872d74f465c3"
-    sha256 cellar: :any_skip_relocation, catalina:      "31e3cb1ebb834e293ddfbf5fbf50ae0a82a68f8c50a0651e91ff3a46af42b320"
-    sha256 cellar: :any_skip_relocation, mojave:        "05e29fe832b94c95401105ddc30d8aca17577c4fc1fef4681f68d66fe72bdaa9"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "bacd0dc8f488fd7909252467eaf16dcd339468857aea13a3643f7e0efd7715f8"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7bc39a57d110f727993aa556cca5cba5549d536367bc12f25b56e25c4fdfa194"
+    sha256 cellar: :any_skip_relocation, monterey:       "739d230372dd797d5cf5a0586156068ecb5965878550a67b5ca56ccdf2799557"
+    sha256 cellar: :any_skip_relocation, big_sur:        "22080bdc75b03f5926d68fb248fc401d6a94876205ce03663a8950644b0e41e6"
+    sha256 cellar: :any_skip_relocation, catalina:       "d4cda88cf3bef7b18e960197b8db4826f234e3b3434ba902c3924c37b9040fe8"
   end
 
   depends_on xcode: ["10.1", :build]

@@ -1,35 +1,51 @@
 class Kdoctools < Formula
   desc "Create documentation from DocBook"
   homepage "https://api.kde.org/frameworks/kdoctools/html/index.html"
-  url "https://download.kde.org/stable/frameworks/5.86/kdoctools-5.86.0.tar.xz"
-  sha256 "9dd2a9e3930875f95b1d8e907fdc01c19d19f484d6e70c19c8f26c9aaac4b18e"
+  url "https://download.kde.org/stable/frameworks/5.94/kdoctools-5.94.0.tar.xz"
+  sha256 "f54e61ffe8c5e634e7d6e341020b63346d40b524d4a22565c86b9147033cd2f4"
   license all_of: [
     "BSD-3-Clause",
     "GPL-2.0-or-later",
     "LGPL-2.1-or-later",
     any_of: ["LGPL-2.1-only", "LGPL-3.0-only"],
   ]
-  head "https://invent.kde.org/frameworks/kdoctools.git"
+  revision 1
+  head "https://invent.kde.org/frameworks/kdoctools.git", branch: "master"
+
+  # We check the tags from the `head` repository because the latest stable
+  # version doesn't seem to be easily available elsewhere.
+  livecheck do
+    url :head
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "fefe2a333a634c7bb5d76df382dfb6cb5296e07f2ac8b71f7bdbcd2f48bcf41d"
-    sha256 cellar: :any, big_sur:       "d93b4913a6c347ce00aaa01e3e5897d2ea1b1fe0577ac4a73140da18ab12dde1"
-    sha256 cellar: :any, catalina:      "178632bf5281c898ea2de32e2020131840e0c9a534d7e2a3c6303991471bf897"
-    sha256 cellar: :any, mojave:        "b275ce0bb6ab0eb23dd7c26d84283a35380ec49b2b43551bae43891d948278cf"
+    sha256 cellar: :any,                 arm64_monterey: "88844927b953560ed1013342b5a8667238d39262d2493b854ed2feaae27ff2cb"
+    sha256 cellar: :any,                 arm64_big_sur:  "91ea6d194395374575acb6a652d621b33663c5379b79ac9ed0c52115d119f983"
+    sha256 cellar: :any,                 monterey:       "d8fad28c707dbe20beab3b16efd7115595f73b30ca428de024a27f3c2662d2ba"
+    sha256 cellar: :any,                 big_sur:        "4977b7dd3112c5ca4932e06370824c85af63ca8c89040c9b887189416e896625"
+    sha256 cellar: :any,                 catalina:       "c2cb5c0d5839d518cd03483ac3bd9c06c82efc69477afcc1f069fb7b803f3229"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3a34d063e95afb1ecd261e9bf50948f9ee9f3dc4454151c41dae705da9d3a3cd"
   end
 
   depends_on "cmake" => [:build, :test]
-  depends_on "docbook-xsl" => [:build, :test]
   depends_on "doxygen" => :build
   depends_on "extra-cmake-modules" => [:build, :test]
   depends_on "gettext" => :build
   depends_on "ki18n" => :build
 
+  depends_on "docbook-xsl"
   depends_on "karchive"
 
   uses_from_macos "libxml2"
   uses_from_macos "libxslt"
   uses_from_macos "perl"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
 
   resource "URI::Escape" do
     url "https://cpan.metacpan.org/authors/id/O/OA/OALDERS/URI-5.09.tar.gz"
@@ -45,14 +61,15 @@ class Kdoctools < Formula
       system "make", "install"
     end
 
-    args = std_cmake_args
-    args << "-DBUILD_TESTING=OFF"
-    args << "-DBUILD_QCH=ON"
+    args = std_cmake_args + %w[
+      -S .
+      -B build
+      -DBUILD_QCH=ON
+    ]
 
-    mkdir "build" do
-      system "cmake", "..", *args
-      system "make", "install"
-    end
+    system "cmake", *args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
 
     pkgshare.install ["cmake", "autotests", "tests"]
   end
@@ -61,10 +78,10 @@ class Kdoctools < Formula
     (testpath/"CMakeLists.txt").write <<~EOS
       cmake_minimum_required(VERSION 3.5)
       include(FeatureSummary)
-      find_package(ECM 5.71.0 NO_MODULE)
+      find_package(ECM #{version} NO_MODULE)
       set_package_properties(ECM PROPERTIES TYPE REQUIRED)
       set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "#{pkgshare}/cmake")
-      find_package(Qt5 5.12.0 REQUIRED Core)
+      find_package(Qt5 #{Formula["qt@5"].version} REQUIRED Core)
       find_package(KF5DocTools REQUIRED)
 
       find_package(LibXslt)
@@ -94,10 +111,13 @@ class Kdoctools < Formula
     cp_r (pkgshare/"autotests"), testpath
     cp_r (pkgshare/"tests"), testpath
 
-    args = std_cmake_args
-    args << "-DQt5_DIR=#{Formula["qt@5"].opt_prefix/"lib/cmake/Qt5"}"
+    args = std_cmake_args + %W[
+      -S .
+      -B build
+      -DQt5_DIR=#{Formula["qt@5"].opt_lib}/cmake/Qt5
+    ]
 
-    system "cmake", testpath.to_s, *args
-    system "make"
+    system "cmake", *args
+    system "cmake", "--build", "build"
   end
 end

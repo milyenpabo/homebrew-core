@@ -4,6 +4,7 @@ class Newt < Formula
   url "https://releases.pagure.org/newt/newt-0.52.21.tar.gz"
   sha256 "265eb46b55d7eaeb887fca7a1d51fe115658882dfe148164b6c49fccac5abb31"
   license "LGPL-2.0-or-later"
+  revision 2
 
   livecheck do
     url "https://releases.pagure.org/newt/"
@@ -11,25 +12,22 @@ class Newt < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "5b125ba2ac186a9b1163e5546a3669d19dbd1c9703060a2ac358e4ca784ec2b9"
-    sha256 cellar: :any,                 big_sur:       "93469c4ded76db63f8ac56143c9d110e18ff8c92f25857a7bb2955de63eb19cc"
-    sha256 cellar: :any,                 catalina:      "82ea49582f5bcf3bbaf6a39d4d6128c966889eaff682bf83601954c995ee1276"
-    sha256 cellar: :any,                 mojave:        "2b902ecc6fc52b2f2681eb23e4eb568684a018deeada88e5a920952de8cc1080"
-    sha256 cellar: :any,                 high_sierra:   "7a88cbe033eb207df57a6410f19339975a672e331c073e3ee79e467652c8753c"
-    sha256 cellar: :any,                 sierra:        "4d82531bb783ba5e3f8a64150582e61b2fd4a9fb8be96d0bee88fa3bbe0dc3c3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1957777c814f7cc0952008329312c8f8e1f281b18f8f4256b55f206a02630b89"
+    sha256 cellar: :any,                 arm64_monterey: "93a43143160e7432d52429e5aab0dcfda5b17858b4cd3f9921c54b98bd405ea8"
+    sha256 cellar: :any,                 arm64_big_sur:  "033f20f9fad1bf00c6e8a8ef8b24525d1184e67008b6c42e40893c8eefb6ccb5"
+    sha256 cellar: :any,                 monterey:       "0afdface002d204eff335387f8c5afba4c787836cd773db6f19811eef3a4e6c0"
+    sha256 cellar: :any,                 big_sur:        "26e7dffcbe33b1a34a69fb041fdc6740a5b5888351444a8b7f074e16c1f69877"
+    sha256 cellar: :any,                 catalina:       "c39688432c5335bb26ddc5149f119a05e4811ac7fc3a0a9d1a9f0c829c3833cb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5b8bc4c34aaff04b2bf0dc6f8b8094ee11c80b254240a231bca96b91111450c8"
   end
 
   depends_on "gettext"
   depends_on "popt"
+  depends_on "python@3.10"
   depends_on "s-lang"
 
-  on_linux do
-    depends_on "python@3.9"
-  end
-
   def install
-    args = ["--prefix=#{prefix}", "--without-tcl"]
+    xy = Language::Python.major_minor_version("python3")
+    args = %W[--prefix=#{prefix} --without-tcl --with-python=python#{xy}]
 
     if OS.mac?
       inreplace "Makefile.in" do |s|
@@ -52,6 +50,8 @@ class Newt < Formula
 
   test do
     ENV["TERM"] = "xterm"
+    system Formula["python@3.10"].opt_bin/"python3", "-c", "import snack"
+
     (testpath/"test.c").write <<~EOS
       #import <newt.h>
       int main() {

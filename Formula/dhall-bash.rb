@@ -1,20 +1,25 @@
 class DhallBash < Formula
   desc "Compile Dhall to Bash"
   homepage "https://github.com/dhall-lang/dhall-haskell/tree/master/dhall-bash"
-  url "https://hackage.haskell.org/package/dhall-bash-1.0.38/dhall-bash-1.0.38.tar.gz"
-  sha256 "01a1164830da11fa270a3bd6fb9fb6e39d50e400a7ec6b42aec4da41c9c7dc5d"
+  url "https://hackage.haskell.org/package/dhall-bash-1.0.40/dhall-bash-1.0.40.tar.gz"
+  sha256 "a9d1feba3c9ceeecdd24fb4a4d8f6450a50ca31ede30aa4d7a8e9d8489cc7f3a"
   license "BSD-3-Clause"
-  head "https://github.com/dhall-lang/dhall-haskell.git"
+  head "https://github.com/dhall-lang/dhall-haskell.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a024b04b527c5f6863ace794e5f83afe92b1b16203acd23f1e95e3e27901cbcf"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f5063002c22244dd97c80f34b28b9b185fd46d64b11ece003eace16ea54d9a65"
-    sha256 cellar: :any_skip_relocation, catalina:      "49c267f3236157660b58386c17d9f158c1c4df110dc3f112fdc20b565f90334e"
-    sha256 cellar: :any_skip_relocation, mojave:        "ced176f284777f2578f2432fd2943a5e872fbaa0486cde7790e831ad1c116dc8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "94344bb3dfd3036109853ecb36f28d04b4acb13caafe370c3255650eb320663c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9c5cf8510f9d239e8fee400c48136e4b441ba901fbdc0335c9d1f65b452a3394"
+    sha256 cellar: :any_skip_relocation, monterey:       "7f1007390145c0b45b374a2b7eb0d956143fa88b3ffb35807bfef971109f0d33"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e93ab3c056dae0d029ff346018e1e49a45343f126fc523af5ada94dd73e8da75"
+    sha256 cellar: :any_skip_relocation, catalina:       "c388e918ddc4a2416535cf53173325e483216d92e9dfd24fbfad46acaf6b1ea3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1f4ddd5de1e559f1c2e0b5398e9176cb93283b7caae47d9fc6a6e12ca4ee3a02"
   end
 
   depends_on "cabal-install" => :build
   depends_on "ghc" => :build
+
+  uses_from_macos "ncurses"
+  uses_from_macos "zlib"
 
   def install
     system "cabal", "v2-update"

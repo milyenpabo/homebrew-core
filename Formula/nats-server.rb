@@ -1,23 +1,24 @@
 class NatsServer < Formula
   desc "Lightweight cloud messaging system"
   homepage "https://nats.io"
-  url "https://github.com/nats-io/nats-server/archive/refs/tags/v2.6.1.tar.gz"
-  sha256 "8b578df282dabc75b93b17bc8defb0f2ffd596985e1d2b5d5f4c0695ed6163d6"
+  url "https://github.com/nats-io/nats-server/archive/v2.8.4.tar.gz"
+  sha256 "172c5d04c3867adcb6b2322d87d7f7029b63e9465fffffcf99d4ca652820635f"
   license "Apache-2.0"
   head "https://github.com/nats-io/nats-server.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "e4b9d73e8e66f696690941e0312913af172ba26354c2da4c8e48169705b8a7eb"
-    sha256 cellar: :any_skip_relocation, big_sur:       "6304c771f4b7b2ffa0497dabbfaceb4807cdc4d51f57a6c148f8c952b4504b24"
-    sha256 cellar: :any_skip_relocation, catalina:      "beb84d27dcd93bdd5c4c303ed37cadaadd5babf88077411880116216fe1284f7"
-    sha256 cellar: :any_skip_relocation, mojave:        "433090bbb534eadd53cbcb303d37119e67d79dc53bb03ac6523b6519cdde2628"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0746efe909395c1926e4af6bd2d77b8cc3e2265c2d7efa3e26e4a3fe30d97743"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "efb4a51929a301a6693bf1c419ab59007e67cf85cc807b5a839a510b4b7a7e9c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "6cf17da47a1a5ef20c9feb60eb9576954e31ddece2b3666cf79ba6be6ffdd874"
+    sha256 cellar: :any_skip_relocation, monterey:       "69900b5eab7c108efb7d8142e7013dd7a0510f00e414980722e7c4c16e9ddcd5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ccce5f7a723ead5586c2aeb21e53636d38841814f452351b14932eabd207aff7"
+    sha256 cellar: :any_skip_relocation, catalina:       "ed13d4e0ce70db2a99652070489f4234abd7574f2942dc673263499ea833c993"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f2dbd10f04fcd17e079ffe4786d939d112fc73c78009779af38b1269553efba0"
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", "-ldflags", "-s -w", *std_go_args
+    system "go", "build", *std_go_args(ldflags: "-s -w")
   end
 
   service do
@@ -26,15 +27,17 @@ class NatsServer < Formula
 
   test do
     port = free_port
+    http_port = free_port
     fork do
       exec bin/"nats-server",
            "--port=#{port}",
+           "--http_port=#{http_port}",
            "--pid=#{testpath}/pid",
            "--log=#{testpath}/log"
     end
     sleep 3
 
-    assert_match version.to_s, shell_output("curl localhost:#{port}")
+    assert_match version.to_s, shell_output("curl localhost:#{http_port}/varz")
     assert_predicate testpath/"log", :exist?
   end
 end

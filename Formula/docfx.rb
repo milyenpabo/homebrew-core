@@ -1,15 +1,14 @@
 class Docfx < Formula
   desc "Tools for building and publishing API documentation for .NET projects"
   homepage "https://dotnet.github.io/docfx/"
-  url "https://github.com/dotnet/docfx/releases/download/v2.58.4/docfx.zip"
-  sha256 "5dc9e63ce084ad16a9f19f0e18a80194db3244f9d9af4ceab699c2729b46378d"
+  url "https://github.com/dotnet/docfx/releases/download/v2.59.2/docfx.zip"
+  sha256 "6bc31be6beed3af49942df0d20b35c7c8abdb32113ee433e3decd5d307fd76c9"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "2d4913eb0b882949f76e6033572cb4b5f13141aa5c06d60500e1ae7b29e637ac"
+    sha256 cellar: :any_skip_relocation, all: "06e3f9805d8ee8ca62ef4113f7659cb20b0259df0eb60e8b490a5e187e71604c"
   end
 
-  depends_on arch: :x86_64
   depends_on "mono"
 
   def install

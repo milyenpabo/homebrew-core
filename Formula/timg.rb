@@ -1,27 +1,34 @@
 class Timg < Formula
   desc "Terminal image and video viewer"
   homepage "https://timg.sh/"
-  url "https://github.com/hzeller/timg/archive/refs/tags/v1.4.2.tar.gz"
-  sha256 "7607efaffbed0b65b3c824956de421b155a4f14243e7a752b19454f88bf9d563"
+  url "https://github.com/hzeller/timg/archive/refs/tags/v1.4.4.tar.gz"
+  sha256 "66d2e00b50068fd6638bb8be1859c50ca4f24caef751f9dc95b303f37fb07b1e"
   license "GPL-2.0-only"
   head "https://github.com/hzeller/timg.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "9efb49bbad5a1d202cc8c41bfdff21d65e9eda416fe9cf439c4d3c10692d6d85"
-    sha256 cellar: :any,                 big_sur:       "09fe7cbf66f51101c316ecc33291e3c98636d59ccfd069e77894056dec8c6bd4"
-    sha256 cellar: :any,                 catalina:      "67cfebef4731e03d201ee578cdf1aff72a1dca4248a56381be57bd2124520f72"
-    sha256 cellar: :any,                 mojave:        "bf8067d82e2306a521b21021469c30114c24d1d7fa04f806cfe1c4e5e908b69a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b88f5fd8f7030dd2f59895d8c177b8344a2b9078d72c6658430a685c93e1c2a2"
+    sha256 cellar: :any,                 arm64_monterey: "de4c65235281a2b9c5d62d28fa39053e21f30c4852ae3f6a0cb419a5ef4231d4"
+    sha256 cellar: :any,                 arm64_big_sur:  "da8576af220bdd5052fcd031c0e2b0e1fb206d449c40354f72d10dfb5d9c6d7a"
+    sha256 cellar: :any,                 monterey:       "f9f639aac4e106fb0c3ab2f4776acee6d6423f4f497491f334e43547e734ccea"
+    sha256 cellar: :any,                 big_sur:        "0efbad0c7a082200d97ec158e1934362d82f5db03aa1130f8ea54088b73c478b"
+    sha256 cellar: :any,                 catalina:       "5a2f9661a9e5ad1ada45486c2efb99a16f070f955d373cefdb63a6c9079e8b24"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c173cd55ef26536b606b64e5044777732fcf67b625d17f6c430947325e8f2ec1"
   end
 
   depends_on "cmake" => :build
-  depends_on "ffmpeg"
+  depends_on "ffmpeg@4"
   depends_on "graphicsmagick"
   depends_on "jpeg-turbo"
   depends_on "libexif"
   depends_on "libpng"
   depends_on "openslide"
   depends_on "webp"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # rubberband is built with GCC
 
   def install
     system "cmake", ".", *std_cmake_args

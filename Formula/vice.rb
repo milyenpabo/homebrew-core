@@ -1,10 +1,9 @@
 class Vice < Formula
   desc "Versatile Commodore Emulator"
   homepage "https://sourceforge.net/projects/vice-emu/"
-  url "https://downloads.sourceforge.net/project/vice-emu/releases/vice-3.5.tar.gz"
-  sha256 "56b978faaeb8b2896032bd604d03c3501002187eef1ca58ceced40f11a65dc0e"
+  url "https://downloads.sourceforge.net/project/vice-emu/releases/vice-3.6.1.tar.gz"
+  sha256 "20df84c851aaf2f5000510927f6d31b32f269916d351465c366dc0afc9dc150c"
   license "GPL-2.0-or-later"
-  revision 1
   head "https://svn.code.sf.net/p/vice-emu/code/trunk/vice"
 
   livecheck do
@@ -13,9 +12,12 @@ class Vice < Formula
   end
 
   bottle do
-    sha256 big_sur:  "c07d71cebd01929ae44bb80611d761c10c5f8ae53b2ac8e855d2a77bb9ce2270"
-    sha256 catalina: "32421c80ed1f4fd835143587ec1d666941aadaefa2ea5facd2bbd2355cc078c4"
-    sha256 mojave:   "04964db736a6895edf14f3e0d1cd8dce585c18b56dd123f6376bb2743a1d9953"
+    sha256 arm64_monterey: "33fb1aad075c3b196121b6fc2cc204e28fc926b72481858e47e104e812f3ee50"
+    sha256 arm64_big_sur:  "44378ed1786c48a0ce150e9c246829a59166ff8c2548a924f27d5ff2f4957500"
+    sha256 monterey:       "642e255aa5c7e4cb48e8773196dd94925e81d11bc5b538f02946af1c70397298"
+    sha256 big_sur:        "270cba1e6c87ed97b7cafc142f4610661610a874b2ddb7ba1b805472b004242a"
+    sha256 catalina:       "05c3fbd9b2972453bf7d2688ef666efbbd7b9bd5b4fb37b294d3b6c0e45432cb"
+    sha256 x86_64_linux:   "29768ca0c24d34dbe29995cca12aec6b2e91f9b2f44252828a62ad1b53e2fa8c"
   end
 
   depends_on "autoconf" => :build
@@ -27,7 +29,7 @@ class Vice < Formula
   depends_on "yasm" => :build
 
   depends_on "adwaita-icon-theme"
-  depends_on "ffmpeg"
+  depends_on "ffmpeg@4"
   depends_on "flac"
   depends_on "giflib"
   depends_on "glew"
@@ -38,6 +40,8 @@ class Vice < Formula
   depends_on "libpng"
   depends_on "librsvg"
   depends_on "libvorbis"
+
+  uses_from_macos "flex" => :build
 
   def install
     configure_flags = %W[
@@ -64,6 +68,6 @@ class Vice < Formula
   end
 
   test do
-    assert_match "cycle limit reached", shell_output("#{bin}/x64sc -console -limitcycles 1000000 -logfile -", 1)
+    assert_match "Initializing.", shell_output("#{bin}/x64sc -console -limitcycles 1000000 -logfile -", 1)
   end
 end

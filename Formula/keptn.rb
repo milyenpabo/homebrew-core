@@ -1,16 +1,22 @@
 class Keptn < Formula
   desc "Is the CLI for keptn.sh a message-driven control-plane for application delivery"
   homepage "https://keptn.sh"
-  url "https://github.com/keptn/keptn/archive/0.9.2.tar.gz"
-  sha256 "0ba9f79f3428baa2453622e19eeff2a325c36b35a5b22f60b4589ef77cc77826"
+  url "https://github.com/keptn/keptn/archive/0.15.0.tar.gz"
+  sha256 "a4b156d44a9b81efdcb75c527cd44e21745474e60ea2766b43f2744fb4bae264"
   license "Apache-2.0"
 
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a0face66e81013a059015062aed3855d75c151bd683f3f5b00eec5abd23ae0d6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b8d83d543e45bf2a3287abc268d677cf33c79245a735146f12fec42e07278b1b"
-    sha256 cellar: :any_skip_relocation, catalina:      "718d29d52f0e5780d0067f9b5eafad4a08a648b3bf605ab83ff939c547492b5c"
-    sha256 cellar: :any_skip_relocation, mojave:        "920e3054b80aabed5310763a63c1af4a76ad680943771260cf77f4bffe4ab2b9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bdba46209177a40c557bf9a4a517da9ec045e91065d34c46545b7d0d12f989e8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5b8f6c505d4cadaea9afdeefad384453ee09a945077939f596dff42ef0d2ddb1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9fe1a058fb784936cb6cb8767eb3189d4a5ed8aa4ff7868bf3e94ec06e100b5e"
+    sha256 cellar: :any_skip_relocation, monterey:       "232a834f43083eb27334c5e8510429116479082688a4a960a81d4e78bab8c0ce"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f2312880cd64e048cd413402882872049e9eb149fc726a761e6c52a72580b129"
+    sha256 cellar: :any_skip_relocation, catalina:       "317c8326c163dbb225fd214f79e25d333f8d91a135b04f1c380555e3bc821206"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0a3dbe8266754a6b44bf27a5fe4129345d6b18de12283e53fededbd79a29c523"
   end
 
   depends_on "go" => :build
@@ -18,9 +24,9 @@ class Keptn < Formula
   def install
     ldflags = %W[
       -s -w
-      -X main.Version=#{version}
+      -X github.com/keptn/keptn/cli/cmd.Version=#{version}
       -X main.KubeServerVersionConstraints=""
-    ].join(" ")
+    ]
 
     cd buildpath/"cli" do
       system "go", "build", *std_go_args(ldflags: ldflags)
@@ -33,7 +39,11 @@ class Keptn < Formula
 
     assert_match "Keptn CLI version: #{version}", shell_output(bin/"keptn version 2>&1")
 
-    assert_match "This command requires to be authenticated. See \"keptn auth\" for details",
-      shell_output(bin/"keptn status 2>&1", 1)
+    output = shell_output(bin/"keptn status 2>&1", 1)
+    if OS.mac?
+      assert_match "Error: credentials not found in native keychain", output
+    else
+      assert_match ".keptn/.keptn____keptn: no such file or directory", output
+    end
   end
 end

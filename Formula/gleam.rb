@@ -1,16 +1,18 @@
 class Gleam < Formula
   desc "✨ A statically typed language for the Erlang VM"
   homepage "https://gleam.run"
-  url "https://github.com/gleam-lang/gleam/archive/v0.17.0.tar.gz"
-  sha256 "9530e616d42b4158ffcc5dd1befdc87ab2ea2af784fce6c57aec8c42a71a4ce2"
+  url "https://github.com/gleam-lang/gleam/archive/v0.21.0.tar.gz"
+  sha256 "9abd3ec53a2c7758e59d7f9d30ecff25cf193e7c161f380d71293a2d5b82e098"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "5c3c84d492dbf86c9041469cabfb8c698660ded0a2da658678d9583ea21667b7"
-    sha256 cellar: :any_skip_relocation, big_sur:       "1fbe03b66b76929c8cb919508f59e7fd9cfae2cd10ec177a775d60c8ef5f8b94"
-    sha256 cellar: :any_skip_relocation, catalina:      "c33692e53fbf7eca2cac472d3ca6e7a2555edbc14048a95e123160840853f314"
-    sha256 cellar: :any_skip_relocation, mojave:        "f1de3efb23c8eee281157668801ef6e1974d410a90c7708b16d3667d96f5632f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "005e249588fb532d3711b4a478f0c7ec176951ca143e1687cc8d0e465f294948"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f6979f99a5c171cb15e5c6eccfd69da3689259be5042176c753090065951b646"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "3aca17ca3e06bc8238f1ab10d8194e05c0902e572ea68d57910d6d5524780e55"
+    sha256 cellar: :any_skip_relocation, monterey:       "6b570c090c466c95c0301b0912d31425a5d585f74057235ce5cd8391ab8a7de9"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f57c4bc9ed70cb302ca67d40c483bf958d76dfafc2fb617682f78e9722bf740b"
+    sha256 cellar: :any_skip_relocation, catalina:       "96db3c9de8125372d2c4851fc9332ad821c04c0c9559160181524ef46289865e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "541fde1a9f4f0f64fae17820587a6466343f16efa158df81ab61095f18b32dd5"
   end
 
   depends_on "rust" => :build
@@ -29,6 +31,6 @@ class Gleam < Formula
     Dir.chdir testpath
     system bin/"gleam", "new", "test_project"
     Dir.chdir "test_project"
-    system "rebar3", "eunit"
+    system "gleam", "test"
   end
 end

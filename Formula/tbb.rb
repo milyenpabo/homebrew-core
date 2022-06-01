@@ -1,16 +1,18 @@
 class Tbb < Formula
   desc "Rich and complete approach to parallelism in C++"
   homepage "https://github.com/oneapi-src/oneTBB"
-  url "https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.4.0.tar.gz"
-  sha256 "021796c7845e155e616f5ecda16daa606ebb4c6f90b996e5c08aebab7a8d3de3"
+  url "https://github.com/oneapi-src/oneTBB/archive/refs/tags/v2021.5.0.tar.gz"
+  sha256 "e5b57537c741400cf6134b428fc1689a649d7d38d9bb9c1b6d64f092ea28178a"
   license "Apache-2.0"
+  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "562dbe3727195b7d22f5750f720ab8719e84dd557f120af380fe65ebf1de0f71"
-    sha256 cellar: :any,                 big_sur:       "292efca6f88d8dc0dd396593ec9cd7fffee60457968f3bf4911e595e67b0e4e5"
-    sha256 cellar: :any,                 catalina:      "ceab79696162f301977698d1274dfc220de372ba473845c0b89ce29572e2c54b"
-    sha256 cellar: :any,                 mojave:        "d5c1155379f21962bc47d172a9b673c4a72b24656b5f7fed5990d3e34b909c98"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5dfbbb5d279074f2bc885ef3fa4c8e28faf69115434f1e58212bc3b027e36fcf"
+    sha256 cellar: :any,                 arm64_monterey: "c70f9d3c24cb86290c6d371179f6d01afcdd13c3a9bad26ee36baa2262c142a8"
+    sha256 cellar: :any,                 arm64_big_sur:  "4e6a51639e5a92a15b5a52abf3937870536eb97273228635698a82da78757b65"
+    sha256 cellar: :any,                 monterey:       "8323879a2adfcfc50d60fa20adcfe709a00797a1bc698d8cd3b967bd5f3bee2c"
+    sha256 cellar: :any,                 big_sur:        "af411c6cabc26792c73f8605f7c22bd6ddec9405e30b32a2782592c1056b90ce"
+    sha256 cellar: :any,                 catalina:       "244bb7fd1ae57141d3cd3eb01685f7364f475778fbb51fa8aa371c24737736fa"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fa2dca8daa7a939d9dd52162911d95dee683b42c4b1f0e9cadb5fa0b5bf1a9dc"
   end
 
   depends_on "cmake" => :build
@@ -28,9 +30,13 @@ class Tbb < Formula
     ]
 
     mkdir "build" do
-      system "cmake", "..", *args
+      system "cmake", "..", *args, "-DCMAKE_INSTALL_RPATH=#{rpath}"
       system "make"
       system "make", "install"
+      system "make", "clean"
+      system "cmake", "..", *args, "-DBUILD_SHARED_LIBS=OFF"
+      system "make"
+      lib.install Dir["**/libtbb*.a"]
     end
 
     cd "python" do

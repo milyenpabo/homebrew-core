@@ -4,7 +4,7 @@ class Caffe < Formula
   url "https://github.com/BVLC/caffe/archive/1.0.tar.gz"
   sha256 "71d3c9eb8a183150f965a465824d01fe82826c22505f7aa314f700ace03fa77f"
   license "BSD-2-Clause"
-  revision 33
+  revision 38
 
   livecheck do
     url :stable
@@ -12,10 +12,12 @@ class Caffe < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "22169addf9ac9ae8a7b3477716499799fd85a4aeccb732a0c580a87d1b171e59"
-    sha256 cellar: :any, big_sur:       "b7f91af462268b50722ce6f993232034c297e01765ea9016cc46543c9d50a2dd"
-    sha256 cellar: :any, catalina:      "691fb884f9a4a8db955e318ea71a2a6c6908feb3f3fa1271fd3a6ec56e641571"
-    sha256 cellar: :any, mojave:        "5f1c675912742ac91bf9bddb0360509b6f307a122bc8329d5c02be23df6c420c"
+    sha256 cellar: :any,                 arm64_monterey: "e1ff10490d3319714c13dc90cebc17dd545bb7dd34fb5745294abeb0f25cd607"
+    sha256 cellar: :any,                 arm64_big_sur:  "2b0c210d2307aa2c52ebf5975a5d552ee5734b472f700f129a06b5b6b7ab6fec"
+    sha256 cellar: :any,                 monterey:       "b3d275a6e61267d377de63ebd32f2f9b38b1db5d18fbe3d38166fefb28d1da61"
+    sha256 cellar: :any,                 big_sur:        "0dc47d8b122659d527ffb131d58ed92222c80ba69848467150cb138f70767408"
+    sha256 cellar: :any,                 catalina:       "fc743dcb1ad7c5d8d8beb3b2425782699135d2d83206e46e5f4d8183c80f946c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5a0f55d6ae8fa0c619bcc6a3396d93ad83ca5d2cfc480fa0928e58b9832ad823"
   end
 
   depends_on "cmake" => :build
@@ -24,13 +26,20 @@ class Caffe < Formula
   depends_on "glog"
   depends_on "hdf5"
   depends_on "leveldb"
+  depends_on "libaec"
   depends_on "lmdb"
   depends_on "opencv"
   depends_on "protobuf"
   depends_on "snappy"
-  depends_on "szip"
 
-  resource "test_model" do
+  on_linux do
+    depends_on "gcc"
+    depends_on "openblas"
+  end
+
+  fails_with gcc: "5" # opencv is compiled with GCC
+
+  resource "homebrew-test_model" do
     url "https://github.com/nandahkrishna/CaffeMNIST/archive/2483b0ba9b04728041f7d75a3b3cf428cb8edb12.tar.gz"
     sha256 "2d4683899e9de0949eaf89daeb09167591c060db2187383639c34d7cb5f46b31"
   end
@@ -40,6 +49,13 @@ class Caffe < Formula
   patch do
     url "https://github.com/BVLC/caffe/commit/0a04cc2ccd37ba36843c18fea2d5cbae6e7dd2b5.patch?full_index=1"
     sha256 "f79349200c46fc1228ab1e1c135a389a6d0c709024ab98700017f5f66b373b39"
+  end
+
+  # Fix compilation with protobuf 3.18.0
+  # https://github.com/BVLC/caffe/pull/7044
+  patch do
+    url "https://github.com/BVLC/caffe/commit/1b317bab3f6413a1b5d87c9d3a300d785a4173f9.patch?full_index=1"
+    sha256 "0a7a65c4c9d68f38c3a91a1e300001bd7106d2030826af924df72f5ad2359523"
   end
 
   def install
@@ -59,6 +75,7 @@ class Caffe < Formula
       -DUSE_OPENCV=ON
       -DUSE_OPENMP=OFF
     ]
+    args << "-DBLAS=Open" if OS.linux?
 
     system "cmake", ".", *args
     system "make", "install"
@@ -66,7 +83,7 @@ class Caffe < Formula
   end
 
   test do
-    resource("test_model").stage do
+    resource("homebrew-test_model").stage do
       system "#{bin}/caffe", "test",
              "-model", "lenet_train_test.prototxt",
              "-weights", "lenet_iter_10000.caffemodel"

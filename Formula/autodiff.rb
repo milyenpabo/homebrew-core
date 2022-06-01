@@ -1,21 +1,30 @@
 class Autodiff < Formula
   desc "Automatic differentiation made easier for C++"
   homepage "https://autodiff.github.io"
-  url "https://github.com/autodiff/autodiff/archive/v0.6.4.tar.gz"
-  sha256 "cfe0bb7c0de10979caff9d9bfdad7e6267faea2b8d875027397486b47a7edd75"
+  url "https://github.com/autodiff/autodiff/archive/v0.6.8.tar.gz"
+  sha256 "680fc476ed218a3a0eeb0de017d427921189b50c99e1c509395f10957627fb1a"
   license "MIT"
   head "https://github.com/autodiff/autodiff.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "cb8dd848ff068721e8c8d0d58e7b62e031ad0eebacfea36d693bc7528264d5be"
-    sha256 cellar: :any_skip_relocation, big_sur:       "12bab4a6f997bd961b1b01c0d37a68f49b50ed5419940dec018dae4837bb5f31"
-    sha256 cellar: :any_skip_relocation, catalina:      "109cfe02558a837c81ec22bd9f77a9a7a9d63fa0f61d4dd21d2a3a8622161f74"
-    sha256 cellar: :any_skip_relocation, mojave:        "6485a71ec52617ecf4ecca6f435376354877896ba21a6b5d5d3514e6da996d97"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "c44721ca58d12db3d76c0e419bee7f665c44e02fae6ea472e8fec9c5ed2796d5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b2283a1bfdd3acc24fca51b62a777757f70283eb5ee0b6aeff40a0e84d061edc"
+    sha256 cellar: :any_skip_relocation, monterey:       "b1febb629a3910d1352c0607d8dcdb2dd6e4c2f725b45036c7a85939f06fea09"
+    sha256 cellar: :any_skip_relocation, big_sur:        "468d6ee2abb1e404d559abe3a7c665fc54e4c03547e93a7d7c7340fed78cb23e"
+    sha256 cellar: :any_skip_relocation, catalina:       "1b6a2b25f7091a730c473d8db5241920c5636ee926d0461291a22edbed31f167"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0078dabb50ed0c8ed879c287e4c0ffac7dcd524c68c460b28a44b86b636717fc"
   end
 
   depends_on "cmake" => :build
+  depends_on "python@3.10" => :build
   depends_on "eigen"
   depends_on "pybind11"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
 
   def install
     system "cmake", ".", *std_cmake_args, "-DAUTODIFF_BUILD_TESTS=off"

@@ -1,10 +1,10 @@
 class FabricCompletion < Formula
   desc "Bash completion for Fabric"
-  homepage "https://github.com/kbakulin/fabric-completion"
-  url "https://github.com/kbakulin/fabric-completion.git",
+  homepage "https://github.com/n0740/fabric-completion"
+  url "https://github.com/n0740/fabric-completion.git",
       revision: "5b5910492046e6335af0e88550176d2583d9a510"
   version "1"
-  head "https://github.com/kbakulin/fabric-completion.git"
+  head "https://github.com/n0740/fabric-completion.git", branch: "master"
 
   livecheck do
     skip "No version information available to check"
@@ -29,6 +29,6 @@ class FabricCompletion < Formula
 
   test do
     assert_match "-F __fab_completion",
-      shell_output("source #{bash_completion}/fabric && complete -p fab")
+      shell_output("bash -c 'source #{bash_completion}/fabric && complete -p fab'")
   end
 end

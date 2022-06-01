@@ -1,16 +1,17 @@
 class Webp < Formula
   desc "Image format providing lossless and lossy compression for web images"
   homepage "https://developers.google.com/speed/webp/"
-  url "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.2.1.tar.gz"
-  sha256 "808b98d2f5b84e9b27fdef6c5372dac769c3bda4502febbfa5031bd3c4d7d018"
+  url "https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.2.2.tar.gz"
+  sha256 "7656532f837af5f4cec3ff6bafe552c044dc39bf453587bd5b77450802f4aee6"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "20c16f99690230e4ea9ba7a15fe9c482d56baa2f893261de8d785a8ff88c6171"
-    sha256 cellar: :any,                 big_sur:       "82435d74c96ff1a8482981458f110a9526472e452968e2969e37dc6b48fbe3e5"
-    sha256 cellar: :any,                 catalina:      "43953ec86a790330c17c714d88087f0388c739f6a15be2ae18480e397df25d61"
-    sha256 cellar: :any,                 mojave:        "372e3ce46f089e0ae89fcdc62a8f360634dabcedeabade508d8cc7fd4fd6405c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "af503080f936897776b59b9000e3e230c76e1eb694cf6f8366fa776f5207b75a"
+    sha256 cellar: :any,                 arm64_monterey: "44dfabbbc585237b1f52d517186ec33ea0f65398667559a5164d0013881ded77"
+    sha256 cellar: :any,                 arm64_big_sur:  "9b8ae542d86b3faa7cf531d1cb2d1a410a55ece8d635302b783d122702ba3246"
+    sha256 cellar: :any,                 monterey:       "58169ef7b31ed2980685c05a7fc1d874a67802f7be0def4c295135ee73796d11"
+    sha256 cellar: :any,                 big_sur:        "3f1bdbf8361bdcb55d722c0007e4056e7a535234b8e7fe0cff6016dc48e1c8a9"
+    sha256 cellar: :any,                 catalina:       "5cf57e838f218193d7543de1b50093185e72fa368b7334a3ee58ea4b2268e994"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "10c1f70224b629c8eb550469e51379c29f0996bd87690304f3c226a1fb930677"
   end
 
   head do
@@ -20,6 +21,7 @@ class Webp < Formula
     depends_on "libtool" => :build
   end
 
+  depends_on "giflib"
   depends_on "jpeg"
   depends_on "libpng"
   depends_on "libtiff"
@@ -28,7 +30,6 @@ class Webp < Formula
     system "./autogen.sh" if build.head?
     system "./configure", "--prefix=#{prefix}",
                           "--disable-dependency-tracking",
-                          "--disable-gif",
                           "--disable-gl",
                           "--enable-libwebpdecoder",
                           "--enable-libwebpdemux",

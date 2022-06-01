@@ -1,17 +1,19 @@
 class Ccache < Formula
   desc "Object-file caching compiler wrapper"
   homepage "https://ccache.dev/"
-  url "https://github.com/ccache/ccache/releases/download/v4.4.2/ccache-4.4.2.tar.xz"
-  sha256 "9200cafbaa5fd62c2600fccb40a18214e57747825e6cdcd76688b4b61c2dcba0"
+  url "https://github.com/ccache/ccache/releases/download/v4.6.1/ccache-4.6.1.tar.xz"
+  sha256 "e5d47bd3cbb504ada864124690e7c0d28ecb1f9aeac22a9976025aed9633f3d1"
   license "GPL-3.0-or-later"
+  revision 1
   head "https://github.com/ccache/ccache.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "8bd6f0c7a2be356d80dc3f3b7f4fc19c8f484d2ef54d2b32962e2a1424c9baf9"
-    sha256 cellar: :any,                 big_sur:       "afde6d985a061172f8198afd9de6e9e2554ae8cbbc3ba6ec73623828f28573f7"
-    sha256 cellar: :any,                 catalina:      "a74ce23938bbc688095a61c02e7b9c16909892cb77e8076ed927621aac7ff40a"
-    sha256 cellar: :any,                 mojave:        "277d9a16e70579c2a973ad0a1d9c582e94f07e9a3f70574a8489f1dd98c0a43b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d3e36011842a11c2ba1c38a3d769cb9a206b45333e50c33c555be3e007df617d"
+    sha256 cellar: :any,                 arm64_monterey: "fa0768d714d38064cce4358db8c25243fedbbfe100fd3c1f19afcefaaf852ca0"
+    sha256 cellar: :any,                 arm64_big_sur:  "b346a3916e484a4f88af990442196754a4585158b0c02f09aa2dfb887070f8aa"
+    sha256 cellar: :any,                 monterey:       "63f968932e3ae47196ca0be062552fe246993d4c81c341b6771fbde8ca71a207"
+    sha256 cellar: :any,                 big_sur:        "9aa040f06d1cffc9058d40c61025ef2bf8531f73df38ec621ffeac12fe201869"
+    sha256 cellar: :any,                 catalina:       "1c193e1c56556385f75ec9d74d8c3325c8ddc4a9626c9beecd874c742f9237e5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c3df47f19ef81ce35ffd69bec004445f49ca605777b6efcaeac78dc79d72381d"
   end
 
   depends_on "asciidoctor" => :build
@@ -50,13 +52,13 @@ class Ccache < Formula
       cc
       gcc gcc2 gcc3 gcc-3.3 gcc-4.0
       gcc-4.2 gcc-4.3 gcc-4.4 gcc-4.5 gcc-4.6 gcc-4.7 gcc-4.8 gcc-4.9
-      gcc-5 gcc-6 gcc-7 gcc-8 gcc-9 gcc-10 gcc-11
+      gcc-5 gcc-6 gcc-7 gcc-8 gcc-9 gcc-10 gcc-11 gcc-12
       c++ c++3 c++-3.3 c++-4.0
       c++-4.2 c++-4.3 c++-4.4 c++-4.5 c++-4.6 c++-4.7 c++-4.8 c++-4.9
-      c++-5 c++-6 c++-7 c++-8 c++-9 c++-10 c++-11
+      c++-5 c++-6 c++-7 c++-8 c++-9 c++-10 c++-11 c++-12
       g++ g++2 g++3 g++-3.3 g++-4.0
       g++-4.2 g++-4.3 g++-4.4 g++-4.5 g++-4.6 g++-4.7 g++-4.8 g++-4.9
-      g++-5 g++-6 g++-7 g++-8 g++-9 g++-10 g++-11
+      g++-5 g++-6 g++-7 g++-8 g++-9 g++-10 g++-11 g++-12
     ].each do |prog|
       libexec.install_symlink bin/"ccache" => prog
     end

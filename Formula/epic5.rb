@@ -1,11 +1,11 @@
 class Epic5 < Formula
   desc "Enhanced, programmable IRC client"
   homepage "http://www.epicsol.org/"
-  url "http://ftp.epicsol.org/pub/epic/EPIC5-PRODUCTION/epic5-2.1.5.tar.xz"
-  mirror "https://www.mirrorservice.org/sites/distfiles.macports.org/epic5/epic5-2.1.5.tar.xz"
-  sha256 "7ca53b9d266fa1b7ba7a1f68a23e65c57b1a89b94bce1a0ea56fafa7d6298cb4"
+  url "http://ftp.epicsol.org/pub/epic/EPIC5-PRODUCTION/epic5-2.1.10.tar.xz"
+  mirror "https://www.mirrorservice.org/sites/distfiles.macports.org/epic5/epic5-2.1.10.tar.xz"
+  sha256 "f7847e9239c7326bbc81e1d96da5b9ad7b562f6c827c4a112613b075823333ed"
   license "BSD-3-Clause"
-  head "http://git.epicsol.org/epic5.git"
+  head "http://git.epicsol.org/epic5.git", branch: "master"
 
   livecheck do
     url "http://ftp.epicsol.org/pub/epic/EPIC5-PRODUCTION/"
@@ -13,13 +13,17 @@ class Epic5 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "5bb21db35131a0fde56142e748c958d42b425c864739fa1707be11d7e7f39bdb"
-    sha256 big_sur:       "5aba4e571c8827f29799b6d74f7b21eeb722bd1e8a5527c77c1ac482f448ae8f"
-    sha256 catalina:      "101619ba687707c62ad66e26bc6a5c607996ca18146730bea9a6367ac9eaeb75"
-    sha256 mojave:        "33233d7cd4cbadfb333079083a746791797402df481411568b99c874582fd440"
+    sha256 arm64_monterey: "d22abb49e215165ca1a4f9d3483cec83490292b35e93bf28deaf27cbbf68a1f4"
+    sha256 arm64_big_sur:  "b329cba06bf3fedccf2aba4603cb7824cbc1d7cf46e49d2a1a22b2cb8e3c57e1"
+    sha256 monterey:       "b59c5dd071bf379df554976ed6d7098953c8f520ee7d31781832a52c9c64d4be"
+    sha256 big_sur:        "1e11a5b35697b818afc96bdac745e2e2dcf9427ef4e0b1725c3739d4383b5a46"
+    sha256 catalina:       "3072137c8b5b1be2071a6ff21f2957cfec935bd185afd2ee138a03c105aac4e7"
+    sha256 x86_64_linux:   "cafcea3d7cd09396a294b415e8927b3dc22442cd04649aae824683db1bf0554a"
   end
 
   depends_on "openssl@1.1"
+
+  uses_from_macos "ncurses"
 
   def install
     system "./configure", "--disable-debug",

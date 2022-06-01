@@ -1,15 +1,16 @@
 class Pushpin < Formula
   desc "Reverse proxy for realtime web services"
   homepage "https://pushpin.org/"
-  url "https://github.com/fanout/pushpin/releases/download/v1.33.1/pushpin-1.33.1.tar.bz2"
-  sha256 "37b8ed8a262492e86fd02fe55c3b6f280cff2da718400ce926b5480745cec4a4"
+  url "https://github.com/fanout/pushpin/releases/download/v1.35.0/pushpin-1.35.0.tar.bz2"
+  sha256 "62fbf32d75818b08fd8bce077035de85da47a06c07753e5ba10201a5dd35ca5e"
   license "AGPL-3.0-or-later"
   head "https://github.com/fanout/pushpin.git", branch: "master"
 
   bottle do
-    sha256 big_sur:  "5d4b6f4f552d6e2ce51e7b69c460841b10544061291f01d7935457a4fe59514d"
-    sha256 catalina: "459df44b74ec23db384e8e6235de59e2a8c2e74bb4199c71fcbb391982a58c1e"
-    sha256 mojave:   "ec5af70cb4c9164cb881fa0bc63ce8809b351b28db3188e8e17d578150f63beb"
+    sha256 monterey:     "2dd88fcce86708d3f04a2edd543ab64fba6b4c854abf7d3eb457d30686800253"
+    sha256 big_sur:      "252f709d3a8426b95aa5bc8b05bb19da6d8b3c2cd1895d685da3334db5218eb1"
+    sha256 catalina:     "0386eefc82559327ab180105434304d277d69a9c475b8b46c32ca0ab68b662bd"
+    sha256 x86_64_linux: "a5a4fc23e636fe92bd409f910aeb27a1d4060c25f8a4a3db2522986a1edb9b60"
   end
 
   depends_on "pkg-config" => :build
@@ -21,12 +22,20 @@ class Pushpin < Formula
   depends_on "zeromq"
   depends_on "zurl"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
   def install
-    system "./configure", "--prefix=#{prefix}",
-                          "--configdir=#{etc}",
-                          "--rundir=#{var}/run",
-                          "--logdir=#{var}/log",
-                          "--extraconf=QMAKE_MACOSX_DEPLOYMENT_TARGET=#{MacOS.version}"
+    args = *std_configure_args + ["--configdir=#{etc}",
+                                  "--rundir=#{var}/run",
+                                  "--logdir=#{var}/log"]
+
+    args << "--extraconf=QMAKE_MACOSX_DEPLOYMENT_TARGET=#{MacOS.version}" if OS.mac?
+    system "./configure", *args
+
     system "make"
     system "make", "install"
   end

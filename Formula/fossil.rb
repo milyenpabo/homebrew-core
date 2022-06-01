@@ -1,8 +1,8 @@
 class Fossil < Formula
   desc "Distributed software configuration management"
   homepage "https://www.fossil-scm.org/home/"
-  url "https://fossil-scm.org/home/tarball/version-2.16/fossil-src-2.16.tar.gz"
-  sha256 "fab37e8093932b06b586e99a792bf9b20d00d530764b5bddb1d9a63c8cdafa14"
+  url "https://fossil-scm.org/home/tarball/version-2.18/fossil-src-2.18.tar.gz"
+  sha256 "300c1d5cdd6224ec6e8c88ab3f38d50f80e4071b503731b75bd61274cf310733"
   license "BSD-2-Clause"
   head "https://www.fossil-scm.org/", using: :fossil
 
@@ -12,11 +12,12 @@ class Fossil < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "2e974db6852c2a27177bfde0f00c61d81e93f13a2e9c0b2c46d8939b44eb54af"
-    sha256 cellar: :any,                 big_sur:       "8608e819d0776acf97e64e1cd7be502d3e799e0b0887a7771a9e73eca742b2ec"
-    sha256 cellar: :any,                 catalina:      "eef6ab952149d3ba4aef47eeb13bfda10b0f0d210636bdd975fc384d5ffbe2f7"
-    sha256 cellar: :any,                 mojave:        "1640523e40fa4032c6a3afc04b9f3d9993201e91daac8415f8bee81df9c98b88"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a3a5e435b6d4fc982e4c700463d9ff8d3009b5f514ff0e776cd8eed0b68922f9"
+    sha256 cellar: :any,                 arm64_monterey: "84d5f38c5c255511f45d83f92021c5cb35d97487615267f4cb5e4adf3273850c"
+    sha256 cellar: :any,                 arm64_big_sur:  "90f5144c381820554b28de7f37d6a74b07dccf0e9244098a4f45d9b5110343b3"
+    sha256 cellar: :any,                 monterey:       "fe99b0cf0e77a8b7801bcf40bb6fdc17720c10d42a96356a05c7fe3db35bf2c9"
+    sha256 cellar: :any,                 big_sur:        "4d809209bcdb6c15a896e27718c4bf0ce0383bb43dd36d46f9e3fc186c9cdd86"
+    sha256 cellar: :any,                 catalina:       "c6275833e4dff742fdf394cc769078aab4dd2a5df9cad261fc655470e55229c1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f021d8c90ad5e56e6dec0e7adf455c69ae481592b946815b41fb193f7b64d014"
   end
 
   depends_on "openssl@1.1"

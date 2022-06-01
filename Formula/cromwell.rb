@@ -1,24 +1,24 @@
 class Cromwell < Formula
   desc "Workflow Execution Engine using Workflow Description Language"
   homepage "https://github.com/broadinstitute/cromwell"
-  url "https://github.com/broadinstitute/cromwell/releases/download/69/cromwell-69.jar"
-  sha256 "b4db18eda06107c3e9675ff6362360f28142fa3ef0e9400f278016a1573c7094"
+  url "https://github.com/broadinstitute/cromwell/releases/download/79/cromwell-79.jar"
+  sha256 "251440bc78390f575e6a7145e038e386b6393a596db45a25888a3ba467879bce"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "a3f8ffd962929fe80b0ec3628de160100bb4ed2e64de3db572be6c1b00a508d5"
+    sha256 cellar: :any_skip_relocation, all: "6ef1f95d469d327bf372c415d58382737f70a85d93472fc078ee51e70614e7da"
   end
 
   head do
-    url "https://github.com/broadinstitute/cromwell.git"
+    url "https://github.com/broadinstitute/cromwell.git", branch: "develop"
     depends_on "sbt" => :build
   end
 
   depends_on "openjdk"
 
   resource "womtool" do
-    url "https://github.com/broadinstitute/cromwell/releases/download/69/womtool-69.jar"
-    sha256 "a1f4eca078f1ef59ea017e9a60dd30faa425ff19549e275dd8b037bf4a64c259"
+    url "https://github.com/broadinstitute/cromwell/releases/download/79/womtool-79.jar"
+    sha256 "7804aecae96907bfdbcfd9b5fae31845947b3dbe976cb4529ad7f5e162221537"
   end
 
   def install
@@ -33,14 +33,8 @@ class Cromwell < Formula
       end
     end
 
-    (bin/"cromwell").write <<~EOS
-      #!/bin/bash
-      exec "#{Formula["openjdk"].opt_bin}/java" $JAVA_OPTS -jar "#{libexec}/cromwell.jar" "$@"
-    EOS
-    (bin/"womtool").write <<~EOS
-      #!/bin/bash
-      exec "#{Formula["openjdk"].opt_bin}/java" -jar "#{libexec}/womtool.jar" "$@"
-    EOS
+    bin.write_jar_script libexec/"cromwell.jar", "cromwell", "$JAVA_OPTS"
+    bin.write_jar_script libexec/"womtool.jar", "womtool"
   end
 
   test do

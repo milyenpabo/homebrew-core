@@ -1,10 +1,10 @@
 class GstPluginsBase < Formula
   desc "GStreamer plugins (well-supported, basic set)"
   homepage "https://gstreamer.freedesktop.org/"
-  url "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.4.tar.xz"
-  sha256 "29e53229a84d01d722f6f6db13087231cdf6113dd85c25746b9b58c3d68e8323"
+  url "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.20.2.tar.xz"
+  sha256 "ab0656f2ad4d38292a803e0cb4ca090943a9b43c8063f650b4d3e3606c317f17"
   license "LGPL-2.0-or-later"
-  head "https://gitlab.freedesktop.org/gstreamer/gst-plugins-base.git"
+  head "https://gitlab.freedesktop.org/gstreamer/gst-plugins-base.git", branch: "master"
 
   livecheck do
     url "https://gstreamer.freedesktop.org/src/gst-plugins-base/"
@@ -12,11 +12,12 @@ class GstPluginsBase < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "515d468ba628c2a1e0f6117e8c93ddaf69549a4742ea66056852fb27135e32b1"
-    sha256 big_sur:       "85461a70764b122fe3da3b32922129246f7a12317685dbf1d317820efd533d52"
-    sha256 catalina:      "65e3329df9582b7e647bd36469301884d43ff4307efabb633bd5246c1ad77eb5"
-    sha256 mojave:        "6153ce479e570753951e89d8a82de7936804d600f177f3ccafa43890ca36d27b"
-    sha256 x86_64_linux:  "bfe0cef05538f4f1321bda4bc656469c92a50af6da75e814a0638d8e91aa5b86"
+    sha256 arm64_monterey: "192c48ab5422270a4c1dba543b97efb9948b0a728f6e1a6b48e0ba0964038fc1"
+    sha256 arm64_big_sur:  "19483c72ceff5a121f1fe58a17b9926ad564c85f043fab679ae7d08c79e79330"
+    sha256 monterey:       "d134fdde283ef8464b64d8505976b860c8294429b7736690f2b41a33c83237e8"
+    sha256 big_sur:        "36282774109597bda621460e8e94d94b509e12c940a43b4a44fc177d62075eee"
+    sha256 catalina:       "69e13cb71ed79760658b71fc74e9ce43f83be6c024b383ad8c07cbde1736e270"
+    sha256 x86_64_linux:   "70aff95c90a5edf7a1c7832abf7f93be6977387b612ffcf45c4d72ef190a49e6"
   end
 
   depends_on "gobject-introspection" => :build

@@ -1,25 +1,23 @@
 class Geogram < Formula
   desc "Programming library of geometric algorithms"
   homepage "http://alice.loria.fr/software/geogram/doc/html/index.html"
-  url "https://gforge.inria.fr/frs/download.php/file/38361/geogram_1.7.6.tar.gz"
-  sha256 "4456d65baa014e9eb0352675f76eca260ed97eb386d23bc5c13af419dc2e8142"
+  url "https://members.loria.fr/BLevy/PACKAGES/geogram_1.7.8.tar.gz"
+  sha256 "28e70b353705faec555700d8a7b7b9d703687702f46866bad09e033f86a96faf"
   license all_of: ["BSD-3-Clause", :public_domain, "LGPL-3.0-or-later", "MIT"]
 
-  livecheck do
-    url "https://gforge.inria.fr/frs/?group_id=5833"
-    regex(/href=.*?geogram[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
-
   bottle do
-    rebuild 1
-    sha256 big_sur:     "16a2b60356439f3a481677989c256085696690a1599636859bc18a31723e075d"
-    sha256 catalina:    "4345844b616fb74fbb2124a0c7bdaeb222c62704908b358427bce7122cb9404d"
-    sha256 mojave:      "f263799496ffc570463ce635eedd9287f81502b06f72142a7829c0b857185079"
-    sha256 high_sierra: "f0eedab23f61affd89684a7e1492cfc2cc8deffa4ca7ebc8459a5768a05876f3"
+    sha256 cellar: :any,                 monterey:     "14eae5569bb7755822db7dd6db76569ff6b3a9ec14d52ebcd32a01d859209db8"
+    sha256 cellar: :any,                 big_sur:      "c02fbf13cac94ee730282f326322b9ccc78a9b2747fea1ec31c937cafa543725"
+    sha256 cellar: :any,                 catalina:     "ef86799ac68bfd1f5e982acd10e991acf2f4b74f5c7623ac54b30a4af9a90bc5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "15a4143539e68a38f813fdf87b4d2123fd68e304f3aa53c36ceca7d12f2be907"
   end
 
   depends_on "cmake" => :build
   depends_on "glfw"
+
+  on_linux do
+    depends_on "doxygen" => :build
+  end
 
   resource "bunny" do
     url "https://raw.githubusercontent.com/FreeCAD/Examples/be0b4f9/Point_cloud_ExampleFiles/PointCloud-Data_Stanford-Bunny.asc"
@@ -27,13 +25,16 @@ class Geogram < Formula
   end
 
   def install
+    mv "CMakeOptions.txt.sample", "CMakeOptions.txt"
     (buildpath/"CMakeOptions.txt").append_lines <<~EOS
+      set(CPACK_GENERATOR RPM)
       set(CMAKE_INSTALL_PREFIX #{prefix})
       set(GEOGRAM_USE_SYSTEM_GLFW3 ON)
     EOS
 
     system "./configure.sh"
-    cd "build/Darwin-clang-dynamic-Release" do
+    platform = OS.mac? ? "Darwin-clang" : "Linux64-gcc"
+    cd "build/#{platform}-dynamic-Release" do
       system "make", "install"
     end
 

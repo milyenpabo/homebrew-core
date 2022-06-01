@@ -2,24 +2,25 @@ class Filebeat < Formula
   desc "File harvester to ship log files to Elasticsearch or Logstash"
   homepage "https://www.elastic.co/products/beats/filebeat"
   url "https://github.com/elastic/beats.git",
-      tag:      "v7.15.0",
-      revision: "9023152025ec6251bc6b6c38009b309157f10f17"
+      tag:      "v8.2.2",
+      revision: "2f1e50cc31b960b1a975f2ebe08bd17be9a5e575"
   # Outside of the "x-pack" folder, source code in a given file is licensed
   # under the Apache License Version 2.0
   license "Apache-2.0"
-  head "https://github.com/elastic/beats.git"
+  head "https://github.com/elastic/beats.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "c2824285a43d81645647be610a4d5476649b1e6c318c7b5bf81df52eb50f9fe7"
-    sha256 cellar: :any_skip_relocation, big_sur:       "d3aaaa5d2b8bada58cbfd12c6b660b06166403599ef5576413b42485781648fd"
-    sha256 cellar: :any_skip_relocation, catalina:      "7fee4149032c53de7458a92f7b475a9b361892e51315980ca57662d376b96287"
-    sha256 cellar: :any_skip_relocation, mojave:        "53e9267b3f125ccb25ff54806c49753b3aa8bf02432f38e1bf1f77a5bef85728"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f2fff44678803f8e8843964aeae4952bef469f65a583e55834f66d3366fd52f7"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a5967fb9457b407bae5346a07fc178bd8cb8fabf94cfff8eb29636bf8db1a334"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "941f4becbdb9bfaa5aa6d4c88bb14da207f371763c2222fab9251f92b1de6152"
+    sha256 cellar: :any_skip_relocation, monterey:       "33ac8705699d9f80cb795c72da593ef5472ab5e231b64c4c98dee5d289b87927"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b6976c0585ec554b7fb8f6777bf1a6a28e43a340ba147438379ae79f23fb6bae"
+    sha256 cellar: :any_skip_relocation, catalina:       "032de3812051dcb8acbefc15100cf2761a9bf380c8f7a5b18673a447c071545d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f831544ea9789e5bb8ce6c79bc7d829133d541e1c95aa605e40735fd29c042d6"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   uses_from_macos "rsync" => :build
 
@@ -90,6 +91,7 @@ class Filebeat < Formula
     log_file.append_lines "foo bar baz"
     sleep 5
 
-    assert_predicate testpath/"filebeat", :exist?
+    assert_predicate testpath/"meta.json", :exist?
+    assert_predicate testpath/"registry/filebeat", :exist?
   end
 end

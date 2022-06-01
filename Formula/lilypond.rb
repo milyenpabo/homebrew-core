@@ -1,8 +1,6 @@
 class Lilypond < Formula
   desc "Music engraving program"
   homepage "https://lilypond.org"
-  url "https://lilypond.org/download/sources/v2.22/lilypond-2.22.1.tar.gz"
-  sha256 "72ac2d54c310c3141c0b782d4e0bef9002d5519cf46632759b1f03ef6969cc30"
   license all_of: [
     "GPL-3.0-or-later",
     "GPL-3.0-only",
@@ -12,17 +10,28 @@ class Lilypond < Formula
     "MIT",
   ]
 
+  stable do
+    url "https://lilypond.org/download/sources/v2.22/lilypond-2.22.2.tar.gz"
+    sha256 "dde90854fa7de1012f4e1304a68617aea9ab322932ec0ce76984f60d26aa23be"
+
+    # Shows LilyPond's Guile version (Homebrew uses v2, other builds use v1).
+    # See https://gitlab.com/lilypond/lilypond/-/merge_requests/950
+    patch do
+      url "https://gitlab.com/lilypond/lilypond/-/commit/a6742d0aadb6ad4999dddd3b07862fe720fe4dbf.diff"
+      sha256 "2a3066c8ef90d5e92b1238ffb273a19920632b7855229810d472e2199035024a"
+    end
+  end
+
   livecheck do
     url "https://lilypond.org/source.html"
     regex(/href=.*?lilypond[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    sha256 arm64_big_sur: "2c801f4fdde1ed6e006eeae104804f64878d2d87299090b2e24670272dc76f49"
-    sha256 big_sur:       "494460d9f2e9027ef52e8fd6d81869689ebc45d433403c25202e0c9d09c520bd"
-    sha256 catalina:      "1273052a8fb3584c5abbcbfa2492c0de3e1ae62496370fffd6550a22caeaa88b"
-    sha256 mojave:        "0828c31c729f5621d64d554afd01bc5ccf5d604b976b064f5dd5450ed9a3dd59"
-    sha256 x86_64_linux:  "588d9bb3fea1eb39d0f206acd25c517984d149577927c19a1772c2a17bfef63e"
+    sha256 arm64_big_sur: "1bf9fc2843e2909c2de3e326d20bbf7e7ca4a6e26b55218d804517c7f1aecfad"
+    sha256 big_sur:       "06a0837a35cb89309a5e725e178db7de41711ae3a914a3136feb56576fa22c97"
+    sha256 catalina:      "dc9a0bb669aca02fe3d4b5ba2375120c4056b2202b43e6988eb555fffc1a86bd"
+    sha256 x86_64_linux:  "119d632c47f32b8f7ea9d7edfd6532d18c29302ae5a7f1d74f972bad9d8371ba"
   end
 
   head do
@@ -51,11 +60,13 @@ class Lilypond < Formula
 
   def install
     system "./autogen.sh", "--noconfigure" if build.head?
-    system "./configure",
-            "--prefix=#{prefix}",
-            "--datadir=#{share}",
-            "--with-texgyre-dir=#{Formula["texlive"].opt_share}/texmf-dist/fonts/opentype/public/tex-gyre",
-            "--disable-documentation"
+
+    texgyre_dir = "#{Formula["texlive"].opt_share}/texmf-dist/fonts/opentype/public/tex-gyre"
+    system "./configure", "--prefix=#{prefix}",
+                          "--datadir=#{share}",
+                          "--with-texgyre-dir=#{texgyre_dir}",
+                          "--disable-documentation"
+
     ENV.prepend_path "LTDL_LIBRARY_PATH", Formula["guile@2"].opt_lib
     system "make"
     system "make", "install"

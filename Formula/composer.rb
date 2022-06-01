@@ -1,8 +1,8 @@
 class Composer < Formula
   desc "Dependency Manager for PHP"
   homepage "https://getcomposer.org/"
-  url "https://getcomposer.org/download/2.1.9/composer.phar"
-  sha256 "4d00b70e146c17d663ad2f9a21ebb4c9d52b021b1ac15f648b4d371c04d648ba"
+  url "https://getcomposer.org/download/2.3.5/composer.phar"
+  sha256 "3b3b5a899c06a46aec280727bdf50aad14334f6bc40436ea76b07b650870d8f4"
   license "MIT"
 
   livecheck do
@@ -11,14 +11,15 @@ class Composer < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "742ce90ec5d5cb121c04930ebe928bf694bc75a87cfa37a56f0ca10a144fa821"
-    sha256 cellar: :any_skip_relocation, big_sur:       "1ba9bd63928798e06c4b2d33ba6089b5ed074a0aa4a7b30ca22c6965503fcdbc"
-    sha256 cellar: :any_skip_relocation, catalina:      "1ba9bd63928798e06c4b2d33ba6089b5ed074a0aa4a7b30ca22c6965503fcdbc"
-    sha256 cellar: :any_skip_relocation, mojave:        "1ba9bd63928798e06c4b2d33ba6089b5ed074a0aa4a7b30ca22c6965503fcdbc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "742ce90ec5d5cb121c04930ebe928bf694bc75a87cfa37a56f0ca10a144fa821"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f0d482df0a891ca88403b06183fd62084196d7360990c64d97ca0cb0c479bcbb"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f0d482df0a891ca88403b06183fd62084196d7360990c64d97ca0cb0c479bcbb"
+    sha256 cellar: :any_skip_relocation, monterey:       "0eec2b01f0467d56df93fcfef0e9751a951c4bdcd8598f6a688fc95d68588d8e"
+    sha256 cellar: :any_skip_relocation, big_sur:        "0eec2b01f0467d56df93fcfef0e9751a951c4bdcd8598f6a688fc95d68588d8e"
+    sha256 cellar: :any_skip_relocation, catalina:       "0eec2b01f0467d56df93fcfef0e9751a951c4bdcd8598f6a688fc95d68588d8e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f0d482df0a891ca88403b06183fd62084196d7360990c64d97ca0cb0c479bcbb"
   end
 
-  uses_from_macos "php"
+  depends_on "php"
 
   # Keg-relocation breaks the formula when it replaces `/usr/local` with a non-default prefix
   on_macos do

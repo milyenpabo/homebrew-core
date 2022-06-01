@@ -1,24 +1,35 @@
 class Sheldon < Formula
   desc "Fast, configurable, shell plugin manager"
   homepage "https://sheldon.cli.rs"
-  url "https://github.com/rossmacarthur/sheldon/archive/0.6.4.tar.gz"
-  sha256 "9d352f8fd29fcd16545218e46c1524a43549c9049d2dd8d54ddda138d598961a"
+  url "https://github.com/rossmacarthur/sheldon/archive/0.6.6.tar.gz"
+  sha256 "9d6cdc8fe011c4defe65fbe1507e48a51f8efdeebb5d5b0b39fbde2c73566973"
   license any_of: ["Apache-2.0", "MIT"]
   head "https://github.com/rossmacarthur/sheldon.git", branch: "trunk"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "7bd0e22ced1bc59e97e78ee02776cca0b09ca2b9c25ba9b5721935e232ce82de"
-    sha256 cellar: :any, big_sur:       "b8ac98e5c89001a1b630eeae4aa1705669c6b20feb23e915e357c0851efa4396"
-    sha256 cellar: :any, catalina:      "bab3a44ee09b366768dfb129f8cac618a52b7cc2652b83c6278ca614cddb98b3"
-    sha256 cellar: :any, mojave:        "9077055e24a48c1ecf49e360b4f74d79ef1334e808578e8de94819037a1172f5"
+    sha256 cellar: :any,                 arm64_monterey: "bea66f2f424e7d4d5ca7bc8a43f4f972e2d7fa0f7e96d6a529ddd9c7ec056941"
+    sha256 cellar: :any,                 arm64_big_sur:  "ea1ace82500b5f2cd0d8a9c7ce613246a054e7523991c90227caf76dfc5c2ad1"
+    sha256 cellar: :any,                 monterey:       "f4c691f11e4898193a2c9a203a3e3ed8bb543f719131f4de89aa43e762666662"
+    sha256 cellar: :any,                 big_sur:        "a8e57a37ac0645beb8672becca7a14e6d7559ba7270e171870454fb7ada91a6c"
+    sha256 cellar: :any,                 catalina:       "726a11a98a2756256c383072fa52f469dbd767e8fbe25eb0283dd1d8e1812c05"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "16e37b1849f9c60215c701bcd6c256955c96b4edb62a866b9d6c678ac105b0ec"
   end
 
   depends_on "rust" => :build
   depends_on "curl"
   depends_on "openssl@1.1"
 
+  uses_from_macos "zlib"
+
+  on_linux do
+    depends_on "pkg-config" => :build
+  end
+
   def install
     system "cargo", "install", *std_cargo_args
+
+    bash_completion.install "completions/sheldon.bash" => "sheldon"
+    zsh_completion.install "completions/sheldon.zsh" => "_sheldon"
   end
 
   test do

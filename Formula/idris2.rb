@@ -4,13 +4,13 @@ class Idris2 < Formula
   url "https://github.com/idris-lang/Idris2/archive/v0.5.1.tar.gz"
   sha256 "da44154f6eba5e22ec5ac64c6ba2c28d2df0a57cf620c5b00c11adb51dbda399"
   license "BSD-3-Clause"
-  head "https://github.com/idris-lang/Idris2.git"
+  revision 2
+  head "https://github.com/idris-lang/Idris2.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 big_sur:      "bdfd0d5b4d48cc19c8e461aab87b3a1e5f905f045e4e7c7d72cbee9a63c72ddc"
-    sha256 cellar: :any,                 catalina:     "83ecdfb8924bbe5adbf4c2cd77157445751f76aafe7881a64fa668f3e0bcf941"
-    sha256 cellar: :any,                 mojave:       "be86b55b7c0b1b27f4b6e79ba7d8da3e5341192a7d0cc623e3f455d4373ff227"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "dab5f03fda85ba0cd3b3bc26c1bed3317f5412f22bb0e1919b7985105182889e"
+    sha256 cellar: :any,                 big_sur:      "39fe90502cd4a8a064b4f69bcc5b4e99295826cad363092b47d3353ed41db2da"
+    sha256 cellar: :any,                 catalina:     "f29bcc24fc1a0581eb3f17823641c5444acc4df10e93c17eae573deab9a18fa7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "fdd19a501c9b80da87fd4519ed43e9ed31647e17e03d582392d2b3d1517f7c74"
   end
 
   depends_on "coreutils" => :build

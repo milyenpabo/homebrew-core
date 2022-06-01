@@ -1,18 +1,18 @@
 class Pillow < Formula
   desc "Friendly PIL fork (Python Imaging Library)"
   homepage "https://python-pillow.org"
-  url "https://files.pythonhosted.org/packages/90/d4/a7c9b6c5d176654aa3dbccbfd0be4fd3a263355dc24122a5f1937bdc2689/Pillow-8.3.2.tar.gz"
-  sha256 "dde3f3ed8d00c72631bc19cbfff8ad3b6215062a5eed402381ad365f82f0c18c"
+  url "https://files.pythonhosted.org/packages/43/6e/59853546226ee6200f9ba6e574d11604b60ad0754d2cbd1c8f3246b70418/Pillow-9.1.1.tar.gz"
+  sha256 "7502539939b53d7565f3d11d87c78e7ec900d3c72945d4ee0e2f250d598309a0"
   license "HPND"
-  revision 1
   head "https://github.com/python-pillow/Pillow.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "a90fc7a42c2c4ceb7b316f5a1784cab67d4e07c39a8a0a5e3665ad11ac06c9e8"
-    sha256 cellar: :any, big_sur:       "c3769c542fbc2c9ac13118b593686c6a517c62745707ed5f227368d86ec396fa"
-    sha256 cellar: :any, catalina:      "7ec1f2846bee7cbeda992605513d93825fe5427145afb0868ebbb62454e753b7"
-    sha256 cellar: :any, mojave:        "063b73280a067fbf606bb161d6664b14d008a0878db0fb2e4a416ad4cd73efb3"
-    sha256               x86_64_linux:  "519b880afb7bc3d0e17821b2b27e76849b8efbaf11a25a4486492fdd96ae8c3c"
+    sha256 cellar: :any, arm64_monterey: "142827974efb241ae56f07efcb96b881805f1427d23b2082da013ab8ca101cba"
+    sha256 cellar: :any, arm64_big_sur:  "8058b9ca59c22f45a093af250d15bc13a430754027de29897abe37fd7f714834"
+    sha256 cellar: :any, monterey:       "966d8109030a11974a8317ac948c5f45f6687fa20115abe4e667ffdabcd53b02"
+    sha256 cellar: :any, big_sur:        "b35f040fffe4932161ec63a10298946172e2c3e37986014a513271a156f22801"
+    sha256 cellar: :any, catalina:       "d5a27ccc4097cc30aca0526f943e927a83e07d256d9bf1edaf9aaa315684d88e"
+    sha256               x86_64_linux:   "de807623e96438f46de52e12526879653b258805e081e68778a6e97caf870e7c"
   end
 
   depends_on "pkg-config" => :build
@@ -23,6 +23,7 @@ class Pillow < Formula
   depends_on "libimagequant"
   depends_on "libraqm"
   depends_on "libtiff"
+  depends_on "libxcb"
   depends_on "little-cms2"
   depends_on "openjpeg"
   depends_on "tcl-tk"
@@ -42,7 +43,7 @@ class Pillow < Formula
   end
 
   def install
-    pre_args = %w[
+    build_ext_args = %w[
       --enable-tiff
       --enable-freetype
       --enable-lcms
@@ -50,19 +51,26 @@ class Pillow < Formula
       --enable-xcb
     ]
 
-    post_args = %W[
-      --prefix=#{prefix}
-      --install-scripts=#{bin}
+    install_args = %w[
       --single-version-externally-managed
       --record=installed.txt
     ]
 
     ENV["MAX_CONCURRENCY"] = ENV.make_jobs.to_s
-    ENV.prepend "CPPFLAGS", "-I#{Formula["tcl-tk"].opt_include}"
-    ENV.prepend "LDFLAGS", "-L#{Formula["tcl-tk"].opt_lib}"
+    deps.each do |dep|
+      next if dep.build? || dep.test?
+
+      ENV.prepend "CPPFLAGS", "-I#{dep.to_formula.opt_include}"
+      ENV.prepend "LDFLAGS", "-L#{dep.to_formula.opt_lib}"
+    end
+
+    # Useful in case of build failures.
+    inreplace "setup.py", "DEBUG = False", "DEBUG = True"
 
     pythons.each do |python|
-      system python, "setup.py", "build_ext", *pre_args, "install", *post_args
+      system python, "setup.py",
+                     "build_ext", *build_ext_args,
+                     "install", *install_args, "--install-lib=#{prefix/Language::Python.site_packages(python)}"
     end
   end
 

@@ -4,19 +4,20 @@ class LlvmAT7 < Formula
   url "https://releases.llvm.org/7.1.0/llvm-7.1.0.src.tar.xz"
   sha256 "1bcc9b285074ded87b88faaedddb88e6b5d6c331dfcfb57d7f3393dd622b3764"
   license "NCSA"
-  revision 2
+  revision 3
 
   bottle do
-    sha256 cellar: :any,                 catalina:     "400bb0bb43849d1f118d93a1647de6e9636934e941c43a6f4866258f764f42b3"
-    sha256 cellar: :any,                 mojave:       "564f25a86c519b737a795de441da6c6c14e9f026813a73149b7939c986241ba6"
-    sha256 cellar: :any,                 high_sierra:  "4170d8e522ce8aea22450c818bb68b6142671f4239262395d8f09d82621ee343"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "f943e2a98c758f4a84d9bff9126fcccec4bde72c66391969ee0031facac239dc"
+    sha256 cellar: :any,                 catalina:     "ea1162f57d529a64b516055b9d1756dfa6402177f0f149453da9310580e063ec"
+    sha256 cellar: :any,                 mojave:       "6deab84061586ffe36ab8755f9f3b3b792b0829a7933716aa2bf39f389a14ff6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "17e8b89b11ca5faa71904c05483a96fda1e2268c9c8c76f7607a983e93f2a877"
   end
 
   # Clang cannot find system headers if Xcode CLT is not installed
   pour_bottle? only_if: :clt_installed
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-05-29", because: :versioned_formula
 
   # https://llvm.org/docs/GettingStarted.html#requirement
   depends_on "cmake" => :build
@@ -25,15 +26,17 @@ class LlvmAT7 < Formula
   depends_on "libffi"
   depends_on maximum_macos: :catalina # Needs patches backported to LLVM 8 and 9 to work on Big Sur
 
+  uses_from_macos "libedit" # llvm requires <histedit.h>
+  uses_from_macos "libffi", since: :catalina
+  uses_from_macos "libxml2"
+  uses_from_macos "ncurses"
+  uses_from_macos "zlib"
+
   on_linux do
     depends_on "glibc" if Formula["glibc"].any_version_installed?
     depends_on "binutils" # needed for gold and strip
-    depends_on "libedit" # llvm requires <histedit.h>
     depends_on "libelf" # openmp requires <gelf.h>
-    depends_on "ncurses"
-    depends_on "libxml2"
     depends_on "python@3.8"
-    depends_on "zlib"
   end
 
   resource "clang" do
@@ -104,7 +107,7 @@ class LlvmAT7 < Formula
     # can almost be treated as an entirely different build from llvm.
     ENV.permit_arch_flags
 
-    args = %W[
+    args = %w[
       -DLIBOMP_ARCH=x86_64
       -DLINK_POLLY_INTO_TOOLS=ON
       -DLLVM_BUILD_LLVM_DYLIB=ON
@@ -116,9 +119,15 @@ class LlvmAT7 < Formula
       -DLLVM_OPTIMIZED_TABLEGEN=ON
       -DLLVM_TARGETS_TO_BUILD=all
       -DWITH_POLLY=ON
-      -DFFI_INCLUDE_DIR=#{Formula["libffi"].opt_lib}/libffi-#{Formula["libffi"].version}/include
-      -DFFI_LIBRARY_DIR=#{Formula["libffi"].opt_lib}
     ]
+
+    if MacOS.version >= :catalina
+      args << "-DFFI_INCLUDE_DIR=#{MacOS.sdk_path}/usr/include/ffi"
+      args << "-DFFI_LIBRARY_DIR=#{MacOS.sdk_path}/usr/lib"
+    else
+      args << "-DFFI_INCLUDE_DIR=#{Formula["libffi"].opt_include}"
+      args << "-DFFI_LIBRARY_DIR=#{Formula["libffi"].opt_lib}"
+    end
 
     if OS.mac?
       args << "-DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON" if MacOS.version <= :mojave
@@ -314,7 +323,7 @@ class LlvmAT7 < Formula
     end
     assert_equal "Hello World!", shell_output("./testlibc++").chomp
 
-    on_linux do
+    if OS.linux?
       # Link installed libc++, libc++abi, and libunwind archives both into
       # a position independent executable (PIE), as well as into a fully
       # position independent (PIC) DSO for things like plugins that export
@@ -327,9 +336,9 @@ class LlvmAT7 < Formula
       # linking statically.
 
       system "#{bin}/clang++", "-v", "-o", "test_pie_runtimes",
-             "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
-             "-stdlib=libc++", "-rtlib=compiler-rt",
-             "-static-libstdc++", "-lpthread", "-ldl"
+                   "-pie", "-fPIC", "test.cpp", "-L#{opt_lib}",
+                   "-stdlib=libc++", "-rtlib=compiler-rt",
+                   "-static-libstdc++", "-lpthread", "-ldl"
       assert_equal "Hello World!", shell_output("./test_pie_runtimes").chomp
       (testpath/"test_pie_runtimes").dynamically_linked_libraries.each do |lib|
         refute_match(/lib(std)?c\+\+/, lib)

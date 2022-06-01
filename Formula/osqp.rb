@@ -1,22 +1,24 @@
 class Osqp < Formula
   desc "Operator splitting QP solver"
   homepage "https://osqp.org/"
-  url "https://github.com/oxfordcontrol/osqp/archive/v0.6.2.tar.gz"
+  url "https://github.com/osqp/osqp/archive/v0.6.2.tar.gz"
   sha256 "d973c33c3164caa381ed7387375347a46f7522523350a4e51989479b9d3b59c7"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "e632fa361ed8e194da854c8caff4b015482015fda56af0bd6f0ca76bbadecc74"
-    sha256 cellar: :any,                 big_sur:       "875d53798462ef836a86415604f94d903ef6b6974732292aaf6bed3d37f69e5f"
-    sha256 cellar: :any,                 catalina:      "2f78c81c56d6f153e55f6e6ce4524eec62cf806b7834ef48337d08aefb2643ec"
-    sha256 cellar: :any,                 mojave:        "2f15d564ee6028766215aa931f0ee0c65af87da9fe4697662354a6b9c53e1a30"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b135456e8959fb3417d10dba3924fe6f78510b67eaea4a020a231f4f821c9bd0"
+    sha256 cellar: :any,                 arm64_monterey: "ec80a9667887ae925ed2951fc41bee5dc39e9c7ee5f37009ed902b3c4d67d63c"
+    sha256 cellar: :any,                 arm64_big_sur:  "e632fa361ed8e194da854c8caff4b015482015fda56af0bd6f0ca76bbadecc74"
+    sha256 cellar: :any,                 monterey:       "58ed571c455f3e77caca3db8b5862a04b29842ab98f5fa55ad415cf2784e6f45"
+    sha256 cellar: :any,                 big_sur:        "875d53798462ef836a86415604f94d903ef6b6974732292aaf6bed3d37f69e5f"
+    sha256 cellar: :any,                 catalina:       "2f78c81c56d6f153e55f6e6ce4524eec62cf806b7834ef48337d08aefb2643ec"
+    sha256 cellar: :any,                 mojave:         "2f15d564ee6028766215aa931f0ee0c65af87da9fe4697662354a6b9c53e1a30"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b135456e8959fb3417d10dba3924fe6f78510b67eaea4a020a231f4f821c9bd0"
   end
 
   depends_on "cmake" => [:build, :test]
 
   resource "qdldl" do
-    url "https://github.com/oxfordcontrol/qdldl/archive/v0.1.5.tar.gz"
+    url "https://github.com/osqp/qdldl/archive/v0.1.5.tar.gz"
     sha256 "2868b0e61b7424174e9adef3cb87478329f8ab2075211ef28fe477f29e0e5c99"
   end
 
@@ -51,7 +53,7 @@ class Osqp < Formula
       add_executable(osqp_demo_static osqp_demo.c)
       target_link_libraries(osqp_demo_static PRIVATE osqp::osqpstatic -lm)
     EOS
-    # from https://github.com/oxfordcontrol/osqp/blob/HEAD/tests/demo/test_demo.h
+    # from https://github.com/osqp/osqp/blob/HEAD/tests/demo/test_demo.h
     (testpath/"osqp_demo.c").write <<~EOS
       #include <assert.h>
       #include <osqp.h>

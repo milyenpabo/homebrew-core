@@ -1,20 +1,22 @@
 class Csvtk < Formula
   desc "Cross-platform, efficient and practical CSV/TSV toolkit in Golang"
   homepage "https://bioinf.shenwei.me/csvtk"
-  url "https://github.com/shenwei356/csvtk/archive/refs/tags/v0.23.0.tar.gz"
-  sha256 "b8ccf2b86c815693af1c7d743ca711a68fcdde94d9a9279ac8557fdffa3f2fc8"
+  url "https://github.com/shenwei356/csvtk/archive/refs/tags/v0.24.0.tar.gz"
+  sha256 "d944e55d9555733990783bbe45200da5eaef47a13d4eac242ef084d9384d54f8"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "85d884da7d8fd0d6ed0d53eabeccdb900baeec93522b3f817f3dfb1c8a9e2d18"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f2869fb31ea0a291dff303db08ee8387cfab96ee7e77fe98c82511c6b5805613"
-    sha256 cellar: :any_skip_relocation, catalina:      "1d9d5d3ecf0c81b1162f88813f871265ea174ae2535624ad345c1e52364ca692"
-    sha256 cellar: :any_skip_relocation, mojave:        "0e0b648de5a24b410a9d56d663668741cb7429e1295ed1cc120014aaa516c961"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "b2d48edb96cf9e1554aea914c9867201729c5ea014d800ca9ba197b793851de2"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5b2f09bb13dc00622c012dfecb1705ee11d1bd2e1ab1a818448aef464876961b"
+    sha256 cellar: :any_skip_relocation, monterey:       "d6c3adf4c7016b4a3b21556045d5539ce3cbc34a1540fe90badd9797adb717b8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "38d46efee033ef17d39fd5e93a0a96cfda0c0ca39a69f3bcb2dbbaf154dc91cc"
+    sha256 cellar: :any_skip_relocation, catalina:       "acea84dd2a22b036bc5e7445e7ddedc2e5dfdeaeac3c42da659c8e171362e36f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "087a5bb6bfcae4ee7278be49e2cb0eddc117878c2393ddf6e11a1c525d043914"
   end
 
   depends_on "go" => :build
 
-  resource "testdata" do
+  resource "homebrew-testdata" do
     url "https://raw.githubusercontent.com/shenwei356/csvtk/e7b72224a70b7d40a8a80482be6405cb7121fb12/testdata/1.csv"
     sha256 "3270b0b14178ef5a75be3f2e3fdcf93152e3949f9f8abb3382cb00755b62505b"
   end
@@ -24,7 +26,7 @@ class Csvtk < Formula
   end
 
   test do
-    resource("testdata").stage do
+    resource("homebrew-testdata").stage do
       assert_equal "3,bar,handsome\n",
       shell_output("#{bin}/csvtk grep -H -N -n -f 2 -p handsome 1.csv")
     end

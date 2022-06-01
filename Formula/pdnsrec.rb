@@ -1,8 +1,8 @@
 class Pdnsrec < Formula
   desc "Non-authoritative/recursing DNS server"
   homepage "https://www.powerdns.com/recursor.html"
-  url "https://downloads.powerdns.com/releases/pdns-recursor-4.5.5.tar.bz2"
-  sha256 "a836a39b99fcc21873e4ba3a60aa9915a33fac7b44922696e9a257f551fe05fb"
+  url "https://downloads.powerdns.com/releases/pdns-recursor-4.7.0.tar.bz2"
+  sha256 "e4872a1b11a35fc363f354d69ccb4ec88047bfc7d9308087497dc2ad3af3498c"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,11 +11,12 @@ class Pdnsrec < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "6d91a9a10c37e9957d9d54a9b1c7dfd053a590582078dedabe0c1b2c5583fbff"
-    sha256 big_sur:       "2e5c07a26540b304ae52a2ed4569a09a0f6f9641f93b3cdcc4ce81c14423936c"
-    sha256 catalina:      "0c3355b03b41fb4ad9d76bdb6d0f87f90ebe52c0f20fbf0721904e9393a33cca"
-    sha256 mojave:        "30bf6621caa349c712e84b8211877f55785c356dbdce558c390b6fdf19bf3ad7"
-    sha256 x86_64_linux:  "21af0d49fd6b901131459386156de07159a58110d3b37690fdc1fe55c43ae045"
+    sha256 arm64_monterey: "57530d84e93985acfb861e54e049a632f384fb3ed03294934d46e8d694b99b99"
+    sha256 arm64_big_sur:  "a7987bdd9644287bca00e88049aebaa891b3ccc9b11e47e9917c3a3fd5f30d96"
+    sha256 monterey:       "98352cb2db36fcd5de353a1c177658f6c51b87dbe6b77455b1f657987c19f1c4"
+    sha256 big_sur:        "1746024cfa12b0b5786d649d96afa87b0113df1fa9007971ace2561866cd49d4"
+    sha256 catalina:       "58820ddd18e91bb3b844ff2103b115978be3b1df5b26c7c3a61017df548fc82b"
+    sha256 x86_64_linux:   "21162c46a26357c503a07a18bbca90e4f660d7ccf192eea0883de0b83ca949f3"
   end
 
   depends_on "pkg-config" => :build
@@ -24,7 +25,9 @@ class Pdnsrec < Formula
   depends_on "openssl@1.1"
 
   on_macos do
-    depends_on "llvm" => :build if DevelopmentTools.clang_build_version <= 1100
+    # This shouldn't be needed for `:test`, but there's a bug in `brew`:
+    # CompilerSelectionError: pdnsrec cannot be built with any available compilers.
+    depends_on "llvm" => [:build, :test] if DevelopmentTools.clang_build_version <= 1100
   end
 
   on_linux do

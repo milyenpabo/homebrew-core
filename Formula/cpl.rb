@@ -1,21 +1,22 @@
 class Cpl < Formula
   desc "ISO-C libraries for developing astronomical data-reduction tasks"
   homepage "https://www.eso.org/sci/software/cpl/"
-  url "ftp://ftp.eso.org/pub/dfs/pipelines/libraries/cpl/cpl-7.1.4.tar.gz"
-  sha256 "cb43adba7ab15e315fbfcba4e2d8b88fa56d29a5a16036a7f082621b8416bd6c"
+  url "ftp://ftp.eso.org/pub/dfs/pipelines/libraries/cpl/cpl-7.2.2.tar.gz"
+  sha256 "65e7670729fe6a03f8bcf6b8140cdaf101f471a1a3a4d426811fa2f22cf89a4c"
   license "GPL-2.0-or-later"
 
   livecheck do
-    url "https://www.eso.org/sci/software/cpl/download.html"
+    url "https://ftp.eso.org/pub/dfs/pipelines/libraries/cpl/"
     regex(/href=.*?cpl[._-]v?(\d+(?:\.\d+)+)\.t/i)
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "7b2de6ed276784ff0a34ec7386c11539836fe6a8a16b3f9a6fc12062e7593372"
-    sha256 cellar: :any,                 big_sur:       "f03c10e6918ff16d484174e91a78e900dc2270237370aa8e448be23f0bb0496a"
-    sha256 cellar: :any,                 catalina:      "23a33f0c139d0c56928bd6aa9bc7612c4da460f33468adcdd2ab267c444300ae"
-    sha256 cellar: :any,                 mojave:        "8dd0ea688094de418970818c68eada0a5ee6eca74e4a5b09e4ab2864b8d0837c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4d3b59f3737480691d03897fd6d0131b8c35ae0f90b479f3220d20c52feb964e"
+    sha256 cellar: :any,                 arm64_monterey: "59fda22c52d9add0cf27375ccab8061209128acae99ad53e115b7616d37a2a14"
+    sha256 cellar: :any,                 arm64_big_sur:  "f98316577f5d261a64c081fb436f9cd4666c145aee21899b7aa9225921bb5b35"
+    sha256 cellar: :any,                 monterey:       "3a378d521c7f300e3bf554f2a26532b3d46ebe72a50e74c4b32dcf2a8ac30c58"
+    sha256 cellar: :any,                 big_sur:        "5acda25a5ce54b2f761783907678cc1817f4d65183fb710db67d1967a36fe19b"
+    sha256 cellar: :any,                 catalina:       "555f4f3bca9f72dcda5eac44ea5b6a27f83eb04ad592a27f76b185cbc4370f4a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f308c57ae47f8bb9b581ca6c8a8bd47a2b20efb82ca34f869d02f992308ffb08"
   end
 
   depends_on "cfitsio"
@@ -23,6 +24,19 @@ class Cpl < Formula
   depends_on "wcslib"
 
   conflicts_with "gdal", because: "both install cpl_error.h"
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+  end
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+    directory "libcext"
+  end
 
   def install
     system "./configure", "--disable-debug",

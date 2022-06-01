@@ -1,17 +1,18 @@
 class Libfabric < Formula
   desc "OpenFabrics libfabric"
   homepage "https://ofiwg.github.io/libfabric/"
-  url "https://github.com/ofiwg/libfabric/releases/download/v1.13.1/libfabric-1.13.1.tar.bz2"
-  sha256 "b8b5e1dd875d9db37087487e30f4b0e2d86b9f928755225ed92960ef0f4e1ae4"
+  url "https://github.com/ofiwg/libfabric/releases/download/v1.15.1/libfabric-1.15.1.tar.bz2"
+  sha256 "cafa3005a9dc86064de179b0af4798ad30b46b2f862fe0268db03d13943e10cd"
   license any_of: ["BSD-2-Clause", "GPL-2.0-only"]
-  head "https://github.com/ofiwg/libfabric.git"
+  head "https://github.com/ofiwg/libfabric.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "0faf8640e81769c91fd533040fedba6e38e979a078a6feaac88595543eb121e6"
-    sha256 cellar: :any,                 big_sur:       "d36c230c17834a53d4427bc26cc982c7575595707d7a2179e629f81cbc661951"
-    sha256 cellar: :any,                 catalina:      "5ac8f1202e3558aad6f83fa085e9e384546e5d54cfbadd600d35ea1fecf630af"
-    sha256 cellar: :any,                 mojave:        "adedf2375e16169127c2caffe63e7df5f13d739301b929150779ad3a30faacb6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "28c0448c0eb7155e04bb6771bc9981b0e50f86cb1cb39bcaa10540b303ead891"
+    sha256 cellar: :any,                 arm64_monterey: "4ec2879d4e59932f371eeded1eb79f0d332b69300b8fb92da0ac5dd6657ac15c"
+    sha256 cellar: :any,                 arm64_big_sur:  "5b02b095816fb64890a7ce0ed1e6ba9facee73af9d36b9acfeec7a4d944e9b58"
+    sha256 cellar: :any,                 monterey:       "0b6595dc9b66cb9fdb1cc68549921364f9802b748f8121d16a7fbfaef1f8060d"
+    sha256 cellar: :any,                 big_sur:        "f0d68642c119986c6ec4adecda4fb740481e9182687888d5d3a7625c567491c9"
+    sha256 cellar: :any,                 catalina:       "835b225e92d2e42b2b6f5e1afa45d3befa07b4a847a4891116fdd2aa8a2b5f66"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8a65daa2e7509cffcbef63dbe18b46f13883c68a92d1e2d458c7603620a251e9"
   end
 
   depends_on "autoconf" => :build

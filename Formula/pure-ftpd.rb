@@ -1,9 +1,9 @@
 class PureFtpd < Formula
   desc "Secure and efficient FTP server"
   homepage "https://www.pureftpd.org/"
-  url "https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-1.0.49.tar.gz"
-  sha256 "767bf458c70b24f80c0bb7a1bbc89823399e75a0a7da141d30051a2b8cc892a5"
-  revision 1
+  url "https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-1.0.50.tar.gz"
+  sha256 "abe2f94eb40b330d4dc22b159991f44e5e515212f8e887049dccdef266d0ea23"
+  license all_of: ["BSD-2-Clause", "BSD-3-Clause", "BSD-4-Clause", "ISC"]
 
   livecheck do
     url "https://download.pureftpd.org/pub/pure-ftpd/releases/"
@@ -11,16 +11,20 @@ class PureFtpd < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "2acbe92870213007b37ca771844c12b211ef8559b08536a2fa371dde91a88565"
-    sha256 cellar: :any, big_sur:       "a9531c95bc19d063436ba9fbaa982abcc2cd990222261530fc824ff50516e8da"
-    sha256 cellar: :any, catalina:      "aa0a342b50ae3761120370fc0e6605241e03545441c472d778ef030239784454"
-    sha256 cellar: :any, mojave:        "e3a63b9af91de3c29eef40a76d7962cdf8623a8e8992aeb67bdf3948293c450d"
-    sha256 cellar: :any, high_sierra:   "a6a9549f3d8bde87cf01210e9fa29b403ed258246a7928d195a57f0c5ace6988"
-    sha256 cellar: :any, sierra:        "11dfcec52ae727128c8201a4779fc7feea1d547fe86989a621d4ba339f70de92"
+    sha256 cellar: :any,                 arm64_monterey: "37b7a18770c4050e170e73e9f91b0c4e89796b27b4bc97383f4c01e5d1b845c2"
+    sha256 cellar: :any,                 arm64_big_sur:  "be2354790a43f2530fade9684e49afdf6127e720e8a1a3396b284aa21e230a48"
+    sha256 cellar: :any,                 monterey:       "31ec7d058a66adc3e31d5b550e9dffa8d9d4388d125e25a701ac46e6b4f1480a"
+    sha256 cellar: :any,                 big_sur:        "f8a22572ca75768fa21b1177c77f8f222429726dbc21b8cd9fa061ddb3ecaaaf"
+    sha256 cellar: :any,                 catalina:       "a3cfa341bc66691b8f5962d493799c5f2f2c68114cc7a101493728991f18b423"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "97e9bebb7b6f9e9348e1151637f7d1ad046550426cc0b2e80186cd06205ad93d"
   end
 
   depends_on "libsodium"
   depends_on "openssl@1.1"
+
+  on_linux do
+    depends_on "linux-pam"
+  end
 
   def install
     args = %W[

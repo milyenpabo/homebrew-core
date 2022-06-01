@@ -1,17 +1,19 @@
 class Mpv < Formula
   desc "Media player based on MPlayer and mplayer2"
   homepage "https://mpv.io"
-  url "https://github.com/mpv-player/mpv/archive/v0.33.1.tar.gz"
-  sha256 "100a116b9f23bdcda3a596e9f26be3a69f166a4f1d00910d1789b6571c46f3a9"
+  url "https://github.com/mpv-player/mpv/archive/v0.34.1.tar.gz"
+  sha256 "32ded8c13b6398310fa27767378193dc1db6d78b006b70dbcbd3123a1445e746"
   license :cannot_represent
-  head "https://github.com/mpv-player/mpv.git"
+  revision 1
+  head "https://github.com/mpv-player/mpv.git", branch: "master"
 
   bottle do
-    sha256 arm64_big_sur: "dd487a80e5586c93ccde6942170d026e9eba5b403d95e409ad55282cea818790"
-    sha256 big_sur:       "76b0fc9d207aee16f65b8b1782bc35dec5a870952ebba6ae7a74e6ede9bdd34a"
-    sha256 catalina:      "8ab98fffc330dea03f2732fa17c7f53753601c49c3f9dec2a7d727bdc901c484"
-    sha256 mojave:        "87df95e8f4f723a5b6fe163d5ac740fef9f5ffa9c318c82c9a6b0844aa7203b9"
-    sha256 x86_64_linux:  "6a037de38402f73783c5b403e6aada7388373eda6593b21e43844043cf6496d6"
+    sha256 arm64_monterey: "09e223bc45b0968497077eacfe9eeb7e1143ecc782ccd18af454ef215b4c1483"
+    sha256 arm64_big_sur:  "47c1c8f8cd49e071be6cda0f729aeaef829ac941e26c87f5ba266d41da423c12"
+    sha256 monterey:       "60f51e9c67a707139b2cfa763a961c0778323eae81c1a5aec69c17840ce49e61"
+    sha256 big_sur:        "3ee4dfdaea28f1b0c4ebabba8eb677949d1462af4133d4f6b94a60661ab615e7"
+    sha256 catalina:       "aca6e4cfc8598dfbd88882622aaeb117f97f1f843c82b87a5308b3fe90740c68"
+    sha256 x86_64_linux:   "f61254f8629ce7d463d36db3bd0c5ad36a52ef3ac5989316756eb3703e86a300"
   end
 
   depends_on "docutils" => :build
@@ -19,7 +21,7 @@ class Mpv < Formula
   depends_on "python@3.9" => :build
   depends_on xcode: :build
 
-  depends_on "ffmpeg"
+  depends_on "ffmpeg@4"
   depends_on "jpeg"
   depends_on "libarchive"
   depends_on "libass"
@@ -28,7 +30,9 @@ class Mpv < Formula
   depends_on "mujs"
   depends_on "uchardet"
   depends_on "vapoursynth"
-  depends_on "youtube-dl"
+  depends_on "yt-dlp"
+
+  fails_with gcc: "5" # ffmpeg is compiled with GCC
 
   def install
     # LANG is unset by default on macOS and causes issues when calling getlocale
@@ -63,7 +67,7 @@ class Mpv < Formula
   end
 
   test do
-    system bin/"mpv", "--ao=null", test_fixtures("test.wav")
+    system bin/"mpv", "--ao=null", "--vo=null", test_fixtures("test.wav")
     assert_match "vapoursynth", shell_output(bin/"mpv --vf=help")
   end
 end

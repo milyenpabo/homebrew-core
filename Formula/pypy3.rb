@@ -1,10 +1,9 @@
 class Pypy3 < Formula
   desc "Implementation of Python 3 in Python"
   homepage "https://pypy.org/"
-  url "https://downloads.python.org/pypy/pypy3.7-v7.3.5-src.tar.bz2"
-  sha256 "d920fe409a9ecad9d074aa8568ca5f3ed3581be66f66e5d8988b7ec66e6d99a2"
+  url "https://downloads.python.org/pypy/pypy3.7-v7.3.9-src.tar.bz2"
+  sha256 "70426163b194ee46009986eea6d9426098a3ffb552d9cdbd3dfaa64a47373f49"
   license "MIT"
-  revision 1
   head "https://foss.heptapod.net/pypy/pypy", using: :hg, branch: "py3.7"
 
   livecheck do
@@ -13,10 +12,10 @@ class Pypy3 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 big_sur:      "3d8907b569ced4b4a0893bb52c2624f9fdc37f095836bae48b1fff7685a47f1f"
-    sha256 cellar: :any,                 catalina:     "7fe0a93d651ded514ad89691a4f5b94485c875e010ede43ff8d8a570dac28c8b"
-    sha256 cellar: :any,                 mojave:       "bcdd791348b1d5132ec3bbcdc9d592623b04d02e0b22f5afd5b34d3bc5826b70"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "993244a124f5643d23a81a95b0b23a842f098188c37cb3dc94e4852d2565e326"
+    sha256 cellar: :any,                 monterey:     "f74380e1d4d5b14922bf29f6bfa665b0429a646e57fb1e852b101df3bf2dfd3a"
+    sha256 cellar: :any,                 big_sur:      "a3d09f1aa40e583d77b868358a372edc500062e349b31f4bd83490ed64a487e9"
+    sha256 cellar: :any,                 catalina:     "bcffe5403e66a1a56d58284690d9d3c0930cac6de0f661708bf4a1cab32c2d28"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "d1954346420c8afcbe23af810ee8f52be9db616ad0f63a3f8eaec0781ad29f22"
   end
 
   depends_on "pkg-config" => :build
@@ -35,14 +34,16 @@ class Pypy3 < Formula
   uses_from_macos "unzip"
   uses_from_macos "zlib"
 
+  # setuptools >= 60 required sysconfig patch
+  # See https://github.com/Homebrew/homebrew-core/pull/99892#issuecomment-1108492321
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/cf/79/1a19c2f792da00cbead7b6caa176afdddf517522cb9163ce39576025b050/setuptools-57.1.0.tar.gz"
-    sha256 "cfca9c97e7eebbc8abe18d5e5e962a08dcad55bb63afddd82d681de4d22a597b"
+    url "https://files.pythonhosted.org/packages/ef/75/2bc7bef4d668f9caa9c6ed3f3187989922765403198243040d08d2a52725/setuptools-59.8.0.tar.gz"
+    sha256 "09980778aa734c3037a47997f28d6db5ab18bdf2af0e49f719bfc53967fd2e82"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/4d/0c/3b63fe024414a8a48661cf04f0993d4b2b8ef92daed45636474c018cd5b7/pip-21.1.3.tar.gz"
-    sha256 "b5b1eb91b36894bd01b8e5a56a422c2f3838573da0b0a1c63a096bb454e3b23f"
+    url "https://files.pythonhosted.org/packages/33/c9/e2164122d365d8f823213a53970fa3005eb16218edcfc56ca24cb6deba2b/pip-22.0.4.tar.gz"
+    sha256 "b3a9de2c6ef801e9247d1527a4b16f92f2cc141cd1489f3fffaf6a9e96729764"
   end
 
   # Build fixes:
@@ -50,8 +51,6 @@ class Pypy3 < Formula
   #   When tcl-tk is not found, it uses unversioned `-ltcl -ltk`, which breaks build.
   # - Disable building cffi imports with `--embed-dependencies`, which compiles and
   #   statically links a specific OpenSSL version.
-  # - Add flag `--no-make-portable` to package.py so that we can disable portable build.
-  #   Portable build is default on macOS and copies tcl-tk/sqlite dylibs into bottle.
   # Upstream issue ref: https://foss.heptapod.net/pypy/pypy/-/issues/3538
   patch :DATA
 
@@ -142,12 +141,11 @@ class Pypy3 < Formula
       end
     end
 
-    # Symlinks to easy_install_pypy3 and pip_pypy3
-    bin.install_symlink scripts_folder/"easy_install" => "easy_install_pypy3"
+    # Symlinks to pip_pypy3
     bin.install_symlink scripts_folder/"pip" => "pip_pypy3"
 
     # post_install happens after linking
-    %w[easy_install_pypy3 pip_pypy3].each { |e| (HOMEBREW_PREFIX/"bin").install_symlink bin/e }
+    (HOMEBREW_PREFIX/"bin").install_symlink bin/"pip_pypy3"
   end
 
   def caveats
@@ -157,13 +155,12 @@ class Pypy3 < Formula
       specifying the install-scripts folder as:
         #{scripts_folder}
 
-      If you install Python packages via "pypy3 setup.py install", easy_install_pypy3,
-      or pip_pypy3, any provided scripts will go into the install-scripts folder
+      If you install Python packages via "pypy3 setup.py install" or pip_pypy3,
+      any provided scripts will go into the install-scripts folder
       above, so you may want to add it to your PATH *after* #{HOMEBREW_PREFIX}/bin
       so you don't overwrite tools from CPython.
 
-      Setuptools and pip have been installed, so you can use easy_install_pypy3 and
-      pip_pypy3.
+      Setuptools and pip have been installed, so you can use pip_pypy3.
       To update pip and setuptools between pypy3 releases, run:
           pip_pypy3 install --upgrade pip setuptools
 
@@ -222,14 +219,3 @@ __END__
                  argv = [filename, '--embed-dependencies']
              else:
                  argv = [filename,]
---- a/pypy/tool/release/package.py
-+++ b/pypy/tool/release/package.py
-@@ -358,7 +358,7 @@ def package(*args, **kwds):
-                         default=(ARCH in ('darwin', 'aarch64', 'x86_64')),
-                         help='whether to embed dependencies in CFFI modules '
-                         '(default on OS X)')
--    parser.add_argument('--make-portable',
-+    parser.add_argument('--make-portable', '--no-make-portable',
-                         dest='make_portable',
-                         action=NegateAction,
-                         default=(ARCH in ('darwin',)),

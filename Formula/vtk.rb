@@ -1,17 +1,19 @@
 class Vtk < Formula
   desc "Toolkit for 3D computer graphics, image processing, and visualization"
   homepage "https://www.vtk.org/"
-  url "https://www.vtk.org/files/release/9.0/VTK-9.0.3.tar.gz"
-  sha256 "bc3eb9625b2b8dbfecb6052a2ab091fc91405de4333b0ec68f3323815154ed8a"
+  url "https://www.vtk.org/files/release/9.1/VTK-9.1.0.tar.gz"
+  sha256 "8fed42f4f8f1eb8083107b68eaa9ad71da07110161a3116ad807f43e5ca5ce96"
   license "BSD-3-Clause"
+  revision 4
   head "https://github.com/Kitware/VTK.git", branch: "master"
 
   bottle do
-    sha256                               arm64_big_sur: "fde272807de4be00a73385e08f95daa26568d82b2bd8e49c0632d908fbf14788"
-    sha256                               big_sur:       "030677a7748f0fc0d4116424db9225ecf3d805476c08da3d07e65e381ff21589"
-    sha256                               catalina:      "beb7e778df907e3763363ad51579b4e004b1b2b745a395621cbc1f2800340d81"
-    sha256                               mojave:        "d466d33fd7932aedd24fce9c5b791e7e97cf375db629180718171a2df4b97153"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a9b8909326147db522b2da5ba80df9fac4d5836e776a9b5efa9ee7e0ade081ab"
+    sha256                               arm64_monterey: "235a62257e18547893acd654ab41187e3f8389744b8d291897661c314a35933f"
+    sha256                               arm64_big_sur:  "31e54d21af04cafe66a614ad8e76e490109e4fb49e0fdaf4a3973786b0768862"
+    sha256                               monterey:       "58ba5d2739518e799603193899e9205d10cca25e074d968c95869fb90b735af5"
+    sha256                               big_sur:        "77c0746012492581c64d845aac3557bedb8111c32353b2157fe7992ac39910ce"
+    sha256                               catalina:       "438508b242067e11fb241204b4d0fa09478654f0406344edc864197d39a71c07"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "398378770eb7afc3c2c4c9fd01ada2ce9b938e82d7b3e7c16398ab36ec3a147a"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -43,35 +45,35 @@ class Vtk < Formula
   uses_from_macos "tcl-tk"
   uses_from_macos "zlib"
 
+  on_macos do
+    depends_on "llvm" => :build if DevelopmentTools.clang_build_version == 1316 && Hardware::CPU.arm?
+  end
+
   on_linux do
     depends_on "gcc"
-    depends_on "szip"
+    depends_on "libaec"
     depends_on "mesa-glu"
-
-    # Apply 2 upstream commits to fix build on GCC 11.
-    # Remove with next release.
-    patch do
-      url "https://github.com/Kitware/VTK/commit/c7d6a8d81367a4ed92163c059aa3181386eabc24.patch?full_index=1"
-      sha256 "fa292347cc0b157844cba128dae1a0fd16b6bc12e707f1b5c94b25fd41171d49"
-    end
-
-    patch do
-      url "https://github.com/Kitware/VTK/commit/e066c3f4fbbfe7470c6207db0fc3f3952db633cb.patch?full_index=1"
-      sha256 "d20fc3287c9c36f4f9b0a43148180ccbf7960f7b141e279eb537b94d97286250"
-    end
   end
 
   fails_with gcc: "5"
 
-  def install
-    # Do not record compiler path because it references the shim directory
-    inreplace "Common/Core/vtkConfigure.h.in", "@CMAKE_CXX_COMPILER@", ENV.cxx
+  # clang: error: unable to execute command: Segmentation fault: 11
+  # clang: error: clang frontend command failed due to signal (use -v to see invocation)
+  # Apple clang version 13.1.6 (clang-1316.0.21.2)
+  fails_with :clang if DevelopmentTools.clang_build_version == 1316 && Hardware::CPU.arm?
 
-    args = std_cmake_args + %W[
+  def install
+    if DevelopmentTools.clang_build_version == 1316 && Hardware::CPU.arm?
+      ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib
+      ENV.llvm_clang
+    end
+
+    args = %W[
       -DBUILD_SHARED_LIBS:BOOL=ON
       -DBUILD_TESTING:BOOL=OFF
       -DCMAKE_INSTALL_NAME_DIR:STRING=#{opt_lib}
       -DCMAKE_INSTALL_RPATH:STRING=#{rpath}
+      -DCMAKE_DISABLE_FIND_PACKAGE_ICU:BOOL=ON
       -DVTK_WRAP_PYTHON:BOOL=ON
       -DVTK_PYTHON_VERSION:STRING=3
       -DVTK_LEGACY_REMOVE:BOOL=ON
@@ -100,6 +102,7 @@ class Vtk < Formula
       -DVTK_MODULE_USE_EXTERNAL_VTK_zlib:BOOL=ON
       -DPython3_EXECUTABLE:FILEPATH=#{Formula["python@3.9"].opt_bin}/python3
       -DVTK_GROUP_ENABLE_Qt:STRING=YES
+      -DVTK_QT_VERSION:STRING=5
     ]
 
     # https://github.com/Homebrew/linuxbrew-core/pull/21654#issuecomment-738549701
@@ -107,14 +110,15 @@ class Vtk < Formula
 
     args << "-DVTK_USE_COCOA:BOOL=ON" if OS.mac?
 
-    mkdir "build" do
-      system "cmake", "..", *args
-      system "make"
-      system "make", "install"
-    end
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, *args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do
+    # Force use of Apple Clang on macOS that needs LLVM to build
+    ENV.clang if DevelopmentTools.clang_build_version == 1316 && Hardware::CPU.arm?
+
     (testpath/"CMakeLists.txt").write <<~EOS
       cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
       project(Distance2BetweenPoints LANGUAGES CXX)

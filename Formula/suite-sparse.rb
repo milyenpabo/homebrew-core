@@ -1,8 +1,8 @@
 class SuiteSparse < Formula
   desc "Suite of Sparse Matrix Software"
   homepage "https://people.engr.tamu.edu/davis/suitesparse.html"
-  url "https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.10.1.tar.gz"
-  sha256 "acb4d1045f48a237e70294b950153e48dce5b5f9ca8190e86c2b8c54ce00a7ee"
+  url "https://github.com/DrTimothyAldenDavis/SuiteSparse/archive/v5.12.0.tar.gz"
+  sha256 "5fb0064a3398111976f30c5908a8c0b40df44c6dd8f0cc4bfa7b9e45d8c647de"
   license all_of: [
     "BSD-3-Clause",
     "LGPL-2.1-or-later",
@@ -18,34 +18,36 @@ class SuiteSparse < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "142ea7b857fc6325070033b3da8d4a80a578070a80ab61514f1dd00f866818d1"
-    sha256 cellar: :any,                 big_sur:       "bd20cd872598931036422f7f8f64d0d9d5929b24ab353582375e35b425c90e72"
-    sha256 cellar: :any,                 catalina:      "fb2af83a130798486be789c1e8d8f96c583c03c7753ec4e7fff8c4afa2f04eba"
-    sha256 cellar: :any,                 mojave:        "3c4d62d70d63b82734c29224fc8cb779931a6cf6d88350dbbf47cc02f8a7b371"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bb74f60268a78ad876d1b55c0d6e5751301c7145d29e9d87ba32f0ba628764fc"
+    sha256 cellar: :any,                 arm64_monterey: "d5b574cfaaf805d7551e4c53c63be76894cb203cbf023233f4319979c497ff82"
+    sha256 cellar: :any,                 arm64_big_sur:  "1f38820a7a22ab471398656416c55fe1f9640353d7f39d4280b320b02f0f44d1"
+    sha256 cellar: :any,                 monterey:       "f258fe66db7f42f7a37df007e7869c13d86897b222e98969d8ca85535fc485f4"
+    sha256 cellar: :any,                 big_sur:        "82c4221826d5aa01e9767598da7155ebf41bf2add188cd684456c188c4ee647e"
+    sha256 cellar: :any,                 catalina:       "f21dfb630d3b05c13474d315776825bd4508e8bcca52d8527e112f48781b1531"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ac0e65f3f30a84769cd093fef6afa7bbcb080fb5770f94f27a4d1115f7c09e8b"
   end
 
   depends_on "cmake" => :build
   depends_on "metis"
   depends_on "openblas"
-  depends_on "tbb"
 
   uses_from_macos "m4"
 
   conflicts_with "mongoose", because: "suite-sparse vendors libmongoose.dylib"
 
   def install
-    mkdir "GraphBLAS/build" do
-      system "cmake", "..", *std_cmake_args
-    end
-
+    cmake_args = *std_cmake_args, "-DCMAKE_INSTALL_RPATH=#{rpath}"
     args = [
       "INSTALL=#{prefix}",
       "BLAS=-L#{Formula["openblas"].opt_lib} -lopenblas",
       "LAPACK=$(BLAS)",
       "MY_METIS_LIB=-L#{Formula["metis"].opt_lib} -lmetis",
       "MY_METIS_INC=#{Formula["metis"].opt_include}",
+      "CMAKE_OPTIONS=#{cmake_args.join(" ")}",
+      "JOBS=#{ENV.make_jobs}",
     ]
+
+    # Parallelism is managed through the `JOBS` make variable and not with `-j`.
+    ENV.deparallelize
     system "make", "library", *args
     system "make", "install", *args
     lib.install Dir["**/*.a"]

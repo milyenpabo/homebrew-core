@@ -1,8 +1,8 @@
 class Poco < Formula
   desc "C++ class libraries for building network and internet-based applications"
   homepage "https://pocoproject.org/"
-  url "https://pocoproject.org/releases/poco-1.11.0/poco-1.11.0-all.tar.gz"
-  sha256 "9a29a86bb9b889fc4cc5fb45f4ab065a48700ad71ff842340e13d32759281db9"
+  url "https://pocoproject.org/releases/poco-1.11.2/poco-1.11.2-all.tar.gz"
+  sha256 "904b538d4096a60e0d5fe67e8812d12c633508a76e1d73fdff1ec300181eaa1d"
   license "BSL-1.0"
   head "https://github.com/pocoproject/poco.git", branch: "master"
 
@@ -12,24 +12,30 @@ class Poco < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "a9b4b2d1c1c24b81acea5947325bffd2af88426291857c3c23592659ce3957ca"
-    sha256 cellar: :any,                 big_sur:       "ec8ca74c0085ccb363451475afd0913463730f5129205ff1e76edf43bcafae1d"
-    sha256 cellar: :any,                 catalina:      "15372ab13fe7e6269b7038532c0a05675b12f71df5f5a69c4930d57a16a598c1"
-    sha256 cellar: :any,                 mojave:        "2bb42c67ece76fde31d9dd8d79fad23fecbf9ae33231f1601a335829b1f6f3c6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "52fd3511305d75b4c25b2a562a6c3f741cce5abe050f3107a8b9fa2310f9c8de"
+    sha256 cellar: :any,                 arm64_monterey: "52e25f9e15662296215cccf18fbcd8bec5c636cfac6d5988609bc9e7f2f555c8"
+    sha256 cellar: :any,                 arm64_big_sur:  "9a17c272cca529e104843c46d05f7c880a493f2497e6068e9321b45caeb54780"
+    sha256 cellar: :any,                 monterey:       "c3b565a11da4599d956ff2693058e40b06ae2141ada58b183c141716879e829d"
+    sha256 cellar: :any,                 big_sur:        "77b18141d0efafe8fef4b043782caedea789349824fc4e4d7b4774f6f6220c44"
+    sha256 cellar: :any,                 catalina:       "4614f6dcbfd03e219ee91f723febcb406bff1426d151059707c0ad225984b0a2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b45c9ffaf075e175c6fa585711016a8f3e39e33172f87b36e62bcf993a688996"
   end
 
   depends_on "cmake" => :build
   depends_on "openssl@1.1"
+  depends_on "pcre"
+
+  uses_from_macos "expat"
+  uses_from_macos "sqlite"
+  uses_from_macos "zlib"
 
   def install
-    mkdir "build" do
-      system "cmake", "..", *std_cmake_args,
-                            "-DENABLE_DATA_MYSQL=OFF",
-                            "-DENABLE_DATA_ODBC=OFF",
-                            "-DCMAKE_INSTALL_RPATH=#{rpath}"
-      system "make", "install"
-    end
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args,
+                    "-DENABLE_DATA_MYSQL=OFF",
+                    "-DENABLE_DATA_ODBC=OFF",
+                    "-DCMAKE_INSTALL_RPATH=#{rpath}",
+                    "-DPOCO_UNBUNDLED=ON"
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do

@@ -3,10 +3,9 @@ class Isort < Formula
 
   desc "Sort Python imports automatically"
   homepage "https://pycqa.github.io/isort/"
-  url "https://files.pythonhosted.org/packages/1c/34/ed9178b5b23ade4561bf77b91856e0e3bc094620fd81bd74d535817a0f0d/isort-5.9.3.tar.gz"
-  sha256 "9c2ea1e62d871267b78307fe511c0838ba0da28698c5732d54e2790bf3ba9899"
+  url "https://files.pythonhosted.org/packages/ab/e9/964cb0b2eedd80c92f5172f1f8ae0443781a9d461c1372a3ce5762489593/isort-5.10.1.tar.gz"
+  sha256 "e8443a5e7a020e9d7f97f1d7d9cd17c88bcb3bc7e218bf9cf5095fe550be2951"
   license "MIT"
-  revision 1
 
   livecheck do
     url :stable
@@ -14,11 +13,12 @@ class Isort < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "36eca38b43c2fe314d024a1995d0953cf155862dbc7f00f6d0a34edb742ea513"
-    sha256 cellar: :any_skip_relocation, big_sur:       "50b4352cc80c9b4064b43889478d62d928fbe4b1046682a75425101008388a07"
-    sha256 cellar: :any_skip_relocation, catalina:      "d3b566b024853af9f4b15f21a67e24bfe388d3091d083070e3a0a751d304c97b"
-    sha256 cellar: :any_skip_relocation, mojave:        "04253871a201d55662ac4467f41c10154801199b8d751fee858f752681f3335e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4729c47853441bbb0989cf58ebe6be207e8486316f7c9116f9e1595596517bcd"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f5d80e1cffa56c250a8243033e2e6585f26fdc221832ef8de29605b1a6faa0d5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "daeeb039c407bf866eb0434385719cf8b1339aae5cf68be775634ba9731ed825"
+    sha256 cellar: :any_skip_relocation, monterey:       "9e7b35776d714719ba5cc4ccf3d1414d85f867e9df737318e189362e006e3fdd"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4b51b857b09c1b94786bbc617d1f98b9415392cf01791562598b6e7415a932f9"
+    sha256 cellar: :any_skip_relocation, catalina:       "ea516d354aeaa438e9622b444d163a6b61ed0c7784c421117b0fd611010472c6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3cf4067868dd02d11c067e12acd8091a7aadb41c234e0250f46824328e3f1598"
   end
 
   depends_on "python@3.10"

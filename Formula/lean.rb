@@ -1,24 +1,31 @@
 class Lean < Formula
   desc "Theorem prover"
   homepage "https://leanprover-community.github.io/"
-  url "https://github.com/leanprover-community/lean/archive/v3.30.0.tar.gz"
-  sha256 "402b89ff4d368fd6597dd87c521fd2fe456c6b2b90c99d85f57523661bdd94be"
+  url "https://github.com/leanprover-community/lean/archive/v3.42.1.tar.gz"
+  sha256 "5b8cbfdea6cf4de5488467297958876aa0b3a79ed5806f7d0f01a0c396beb4e2"
   license "Apache-2.0"
-  head "https://github.com/leanprover-community/lean.git"
+  head "https://github.com/leanprover-community/lean.git", branch: "master"
 
-  # The Lean 3 repository (https://github.com/leanprover/lean/) is archived
-  # and there won't be any new releases. Lean 4 is being developed but is still
-  # a work in progress: https://github.com/leanprover/lean4
   livecheck do
-    skip "Lean 3 is archived; add a new check once Lean 4 is stable"
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+    strategy :git do |tags, regex|
+      tags.map do |tag|
+        version = tag[regex, 1]
+        next if version == "9.9.9" # Omit a problematic version tag
+
+        version
+      end
+    end
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "dce6ff86967540c830fa6aecb39e1dcb3dd54beaa0a524ef373e405dbb6f514a"
-    sha256 cellar: :any,                 big_sur:       "a10756134d6e97923dc0425d02a8b1ee0a49b4758f49f27e03282887071cde6f"
-    sha256 cellar: :any,                 catalina:      "014297ad90fee979d9e726fc08d13edd2adab94986541cd67172f62f845aaea5"
-    sha256 cellar: :any,                 mojave:        "386b72209c9b4fdea4f1ee0a5cded5560bd276e4b9e297c4e4586efbb03c4e74"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4d866e92baca2a841cec6605bcbe9e6246fb5f90edbc5c5e054a15c3afd6d69a"
+    sha256 cellar: :any,                 arm64_monterey: "58337f99ae7f334d298267e4f0153334d408a72d7640aeb7834d6fc8499ed0ca"
+    sha256 cellar: :any,                 arm64_big_sur:  "d8dfeaf7e902829013d0109938b910061349a2d16394e48c714a3a1f4b312717"
+    sha256 cellar: :any,                 monterey:       "1e14e749b7b08576bc0dd91f6f6fec6ab97c1c32d79f22a69c5a6b4b41330f95"
+    sha256 cellar: :any,                 big_sur:        "d623ba837328fe54810386ce2385aef9d147784bdf71c43fb749e09bf68546a0"
+    sha256 cellar: :any,                 catalina:       "e16cb80f3a05541ac1d981ff75a6ade15a601931ed8dfa606076ff2b06ac67a9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4d8d848d08308e6301a5eb4ae8bf6f7155a0936df27270c6a82ba699737c3cca"
   end
 
   depends_on "cmake" => :build
@@ -27,13 +34,22 @@ class Lean < Formula
   depends_on "jemalloc"
   depends_on macos: :mojave
 
+  on_linux do
+    depends_on "gcc"
+  end
+
   conflicts_with "elan-init", because: "`lean` and `elan-init` install the same binaries"
 
+  fails_with gcc: "5"
+
   def install
-    mkdir "src/build" do
-      system "cmake", "..", *std_cmake_args
-      system "make", "install"
-    end
+    args = std_cmake_args + %w[
+      -DCMAKE_CXX_FLAGS='-std=c++14'
+    ]
+
+    system "cmake", "-S", "src", "-B", "src/build", *args
+    system "cmake", "--build", "src/build"
+    system "cmake", "--install", "src/build"
   end
 
   test do

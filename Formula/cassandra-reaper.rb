@@ -1,34 +1,39 @@
 class CassandraReaper < Formula
   desc "Management interface for Cassandra"
   homepage "https://cassandra-reaper.io/"
-  url "https://github.com/thelastpickle/cassandra-reaper/releases/download/2.3.1/cassandra-reaper-2.3.1-release.tar.gz"
-  sha256 "3a6633e43ea99d295f61067f948d9918689589d70e09a541310c4c9fa9ecc268"
+  url "https://github.com/thelastpickle/cassandra-reaper/releases/download/3.1.1/cassandra-reaper-3.1.1-release.tar.gz"
+  sha256 "8d71f6e74306f4ef33cc1af6822d7a3702f347355589d66cd899ce546df12d1e"
   license "Apache-2.0"
+  revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "fb19757d6d28a30eed71836a8e674e366ca4ac809fddc845f9f2a4f7cd602414"
+    sha256 cellar: :any_skip_relocation, all: "808c52e9c2375318ba1d94a6bcfdfa7f5c51d37b0e05d0e065ca74cb46f8379e"
   end
 
-  depends_on arch: :x86_64 # openjdk@8 does not support ARM
-  depends_on "openjdk@8"
+  depends_on "openjdk@11"
 
   def install
+    inreplace Dir["resource/*.yaml"], " /var/log", " #{var}/log"
+    inreplace "bin/cassandra-reaper", "/usr/local/share", share
+    inreplace "bin/cassandra-reaper", "/usr/local/etc", etc
+
+    libexec.install "bin/cassandra-reaper"
     prefix.install "bin"
     etc.install "resource" => "cassandra-reaper"
     share.install "server/target" => "cassandra-reaper"
-    inreplace Dir[etc/"cassandra-reaper/*.yaml"], " /var/log", " #{var}/log"
+
+    (bin/"cassandra-reaper").write_env_script libexec/"cassandra-reaper",
+      Language::Java.overridable_java_home_env("11")
   end
 
   service do
     run opt_bin/"cassandra-reaper"
-    environment_variables JAVA_HOME: Formula["openjdk@8"].opt_prefix
     keep_alive true
     error_log_path var/"log/cassandra-reaper/service.err"
     log_path var/"log/cassandra-reaper/service.log"
   end
 
   test do
-    ENV["JAVA_HOME"] = Formula["openjdk@8"].opt_prefix
     cp etc/"cassandra-reaper/cassandra-reaper.yaml", testpath
     port = free_port
     inreplace "cassandra-reaper.yaml" do |s|

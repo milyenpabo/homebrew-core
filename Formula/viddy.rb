@@ -1,17 +1,18 @@
 class Viddy < Formula
   desc "Modern watch command"
   homepage "https://github.com/sachaos/viddy"
-  url "https://github.com/sachaos/viddy/archive/refs/tags/v0.3.1.tar.gz"
-  sha256 "76d5196e33931cc51f209cbfb22699fc000e70e168ba901ed8663952baf015c2"
+  url "https://github.com/sachaos/viddy/archive/refs/tags/v0.3.4.tar.gz"
+  sha256 "9a66db51e729713df102def0c2c02b786bb09c2b024204c515f9c0dd721382aa"
   license "MIT"
   head "https://github.com/sachaos/viddy.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "1c4e5817f0684e356c2ab09828f76b0d05c0e034408018fa3ae0479b5f4b1849"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a41c2e1195882c2f7742d534b28f0bb43677b262e0e5a66ff8e556296a039f37"
-    sha256 cellar: :any_skip_relocation, catalina:      "1f7190c3d2f026fb06a7b12e1345be3b564de5265d29fadbe89b3d3995869882"
-    sha256 cellar: :any_skip_relocation, mojave:        "6f0d8ea45e9a44c3da562a7e0b7ca230517cc9fd4ab153fe6521e4e8988355b0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "48522eaf53c20f2b5d9fe96cb28843962039d27686c065e0c2eac301aff8fce1"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "c40201dfe64007d2bbb080fdcd4ea212c40bb757200ee3c336f9003de5b67461"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5424a7740add9505a202dff137df1692d3254b04ed16c3d8a74ec14d35545525"
+    sha256 cellar: :any_skip_relocation, monterey:       "d91f15be6d4996d1bcb5a9774bbfd119076e6aae544824b44662eae2d255b4fe"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e54f04c85892bee2abefc7911d371e25c0fa4d1fa4f8d4b513b75c334514333c"
+    sha256 cellar: :any_skip_relocation, catalina:       "f585e2d1ff4d12846621b75ec961509fe7fde4d68a38d77db05d6bc789385ad7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0b789c7ee5bc37b63aaf80df52bdc62e774c5ae76ad93f3198de18710274a330"
   end
 
   depends_on "go" => :build
@@ -21,10 +22,8 @@ class Viddy < Formula
   end
 
   test do
-    on_linux do
-      # Errno::EIO: Input/output error @ io_fread - /dev/pts/0
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    # Errno::EIO: Input/output error @ io_fread - /dev/pts/0
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     ENV["TERM"] = "xterm"
     require "pty"

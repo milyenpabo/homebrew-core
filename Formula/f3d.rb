@@ -1,27 +1,39 @@
 class F3d < Formula
   desc "Fast and minimalist 3D viewer"
-  homepage "https://kitware.github.io/F3D/"
-  url "https://gitlab.kitware.com/f3d/f3d/-/archive/v1.1.0/f3d-v1.1.0.tar.gz"
-  sha256 "93aa9759efcc4e77beac4568280aaeaca21bfb233d3c9f60262207ca595bde79"
+  homepage "https://f3d-app.github.io/f3d/"
+  url "https://github.com/f3d-app/f3d/archive/refs/tags/v1.2.1.tar.gz"
+  sha256 "0d72cc465af1adefdf71695481ceea95d4a94ee9e00125bc98c9f32b14ac2bf4"
   license "BSD-3-Clause"
-  revision 2
+  revision 4
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "b199843d36c965a4ca51147d3114bfd5c9fd4a6aa1867b0bd7c34946734ddcd5"
-    sha256 cellar: :any, big_sur:       "0fee7380115fcabee6ded441b91a607435b13da1b6fc478bc1db6101c779d1a3"
-    sha256 cellar: :any, catalina:      "916545a539076217350a0858fcb0e016992c054ca48eccbad26c46091233419d"
-    sha256 cellar: :any, mojave:        "0965ddce0fe74abbfb857fe585d1f504fc2758434d5a22f64663f2c519466193"
+    sha256 cellar: :any,                 arm64_monterey: "ac70f7b75dd20fbb59976ad90a62a14db3190c90f2f97294c39771e74efaf48e"
+    sha256 cellar: :any,                 arm64_big_sur:  "2ac4a39f7a33dcc71cde0e907f5f0610facf5375680e822ef66a24bfd18abdda"
+    sha256 cellar: :any,                 monterey:       "0a2fa1c92c87e4a39b7391f3e8f1c1d636ba6c1b5003d3cb72051a2c8015c87b"
+    sha256 cellar: :any,                 big_sur:        "1a6cf080c920572b651e567e839df1142dfc95e7e93200890a6abb6f9f60878b"
+    sha256 cellar: :any,                 catalina:       "e1528f1a04999a5d1cc8597dea5d0ebeb3a6139e0bddb61ee5dcf72f076a58ba"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "628f05faa164491788ca3bc4765684f9cd473c94f4ca0369c5d677db0c81eb9d"
   end
 
   depends_on "cmake" => :build
+  depends_on "assimp"
+  depends_on "opencascade"
   depends_on "vtk"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # vtk is built with GCC
 
   def install
     args = std_cmake_args + %W[
-      -DMACOSX_BUILD_BUNDLE:BOOL=OFF
+      -DF3D_MACOS_BUNDLE:BOOL=OFF
       -DBUILD_SHARED_LIBS:BOOL=ON
       -DBUILD_TESTING:BOOL=OFF
       -DF3D_INSTALL_DEFAULT_CONFIGURATION_FILE:BOOL=ON
+      -DF3D_MODULE_OCCT:BOOL=ON
+      -DF3D_MODULE_ASSIMP:BOOL=ON
       -DCMAKE_INSTALL_NAME_DIR:STRING=#{lib}
       -DCMAKE_INSTALL_RPATH:STRING=#{lib}
     ]

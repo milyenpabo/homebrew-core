@@ -1,16 +1,17 @@
 class Bupstash < Formula
   desc "Easy and efficient encrypted backups"
   homepage "https://bupstash.io"
-  url "https://github.com/andrewchambers/bupstash/releases/download/v0.10.2/bupstash-v0.10.2-src+deps.tar.gz"
-  sha256 "eaadac9cd6bc993f0bd143de457054eb6572e093783907478968a80dff1a355c"
+  url "https://github.com/andrewchambers/bupstash/releases/download/v0.11.0/bupstash-v0.11.0-src+deps.tar.gz"
+  sha256 "b763b71aad87e7ae8e9dec06c5de54796ad3cc6e59859374b9eef066d7f2f941"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "ed18dd9a09063de9d3be7739ab048f977dc89b30d4f17ca6e625dfca7bfd4e6a"
-    sha256 cellar: :any,                 big_sur:       "f30a220780b8d94cbbeec8faf0dc13464a38f7029116ee587ea39279c4e3e1cb"
-    sha256 cellar: :any,                 catalina:      "0488ba4d72c967d3d2ba923930f248a0bb60122f773f98f4438cfa8b2097084d"
-    sha256 cellar: :any,                 mojave:        "b637f71d3cff79b2621c436f597e313cb76d1eef015ed501269b73e0832cc5d2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3c4123bcb3b3c06fe08f42913d172f0cf9659b0b414c06e59515fd7a52722769"
+    sha256 cellar: :any,                 arm64_monterey: "c2b3bfbd7075c0a64304667421815bb529183f9eb9bde61ecaf79923d2925f1d"
+    sha256 cellar: :any,                 arm64_big_sur:  "65104ae3ea862bc86dae1ce07a1c067ea45d88e75bea5926796faddfcbe6b5ab"
+    sha256 cellar: :any,                 monterey:       "e99ed02f65489c64106daee7952490084ac1e3093b45fb99da915be587028db1"
+    sha256 cellar: :any,                 big_sur:        "522831b729f52716a33cb2937453912dbd0c5c88edd962d120eae4ab7afa50f6"
+    sha256 cellar: :any,                 catalina:       "281410e6ef86bf6645d4f31c7bb8a97ce60f47ac5ab5e16537ce4fd355324e2e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5a9b5ee63438c71becbe6899c64b79ab78110fb0782a9185f9108bc78071f478"
   end
 
   depends_on "pkg-config" => :build
@@ -18,8 +19,8 @@ class Bupstash < Formula
   depends_on "libsodium"
 
   resource "man" do
-    url "https://github.com/andrewchambers/bupstash/releases/download/v0.10.2/bupstash-v0.10.2-man.tar.gz"
-    sha256 "50720383e4154add1e948a59a9c75b90bef7a8848f38aadcaebaecd38181b732"
+    url "https://github.com/andrewchambers/bupstash/releases/download/v0.11.0/bupstash-v0.11.0-man.tar.gz"
+    sha256 "74645f4a243f786261123667e1849085cc2eda095bf3ebbb792cb0195adeeae9"
   end
 
   def install

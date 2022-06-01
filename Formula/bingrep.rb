@@ -1,16 +1,17 @@
 class Bingrep < Formula
   desc "Greps through binaries from various OSs and architectures"
   homepage "https://github.com/m4b/bingrep"
-  url "https://github.com/m4b/bingrep/archive/v0.8.5.tar.gz"
-  sha256 "082119e776009b8cb2293b90b49386bfedf2fccaef95130c1f1e3454f6e74e55"
+  url "https://github.com/m4b/bingrep/archive/v0.10.0.tar.gz"
+  sha256 "3bc4ebaf179d72b82277e7130d44c15e2cc646d388124d0acdb2ca5f33e93af6"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "68702daacc07c6c76ac3f1588a8bf6714af26ee054acdbb01308a2382d53b3a9"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a4024e1291282371002c7af0a35fcb55e929300b0b60a4b2f97dfd0755af396e"
-    sha256 cellar: :any_skip_relocation, catalina:      "bf59cab5aa3c7710fe2910aac21433ff8c10c4101b44df3669783d588178633f"
-    sha256 cellar: :any_skip_relocation, mojave:        "3fde029ce5bc7b15c715543091868082ffcdd8f1be4d661061b8256c0289dcba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5b7e69c3e209fd5c7ed4b1918ac822740948462dced68587a87113b0a155293a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "fc3511ced4f06ce883baeb199bc9560940180404a2a028d28e3a1d53e5cbda40"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8d3f278b41a2fdc6387447d06a820af2160f4809009ba66c67e22d3b45359e06"
+    sha256 cellar: :any_skip_relocation, monterey:       "f758d9c3a52d018cdb7419643f723424204d85649b6afd0a805caf81514ea254"
+    sha256 cellar: :any_skip_relocation, big_sur:        "9b9a09530c6e0bd26b562bdafc8c41302f59b13d3de4f0bff82404483f7032b1"
+    sha256 cellar: :any_skip_relocation, catalina:       "e19230799fbb8021298e8ec752f9b98ff4dc159c2852c16ea81dc0f002c3a57d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "65ca2b55517c61ff1e71680e33a6657416255ba9d1cf16890f15a7074e982f45"
   end
 
   depends_on "rust" => :build

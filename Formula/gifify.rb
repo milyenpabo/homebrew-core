@@ -4,14 +4,17 @@ class Gifify < Formula
   url "https://github.com/jclem/gifify/archive/v4.0.tar.gz"
   sha256 "4cb967e8d0ba897bc91a60006e34299687f388dd47e05fd534f2eff8379fe479"
   license "MIT"
-  head "https://github.com/jclem/gifify.git"
+  head "https://github.com/jclem/gifify.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "617b00e6f12cccfc26254ae3f29146e6bcdca8224b3307c405ae105e9ab9c48a"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, all: "c2721950d78064f75c5f4dbe1c8dc72bfbe3ddb34c5a8d94a3198551bf12aacf"
   end
 
   depends_on "ffmpeg"
   depends_on "imagemagick"
+
+  uses_from_macos "bc"
 
   def install
     bin.install "gifify.sh" => "gifify"

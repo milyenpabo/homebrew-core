@@ -1,11 +1,10 @@
 class Kcov < Formula
   desc "Code coverage tester for compiled programs, Python, and shell scripts"
   homepage "https://simonkagstrom.github.io/kcov/"
-  url "https://github.com/SimonKagstrom/kcov/archive/38.tar.gz"
-  sha256 "b37af60d81a9b1e3b140f9473bdcb7975af12040feb24cc666f9bb2bb0be68b4"
-  license "GPL-2.0"
-  revision 1
-  head "https://github.com/SimonKagstrom/kcov.git"
+  url "https://github.com/SimonKagstrom/kcov/archive/v40.tar.gz"
+  sha256 "6b1c11b066d57426d61375a31c3816f1fcd2610b447050c86d9920e22d5200b3"
+  license "GPL-3.0-or-later"
+  head "https://github.com/SimonKagstrom/kcov.git", branch: "master"
 
   # We check the Git tags because, as of writing, the "latest" release on GitHub
   # is a prerelease version (`pre-v40`), so we can't rely on it being correct.
@@ -15,17 +14,18 @@ class Kcov < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "32aab6003ab8ca0cf45e55415ae5b78e6fc59f5e02fa1d84397df1be17261230"
-    sha256 cellar: :any_skip_relocation, big_sur:       "e8181653c02129bd63fd438d3e5965cd25d5408ebe7c6699da2ab86b9a9f4340"
-    sha256 cellar: :any_skip_relocation, catalina:      "becb863fd482145cd67dab0b25df128b5deba598fa89a217cd6ff63ba79edbc5"
-    sha256 cellar: :any_skip_relocation, mojave:        "dd72670ef6f9abd9b44bf70b8fcb64faffe1ba4edfd4704c70de395d3594dc89"
-    sha256                               x86_64_linux:  "d06adbd0e486fd113be4eeb75322e8cad6b63091c39d4bb85562278bde569e76"
+    sha256 arm64_monterey: "ac1c2c3b59a021af7822ed720ef499aee7dfd3650374c2b87afad5f03c7e7e20"
+    sha256 arm64_big_sur:  "bdb4c013e4153a73e3f18b3c5dce933719946491ab23642c0f30ed63400e051d"
+    sha256 monterey:       "994883172334f1c2279dc51a1d5a57aef8e6774d1a9a78beb907caa6d8e2798c"
+    sha256 big_sur:        "b0f468c3f75bb9c5fe67735e40d362916885b47ac678162b7a283a91813f8c25"
+    sha256 catalina:       "d219d3bf36180ce31b3d7cf0352803a079ee058cecbba3aff6062ba793b01b1b"
+    sha256 x86_64_linux:   "a94c3256cb943cb1638ae0c39e93c3bd5ac6106ebf148c1135325d1c95c3104f"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
+  depends_on "openssl@3"
 
   uses_from_macos "curl"
   uses_from_macos "zlib"
@@ -35,11 +35,9 @@ class Kcov < Formula
   end
 
   def install
-    mkdir "build" do
-      system "cmake", "-DSPECIFY_RPATH=ON", *std_cmake_args, ".."
-      system "make"
-      system "make", "install"
-    end
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, "-DSPECIFY_RPATH=ON"
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do

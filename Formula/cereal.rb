@@ -1,18 +1,13 @@
 class Cereal < Formula
   desc "C++11 library for serialization"
   homepage "https://uscilab.github.io/cereal/"
-  url "https://github.com/USCiLab/cereal/archive/v1.3.0.tar.gz"
-  sha256 "329ea3e3130b026c03a4acc50e168e7daff4e6e661bc6a7dfec0d77b570851d5"
+  url "https://github.com/USCiLab/cereal/archive/v1.3.2.tar.gz"
+  sha256 "16a7ad9b31ba5880dac55d62b5d6f243c3ebc8d46a3514149e56b5e7ea81f85f"
   license "BSD-3-Clause"
   head "https://github.com/USCiLab/cereal.git", branch: "develop"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "62497644813556eff7bc7da0aad2d13e8d21ef98d21ee12b090bcfbcd909e0e8"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a91e1e24d8bad693211e5854f9270bc54167c261c8b7d5434d5a8983af06a792"
-    sha256 cellar: :any_skip_relocation, catalina:      "a8320898b751c2df4777d1fd77f9982a812972b46630fa060b21e412c545a14d"
-    sha256 cellar: :any_skip_relocation, mojave:        "a8320898b751c2df4777d1fd77f9982a812972b46630fa060b21e412c545a14d"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "a8320898b751c2df4777d1fd77f9982a812972b46630fa060b21e412c545a14d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5b3c9e8d3da8a3b7526a7376ea434c3fe005e08ee14269219659a74539abff3b"
+    sha256 cellar: :any_skip_relocation, all: "13b3cb91e465c3857b307912e79bc1531167deccf9a2823d1c6e69abb8833792"
   end
 
   depends_on "cmake" => :build

@@ -2,8 +2,8 @@ class Monero < Formula
   desc "Official Monero wallet and CPU miner"
   homepage "https://www.getmonero.org/"
   url "https://github.com/monero-project/monero.git",
-      tag:      "v0.17.2.3",
-      revision: "2222bea92fdeef7e6449d2d784cdfc3012641ee1"
+      tag:      "v0.17.3.2",
+      revision: "424e4de16b98506170db7b0d7d87a79ccf541744"
   license "BSD-3-Clause"
 
   livecheck do
@@ -12,11 +12,12 @@ class Monero < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "13245ecf80fad0038bef6dedd713f9e97ef64c7d3985bc68dd4a8597646b4059"
-    sha256 cellar: :any,                 big_sur:       "bad7e328cceef655c092f5555e16a92c4c8841fc93ad8152058327be3bf8625d"
-    sha256 cellar: :any,                 catalina:      "b416b9387fd77c4b8041864c590b233d1dc6645e3a6cca6c23ba7bf233b16d3c"
-    sha256 cellar: :any,                 mojave:        "64fa20b4cf46cc810fd8aae3b28adaa346ba0f223a196489311eab03870df2fb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d43bb2f040234a457f756d77ed4f6f596115fadd1189071e2a32f570d14ac233"
+    sha256 cellar: :any,                 arm64_monterey: "8c2ec3498bce1d4ddbf8c91d68e3d4873a179ca94b988480ac0e386cc618da66"
+    sha256 cellar: :any,                 arm64_big_sur:  "be790370b452889fb37479443f9633c0fe84968c882f7283570f8155bc479ae1"
+    sha256 cellar: :any,                 monterey:       "66a4cc186141dd36d32a49a024e7675ed349a29a7929ca4895b9eb530211f831"
+    sha256 cellar: :any,                 big_sur:        "0543ac8a9c09f4491a36f035ebf84f6a31e220e75b39f037a8f33a854bd81338"
+    sha256 cellar: :any,                 catalina:       "b468595a61d1030bddaf1ab44490a753e48b08d020da3f6c5623a9105c815247"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f82ebfdccb69176a3a86625c8ccb94a89af264d175f1065ac0142663e60557ba"
   end
 
   depends_on "cmake" => :build
@@ -35,10 +36,6 @@ class Monero < Formula
   def install
     system "cmake", ".", *std_cmake_args
     system "make", "install"
-
-    # Fix conflict with miniupnpc.
-    # This has been reported at https://github.com/monero-project/monero/issues/3862
-    rm lib/"libminiupnpc.a"
   end
 
   service do

@@ -1,29 +1,43 @@
 class Scorecard < Formula
   desc "Security health metrics for Open Source"
   homepage "https://github.com/ossf/scorecard"
-  url "https://github.com/ossf/scorecard/archive/v2.2.8.tar.gz"
-  sha256 "8bd59643c535e9bed0980562b20ff5b97079c4330c1fe44fa35b06aa8178d758"
+  url "https://github.com/ossf/scorecard.git",
+      tag:      "v4.3.0",
+      revision: "6406cfd4e34156a5ad04fb4207bef0297f83903c"
   license "Apache-2.0"
   head "https://github.com/ossf/scorecard.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "75c0d43bdd888c815a26f7f2c46c4cbf325dc45efe9a4947335507f14ae9d84d"
-    sha256 cellar: :any_skip_relocation, big_sur:       "61e985e1b6b9dc32a3788e139a07ee430e06c488eb27bf046c672d13c4f898b6"
-    sha256 cellar: :any_skip_relocation, catalina:      "65026697be3368d7f33d7e0ef64914f41be7ee417bc1487ea15daf202954ddea"
-    sha256 cellar: :any_skip_relocation, mojave:        "ec3fc7fe857a9717530fd71c0f8e492780a3fef14108bba27b0dcde590209c4f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4ef69758e921c7787d9d96b2e390eba1fcac13abb05200de9793098efee99e71"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9a2307b1d24b96510d303575fce94b65e0f5c90e3f4dde04f658d6c5ddeb36df"
+    sha256 cellar: :any_skip_relocation, monterey:       "636a13136493d91595943b70cb64bc6ab11af755facb522ba62090d048556030"
+    sha256 cellar: :any_skip_relocation, big_sur:        "efe8d63f67cec9de0e345f785087092ca11c32bee58678242864213f68f80845"
+    sha256 cellar: :any_skip_relocation, catalina:       "6a4a0899deaa67e5bab7939a764fd9bda9f8b7d05f6a188c951c5c208a6ba0fe"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8ca6cf322dae555039d037f9d54066bdcd58bbce30849f8138a4b28c2e5729c6"
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", *std_go_args(ldflags: "-s -w")
-    cd("docs/checks/internal/generate") { system "go", "run", "main.go", "../../checks.md" }
+    pkg = "sigs.k8s.io/release-utils/version"
+    ldflags = %W[
+      -s -w
+      -X #{pkg}.gitVersion=#{version}
+      -X #{pkg}.gitCommit=#{Utils.git_head}
+      -X #{pkg}.gitTreeState=clean
+      -X #{pkg}.buildDate=#{time.iso8601}
+    ]
+    system "go", "build", *std_go_args(ldflags: ldflags)
+    system "make", "generate-docs"
     doc.install "docs/checks.md"
   end
 
   test do
     ENV["GITHUB_AUTH_TOKEN"] = "test"
-    output = shell_output("#{bin}/scorecard --repo=github.com/kubernetes/kubernetes --checks=Maintained 2>&1", 1)
-    assert_match "GET https://api.github.com/repos/kubernetes/kubernetes: 401 Bad credentials", output
+    output = shell_output("#{bin}/scorecard --repo=github.com/kubernetes/kubernetes --checks=Maintained 2>&1", 2)
+    expected_output = "InitRepo: repo unreachable: GET https://api.github.com/repos/google/oss-fuzz: 401"
+    assert_match expected_output, output
+
+    assert_match version.to_s, shell_output("#{bin}/scorecard version 2>&1")
   end
 end

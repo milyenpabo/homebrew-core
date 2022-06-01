@@ -1,8 +1,8 @@
 class Htop < Formula
   desc "Improved top (interactive process viewer)"
   homepage "https://htop.dev/"
-  url "https://github.com/htop-dev/htop/archive/3.1.0.tar.gz"
-  sha256 "200a4f9331d0e5048bf9bda6a8dee38248c557e471b9e57ff3784853efd613a9"
+  url "https://github.com/htop-dev/htop/archive/3.2.0.tar.gz"
+  sha256 "1a1dd174cc828521fe5fd0e052cff8c30aa50809cf80d3ce3a481c37d476ac54"
   license "GPL-2.0-or-later"
   head "https://github.com/htop-dev/htop.git", branch: "main"
 
@@ -12,18 +12,18 @@ class Htop < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "be94287535d61d1c180bace2ec77492a8de092539ace76b770d53c5234704e69"
-    sha256 cellar: :any,                 big_sur:       "f651173535b859cecca10d2dfab28ff78c184cf1e16455ec296fae2d509d2aad"
-    sha256 cellar: :any,                 catalina:      "2601b6b120df50c7790d5b2f8dcf06848ddae0b35315affec641dec17271fa46"
-    sha256 cellar: :any,                 mojave:        "7c9b9ac633b0339fead96c6e611b87bcc6df9f7fe0947dac76908340290707c2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bb5ac6bbfb4109cc5824ae40753bcab7fb08c9dd5b87ff0f41ea76e369d92545"
+    sha256 cellar: :any,                 arm64_monterey: "160f154f147eb9895626ac2a6aa9aaf16d561828067c1faa7e990e7e50a0efde"
+    sha256 cellar: :any,                 arm64_big_sur:  "0b5b52d11c885e8661a69e342d0778c5c71ecd57bc5c366fa28911967b2d1191"
+    sha256 cellar: :any,                 monterey:       "eac8d539403c7b3c1dee9e16454399e9963191c79a7b5cda343bb4b13cdf7f61"
+    sha256 cellar: :any,                 big_sur:        "e4b21db63251f1c3472e5c76372451017ed008a21afce273d0633bd8acb3de7d"
+    sha256 cellar: :any,                 catalina:       "998bbe3612d1d5da046351e28037c68fc894d2847fd08648b3fcce26141cf098"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7ed8c32a717de42eec088976dbe561b5904fc11753f6b1c376f36a34af057802"
   end
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
   depends_on "ncurses" # enables mouse scroll
 
   on_linux do

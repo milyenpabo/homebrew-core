@@ -3,24 +3,30 @@ class Libgusb < Formula
 
   desc "GObject wrappers for libusb1"
   homepage "https://github.com/hughsie/libgusb"
-  url "https://people.freedesktop.org/~hughsient/releases/libgusb-0.3.7.tar.xz"
-  sha256 "da5f25d6873622689b3351486cbe028efc254403f646dd81225dfe8542d8c67d"
+  url "https://people.freedesktop.org/~hughsient/releases/libgusb-0.3.10.tar.xz"
+  sha256 "0eb0b9ab0f8bba0c59631c809c37b616ef34eb3c8e000b0b9b71cf11e4931bdc"
   license "LGPL-2.1-only"
-  head "https://github.com/hughsie/libgusb.git"
+  head "https://github.com/hughsie/libgusb.git", branch: "main"
+
+  livecheck do
+    url "https://people.freedesktop.org/~hughsient/releases/"
+    regex(/href=.*?libgusb[._-]v?(\d+(?:\.\d+)+)\.t/i)
+  end
 
   bottle do
-    sha256 arm64_big_sur: "a03dfea8e1edf9bdf901a7d17cb8cbc9aeb7fe4188376db74d51a0f2d9b0a04c"
-    sha256 big_sur:       "2fd0b79da4ed73da54bae2ae8624ea7b669cb5fc0ff56271e59a54d17f849095"
-    sha256 catalina:      "87dfd4dbc0d2061835c78347f1ea1e37def0091e66ab1da1409b32c03f4a210e"
-    sha256 mojave:        "9eda4fe4eae3ab04d80b218ec9f2f5c631b8eadc31a12b0708af1adb7fb44371"
-    sha256 x86_64_linux:  "7a99316555d347858e235e865f61add728b1226aefd05cc30a11f530476c8ee0"
+    sha256 arm64_monterey: "849f1b3ce8992e6c1d2526bfb1f49e708a00ef11096b3523040bc4d78cf1d81e"
+    sha256 arm64_big_sur:  "f6134de07f56b644a6eaad1a89b242c5a894ce7dd3e208bb6aca0e018c8bf915"
+    sha256 monterey:       "e73694daf4e1af0b676471e2e608b180761d93004c79574a94097d1624e73fa5"
+    sha256 big_sur:        "eb972073fabe0280e785d734d4f456bb703b4b602deff16d9d3211da5604e8cb"
+    sha256 catalina:       "d2822cd3978da5ffb0ff27f2e792bae66e2c4cc6b1f8d814afbef6ae283291c0"
+    sha256 x86_64_linux:   "47eb5f3aab7e66f6145891370c5061571c33106c57aab378143f258e76516032"
   end
 
   depends_on "gobject-introspection" => :build
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "vala" => :build
   depends_on "glib"
   depends_on "libusb"
@@ -67,9 +73,7 @@ class Libgusb < Formula
       -lusb-1.0
       -lgusb
     ]
-    on_macos do
-      flags << "-lintl"
-    end
+    flags << "-lintl" if OS.mac?
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
   end

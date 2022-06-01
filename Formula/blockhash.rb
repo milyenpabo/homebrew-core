@@ -1,57 +1,41 @@
 class Blockhash < Formula
   desc "Perceptual image hash calculation tool"
   homepage "https://github.com/commonsmachinery/blockhash"
-  url "https://github.com/commonsmachinery/blockhash/archive/v0.3.1.tar.gz"
-  sha256 "56e8d2fecf2c7658c9f8b32bfb2d29fdd0d0535ddb3082e44b45a5da705aca86"
+  url "https://github.com/commonsmachinery/blockhash/archive/v0.3.2.tar.gz"
+  sha256 "add1e27e43b35dde56e44bc6d1f0556facf4a18a0f9072df04d4134d8f517365"
   license "MIT"
-  revision 4
   head "https://github.com/commonsmachinery/blockhash.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "1263f1d1a652f85a0cd026b5f9d1e1df6f1f467aee9a4336dfcacd02d590253b"
-    sha256 cellar: :any, big_sur:       "e7dad94beb23855c8bb9b9145da15b74b29f11f5125c3c9cb495d9894a747a3a"
-    sha256 cellar: :any, catalina:      "16fa35be4bfea3e7e71ee26879f2e8508062b3f9684c178bc0204c0cec1e0284"
-    sha256 cellar: :any, mojave:        "b6fd37575c7c00ab516240c916d7af8576655188c4fa830bf04833859d804b7f"
+    rebuild 1
+    sha256 cellar: :any,                 arm64_monterey: "c371333e6fb3b87bb8705b59656bee1f0273b908e9703c273491ca1e8cde6321"
+    sha256 cellar: :any,                 arm64_big_sur:  "ea24e2ec0238503bfd4d4bb60aad606be7721acec5320db0dca8518cbd017e2b"
+    sha256 cellar: :any,                 monterey:       "3f2fed32a9e23dfe2c96fbb1659c4096626b8af48c42c6f1cd9695f6be79d863"
+    sha256 cellar: :any,                 big_sur:        "f3d00d88a90889cd500ecc7c335ccb202f98d067f4224df1d940289d49caaf6c"
+    sha256 cellar: :any,                 catalina:       "cab37517dd31e66ef9092d2f390aadadeb84a2b21bea2e1c3bf1c3410f8f6fc6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ef68b2a762b5c5bd42e28103e78b9782268d9c756beff3d3934be996a1500711"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "imagemagick"
 
-  resource "testdata" do
+  resource "homebrew-testdata" do
     url "https://raw.githubusercontent.com/commonsmachinery/blockhash/ce08b465b658c4e886d49ec33361cee767f86db6/testdata/clipper_ship.jpg"
     sha256 "a9f6858876adadc83c8551b664632a9cf669c2aea4fec0c09d81171cc3b8a97f"
   end
 
-  # Add python3 support
-  #
-  # This patch mimics changes from https://github.com/commonsmachinery/blockhash/commit/07268aeaeef880e0749bd22331ee424ddbc156e0
-  # but can't be applied as a formula patch since it contains GIT binary patch
-  #
-  # See https://github.com/commonsmachinery/blockhash/issues/28#issuecomment-417726356
-  #
-  # Remove this in next release
-  resource "waf-2.0.10" do
-    url "https://raw.githubusercontent.com/commonsmachinery/blockhash/07268aeaeef880e0749bd22331ee424ddbc156e0/waf"
-    sha256 "0a855861c793f9b7e46b0077b791e13515e00742e1493e1818f9b369133b83d7"
-  end
-
   def install
-    resource("waf-2.0.10").stage buildpath
-    chmod 0755, "waf"
-
-    ENV.prepend_path "PATH", Formula["python@3.9"].opt_bin
-
-    system "./waf", "configure", "--prefix=#{prefix}"
+    system "python3", "./waf", "configure", "--prefix=#{prefix}"
     # pkg-config adds -fopenmp flag during configuring
     # This fails the build on system clang, and OpenMP is not used in blockhash
     inreplace "build/c4che/_cache.py", "-fopenmp", ""
-    system "./waf"
-    system "./waf", "install"
+    system "python3", "./waf"
+    system "python3", "./waf", "install"
   end
 
   test do
-    resource("testdata").stage testpath
+    resource("homebrew-testdata").stage testpath
     hash = "00007ff07ff07fe07fe67ff07560600077fe701e7f5e000079fd40410001ffff"
     result = shell_output("#{bin}/blockhash #{testpath}/clipper_ship.jpg")
     assert_match hash, result

@@ -2,28 +2,21 @@ class CartridgeCli < Formula
   desc "Tarantool Cartridge command-line utility"
   homepage "https://tarantool.org/"
   url "https://github.com/tarantool/cartridge-cli.git",
-      tag:      "2.10.0",
-      revision: "2b87a1b1d6159d8fe8ed52bca58a00365e29cbde"
+      tag:      "2.12.1",
+      revision: "af99c209464b890b559ac82fcb2f03ed19fb9c93"
   license "BSD-2-Clause"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4377b98d0ad6eb4505851335a1f0f28efaee3c08038e4e6b01e2b45a30746236"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3a7029c4c492dcb0dc25880ab262e8990494ac59839906459974d39f3c18a684"
-    sha256 cellar: :any_skip_relocation, catalina:      "f6a520934a4deb9ced42ce061c5d5c3b8742afb25835fb01a6db0be84a3ce315"
-    sha256 cellar: :any_skip_relocation, mojave:        "08fdfac9a58c68546ffc0c6333997bb5de778d9ac19406ec679173e197dbb4ca"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "50793e3b6cc34d7e8e1e9f3f815db7e26a8caa7b709f2fb939b6c683b9077506"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "59e2918f3c30d8811da3644ac41c92c4f0a0bdff7739c21232526df276be4904"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b836ae371bfc82ef13758fdf9ee23cbcffacf1ac7d444f17eab55217f35d27a7"
+    sha256 cellar: :any_skip_relocation, monterey:       "fcc467f57f326e341110c3420ff2ffe762ee39a332751b064c9179662bf9d9f3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "79f45c0b4aacd8e0b42b64183b5d32a30c40b28b12d397bfe5b86e35a6f271e9"
+    sha256 cellar: :any_skip_relocation, catalina:       "ee6513172636ebb5af17b642b1c587688be1d4b3a2322f049427a0a615c0f1b7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "acd7594d7c01690eec96bf176b1d27930d669310ee54e368b3cc8f023a28ac8b"
   end
 
   depends_on "go" => :build
   depends_on "mage" => :build
-
-  # Support go 1.17, remove when upstream patch is merged/released
-  # https://github.com/tarantool/cartridge-cli/pull/618
-  patch do
-    url "https://github.com/tarantool/cartridge-cli/commit/84193babc1395208a205a0c06a4a8a9a73ab6512.patch?full_index=1"
-    sha256 "5b50feeeb764018cd226595d733d6467b922a9974fc520c52c1ca692495f99c3"
-  end
 
   def install
     system "mage", "build"

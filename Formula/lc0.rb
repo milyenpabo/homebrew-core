@@ -2,23 +2,25 @@ class Lc0 < Formula
   desc "Open source neural network based chess engine"
   homepage "https://lczero.org/"
   url "https://github.com/LeelaChessZero/lc0.git",
-      tag:      "v0.28.0",
-      revision: "3982cc0e74b576476c875da6fa0ff81164287425"
+      tag:      "v0.28.2",
+      revision: "fa5864bb5838e131d832ad63300517f4684913e7"
   license "GPL-3.0-or-later"
+  revision 2
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "36aa6aad76aee88ce231dc5a0aac948f097055351813351876acd08dfc450a03"
-    sha256 cellar: :any_skip_relocation, big_sur:       "994f3b0045579eccda6c5eb1241a4484c202bb9c8528184ba2e4eee770a7e2c5"
-    sha256 cellar: :any_skip_relocation, catalina:      "e37cf24d564b5649d873692e5162a90e7e1840e2346326be86ef0ba25c8b7737"
-    sha256 cellar: :any_skip_relocation, mojave:        "650ff1cdf5e4aad508572322e89010722c92bf30b89ed07f95cdec6dd1fd0140"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "4d89547675b9eb3c62073100047d9f9d91e51f9d3063655cf38e7f836dd28063"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2d8bfca5ebff386f71840281f15ec3c04e2436f1fcb3529ce1eb5d10facbc9db"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "bdc7f840a570db9c0f54a5055091fd16ab04399b68381d05e75071d5c61fd8e9"
+    sha256 cellar: :any_skip_relocation, monterey:       "97af5c15368b7ccc506055dd37a7dabefb3fa437eafe3326b7c9a094ae6583f1"
+    sha256 cellar: :any_skip_relocation, big_sur:        "981faff9f38f2d4d40ea716e837f8ba45ea63dc627f80078af043110074204b0"
+    sha256 cellar: :any_skip_relocation, catalina:       "bb01f65bcf9aa37e511b8235ffd2108dcc9176a4a6ab1c20eca909eb0f8146bd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fbe3c6e9c3e92df13902470ddae27d1cc2cebc26d395b5be01a82465ec940575"
   end
 
   depends_on "cmake" => :build
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build # required to compile .pb files
+  depends_on "python@3.10" => :build # required to compile .pb files
   depends_on "eigen"
 
   uses_from_macos "zlib"

@@ -4,7 +4,7 @@ class Omniorb < Formula
   url "https://downloads.sourceforge.net/project/omniorb/omniORB/omniORB-4.2.4/omniORB-4.2.4.tar.bz2"
   sha256 "28c01cd0df76c1e81524ca369dc9e6e75f57dc70f30688c99c67926e4bdc7a6f"
   license "GPL-2.0"
-  revision 1
+  revision 2
 
   livecheck do
     url :stable
@@ -12,15 +12,17 @@ class Omniorb < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "af99975268bf9395f8aa6b00521f5dde8e41434a2bc19ee45aa9abba372bad75"
-    sha256 cellar: :any,                 big_sur:       "625e7bb2ca70ac3a1e52d3cc8ef9b1614b498eb24b00cdc78736dcea7c40c9cf"
-    sha256 cellar: :any,                 catalina:      "e25345b167440b0a34a7399a267b487d0e8ffb24ccd5f9c2cbbf874b8a38e729"
-    sha256 cellar: :any,                 mojave:        "5c8d7b0adeca7c70af83d5b13acc4629e8329104562deaea9f329bf7345ad272"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "87fd171d45ee3efaa71a07106b42a1261f1d6ec247fea2331a626137718d395c"
+    rebuild 1
+    sha256 cellar: :any,                 arm64_monterey: "0e05e6e0d23e598d7b23e89ddb58230369933dee00d389c56f56777e396c1687"
+    sha256 cellar: :any,                 arm64_big_sur:  "1de446edfd905f9d455fc68bd4ea4e645ad5d1458f9f6011a29076f2737b0084"
+    sha256 cellar: :any,                 monterey:       "a3deb94051db3a410b6035a3ea14b72df42e5ba9a9e37f34b7a3fcca8c484e5c"
+    sha256 cellar: :any,                 big_sur:        "18881ad0bf3a710e26a80c40fe35175c6affbbeb41f237b234d1529be7bd6300"
+    sha256 cellar: :any,                 catalina:       "07d60469609804fa434497a100bbbf22a24e3473ffd18931524eee975530fdff"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4a297fb5833f049ad78e4c613c51a6077fea5ebf153b2014790d2d2edf891f31"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   resource "bindings" do
     url "https://downloads.sourceforge.net/project/omniorb/omniORBpy/omniORBpy-4.2.4/omniORBpy-4.2.4.tar.bz2"
@@ -28,17 +30,20 @@ class Omniorb < Formula
   end
 
   def install
+    ENV["PYTHON"] = which("python3")
     system "./configure", "--prefix=#{prefix}"
     system "make"
     system "make", "install"
 
     resource("bindings").stage do
-      system "./configure", "--prefix=#{prefix}", "PYTHON=python3"
+      system "./configure", "--prefix=#{prefix}"
       system "make", "install"
     end
   end
 
   test do
     system "#{bin}/omniidl", "-h"
+    system "#{bin}/omniidl", "-bcxx", "-u"
+    system "#{bin}/omniidl", "-bpython", "-u"
   end
 end

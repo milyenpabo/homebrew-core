@@ -4,7 +4,7 @@ class GitTracker < Formula
   url "https://github.com/stevenharman/git_tracker/archive/v2.0.0.tar.gz"
   sha256 "ec0a8d6dd056b8ae061d9ada08f1cc2db087e13aaecf4e0d150c1808e0250504"
   license "MIT"
-  head "https://github.com/stevenharman/git_tracker.git"
+  head "https://github.com/stevenharman/git_tracker.git", branch: "main"
 
   bottle do
     sha256 cellar: :any_skip_relocation, arm64_big_sur: "f74c420720d35b85637c46102e5c897f099b7b0e049fb9114e757604c54d2da1"
@@ -15,7 +15,11 @@ class GitTracker < Formula
     sha256 cellar: :any_skip_relocation, sierra:        "38f5240121fa53c038034ea9d0ce639f49c6df241727cbc5fbbd6acb48c60ea7"
     sha256 cellar: :any_skip_relocation, el_capitan:    "beba888de6c1dad6b4069be93ad1029ce70c24cc241c5b930c6aaf541fd11c4d"
     sha256 cellar: :any_skip_relocation, yosemite:      "beba888de6c1dad6b4069be93ad1029ce70c24cc241c5b930c6aaf541fd11c4d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b48f605b2021cb869ada9958af24430b6fad63b2b6eddd3accc57e2930666ca0"
+    sha256 cellar: :any_skip_relocation, all:           "d010189ba8fe4ce89198ee964ce6d86d2ac95e63d2ef199847379e7a26d79d32"
   end
+
+  uses_from_macos "ruby"
 
   def install
     system "rake", "standalone:install", "prefix=#{prefix}"

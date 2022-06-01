@@ -1,29 +1,23 @@
 class Naabu < Formula
   desc "Fast port scanner"
   homepage "https://github.com/projectdiscovery/naabu"
-  url "https://github.com/projectdiscovery/naabu/archive/v2.0.4.tar.gz"
-  sha256 "2d9f01e42f2182d008041e145c047a7ca45d31214a2d20b1acf4a148659b5815"
+  url "https://github.com/projectdiscovery/naabu/archive/v2.0.7.tar.gz"
+  sha256 "dabd5f7b883f806483b2a5a879c583840cdda74dc6f3d3781b1b375744e9feac"
   license "MIT"
   head "https://github.com/projectdiscovery/naabu.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "2228e508d26dbb872419ff77bc55ad8a7beaef6fb75710c3ae6bd9ccce4f0cff"
-    sha256 cellar: :any_skip_relocation, big_sur:       "ee734d6d87cb992c1a07f256d643ee4c71200334dd05b3e4cd23af23de3e45e8"
-    sha256 cellar: :any_skip_relocation, catalina:      "d550046167fad3bcc852ef6dcef502a96c798f67f7bea354227a473b2f761730"
-    sha256 cellar: :any_skip_relocation, mojave:        "11147d6c4414285352eb73ff8ffe915e1381e896e8d659c64fede154de55ba45"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "78275db9ac0ce8b85f19f8293cbb0766e37e6e0c709b291237cf5dd6136d6afa"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1458efaa4be0fc56ac4a6a969b2300e349b1c847114c88e095e12c9a0bad96f8"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7c9483e3d20a000df560343d7f51e1e6451f7d069dc5ebd3ab8ebde95e9691d8"
+    sha256 cellar: :any_skip_relocation, monterey:       "34efd719d9c83cca8f846b7ea75dea398c15e2333f28f7ce1f9b2bfac57a0cb5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d4b66039e0fe378db420419624650c006acd9e13aff32c38a1a7f3c8d20006c7"
+    sha256 cellar: :any_skip_relocation, catalina:       "f5d14c3c4b5c6f282215a026fb8a9f109d198cefde354cc8b9e4b6c212050f10"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3e1d193a8d1693bbc0399ff007e1c8eb93f788f333869b9a0c3dee45b8c8e3b8"
   end
 
   depends_on "go" => :build
 
   uses_from_macos "libpcap"
-
-  # Support go 1.17, remove after next release
-  patch do
-    url "https://github.com/projectdiscovery/naabu/commit/944874d7c5cf442fb68c5ad19ed5bf954b313386.patch?full_index=1"
-    sha256 "028e8dd2f9bd9634fc05ebcd0381d11320f94a6b9c68bd4a5648640a41089ea1"
-  end
 
   def install
     cd "v2" do

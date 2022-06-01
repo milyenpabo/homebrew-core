@@ -1,24 +1,28 @@
 class Crane < Formula
   desc "Tool for interacting with remote images and registries"
   homepage "https://github.com/google/go-containerregistry"
-  url "https://github.com/google/go-containerregistry/archive/v0.6.0.tar.gz"
-  sha256 "e9d9e9c662f6c9140083eb884bec9f2fc94554bb1d989aa6846e9cf2f69a27d5"
+  url "https://github.com/google/go-containerregistry/archive/v0.9.0.tar.gz"
+  sha256 "9cd3de5d5675ca79ff7251491c481f6afa54aa6a68bbbbf92613d66bfb39aa08"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "1ee6c8238a5e4a08025a0b89f7deb81d1b92dbad227c718b8188cc5524769aef"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b95a968ba856bdb163b8a55bfe5d88308c3fc5f68e0f732e12fba0a947fd7496"
-    sha256 cellar: :any_skip_relocation, catalina:      "622eb564e0cf74344e570722f144032caf795b0f65be6e897046add7abcf4ccf"
-    sha256 cellar: :any_skip_relocation, mojave:        "41a0966f974b546da05413b9d16632e32852d8109a247d4cccfefe8c6bf03b72"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "63c3a660eeac1a72c066eb8f9cc4dd40b542686f247d031b4cda84830411b3bd"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a5af47da793d997af20c568b40714d623013d21d93ba31598f4f1758284e018b"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f2bfde0fc6248f7db514fcdcd8eef4fd6612e767d5672741828219115a414582"
+    sha256 cellar: :any_skip_relocation, monterey:       "e418304d4bfafd663ff50ec67e7a641711313867b37f9fff1d0ddb41685b4ca8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6d508c41fd0c5195e2dd2aa10aa5845d09064411e017bfd21bac798cfff200ce"
+    sha256 cellar: :any_skip_relocation, catalina:       "302379a36dc2ec68e9be83af447b89b891ee3e6a0998cca1a73234b0b67d0745"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "028ae8d288ffe7eb7731f40d4e4687062e0e756e6c94740c093d2bfc22a98ecd"
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", *std_go_args, "-ldflags",
-      "-s -w -X github.com/google/go-containerregistry/cmd/crane/cmd.Version=#{version}",
-      "./cmd/crane"
+    ldflags = %W[
+      -s -w
+      -X github.com/google/go-containerregistry/cmd/crane/cmd.Version=#{version}
+    ]
+
+    system "go", "build", *std_go_args(ldflags: ldflags), "./cmd/crane"
   end
 
   test do

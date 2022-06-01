@@ -1,20 +1,25 @@
 class Watchman < Formula
   desc "Watch files and take action when they change"
   homepage "https://github.com/facebook/watchman"
-  url "https://github.com/facebook/watchman/archive/v2021.10.04.00.tar.gz"
-  sha256 "3b7a1455baeaf76abf775402f4c045c0be1b33bc7834eb499fa5e187e2aec72e"
+  url "https://github.com/facebook/watchman/archive/v2022.05.30.00.tar.gz"
+  sha256 "ad6bb3faeb88a8f237850a492f289a2f5a68e7dff3dcbd9cd23087696b8c0954"
   license "MIT"
   head "https://github.com/facebook/watchman.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "10ad0412d9145a16be356c94589787b427b4bc3a570119d3fc10c3bc5cdba390"
-    sha256 cellar: :any, big_sur:       "452fa87c2ff2551c6e51016b4cb4ce1ebfbc025e4ffc85ac051868d76ef5a59b"
-    sha256 cellar: :any, catalina:      "222004b2084ec5a255502bf5afdd19c0b87672a5abaa80ada3f4e85966027f4d"
-    sha256 cellar: :any, mojave:        "86c4f338ad06b13297a2dc80d5fe73c2c6ef0cac16c682ec2726a24e280d96e7"
-    sha256               x86_64_linux:  "33fa1cee9351b05a1e566e7d4df7a2cf47502b178c0871d1166b7223ed7d8a82"
+    sha256 cellar: :any, arm64_monterey: "cf555b54f378d8378790e89e635da518222f8632be8fb114e0040657150c6424"
+    sha256 cellar: :any, arm64_big_sur:  "81ab789c5d3c90cb510c3bc32d3d4200570def33f0ca6b2fa4b5261e6cf0fd82"
+    sha256 cellar: :any, monterey:       "3b98419fe7c8326e37826917e3ba8cf1cc0d7fb226bab95c2e70b02827d465f7"
+    sha256 cellar: :any, big_sur:        "e86b9d2663fdc3895dcdf5dc5c6bda1baedba30cf90d5abcf3c9ba9c2f9e3570"
+    sha256 cellar: :any, catalina:       "12fecffd3faf62fb916bb1107e93ee2506888a6e88a2197c0527b1ad38dd13d2"
+    sha256               x86_64_linux:   "6e4ca9e19f11b9cabca26c9b9f4b6bfb5419d24b9223b04151ce6f935257b8ac"
   end
 
+  # https://github.com/facebook/watchman/issues/963
+  pour_bottle? only_if: :default_prefix
+
   depends_on "cmake" => :build
+  depends_on "googletest" => :build
   depends_on "pkg-config" => :build
   depends_on "rust" => :build
   depends_on "boost"
@@ -25,7 +30,13 @@ class Watchman < Formula
   depends_on "libevent"
   depends_on "openssl@1.1"
   depends_on "pcre"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
+
+  # Dependencies for Eden support. Enabling Eden support fails to build on Linux.
+  on_macos do
+    depends_on "cpptoml" => :build
+    depends_on "fb303"
+  end
 
   on_linux do
     depends_on "gcc"
@@ -33,25 +44,18 @@ class Watchman < Formula
 
   fails_with gcc: "5"
 
-  # The `googletest` formula (v1.11+) currently causes build failures.
-  # On macOS: watchman_string.h:114:16: error: no member named 'data' in 'watchman_pending_fs'
-  # On Linux: gtest-printers.h:211:33: error: no match for 'operator<<'
-  # Use https://github.com/facebook/watchman/blob/#{version}/build/fbcode_builder/manifests/googletest
-  resource "googletest" do
-    url "https://github.com/google/googletest/archive/release-1.10.0.tar.gz"
-    sha256 "9dc9157a9a1551ec7a7e43daea9a694a0bb5fb8bec81235d8a1e6ef64c716dcb"
-  end
-
   def install
-    resource("googletest").stage do
-      cmake_args = std_cmake_args.reject { |s| s["CMAKE_INSTALL_PREFIX"] }
-      system "cmake", ".", *cmake_args, "-DCMAKE_INSTALL_PREFIX=#{buildpath}/googletest"
-      system "make", "install"
-    end
-    ENV["GTest_DIR"] = ENV["GMock_DIR"] = buildpath/"googletest"
+    # Fix build failure on Linux. Borrowed from Fedora:
+    # https://src.fedoraproject.org/rpms/watchman/blob/rawhide/f/watchman.spec#_70
+    inreplace "CMakeLists.txt", /^t_test/, "#t_test" if OS.linux?
 
+    # NOTE: Setting `BUILD_SHARED_LIBS=ON` will generate DSOs for Eden libraries.
+    #       These libraries are not part of any install targets and have the wrong
+    #       RPATHs configured, so will need to be installed and relocated manually
+    #       if they are built as shared libraries. They're not used by any other
+    #       formulae, so let's link them statically instead. This is done by default.
     system "cmake", "-S", ".", "-B", "build",
-                    "-DBUILD_SHARED_LIBS=ON",
+                    "-DENABLE_EDEN_SUPPORT=#{OS.mac?}",
                     "-DWATCHMAN_VERSION_OVERRIDE=#{version}",
                     "-DWATCHMAN_BUILDINFO_OVERRIDE=#{tap.user}",
                     "-DWATCHMAN_STATE_DIR=#{var}/run/watchman",

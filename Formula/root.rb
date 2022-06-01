@@ -1,10 +1,14 @@
 class Root < Formula
   desc "Object oriented framework for large scale data analysis"
   homepage "https://root.cern.ch/"
-  url "https://root.cern.ch/download/root_v6.24.04.source.tar.gz"
-  sha256 "4a416f3d7aa25dba46d05b641505eb074c5f07b3ec1d21911451046adaea3ee7"
   license "LGPL-2.1-or-later"
+  revision 2
   head "https://github.com/root-project/root.git", branch: "master"
+
+  stable do
+    url "https://root.cern.ch/download/root_v6.26.02.source.tar.gz"
+    sha256 "7ba96772271a726079506c5bf629c3ceb21bf0682567ed6145be30606d7cd9bb"
+  end
 
   livecheck do
     url "https://root.cern.ch/download/"
@@ -12,11 +16,12 @@ class Root < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "b047f553b56962b417f1a8deeb43c9a814de15e776aa52287e074e83fd9ea09d"
-    sha256 big_sur:       "1fa26f261a9a86327106fbb5f2dd48687efa39979c207696f85eb6d6a7814fef"
-    sha256 catalina:      "2c925c6cfea7e222a1aaec1c0bec0e74d6a6f56ca24afd0f36cf0b3ef97b01f6"
-    sha256 mojave:        "75c2a278276d76be14f0ed92a78e104a39cdcf0d7e506dda0d172b83747d7ed7"
-    sha256 x86_64_linux:  "91c253a9e56202f9469ae864ffaf053e5096cc6345ca09972a04757ab2f349f8"
+    sha256 arm64_monterey: "e542a62cadf1238ebcb1b79db1a8a334e5b5428d8eb996d3df722a361544dd84"
+    sha256 arm64_big_sur:  "0ffef80a59d73f66116c813294baede66b86aef85fc683f97492f45fd60477f1"
+    sha256 monterey:       "b8c395ff6b6b9ce498fb48c8ea2becf6082e9861f7b90a54860d5cc3895c0207"
+    sha256 big_sur:        "282c187d0d9952aabdd6029373aaf981dca525a6366cdc23c2ef1a4240430877"
+    sha256 catalina:       "b47db28271eba2de2f12c439219dcf71874370582ecd267315d1c4964036b1ff"
+    sha256 x86_64_linux:   "10bf7de8c0377aef1e2edf4a6792b51e56a959caa8a99ad18c52e5cfb4550912"
   end
 
   depends_on "cmake" => :build
@@ -26,48 +31,55 @@ class Root < Formula
   depends_on "fftw"
   depends_on "gcc" # for gfortran
   depends_on "gl2ps"
+  depends_on "glew"
   depends_on "graphviz"
   depends_on "gsl"
   depends_on "lz4"
+  depends_on "mysql-client"
   depends_on "numpy" # for tmva
+  depends_on "openblas"
   depends_on "openssl@1.1"
   depends_on "pcre"
   depends_on "python@3.9"
+  depends_on "sqlite"
   depends_on "tbb"
-  depends_on :xcode if MacOS.version <= :catalina
+  depends_on :xcode
   depends_on "xrootd"
   depends_on "xz" # for LZMA
   depends_on "zstd"
 
+  uses_from_macos "libxcrypt"
   uses_from_macos "libxml2"
+  uses_from_macos "zlib"
 
   on_linux do
     depends_on "libxft"
     depends_on "libxpm"
   end
 
-  conflicts_with "glew", because: "root ships its own copy of glew"
-
   skip_clean "bin"
 
-  def install
-    ENV.append "LDFLAGS", "-Wl,-rpath,#{lib}/root" if OS.linux?
+  fails_with gcc: "5"
 
-    # Freetype/afterimage/gl2ps/lz4 are vendored in the tarball, so are fine.
-    # However, this is still permitting the build process to make remote
-    # connections. As a hack, since upstream support it, we inreplace
-    # this file to "encourage" the connection over HTTPS rather than HTTP.
-    inreplace "cmake/modules/SearchInstalledSoftware.cmake",
-              "http://lcgpackages",
-              "https://lcgpackages"
+  def install
+    ENV.append "LDFLAGS", "-Wl,-rpath,#{lib}/root"
+
+    inreplace "cmake/modules/SearchInstalledSoftware.cmake" do |s|
+      # Enforce secure downloads of vendored dependencies. These are
+      # checksummed in the cmake file with sha256.
+      s.gsub! "http://lcgpackages", "https://lcgpackages"
+      # Patch out check that skips using brewed glew.
+      s.gsub! "CMAKE_VERSION VERSION_GREATER 3.15", "CMAKE_VERSION VERSION_GREATER 99.99"
+    end
 
     args = std_cmake_args + %W[
       -DCLING_CXX_PATH=clang++
       -DCMAKE_INSTALL_ELISPDIR=#{elisp}
       -DPYTHON_EXECUTABLE=#{Formula["python@3.9"].opt_bin}/python3
+      -DCMAKE_CXX_STANDARD=17
       -Dbuiltin_cfitsio=OFF
       -Dbuiltin_freetype=ON
-      -Dbuiltin_glew=ON
+      -Dbuiltin_glew=OFF
       -Ddavix=ON
       -Dfftw3=ON
       -Dfitsio=ON
@@ -77,7 +89,7 @@ class Root < Formula
       -Dimt=ON
       -Dmathmore=ON
       -Dminuit2=ON
-      -Dmysql=OFF
+      -Dmysql=ON
       -Dpgsql=OFF
       -Dpyroot=ON
       -Droofit=ON
@@ -86,9 +98,6 @@ class Root < Formula
       -Dxrootd=ON
       -GNinja
     ]
-
-    cxx_version = (MacOS.version < :mojave) ? 14 : 17
-    args << "-DCMAKE_CXX_STANDARD=#{cxx_version}"
 
     # Homebrew now sets CMAKE_INSTALL_LIBDIR to /lib, which is incorrect
     # for ROOT with gnuinstall, so we set it back here.
@@ -150,7 +159,7 @@ class Root < Formula
       }
     EOS
     flags = %w[cflags libs ldflags].map { |f| "$(root-config --#{f})" }
-    flags << "-Wl,-rpath,#{lib}/root" if OS.linux?
+    flags << "-Wl,-rpath,#{lib}/root"
     shell_output("$(root-config --cxx) test.cpp #{flags.join(" ")}")
     assert_equal "Hello, world!\n", shell_output("./a.out")
 

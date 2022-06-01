@@ -9,11 +9,13 @@ class Redo < Formula
   revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "22dd0cd4b9d1e945d90a6bce7138c7c0b5e834d74c0be14fd39258b8225dd8af"
-    sha256 cellar: :any_skip_relocation, big_sur:       "db186be965150e95e72d55d47acb86cf4839fa7949149e01522870c7a640edce"
-    sha256 cellar: :any_skip_relocation, catalina:      "ed58682729a217dcbfa7ace51f5ec8a3d57cdb30248173820d1bdbd599999675"
-    sha256 cellar: :any_skip_relocation, mojave:        "653c09646f838dfed31e0f79f3364d2604cc688a8735e098736092a55a631d3e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6e6d7dcf5e439d5a882a2bf480cff8a35b2e3cfe22e967935de67313444d3a46"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1a53fdaf0a75d657dd627f7ecd0fa33826e065554b31b07540c1378f383b4964"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "22dd0cd4b9d1e945d90a6bce7138c7c0b5e834d74c0be14fd39258b8225dd8af"
+    sha256 cellar: :any_skip_relocation, monterey:       "37bb6b29d00caa6c9d81fbe6418350ad833203c63095b8a79189320f32b00d6f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "db186be965150e95e72d55d47acb86cf4839fa7949149e01522870c7a640edce"
+    sha256 cellar: :any_skip_relocation, catalina:       "ed58682729a217dcbfa7ace51f5ec8a3d57cdb30248173820d1bdbd599999675"
+    sha256 cellar: :any_skip_relocation, mojave:         "653c09646f838dfed31e0f79f3364d2604cc688a8735e098736092a55a631d3e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6e6d7dcf5e439d5a882a2bf480cff8a35b2e3cfe22e967935de67313444d3a46"
   end
 
   depends_on "python@3.10"
@@ -46,23 +48,23 @@ class Redo < Formula
       #include <stdio.h>
 
       int main() {
-          printf(\"Hello, world!\\n\");
-          return 0;
+        printf("Hello, world!\\n");
+        return 0;
       }
     EOS
     (testpath/"hello.do").write <<~EOS
       redo-ifchange hello.c
       cc -o $3 hello.c -Wall
     EOS
-    assert_equal "redo  hello", shell_output("redo hello 2>&1").strip
+    assert_match "redo  hello", shell_output("#{bin}/redo hello 2>&1").strip
     assert_predicate testpath/"hello", :exist?
     assert_equal "Hello, world!\n", shell_output("./hello")
-    assert_equal "redo  hello", shell_output("redo hello 2>&1").strip
-    assert_equal "", shell_output("redo-ifchange hello 2>&1").strip
+    assert_match "redo  hello", shell_output("#{bin}/redo hello 2>&1").strip
+    refute_match "redo", shell_output("#{bin}/redo-ifchange hello 2>&1").strip
     touch "hello.c"
-    assert_equal "redo  hello", shell_output("redo-ifchange hello 2>&1").strip
+    assert_match "redo  hello", shell_output("#{bin}/redo-ifchange hello 2>&1").strip
     (testpath/"all.do").write("redo-ifchange hello")
-    (testpath/"hello").delete
-    assert_equal "redo  all\nredo    hello", shell_output("redo 2>&1").strip
+    (testpath/"hello").unlink
+    assert_match "redo  all\nredo    hello", shell_output("#{bin}/redo 2>&1").strip
   end
 end

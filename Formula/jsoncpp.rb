@@ -1,11 +1,10 @@
 class Jsoncpp < Formula
   desc "Library for interacting with JSON"
   homepage "https://github.com/open-source-parsers/jsoncpp"
-  url "https://github.com/open-source-parsers/jsoncpp/archive/1.9.4.tar.gz"
-  sha256 "e34a628a8142643b976c7233ef381457efad79468c67cb1ae0b83a33d7493999"
+  url "https://github.com/open-source-parsers/jsoncpp/archive/1.9.5.tar.gz"
+  sha256 "f409856e5920c18d0c2fb85276e24ee607d2a09b5e7d5f0a371368903c275da2"
   license "MIT"
-  revision 1
-  head "https://github.com/open-source-parsers/jsoncpp.git"
+  head "https://github.com/open-source-parsers/jsoncpp.git", branch: "master"
 
   livecheck do
     url :stable
@@ -13,21 +12,20 @@ class Jsoncpp < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "e8698be8b88f02ce485d1b787f0dfd478360861998cb14a024b13f28d89ae24d"
-    sha256 cellar: :any,                 big_sur:       "83f3e13fd5d02667707d4f8e9a4507bd1f7ff5df5c2a9b049a36cd4597befb39"
-    sha256 cellar: :any,                 catalina:      "ecb519ab6a3d662893a69c18a047b30e6092ee31554ffc5756a53838320e6d9a"
-    sha256 cellar: :any,                 mojave:        "8a052407837f69662e243ec46bfe81faefafba89b31ec95d6953b9a3b7d1603e"
-    sha256 cellar: :any,                 high_sierra:   "85a862e7c2b2d381de4158ea6e574d92711cc7e311af7b01e9146f34d2da5f67"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f542a14ed2812abdf362dc3ff04320d960cbfba8abf1f4bfe6556ed2718dde7d"
+    sha256 cellar: :any,                 arm64_monterey: "ae110e26c1c8bcb9aa833c0393ddf26f88e3a88f1056fb52c7461dd0af5d7f96"
+    sha256 cellar: :any,                 arm64_big_sur:  "a7412f7e1de7b44f22c25ec31fb7a6bd65450d04e2882954f5a282a6e021236b"
+    sha256 cellar: :any,                 monterey:       "be9698795e4f18a424786e6d9920409b4b98fd15fdf9b09e0ffcff5ddc6dffec"
+    sha256 cellar: :any,                 big_sur:        "906ff0a3a449611cdb96c7dd0f4e6335c6a10c8564f73fef3f799de955bdb712"
+    sha256 cellar: :any,                 catalina:       "3869924df0ab1d78ed2bc4448f0496c64e0f14af08834297319eb782fc070c3d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e00ec8c187ad0787b392125e31b23d0c2b0dcbb4e9f66cfd34570ca813146ab9"
   end
 
   depends_on "meson" => :build
   depends_on "ninja" => :build
-  depends_on "python@3.9" => :build
 
   def install
     mkdir "build" do
-      system "meson", *std_meson_args, "-Dpython=#{Formula["python@3.9"].opt_bin}/python3", ".."
+      system "meson", *std_meson_args, ".."
       system "ninja", "-v"
       system "ninja", "install", "-v"
     end

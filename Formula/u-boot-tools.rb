@@ -1,8 +1,8 @@
 class UBootTools < Formula
   desc "Universal boot loader"
   homepage "https://www.denx.de/wiki/U-Boot/"
-  url "https://ftp.denx.de/pub/u-boot/u-boot-2021.07.tar.bz2"
-  sha256 "312b7eeae44581d1362c3a3f02c28d806647756c82ba8c72241c7cdbe68ba77e"
+  url "https://ftp.denx.de/pub/u-boot/u-boot-2022.04.tar.bz2"
+  sha256 "68e065413926778e276ec3abd28bb32fa82abaa4a6898d570c1f48fbdb08bcd0"
   license all_of: ["GPL-2.0-only", "GPL-2.0-or-later", "BSD-3-Clause"]
 
   livecheck do
@@ -11,11 +11,12 @@ class UBootTools < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "795b546108fe9bb26d5f19105722f5d4004f8f7cb607b4c5c22ef00001aab494"
-    sha256 cellar: :any,                 big_sur:       "14ec1c7ecbd9f2988b5375684d7808eb1eee0c3b96f21eaf0525993f770d9eb4"
-    sha256 cellar: :any,                 catalina:      "c47f93bad1f4dc106528afd47a6c5d2f1a840c4de8ad4b6bc8c23ebd74d2b444"
-    sha256 cellar: :any,                 mojave:        "4123e118d4c499416fabdedd1e6e3ba4c097b5aa494832b8894c08193dfda26d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "dc4d6167a0f8770ee60cc2d33d31ac664ee021f33f09065b4fd9fba96bbeb12c"
+    sha256 cellar: :any,                 arm64_monterey: "c545e0aadb914f5b535149ce3423fcbafa5f7931b514ed630e9518a65862116f"
+    sha256 cellar: :any,                 arm64_big_sur:  "f3d13f8b5f7cbda3a7714a70eb05a2f2026972de55735de95e58b8df2d43dac8"
+    sha256 cellar: :any,                 monterey:       "6028f04c201c11d97174bc4a03a7a84fe6c58cf013ed8f1e3fab873db1329541"
+    sha256 cellar: :any,                 big_sur:        "a7b15c98c78d8527fe852a8a8416f5ead7016515c31e8d537e22bb0448540e8c"
+    sha256 cellar: :any,                 catalina:       "f42d910896dcccb113a2d3749ab727b48c5d267180d6bcf71d2049f171796c43"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1dea488937c1c9374a39d0bb07cb376079da1860fdbd1c6b9e70a6290648188e"
   end
 
   depends_on "coreutils" => :build # Makefile needs $(gdate)
@@ -27,6 +28,9 @@ class UBootTools < Formula
   def install
     # Replace keyword not present in make 3.81
     inreplace "Makefile", "undefine MK_ARCH", "unexport MK_ARCH"
+
+    # Disable mkeficapsule
+    inreplace "configs/tools-only_defconfig", "CONFIG_TOOLS_MKEFICAPSULE=y", "CONFIG_TOOLS_MKEFICAPSULE=n"
 
     system "make", "tools-only_defconfig"
     system "make", "tools-only", "NO_SDL=1"

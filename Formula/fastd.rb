@@ -5,13 +5,16 @@ class Fastd < Formula
       tag:      "v22",
       revision: "0f47d83eac2047d33efdab6eeaa9f81f17e3ebd1"
   license "BSD-2-Clause"
-  head "https://github.com/NeoRaider/fastd.git"
+  head "https://github.com/NeoRaider/fastd.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "0c9a053904d99b504199894884c1bf8726d37a8d615e39f7241ca0288a1db48b"
-    sha256 cellar: :any, big_sur:       "80cb41c2885f7dea9a880de2a373f1643a9a204dcd1fbe7e865c7cb4fe2069f9"
-    sha256 cellar: :any, catalina:      "b26819307ac8f58961adcb171eaffcbb06dc4758667aca30ce726befc861523c"
-    sha256 cellar: :any, mojave:        "74193caa95dbb4e885eca705ce72b0fc3e708222e914448081752eee6c4051d9"
+    sha256 cellar: :any, arm64_monterey: "e8c034f7725b6783bc9d811026120c2fe7730c8654da37b890e043654755e4a7"
+    sha256 cellar: :any, arm64_big_sur:  "0c9a053904d99b504199894884c1bf8726d37a8d615e39f7241ca0288a1db48b"
+    sha256 cellar: :any, monterey:       "80925ae137116b0dcbcafd7bad1adb273b2b73147eca8029914963e26d0667cd"
+    sha256 cellar: :any, big_sur:        "80cb41c2885f7dea9a880de2a373f1643a9a204dcd1fbe7e865c7cb4fe2069f9"
+    sha256 cellar: :any, catalina:       "b26819307ac8f58961adcb171eaffcbb06dc4758667aca30ce726befc861523c"
+    sha256 cellar: :any, mojave:         "74193caa95dbb4e885eca705ce72b0fc3e708222e914448081752eee6c4051d9"
+    sha256               x86_64_linux:   "64ea560398270b9bb107c9bae9c397c6bdf808535e197e1b941494a7d9f69af1"
   end
 
   depends_on "bison" => :build
@@ -24,6 +27,11 @@ class Fastd < Formula
   depends_on "libuecc"
   depends_on "openssl@1.1"
 
+  on_linux do
+    depends_on "libcap"
+    depends_on "libmnl"
+  end
+
   # remove in next release
   patch do
     url "https://github.com/NeoRaider/fastd/commit/89abc48e60e182f8d57e924df16acf33c6670a9b.patch?full_index=1"
@@ -32,7 +40,7 @@ class Fastd < Formula
 
   def install
     mkdir "build" do
-      system "meson", "-DENABLE_LTO=ON", *std_meson_args, ".."
+      system "meson", "-Db_lto=true", *std_meson_args, ".."
       system "ninja"
       system "ninja", "install"
     end

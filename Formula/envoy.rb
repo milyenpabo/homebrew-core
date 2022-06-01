@@ -2,17 +2,25 @@ class Envoy < Formula
   desc "Cloud-native high-performance edge/middle/service proxy"
   homepage "https://www.envoyproxy.io/index.html"
   # Switch to a tarball when the following issue is resolved:
-  # https://github.com/envoyproxy/envoy/issues/17859
+  # https://github.com/envoyproxy/envoy/issues/2181
   url "https://github.com/envoyproxy/envoy.git",
-      tag:      "v1.19.1",
-      revision: "a2a1e3eed4214a38608ec223859fcfa8fb679b14"
+      tag:      "v1.21.2",
+      revision: "dc7f46eb44e54d5646301aa5ab4ba01f662fdf75"
   license "Apache-2.0"
+  head "https://github.com/envoyproxy/envoy.git", branch: "main"
 
-  # Apple M1/arm64 is pending envoyproxy/envoy#16482
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:      "5d242c76931465e1bebc4ac62742bcdd68a42334679cc69f8c058e1f7b4147a1"
-    sha256 cellar: :any_skip_relocation, catalina:     "48e53aac4dc4b8c7603141b711730427a5ca94ce4d3e3ce572c1c01cd96ad9f2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "deab2f6221196615ee138102d6496f849b85a11880fcf5b783ec30e07ed78419"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "89354fae8d255f7c9c96d577201a17146fdf6d3869691fba0f191231504f9f77"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "c10c36d88c1be8a6c658da6060364b667b543e35bd9055619d9c98bd93ed0dc8"
+    sha256 cellar: :any_skip_relocation, monterey:       "3674bd7e56db7d7e7ae6125c34ac258e26957015c2ebaa837218df1e169f3b94"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3b1aac9989d81199ebeeac66bf38205554019892b52b214b76a34dabe61695b0"
+    sha256 cellar: :any_skip_relocation, catalina:       "410c2fba36a9efc5b0d1c340fb80c95f7ce3cddcc75ac249dd603eb05491efa8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5f40044f44e01006b40c979a3954c11c2a075aabd96aaf4fa13b3c69717303bf"
   end
 
   depends_on "automake" => :build
@@ -21,13 +29,16 @@ class Envoy < Formula
   depends_on "coreutils" => :build
   depends_on "libtool" => :build
   depends_on "ninja" => :build
+  # Starting with 1.21, envoy requires a full Xcode installation, not just
+  # command-line tools. See envoyproxy/envoy#16482
+  depends_on xcode: :build
   depends_on macos: :catalina
 
   on_linux do
     # GCC added as a test dependency to work around Homebrew issue. Otherwise `brew test` fails.
     # CompilerSelectionError: envoy cannot be built with any available compilers.
     depends_on "gcc@9" => [:build, :test]
-    depends_on "python@3.9" => :build
+    depends_on "python@3.10" => :build
   end
 
   # https://github.com/envoyproxy/envoy/tree/main/bazel#supported-compiler-versions
@@ -41,26 +52,25 @@ class Envoy < Formula
   # error: argument 2 of type 'const uint8_t[32]' with mismatched bound [-Werror=array-parameter=]
   fails_with gcc: "11"
 
-  # Work around xcode 12 incompatibility until envoyproxy/envoy#17393
-  patch do
-    url "https://github.com/envoyproxy/envoy/commit/3b49166dc0841b045799e2c37bdf1ca9de98d5b1.patch?full_index=1"
-    sha256 "e65fe24a29795606ea40aaa675c68751687e72911b737201e9714613b62b0f02"
-  end
-
   def install
     env_path = if OS.mac?
       "#{HOMEBREW_PREFIX}/bin:/usr/bin:/bin"
     else
-      "#{Formula["python@3.9"].opt_libexec}/bin:#{env_path}"
+      "#{Formula["python@3.10"].opt_bin}:#{HOMEBREW_PREFIX}/bin:/usr/bin:/bin"
     end
     args = %W[
       --compilation_mode=opt
       --curses=no
-      --show_task_finish
       --verbose_failures
       --action_env=PATH=#{env_path}
       --host_action_env=PATH=#{env_path}
     ]
+
+    if OS.linux?
+      # Disable extension `tcp_stats` which requires Linux headers >= 4.6
+      # It's a directive with absolute path `#include </usr/include/linux/tcp.h>`
+      args << "--//source/extensions/transport_sockets/tcp_stats:enabled=false"
+    end
 
     system Formula["bazelisk"].opt_bin/"bazelisk", "build", *args, "//source/exe:envoy-static"
     bin.install "bazel-bin/source/exe/envoy-static" => "envoy"

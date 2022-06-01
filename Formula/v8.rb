@@ -2,8 +2,8 @@ class V8 < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
   # Track V8 version from Chrome stable: https://omahaproxy.appspot.com
-  url "https://github.com/v8/v8/archive/9.4.146.16.tar.gz"
-  sha256 "e0049b2d64aae28e2c436b57469a1f8b6aaa8b96bff1475251d64c071c961f2f"
+  url "https://github.com/v8/v8/archive/10.1.124.12.tar.gz"
+  sha256 "8f4c640721123af612106cd1939d42191a69a4633a889f384e551b36763cf11f"
   license "BSD-3-Clause"
 
   livecheck do
@@ -12,15 +12,16 @@ class V8 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "bc37ffc35b4850bd3413708c1361cd8ff9667a25f20ebc8e96ee69197d54edd9"
-    sha256 cellar: :any,                 big_sur:       "3ce13c7f48bff0fb102269a49a791ecafe69c59c10427ff4a0e6105fc56adc5a"
-    sha256 cellar: :any,                 catalina:      "b4f39ca1e7049d7cc7129945fe5e4052a0c7506f25ce864006a0cfd310bab332"
-    sha256 cellar: :any,                 mojave:        "c59739b439457f1986be360d4ed58a1e27b8e2ad534e68a7fc86cca8e697ba81"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ff6ff7ac5e3001035864774943e3c9279a1096d462b668b0390969f5cc5dcea9"
+    sha256 cellar: :any,                 arm64_monterey: "ab098b01ca0f7028aa20ea91d7fbf4090ffc9ceef4fea5229a597f07d97492c7"
+    sha256 cellar: :any,                 arm64_big_sur:  "4c743bd18d7a5c1fc7e684d5609fc1d5272e52d03e7795920444818839277c53"
+    sha256 cellar: :any,                 monterey:       "60aa549146e6ecf549aa42ca5e0d874405e70172cf4bbf6637ee11df166ef7dd"
+    sha256 cellar: :any,                 big_sur:        "fc65959dc4ce3b5c4bdbb6ee4bbf47314b5c9fdbd1f368288154057d438a1f3e"
+    sha256 cellar: :any,                 catalina:       "c336581df25bd214e5cc5f469ce9cd0bca5f22dfad9893f7490be4a02e835636"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b712ad634f71f3e1756d379e2c3c82880b2e2b3a747d8ce35edde55adc831645"
   end
 
   depends_on "ninja" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   on_macos do
     depends_on "llvm" => :build
@@ -36,36 +37,36 @@ class V8 < Formula
   fails_with gcc: "5"
 
   # Look up the correct resource revisions in the DEP file of the specific releases tag
-  # e.g. for CIPD dependency gn: https://github.com/v8/v8/blob/9.4.146.16/DEPS#L52
+  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.1.124.12/DEPS#43
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "eea3906f0e2a8d3622080127d2005ff214d51383"
+        revision: "bd99dbf98cbdefe18a4128189665c5761263bcfb"
   end
 
-  # e.g.: https://github.com/v8/v8/blob/9.4.146.16/DEPS#L93 for the revision of trace event for v8 9.2.230.29
+  # e.g.: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.1.124.12/DEPS#84
   resource "v8/base/trace_event/common" do
     url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
-        revision: "3da1e2fcf66acd5c7194497b4285ac163f32e239"
+        revision: "d115b033c4e53666b535cbd1985ffe60badad082"
   end
 
   resource "v8/build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "bbf7f0ed65548c4df862d2a2748e3a9b908a3217"
+        revision: "3d9590754d5d23e62d15472c5baf6777ca59df20"
   end
 
   resource "v8/third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "47f819c3ca54fb602f432904443e00a0a1fe2f42"
+        revision: "ae5e06dd35c6137d335331b0815cf1f60fd7e3c5"
   end
 
   resource "v8/third_party/icu" do
     url "https://chromium.googlesource.com/chromium/deps/icu.git",
-        revision: "75e34bcccea0be165c31fdb278b3712c516c5876"
+        revision: "8a5b728e4f43b0eabdb9ea450f956d67cfb22719"
   end
 
   resource "v8/third_party/jinja2" do
     url "https://chromium.googlesource.com/chromium/src/third_party/jinja2.git",
-        revision: "7c54c1f227727e0c4c1d3dc19dd71cd601a2db95"
+        revision: "ee69aa00ee8536f61db6a451f3858745cf587de6"
   end
 
   resource "v8/third_party/markupsafe" do
@@ -75,8 +76,12 @@ class V8 < Formula
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "563140dd9c24f84bf40919196e9e7666d351cc0d"
+        revision: "b0676a1f52484bf53a1a49d0e48ff8abc430fafe"
   end
+
+  # Apply patch to fix v8 build with glibc < 2.27. See here for details:
+  # https://libc-alpha.sourceware.narkive.com/XOENQFwL/add-fcntl-sealing-interfaces-from-linux-3-17-to-bits-fcntl-linux-h
+  patch :DATA
 
   def install
     (buildpath/"build").install resource("v8/build")
@@ -112,7 +117,7 @@ class V8 < Formula
       clang_use_chrome_plugins:     false, # disable the usage of Google's custom clang plugins
       use_custom_libcxx:            false, # uses system libc++ instead of Google's custom one
       treat_warnings_as_errors:     false, # ignore not yet supported clang argument warnings
-      use_lld:                      false, # https://github.com/Homebrew/homebrew-core/pull/84351#issuecomment-909621336
+      use_lld:                      false, # upstream use LLD but this leads to build failure on ARM
     }
 
     if OS.linux?
@@ -172,3 +177,18 @@ class V8 < Formula
       "-L#{lib}", "-lv8", "-lv8_libplatform"
   end
 end
+
+__END__
+--- a/src/base/platform/platform-posix.cc
++++ b/src/base/platform/platform-posix.cc
+@@ -88,6 +88,11 @@ extern int madvise(caddr_t, size_t, int);
+ extern "C" void* __libc_stack_end;
+ #endif
+
++#ifndef MFD_CLOEXEC
++#define MFD_CLOEXEC 0x0001U
++#define MFD_ALLOW_SEALING 0x0002U
++#endif
++
+ namespace v8 {
+ namespace base {

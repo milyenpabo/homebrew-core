@@ -2,10 +2,10 @@ class FleetCli < Formula
   desc "Manage large fleets of Kubernetes clusters"
   homepage "https://github.com/rancher/fleet"
   url "https://github.com/rancher/fleet.git",
-      tag:      "v0.3.7",
-      revision: "4aaa778d23dd993f5299e08d144ff0ff81315f7b"
+      tag:      "v0.3.9",
+      revision: "4dc66c946ca2f90f5f7a5d360a573698687a3a11"
   license "Apache-2.0"
-  head "https://github.com/rancher/fleet.git"
+  head "https://github.com/rancher/fleet.git", branch: "master"
 
   livecheck do
     url :stable
@@ -13,11 +13,12 @@ class FleetCli < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "cf48d0047985e264fda14593511db0f8fae5fda9664decf4a47b497e4eb5111b"
-    sha256 cellar: :any_skip_relocation, big_sur:       "503a66cb34a145e7c9b36900a00c4d748c344dacfc35745a8ff9d562658b14e1"
-    sha256 cellar: :any_skip_relocation, catalina:      "ee29607891b2e044cba27aa79b5730f54f590c2385973f072c242615acc6e3ab"
-    sha256 cellar: :any_skip_relocation, mojave:        "ac9243285bad817110379996f22e66ecf37df3cc98f88649bf3e32a3c977801a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c7d729666f3e185569a384dd3402400d9322a33588d4d62602722e12ab1d28b6"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "280ef3f8c1119e8528b29eb8ef1f760bbfdc52cb96a61d85d31d95e8a39613ea"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "bd14343cad71726639a25e958abd209a80e1b900127166f21e6ceab913fc0c6a"
+    sha256 cellar: :any_skip_relocation, monterey:       "82e4fdab537813324e26da8d52cc0b31bef0d3d9295448ad0d0a80e03c8b167f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "2cd09e999a485b60c51ae0fadcee13131af10c404f14a43b0d155efced0f195f"
+    sha256 cellar: :any_skip_relocation, catalina:       "70e3819ec83c06f5e30f1cefc4e4630657ecb580921c7ab4747b35cd1c3ceaa9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1edb0bffae842c618780e171e38fd588e0c5f4e9c818a8e958cc5fbdb492c321"
   end
 
   depends_on "go" => :build
@@ -27,7 +28,7 @@ class FleetCli < Formula
       -X github.com/rancher/fleet/pkg/version.Version=#{version}
       -X github.com/rancher/fleet/pkg/version.GitCommit=#{Utils.git_short_head}
     ]
-    system "go", "build", *std_go_args, "-ldflags", ldflags.join(" "), "-o", bin/"fleet"
+    system "go", "build", *std_go_args(output: bin/"fleet", ldflags: ldflags)
   end
 
   test do

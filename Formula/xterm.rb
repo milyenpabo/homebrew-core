@@ -1,9 +1,9 @@
 class Xterm < Formula
   desc "Terminal emulator for the X Window System"
   homepage "https://invisible-island.net/xterm/"
-  url "https://invisible-mirror.net/archives/xterm/xterm-369.tgz"
-  mirror "https://deb.debian.org/debian/pool/main/x/xterm/xterm_369.orig.tar.gz"
-  sha256 "71ed6a48d064893d2149741a002781a973496fd24d52dadd364f63439a764e26"
+  url "https://invisible-mirror.net/archives/xterm/xterm-372.tgz"
+  mirror "https://deb.debian.org/debian/pool/main/x/xterm/xterm_372.orig.tar.gz"
+  sha256 "c6d08127cb2409c3a04bcae559b7025196ed770bb7bf26630abcb45d95f60ab1"
   license "X11"
 
   livecheck do
@@ -12,11 +12,12 @@ class Xterm < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "90232405e3095d13a2e393b5951d02904f2a2ed97e67f3984840f83ec7d00b71"
-    sha256 big_sur:       "31b64d34048b7a98fe3ca796760840febe1f4098d038d465376a6c40576fb598"
-    sha256 catalina:      "2cf6cbe5b3b21c791663ab08d2c3b9238ebfca8286a86160280639c7f94615eb"
-    sha256 mojave:        "4b41c6be48cced5fda17b34d010338fdba8214924d726195870918d5e97c726b"
-    sha256 x86_64_linux:  "1b71617753972ebc7bb96f13c5fe664a36f464134305c9a5b455b5797762db63"
+    sha256 arm64_monterey: "8777bf4b0d816aa1f5d3b97af989f408c17004410b45d91ab3c1fca7634397cb"
+    sha256 arm64_big_sur:  "c6a6bc4089c043cb806c47201931fd03508b181b591ad6b9f0800e3c4acab2b9"
+    sha256 monterey:       "b12e5eebb766e0711b2615cc148d91a19a2d7c602052cdd3812ae4b63f0c8cd1"
+    sha256 big_sur:        "97817ff7fbaf2ce0fdf0725fdacc163cbb84d29b1e783613e67a24f2c91a068f"
+    sha256 catalina:       "a5e2b36250af85d48df3745eb34aa3ca74f3f8bf6db449da76668bafc1761c4c"
+    sha256 x86_64_linux:   "8f514c7c980670eecb001022ae8104507022ca19c3da7a1d3c1359b9bad0713b"
   end
 
   depends_on "fontconfig"

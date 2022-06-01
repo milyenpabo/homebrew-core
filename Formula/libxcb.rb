@@ -1,45 +1,25 @@
-class Python3Requirement < Requirement
-  fatal true
-  satisfy(build_env: false) { which "python3" }
-  def message
-    <<~EOS
-      An existing Python 3 installation is required in order to avoid cyclic
-      dependencies (as Homebrew's Python depends on xcb-proto).
-    EOS
-  end
-end
-
 class Libxcb < Formula
   desc "X.Org: Interface to the X Window System protocol"
   homepage "https://www.x.org/"
-  url "https://xcb.freedesktop.org/dist/libxcb-1.14.tar.gz"
-  sha256 "2c7fcddd1da34d9b238c9caeda20d3bd7486456fc50b3cc6567185dbd5b0ad02"
+  url "https://xcb.freedesktop.org/dist/libxcb-1.15.tar.gz"
+  sha256 "1cb65df8543a69ec0555ac696123ee386321dfac1964a3da39976c9a05ad724d"
   license "MIT"
-  revision 1
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "5ffb8c3b6520d99063e973ae9f26110737757f57e4c63fb88d8462666d96d777"
-    sha256 cellar: :any,                 big_sur:       "990819c1dd57e74dc867ba37d1952fc0e7baa69273aa6a809ce5b4c18346eac4"
-    sha256 cellar: :any,                 catalina:      "7f40d617b2092e9dc4fed78b032a1cde7658b813b26bcabb349770cd6c744208"
-    sha256 cellar: :any,                 mojave:        "3a21a6aee4bda8851599df53ed9ebe6b282ff3264be763badcb7c3346d89c90a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "31ccfc5e31bd8914f9d54b415d38cd6d1889112f7568c74a5c5138ae4dff2d8b"
+    sha256 cellar: :any,                 arm64_monterey: "b9ed936a5ee43ec58cfa7db03a75ff2b336836c219c024c58f68fa3eecd91976"
+    sha256 cellar: :any,                 arm64_big_sur:  "dbb71439521a388431894b8ba9ea8b9ee628046ccc71cc94acdd3511eceb4df1"
+    sha256 cellar: :any,                 monterey:       "21ed8d16c03b188edebd5e0b20b1fca8e36763e159d75a63d5214873e78b1807"
+    sha256 cellar: :any,                 big_sur:        "adfd6a48ce689095e518b3e05a7d1d775808c84aad660d6763ba27c95d154052"
+    sha256 cellar: :any,                 catalina:       "78f6cd5fce9028f7909f2089c8307fd2dacc44d5edc8fe22ab9833e468dee48d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "993d37bb436fab0157ed5f3c031f9a18168053439e93edb4bdce9abe6e99373d"
   end
 
   depends_on "pkg-config" => :build
+  depends_on "python@3.10" => :build
   depends_on "xcb-proto" => :build
   depends_on "libpthread-stubs"
   depends_on "libxau"
   depends_on "libxdmcp"
-
-  on_macos do
-    depends_on "python@3.9" => :build
-  end
-  on_linux do
-    # Use an existing Python 3, to avoid a cyclic dependency on Linux:
-    # python3 -> tcl-tk -> libx11 -> libxcb -> python3
-    depends_on Python3Requirement => :build
-  end
 
   def install
     args = %W[
@@ -55,6 +35,7 @@ class Libxcb < Formula
       --disable-silent-rules
       --enable-devel-docs=no
       --with-doxygen=no
+      PYTHON=python3
     ]
 
     system "./configure", *args

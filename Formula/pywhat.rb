@@ -3,20 +3,22 @@ class Pywhat < Formula
 
   desc "🐸 Identify anything: emails, IP addresses, and more 🧙"
   homepage "https://github.com/bee-san/pyWhat"
-  url "https://files.pythonhosted.org/packages/ef/eb/6863e62793ba4b6bb80fe7c77338be0f7c3cb4083b72e5b537a076c03040/pywhat-4.1.0.tar.gz"
-  sha256 "67e403f1ecba217c0f31147766c2f48be61ccb2037f6546d6b9a52e147c45daa"
+  url "https://files.pythonhosted.org/packages/ae/31/57bb23df3d3474c1e0a0ae207f8571e763018fa064823310a76758eaef81/pywhat-5.1.0.tar.gz"
+  sha256 "8a6f2b3060f5ce9808802b9ca3eaf91e19c932e4eaa03a4c2e5255d0baad85c4"
   license "MIT"
+  revision 1
   head "https://github.com/bee-san/pyWhat.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "7b7006c6e82e74250a098435e9902ff93895d941a834538c41d82b2a486a689e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "6a344106236e95e813de7962703b59d247da1f5237fed1313d53a88d068b755d"
-    sha256 cellar: :any_skip_relocation, catalina:      "45183033f9f7e0eec15e60106be30048e77f8d0552b2094593dc263d938ff8cc"
-    sha256 cellar: :any_skip_relocation, mojave:        "d68c6af2966de7845bad2a1acb567badd625b206c1bb52956afe6837e58bb8bf"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "610f1001e81c862d708b9a7cb0ba8cb34e269af1f623d0cd5804cd9b2217ede4"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "7c8902e8dd4e43d3a3638a72cae5b10a8c04274ec822c08d30f58053766dbb7c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "333d03a8fd236fe7e6b4bfa579c756befdb6e7de84d5e5dc8559095bf9bab25c"
+    sha256 cellar: :any_skip_relocation, monterey:       "faad28e769cc332cb3379ca98db957b9b11b06e7ae5343d97ad63d83d47f3e30"
+    sha256 cellar: :any_skip_relocation, big_sur:        "57ec0e2ea7275b946131259edc3fa1905c67944ccc392727057f4039d09dfa77"
+    sha256 cellar: :any_skip_relocation, catalina:       "d7d5514d9685337f461ad02e1ccfdce706aac177d1991427f8e97793a03f7fe6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "126c34962fec06f65f043d4983a15bc245ee279c15f18363c4836dcbb82abdf6"
   end
 
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "six"
 
   resource "click" do
@@ -40,8 +42,8 @@ class Pywhat < Formula
   end
 
   resource "rich" do
-    url "https://files.pythonhosted.org/packages/57/3f/a8ba181148dcb9184cb0afac66d075fce60f06f926ce9cdab3dc61fd6497/rich-10.11.0.tar.gz"
-    sha256 "016fa105f34b69c434e7f908bb5bd7fefa9616efdb218a2917117683a6394ce5"
+    url "https://files.pythonhosted.org/packages/8f/22/6241daa2750061ef726ff6b4ebdb9b774166f241997b256620cf20b14da5/rich-10.15.2.tar.gz"
+    sha256 "1dded089b79dd042b3ab5cd63439a338e16652001f0c16e73acdcf4997ad772d"
   end
 
   def install

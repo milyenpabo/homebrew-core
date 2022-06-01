@@ -1,8 +1,8 @@
 class Simutrans < Formula
   desc "Transport simulator"
   homepage "https://www.simutrans.com/"
-  url "svn://servers.simutrans.org/simutrans/trunk/", revision: "9274"
-  version "122.0"
+  url "svn://servers.simutrans.org/simutrans/trunk/", revision: "10421"
+  version "123.0.1"
   license "Artistic-1.0"
   head "https://github.com/aburch/simutrans.git", branch: "master"
 
@@ -13,11 +13,12 @@ class Simutrans < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any, arm64_big_sur: "aa133be9c3b1e7f1e9bec13b185159fe92b55825968025443628d45352e2f759"
-    sha256 cellar: :any, big_sur:       "70babab2113e9d818ef42dd1722f941ad0d70c2b368fea4de8a7122b18ed58e2"
-    sha256 cellar: :any, catalina:      "b95f8a5609030c0acc54aa67a09296a1ffdc74d13f3150d297ef98c22b6db4dd"
-    sha256 cellar: :any, mojave:        "1cbc8bb6590dcac8cef8b7894fa5fd607b1592f739a4fd5bbf69fda0c3684acf"
+    sha256 cellar: :any,                 arm64_monterey: "89c68007e13410b6d7fc4d675f0eabc4487393ad4d4768d2e0830a206ae5dae7"
+    sha256 cellar: :any,                 arm64_big_sur:  "aa8073c151259b074563854c6ea63ffaab8a41b268b150e24d3dab93ab75231e"
+    sha256 cellar: :any,                 monterey:       "339ac25e7eb60cbe2158c59feece111a66bdb587e23f4104c5045b820c861031"
+    sha256 cellar: :any,                 big_sur:        "076b15195eb642b6e97eef391580c62d9333a52c68f8551aeb1812736e9967d1"
+    sha256 cellar: :any,                 catalina:       "e618f3935018b641b10d70286fe3d60e366cfcd914125a634d6c51c8e33fad79"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2c2eb82d4b879f59e2201b78d11cea24a8f8f3fc7ba2859d5c6c3aa41a830355"
   end
 
   depends_on "autoconf" => :build
@@ -30,9 +31,15 @@ class Simutrans < Formula
   uses_from_macos "curl"
   uses_from_macos "unzip"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
   resource "pak64" do
-    url "https://downloads.sourceforge.net/project/simutrans/pak64/122-0/simupak64-122-0.zip"
-    sha256 "ce2ebf0e4e0c8df5defa10be114683f65559d5a994d1ff6c96bdece7ed984b74"
+    url "https://downloads.sourceforge.net/project/simutrans/pak64/123-0/simupak64-123-0.zip"
+    sha256 "b8a0a37c682d8f62a3b715c24c49bc738f91d6e1e4600a180bb4d2e9f85b86c1"
   end
 
   def install
@@ -43,12 +50,17 @@ class Simutrans < Formula
       BACKEND=sdl2
       MULTI_THREAD=1
       OPTIMISE=1
-      OSTYPE=mac
       USE_FREETYPE=1
       USE_UPNP=0
       USE_ZSTD=0
     ]
-    args << "AV_FOUNDATION=1" if MacOS.version >= :sierra
+    if OS.mac?
+      args << "AV_FOUNDATION=1" if MacOS.version >= :sierra
+      args << "OSTYPE=mac"
+    elsif OS.linux?
+      args << "OSTYPE=linux"
+    end
+
     system "autoreconf", "-ivf"
     system "./configure", "--prefix=#{prefix}", "CC=#{ENV.cc}"
     system "make", "all", *args

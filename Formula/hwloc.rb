@@ -1,20 +1,26 @@
 class Hwloc < Formula
   desc "Portable abstraction of the hierarchical topology of modern architectures"
   homepage "https://www.open-mpi.org/projects/hwloc/"
-  url "https://download.open-mpi.org/release/hwloc/v2.5/hwloc-2.5.0.tar.bz2"
-  sha256 "a9cf9088be085bdd167c78b73ddf94d968fa73a8ccf62172481ba9342c4f52c8"
+  url "https://download.open-mpi.org/release/hwloc/v2.7/hwloc-2.7.0.tar.bz2"
+  sha256 "028cee53ebcfe048283a2b3e87f2fa742c83645fc3ae329134bf5bb8b90384e0"
   license "BSD-3-Clause"
 
+  livecheck do
+    url :homepage
+    regex(%r{href=.*?/software/hwloc/v?(\d+(?:\.\d+)+)/?["' >]}i)
+  end
+
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "1df444fd7640dff4306508bcf2baa3f5a9fb83db7646897fd31421034f5765ac"
-    sha256 cellar: :any,                 big_sur:       "d0b225d121dcd50e56b2b592a2670f05e94d48316cd37e6c254c36b99690e278"
-    sha256 cellar: :any,                 catalina:      "39a52a77a6f45eed5601095cd8e4e96e978683fab21231547367903d21943ead"
-    sha256 cellar: :any,                 mojave:        "27fe1f8278655b12f5392ea303c3c3083ab71bb8db42a111192e6e72bd898c9b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "88e5133fba92e2c0ef66f0fad789f18fe24240f4a48cae9b4696f1b4731801a7"
+    sha256 cellar: :any,                 arm64_monterey: "c033ad4dd4c6b866fe22f2deceef505973eea7fb76092ccfa400018cd36c5bd2"
+    sha256 cellar: :any,                 arm64_big_sur:  "16d40e7dfa7ab9ea53ee88321e50fb16877b1df0ac02ee9e386a0bda45825f4d"
+    sha256 cellar: :any,                 monterey:       "c0374b2d6e812a9bf14685ec78753fb23f06a5de365fff8bc5690784a0409a21"
+    sha256 cellar: :any,                 big_sur:        "b7f4d9ef56ce804956d4e2536376b905adfc983fc3458f6afcb57d979e80718e"
+    sha256 cellar: :any,                 catalina:       "da4a859b1e40b723d8e978e6218b121ababc4eb69d71385d202d915c6fa82afb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a7cb17122eac687a24b0faa2fda22ccc0b97142ad4ed05c5213e8d77a66df7e6"
   end
 
   head do
-    url "https://github.com/open-mpi/hwloc.git"
+    url "https://github.com/open-mpi/hwloc.git", branch: "master"
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build

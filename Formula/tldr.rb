@@ -1,20 +1,18 @@
 class Tldr < Formula
   desc "Simplified and community-driven man pages"
   homepage "https://tldr.sh/"
-  url "https://github.com/tldr-pages/tldr-c-client/archive/v1.3.0.tar.gz"
-  sha256 "7e7f67f4c3cf7d448847e837df2122069b0cc8f7ed6963431e914b7929655efe"
+  url "https://github.com/tldr-pages/tldr-c-client/archive/v1.4.3.tar.gz"
+  sha256 "273d920191c7a4f9fdd9f2798feacc65eb5b17f95690a90b6901e8c596900d9d"
   license "MIT"
-  revision 2
   head "https://github.com/tldr-pages/tldr-c-client.git", branch: "master"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "1e59825a8fcafd2287531e1c54b7a60e528ac454a4c7a269c3910a13fd7b7249"
-    sha256 cellar: :any,                 big_sur:       "3369bd7f8eeb65d058ae02878d1c2f0d20f3754934aba468c4b2646040e6e7dd"
-    sha256 cellar: :any,                 catalina:      "41a6db2e28eeae00ff6d1888948d8b7d0f01cd67b3f271341b856cded07ba6ca"
-    sha256 cellar: :any,                 mojave:        "7f10022d0c6648741457c2562bc5e521d8dd88dfc4c4d68d1c886739ffd7eb45"
-    sha256 cellar: :any,                 high_sierra:   "c932bd8516b6690c45dcbf90ced6ad94d4a0aa5a366de532fe90c4ab82b9a2ad"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "897fbafa2e7d41f8789479b9e3c04c1bff4331b684ecabc3fea999d600ab1190"
+    sha256 cellar: :any,                 arm64_monterey: "344e2ca81daebdcba97e90441c79de2c0e6a24b83ff26eefc01eb0a11d6e6e09"
+    sha256 cellar: :any,                 arm64_big_sur:  "2651f9115abb83c9f8738e0cb6d0bd72e78cc322261313e00cb6fc564be983dc"
+    sha256 cellar: :any,                 monterey:       "aeb51aa37519baa0c187b8da06b394dcb9e60fd243004d24a011785a26fb6d04"
+    sha256 cellar: :any,                 big_sur:        "d6f79989e34283228b474d8fae394d6be6e46906b51a4b98b0c2f427ddd8dc69"
+    sha256 cellar: :any,                 catalina:       "03dd86a23d77135aa39dcdd7b4bc234fb584209a036343c8f06f442ebd0cab85"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0c003099b08ebbf65487571bb0fe2617bf238a6ef3d60f521d21c31a6a809cd5"
   end
 
   depends_on "pkg-config" => :build
@@ -26,6 +24,10 @@ class Tldr < Formula
 
   def install
     system "make", "PREFIX=#{prefix}", "install"
+
+    bash_completion.install "autocomplete/complete.bash" => "tldr"
+    zsh_completion.install "autocomplete/complete.zsh" => "_tldr"
+    fish_completion.install "autocomplete/complete.fish" => "tldr.fish"
   end
 
   test do

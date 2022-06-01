@@ -1,8 +1,8 @@
 class Gtkx3 < Formula
   desc "Toolkit for creating graphical user interfaces"
   homepage "https://gtk.org/"
-  url "https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz"
-  sha256 "ba75bfff320ad1f4cfbee92ba813ec336322cc3c660d406aad014b07087a3ba9"
+  url "https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.34.tar.xz"
+  sha256 "dbc69f90ddc821b8d1441f00374dc1da4323a2eafa9078e61edbe5eeefa852ec"
   license "LGPL-2.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class Gtkx3 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "50f08798c70f1ec428f8a577af2fedd2a8b5a7ffff09d4636d42f48e67873db7"
-    sha256 big_sur:       "af17c723acf1cb4f699ff55346c1443ad3e6d0803a403af8409cc766fb35e34a"
-    sha256 catalina:      "24a97ee2d3b5195d2e2b22213157bbbffce7e7cc89523bf5edb7ed41a01dc198"
-    sha256 mojave:        "e5af02a39f1bcd45f7668b43d3235524d3aeef3760a248eeea4c00b25ecbf761"
-    sha256 x86_64_linux:  "e99eb8f0774deae335e39954b464b5f2b5a47765d7a666692ee2043d693016b0"
+    sha256 arm64_monterey: "433f1b8aa72afcaf5784b099c40373e60da5a5782dddbe867bd315b6dfa9466f"
+    sha256 arm64_big_sur:  "f033af2b4714244846c3eabf558626d356e0cdcff6e5b8a1302e6d7a8b21a0e7"
+    sha256 monterey:       "309a7ff2894c4290d18a52f83c36ba9f9b8d156492d8034f7b39fe7771127a47"
+    sha256 big_sur:        "6b502ca8e38cfc2bbf63e4d72609cb70a829381240ebd1965412ec0d80013dc9"
+    sha256 catalina:       "2b3df91ceb20e12404020549f3cf94710c99379b9090dd327ec29a00f5bb1105"
+    sha256 x86_64_linux:   "9319cbd1929a839be964268450d593b3630ab749dc906a2f6ee643beb47e538b"
   end
 
   depends_on "docbook" => :build
@@ -136,9 +137,7 @@ class Gtkx3 < Formula
       -lpango-1.0
       -lpangocairo-1.0
     ]
-    on_macos do
-      flags << "-lintl"
-    end
+    flags << "-lintl" if OS.mac?
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
     # include a version check for the pkg-config files

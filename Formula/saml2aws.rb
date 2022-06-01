@@ -2,16 +2,17 @@ class Saml2aws < Formula
   desc "Login and retrieve AWS temporary credentials using a SAML IDP"
   homepage "https://github.com/Versent/saml2aws"
   url "https://github.com/Versent/saml2aws.git",
-  tag:      "v2.32.0",
-  revision: "1721b1e409a65000d1bcaa82400f4bb2c5027728"
+  tag:      "v2.35.0",
+  revision: "df3f6cf6757279e92c1dfe7e0155f0a60ec68d6b"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "6f194e0c4cd520dc13c2ea2b622ba3e005dd32606b34ebb64ffc0de32566d226"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f8400874432bf2363cf66a350d823b003d8168e0619768fe762cc5a2c3b5dddb"
-    sha256 cellar: :any_skip_relocation, catalina:      "b18ff9fd260e6f234d7e1bfe16baef4ef64a6987a8b04831afc13f83a7bcfcd6"
-    sha256 cellar: :any_skip_relocation, mojave:        "cf22563c79eb2e6bd479124ba520b40dac75f93ce97e3128e7fd16629f450c57"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8f53fdfb2e42fe89d580f3c137c0a3cf610240ad658866c41c2ed8778b415d59"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "bc0d07e8e562ed01867d7aa6b45ce8e649ed57e8f52901b07a484522dd0907a5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e125377435cd04be0bb899dfac6eba0dabf81f9db56616d470edef13b8aee827"
+    sha256 cellar: :any_skip_relocation, monterey:       "64f7ee72cb928b92eb60e40f9b69edc8a512952d78bd2032aa2ca836ca068338"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3735e63468969541e96471826840199e3d8ba1cca111f60b46f2af6740264a40"
+    sha256 cellar: :any_skip_relocation, catalina:       "b4447086e1ee2004ae04ebec7617803607bc432233cabc4c969d674acc232a11"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "190d240745c077bf22c83c8b53019f85f02f6387995d1f5b7db98397303a1c59"
   end
 
   depends_on "go" => :build
@@ -21,7 +22,7 @@ class Saml2aws < Formula
   end
 
   test do
-    assert_match "error building login details: failed to validate account: URL empty in idp account",
+    assert_match "error building login details: Failed to validate account.: URL empty in idp account",
       shell_output("#{bin}/saml2aws script 2>&1", 1)
   end
 end

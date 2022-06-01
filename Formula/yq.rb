@@ -1,28 +1,42 @@
 class Yq < Formula
   desc "Process YAML documents from the CLI"
   homepage "https://github.com/mikefarah/yq"
-  url "https://github.com/mikefarah/yq/archive/v4.13.3.tar.gz"
-  sha256 "4b1f9e204375abf7c3d6c9f66d0c2bf5a64d00f6fdc8b2828168394431a1a2f7"
+  url "https://github.com/mikefarah/yq/archive/v4.25.2.tar.gz"
+  sha256 "2aa2d3e4e44a74bc8a2213f60620f69366a86bbc9f5deffcc15047eaa4cf9e19"
   license "MIT"
+  head "https://github.com/mikefarah/yq.git", branch: "master"
+
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "9fba13c4869747b891013f65a3dfc377e6ae2ae9e36b1611a18dd908480b7b56"
-    sha256 cellar: :any_skip_relocation, big_sur:       "062d0754bcf667c47ba9129a73a4426307fb6dcc05c8bc2e67099f1b18a9035a"
-    sha256 cellar: :any_skip_relocation, catalina:      "45a702bedf2d6645825aaeb9a7d0cba25b1745399260ac95292046eec82397ab"
-    sha256 cellar: :any_skip_relocation, mojave:        "d6012c74cc8b0e8e8de2e079cecef8a25bca4e9a01d1b8986094059df1120f14"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c59bbee899a43ce7a2c6677cf39c77cf4a66ffdd0e3bd2ce1b03674df765099b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1eb052e0c8c1db6d1cbb7df84053fc18fe18f46aa4c8010c95751745e8250928"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "edfee0893fb5add5ba49929be5859593de842bc0f493860d814fbee6ada233f2"
+    sha256 cellar: :any_skip_relocation, monterey:       "8a759a71aee80f337a74507dc2bac54a532171aa0efbaed7c8560ff5f484e801"
+    sha256 cellar: :any_skip_relocation, big_sur:        "a321cb52d710077a319c6d4a7f8c5ec6ecdd9eaa1471c271a9df6a2d5707071b"
+    sha256 cellar: :any_skip_relocation, catalina:       "07af23f0fa67cd2730b7014c0d2cf1f054f4149bfde691170fd7fafce9283913"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8472e9892556eb5c4b5ba70fed83392fd56ab17d2f0f7319b2ff8a3df7dc05a0"
   end
 
   depends_on "go" => :build
+  depends_on "pandoc" => :build
 
   conflicts_with "python-yq", because: "both install `yq` executables"
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w")
 
-    (bash_completion/"yq").write Utils.safe_popen_read("#{bin}/yq", "shell-completion", "bash")
-    (zsh_completion/"_yq").write Utils.safe_popen_read("#{bin}/yq", "shell-completion", "zsh")
-    (fish_completion/"yq.fish").write Utils.safe_popen_read("#{bin}/yq", "shell-completion", "fish")
+    # Install shell completions
+    (bash_completion/"yq").write Utils.safe_popen_read(bin/"yq", "shell-completion", "bash")
+    (zsh_completion/"_yq").write Utils.safe_popen_read(bin/"yq", "shell-completion", "zsh")
+    (fish_completion/"yq.fish").write Utils.safe_popen_read(bin/"yq", "shell-completion", "fish")
+
+    # Install man pages
+    system "./scripts/generate-man-page-md.sh"
+    system "./scripts/generate-man-page.sh"
+    man1.install "yq.1"
   end
 
   test do

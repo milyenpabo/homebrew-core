@@ -1,10 +1,9 @@
 class Rav1e < Formula
   desc "Fastest and safest AV1 video encoder"
   homepage "https://github.com/xiph/rav1e"
-  url "https://github.com/xiph/rav1e/archive/v0.4.1.tar.gz"
-  sha256 "b0be59435a40e03b973ecc551ca7e632e03190b5a20f944818afa3c2ecf4852d"
+  url "https://github.com/xiph/rav1e/archive/v0.5.1.tar.gz"
+  sha256 "7b3060e8305e47f10b79f3a3b3b6adc3a56d7a58b2cb14e86951cc28e1b089fd"
   license "BSD-2-Clause"
-  revision 1
   head "https://github.com/xiph/rav1e.git", branch: "master"
 
   livecheck do
@@ -13,11 +12,12 @@ class Rav1e < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "80c76875e03241980641acdfa1c25c87e437e7950424fce2304841ef9bd5957b"
-    sha256 cellar: :any,                 big_sur:       "45b2b8adc65f38c42d453665f302385df54b251846355d002b753365a0701a3e"
-    sha256 cellar: :any,                 catalina:      "e08ce645cc56ed8258cc84c6aedaa7e78ce02ce4fed0ad7032845a2c0052aed0"
-    sha256 cellar: :any,                 mojave:        "8ed66c0b3180c82355a8d9201ace97ac281b8dab4bc152ad9e58a855b01429ba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a80162aad2b4a04b11a6436ff2959cb85239417d483225e415043ba67b28bbb6"
+    sha256 cellar: :any,                 arm64_monterey: "9d48bd483e2d92e70f329a6adf29c93d67af0d6510c3d7163e49000067be4a26"
+    sha256 cellar: :any,                 arm64_big_sur:  "f87657ce277bf69054832d9e628edd18a4f4ea39df298a2e81db0a85f5da0e56"
+    sha256 cellar: :any,                 monterey:       "4cc9765faec8aeca62be987bbcd113fd6227f4ed027dcc64e9b197ec52663c23"
+    sha256 cellar: :any,                 big_sur:        "4464e4eec498522d840e1ef3b919bba86ca7a2eb04d12a9b939005382437b201"
+    sha256 cellar: :any,                 catalina:       "9ce2a8b3dff9374e3a9603fc51e5b26bee38450ad91df06681fcb02f2844f5cd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6e3d6e1b0f3b5e7c1b2a8936eeeb59a24257fa0c71f6c8f70aaf647b4c694cfc"
   end
 
   depends_on "cargo-c" => :build

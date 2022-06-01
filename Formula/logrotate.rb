@@ -1,16 +1,17 @@
 class Logrotate < Formula
   desc "Rotates, compresses, and mails system logs"
   homepage "https://github.com/logrotate/logrotate"
-  url "https://github.com/logrotate/logrotate/releases/download/3.18.1/logrotate-3.18.1.tar.xz"
-  sha256 "14a924e4804b3974e85019a9f9352c2a69726702e6656155c48bcdeace68a5dc"
+  url "https://github.com/logrotate/logrotate/releases/download/3.20.1/logrotate-3.20.1.tar.xz"
+  sha256 "742f6d6e18eceffa49a4bacd933686d3e42931cfccfb694d7f6369b704e5d094"
   license "GPL-2.0"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "7a35f391118adf13094e83d7ab66a0a0842828b6d17bb825a04a2c15ff0cb8b5"
-    sha256 cellar: :any,                 big_sur:       "6976c5e710c45560e47c8eaba409aaf71e607cec3e86eaa6396df5342685b720"
-    sha256 cellar: :any,                 catalina:      "82980e80bdd29e8b5d21661e5ffd283c654057912fb0d8621e30397f577dc1e4"
-    sha256 cellar: :any,                 mojave:        "2aeb1ee2d25cb426a1d7a746c54451afad0d5f00a24c6cf6f38eb5be2a0c4e5a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b450a79764d5a0bb3e4cfddf3bc337bb703c34386254b76dbcd45fd09ae72ab7"
+    sha256 cellar: :any,                 arm64_monterey: "20bb6473a71d54801b2d141f8bb5fd57211bc4f4df3ec9e1d5f4b3c650a33cd2"
+    sha256 cellar: :any,                 arm64_big_sur:  "333fd71f9f463920a1a76f04cfdb700563477168d25675237a1863ec5fae8727"
+    sha256 cellar: :any,                 monterey:       "91cd5a2ed4988f3de33a607d22b77c4f629aba32b550810c4e5f6956a355fe39"
+    sha256 cellar: :any,                 big_sur:        "7fe8e0c87218bf3b58125ffea6278287d586855663c73a20ca8fa07d4d22737f"
+    sha256 cellar: :any,                 catalina:       "fded0c8e4a465b9fbed0f83bb371f3b3d950c75ab0e9bb786591455f4401ef05"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8a3d7d0e82594615a2fd4c0912aba1fee56fde87477a155054e771ae25cd5eeb"
   end
 
   depends_on "popt"
@@ -28,33 +29,10 @@ class Logrotate < Formula
     (etc/"logrotate.d").mkpath
   end
 
-  plist_options manual: "logrotate"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{sbin}/logrotate</string>
-            <string>#{etc}/logrotate.conf</string>
-          </array>
-          <key>RunAtLoad</key>
-          <false/>
-          <key>StartCalendarInterval</key>
-          <dict>
-            <key>Hour</key>
-            <integer>6</integer>
-            <key>Minute</key>
-            <integer>25</integer>
-          </dict>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_sbin/"logrotate", etc/"logrotate.conf"]
+    run_type :cron
+    cron "25 6 * * *"
   end
 
   test do

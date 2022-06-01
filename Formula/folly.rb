@@ -1,17 +1,18 @@
 class Folly < Formula
   desc "Collection of reusable C++ library artifacts developed at Facebook"
   homepage "https://github.com/facebook/folly"
-  url "https://github.com/facebook/folly/archive/v2021.10.04.00.tar.gz"
-  sha256 "67bbbcc7dac0661edc95d9dd29481c4b9eaa913d1819bb5709270390731503be"
+  url "https://github.com/facebook/folly/archive/v2022.05.30.00.tar.gz"
+  sha256 "0050a3d5c87ca0a664cd9bbcdd578d83289b626bd7a94711e860a4bf62e7974f"
   license "Apache-2.0"
-  head "https://github.com/facebook/folly.git"
+  head "https://github.com/facebook/folly.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "79846a72da2a208b2a80357141905e6177b81e275925a450ce62e33c5c140eba"
-    sha256 cellar: :any,                 big_sur:       "f795fe4f193b470fcb28508c1a26a6b35e5e032496b4682be40cdc09cdc45d8b"
-    sha256 cellar: :any,                 catalina:      "7323915550b11dfdb6eb9b36cb228223de776fe7c4b8776bc13db5a267479e71"
-    sha256 cellar: :any,                 mojave:        "a1a61783c6cdeda761eb165985a446d772cdb4a8f910052ec8c8258bd361693d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "29472234cdeb809e84b3455c9028f1a9ca74a16f7f55e2eafcd631d9a0c7d616"
+    sha256 cellar: :any,                 arm64_monterey: "70f914675352ae1a7c1250937d5cc533fdbcf5067d9c80c848d557215063e475"
+    sha256 cellar: :any,                 arm64_big_sur:  "cfbf5c0334a0d11eb1d2dd3b7c5cd300d75da65e36ef0034b1a529ddeefb2565"
+    sha256 cellar: :any,                 monterey:       "e76f762dddb85a0951af84ec0d60fe1d745a811d161f239926f4cf574863dd18"
+    sha256 cellar: :any,                 big_sur:        "4a29e65d9e2f9ee2fa7dd15b36a4de8ce39fa339d784d47134f3d3e7e93623d8"
+    sha256 cellar: :any,                 catalina:       "c9bec0774b5686e4e36440a93530d1cc6b313e50647dc5f66ede3b5e1b587b43"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d911d3ad36527fe4704910b9c6ca123be946e59b3ce69fc892106a1e3011cf47"
   end
 
   depends_on "cmake" => :build
@@ -50,20 +51,22 @@ class Folly < Formula
   def install
     ENV.llvm_clang if OS.mac? && (DevelopmentTools.clang_build_version <= 1100)
 
-    mkdir "_build" do
-      args = std_cmake_args + %w[
-        -DFOLLY_USE_JEMALLOC=OFF
-      ]
+    args = std_cmake_args + %w[
+      -DFOLLY_USE_JEMALLOC=OFF
+    ]
 
-      system "cmake", "..", *args, "-DBUILD_SHARED_LIBS=ON"
-      system "make"
-      system "make", "install"
+    system "cmake", "-S", ".", "-B", "build/shared",
+                    "-DBUILD_SHARED_LIBS=ON",
+                    "-DCMAKE_INSTALL_RPATH=#{rpath}",
+                    *args
+    system "cmake", "--build", "build/shared"
+    system "cmake", "--install", "build/shared"
 
-      system "make", "clean"
-      system "cmake", "..", *args, "-DBUILD_SHARED_LIBS=OFF"
-      system "make"
-      lib.install "libfolly.a", "folly/libfollybenchmark.a"
-    end
+    system "cmake", "-S", ".", "-B", "build/static",
+                    "-DBUILD_SHARED_LIBS=OFF",
+                    *args
+    system "cmake", "--build", "build/static"
+    lib.install "build/static/libfolly.a", "build/static/folly/libfollybenchmark.a"
   end
 
   test do

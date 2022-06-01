@@ -2,23 +2,24 @@ class ChartTesting < Formula
   desc "Testing and linting Helm charts"
   homepage "https://github.com/helm/chart-testing"
   url "https://github.com/helm/chart-testing.git",
-      tag:      "v3.4.0",
-      revision: "68a43ac09699ef9473266457e893a7ddd7ef6b5b"
+      tag:      "v3.6.0",
+      revision: "49167c48fd3180c183290f5be178f7aa28ff1c49"
   license "Apache-2.0"
-  revision 1
   head "https://github.com/helm/chart-testing.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "66bd1f0419bfcf97ce06a3a91f107735563ee94e1e5953bcad7e48d5f1a31e9f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a6179e0090f93f5bf67f92cd13fa391f898496211f7e1b58a1d3989f9b37b22c"
-    sha256 cellar: :any_skip_relocation, catalina:      "556430cab62f842bfdcac97db34b96448bad3588a359aec2e2f9f21c5339f363"
-    sha256 cellar: :any_skip_relocation, mojave:        "65760b4336f5f2005cdb7d001d3902c16530ed0dd6eeb68bdaab2d6389f63d0f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1f3e74a28ac59c912d7f8fcb685305937f3b59d5757c60c4f5b434ace478de2d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "9cd2a960c4644ac5ad2bb144a62a18647e2870a06ea3fca098678516cfd40138"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f368c20c49acebf8da3d4dab0172f8eb4d30d9a7015c2f364dd3b9dc74ccfe8c"
+    sha256 cellar: :any_skip_relocation, monterey:       "ff34fe86e7dc85d95374e060ecb6ce32c6a064f8e889cba5cbf1b55c0a7a284a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c8dbde1207e2eb206e69555d55afb07202c666d90fef50699e758d3fb72d2f31"
+    sha256 cellar: :any_skip_relocation, catalina:       "7953cdb033a650426204408d8d52e702104911b2ce15a7a3b57d92b53b736695"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c880d6bc8971f046d406c70ee4139c29497a7e984fb61304939fdf6b8dd399c1"
   end
 
   depends_on "go" => :build
   depends_on "helm" => :test
   depends_on "yamllint" => :test
+  depends_on "yamale"
 
   def install
     # Fix default search path for configuration files, needed for ARM
@@ -27,8 +28,8 @@ class ChartTesting < Formula
       -X github.com/helm/chart-testing/v#{version.major}/ct/cmd.Version=#{version}
       -X github.com/helm/chart-testing/v#{version.major}/ct/cmd.GitCommit=#{Utils.git_head}
       -X github.com/helm/chart-testing/v#{version.major}/ct/cmd.BuildDate=#{time.strftime("%F")}
-    ].join(" ")
-    system "go", "build", *std_go_args, "-ldflags", ldflags, "-o", bin/"ct", "./ct/main.go"
+    ]
+    system "go", "build", *std_go_args(output: bin/"ct", ldflags: ldflags), "./ct/main.go"
     etc.install "etc" => "ct"
   end
 

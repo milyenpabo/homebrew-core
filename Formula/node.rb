@@ -1,10 +1,9 @@
 class Node < Formula
   desc "Platform built on V8 to build network applications"
   homepage "https://nodejs.org/"
-  url "https://nodejs.org/dist/v16.10.0/node-v16.10.0.tar.xz"
-  sha256 "97dc1aca232b4911e0b9e5a23a03200ab8ef05157e03c732315b579481bf7912"
+  url "https://nodejs.org/dist/v18.2.0/node-v18.2.0.tar.xz"
+  sha256 "2305b15ebf5547474e905b5002f9ba99c7eeef01d7394dfe6f3846cc6bcad66d"
   license "MIT"
-  revision 1
   head "https://github.com/nodejs/node.git", branch: "master"
 
   livecheck do
@@ -13,15 +12,16 @@ class Node < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "5791d76b6682336b81389e7a0288a4eea819e26976ba97021b2037de57414c05"
-    sha256 cellar: :any,                 big_sur:       "fedd9b448dfcde9e13a11dfdf61f093b2c3be05f0f2c61ec75965d58f0e90f3b"
-    sha256 cellar: :any,                 catalina:      "1b6c5eec16c95255cb051d3db008be20a2098e7bfe8fbbc0004f0d4a915551c0"
-    sha256 cellar: :any,                 mojave:        "32a13b902fed9cd40843b6ae4de956a7c23d8a1393085a245da32659bcb86ecd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1268f2a7244479265c7b53ce53b98877ceb1661eff7c4eff86946426b8228056"
+    sha256 cellar: :any,                 arm64_monterey: "931658528469604f08cc2c77fad5904451df53728267be592a672fa6245571c6"
+    sha256 cellar: :any,                 arm64_big_sur:  "8cd35bd527e90027fa6360bee5e612a7c63a407e52a1fbafbef0f6b21417926e"
+    sha256 cellar: :any,                 monterey:       "bc6d55e53035991aaa6d1917f396d2f0cd9e0281e80d1ba79e99211c5e82ad5a"
+    sha256 cellar: :any,                 big_sur:        "3f0dec452c1a38c59a8886600cd900bd3f600bef584efa4310229f6d0c09aa86"
+    sha256 cellar: :any,                 catalina:       "c8be943d6416ccf0d381302f59016db7a75fa50d9052b17ba90370715c933e4c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8ba4fdc96ab705ae798c2885051d1ee6258b9e31272a54b0ac305a17c51da647"
   end
 
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "brotli"
   depends_on "c-ares"
   depends_on "icu4c"
@@ -29,15 +29,22 @@ class Node < Formula
   depends_on "libuv"
   depends_on "openssl@1.1"
 
+  uses_from_macos "python", since: :catalina
   uses_from_macos "zlib"
+
+  on_macos do
+    depends_on "llvm" => [:build, :test] if DevelopmentTools.clang_build_version <= 1100
+  end
 
   on_linux do
     depends_on "gcc"
   end
 
   fails_with :clang do
-    build 1099
-    cause "Node requires Xcode CLT 11+"
+    build 1100
+    cause <<~EOS
+      error: calling a private constructor of class 'v8::internal::(anonymous namespace)::RegExpParserImpl<uint8_t>'
+    EOS
   end
 
   fails_with gcc: "5"
@@ -45,30 +52,23 @@ class Node < Formula
   # We track major/minor from upstream Node releases.
   # We will accept *important* npm patch releases when necessary.
   resource "npm" do
-    url "https://registry.npmjs.org/npm/-/npm-7.24.0.tgz"
-    sha256 "d2e8e006bf34a06314d41ad7b23417984d479e9834ce180551047b3ba89a7556"
-  end
-
-  # Fix build with brewed c-ares.
-  # https://github.com/nodejs/node/pull/39739
-  #
-  # Remove when the following lands in a *c-ares* release:
-  # https://github.com/c-ares/c-ares/commit/7712fcd17847998cf1ee3071284ec50c5b3c1978
-  # https://github.com/c-ares/c-ares/pull/417
-  patch do
-    url "https://github.com/nodejs/node/commit/8699aa501c4d4e1567ebe8901e5ec80cadaa9323.patch?full_index=1"
-    sha256 "678643c79258372d5054d3da16bc0c5db17130f151f0e72b6e4f20817987aac9"
+    url "https://registry.npmjs.org/npm/-/npm-8.9.0.tgz"
+    sha256 "19a36ab5340cbe5b17d1aa0fa18a5934bbb5b8157db055706b155d98b6f122b7"
   end
 
   def install
+    ENV.remove "HOMEBREW_LIBRARY_PATHS", Formula["llvm"].opt_lib
+    ENV.llvm_clang if OS.mac? && (DevelopmentTools.clang_build_version <= 1100)
+
     # make sure subprocesses spawned by make are using our Python 3
-    ENV["PYTHON"] = Formula["python@3.9"].opt_bin/"python3"
+    ENV["PYTHON"] = which("python3")
 
     # Never install the bundled "npm", always prefer our
     # installation from tarball for better packaging control.
     args = %W[
       --prefix=#{prefix}
       --without-npm
+      --without-corepack
       --with-intl=system-icu
       --shared-libuv
       --shared-nghttp2
@@ -89,6 +89,12 @@ class Node < Formula
       --openssl-use-def-ca-store
     ]
     args << "--tag=head" if build.head?
+
+    # Enabling LTO errors on Linux with:
+    # terminate called after throwing an instance of 'std::out_of_range'
+    # Pre-Catalina macOS also can't build with LTO
+    # LTO is unpleasant if you have to build from source.
+    args << "--enable-lto" if MacOS.version >= :catalina && build.bottle?
 
     system "./configure", *args
     system "make", "install"
@@ -141,6 +147,9 @@ class Node < Formula
   end
 
   test do
+    # Make sure Mojave does not have `CC=llvm_clang`.
+    ENV.clang if OS.mac?
+
     path = testpath/"test.js"
     path.write "console.log('hello');"
 
@@ -159,8 +168,8 @@ class Node < Formula
     assert_predicate HOMEBREW_PREFIX/"bin/npm", :exist?, "npm must exist"
     assert_predicate HOMEBREW_PREFIX/"bin/npm", :executable?, "npm must be executable"
     npm_args = ["-ddd", "--cache=#{HOMEBREW_CACHE}/npm_cache", "--build-from-source"]
-    system "#{HOMEBREW_PREFIX}/bin/npm", *npm_args, "install", "npm@latest"
-    system "#{HOMEBREW_PREFIX}/bin/npm", *npm_args, "install", "ref-napi" unless head?
+    system HOMEBREW_PREFIX/"bin/npm", *npm_args, "install", "npm@latest"
+    system HOMEBREW_PREFIX/"bin/npm", *npm_args, "install", "ref-napi" unless head?
     assert_predicate HOMEBREW_PREFIX/"bin/npx", :exist?, "npx must exist"
     assert_predicate HOMEBREW_PREFIX/"bin/npx", :executable?, "npx must be executable"
     assert_match "< hello >", shell_output("#{HOMEBREW_PREFIX}/bin/npx --yes cowsay hello")

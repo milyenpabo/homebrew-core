@@ -1,17 +1,18 @@
 class Flarectl < Formula
   desc "CLI application for interacting with a Cloudflare account"
   homepage "https://github.com/cloudflare/cloudflare-go/tree/master/cmd/flarectl"
-  url "https://github.com/cloudflare/cloudflare-go/archive/v0.25.0.tar.gz"
-  sha256 "8dc7a58c9e0f7d74a2a89da0f6aa23e8ebeee67838301e091354fa3d9760cbb7"
+  url "https://github.com/cloudflare/cloudflare-go/archive/v0.40.0.tar.gz"
+  sha256 "4b2827ddb26a55f89577601347edcc58f584c696fae5beb8d492e10d85acff03"
   license "BSD-3-Clause"
-  head "https://github.com/cloudflare/cloudflare-go.git"
+  head "https://github.com/cloudflare/cloudflare-go.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "15b60d314c3b8d77356a1b004bc97ed0fe547497dd878f11fa7d6c32b306c932"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7abedc87068b4c5041e275d48ee375682013d98bc5b47786a7e02f484e83b382"
-    sha256 cellar: :any_skip_relocation, catalina:      "e95ce2c4f61afe4bc7388e57b2738103e5b537b4f6618331b2a25be9e0e0065e"
-    sha256 cellar: :any_skip_relocation, mojave:        "2976e801e1f53d00b12e05487b1ed59737a8b63390da6b65c9914e03e1c85429"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3639f316cec5bba82d02e94649ae935de449fb26ed046822503f910eac84995c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "cc6a46dd605242ed6b5ab4795019dd4c60650a7f9962f142b54bceba75bb9841"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ad2f033e06b88fac2124f288efee2fb29a32b8c32d93de5738d049c12bea7849"
+    sha256 cellar: :any_skip_relocation, monterey:       "967fc52d942cb41d6fc7e3f4523f5eea40dddbcc602170869b10bf03f9581607"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d3bdd15ae14e52e4ebcec7abea126890ae46dd7aab4cd56e4c129e50758942e0"
+    sha256 cellar: :any_skip_relocation, catalina:       "4a4fa7adaa0822a8e4faeb31939670b645c2a94883556bc9647bc6a69371977f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "58d4be684ee41d1feee65952489eb9042d1649d6cd819f39af65844cf4c00d18"
   end
 
   depends_on "go" => :build
@@ -22,6 +23,6 @@ class Flarectl < Formula
 
   test do
     ENV["CF_API_TOKEN"] = "invalid"
-    assert_match "HTTP status 400: Invalid request headers (6003)", shell_output("#{bin}/flarectl u i", 1)
+    assert_match "Invalid request headers (6003)", shell_output("#{bin}/flarectl u i", 1)
   end
 end

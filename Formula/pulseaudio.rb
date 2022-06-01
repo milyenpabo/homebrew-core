@@ -1,9 +1,18 @@
 class Pulseaudio < Formula
   desc "Sound system for POSIX OSes"
   homepage "https://wiki.freedesktop.org/www/Software/PulseAudio/"
-  url "https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-14.2.tar.xz"
-  sha256 "75d3f7742c1ae449049a4c88900e454b8b350ecaa8c544f3488a2562a9ff66f1"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.1-or-later", "BSD-3-Clause"]
+
+  stable do
+    url "https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-14.2.tar.xz"
+    sha256 "75d3f7742c1ae449049a4c88900e454b8b350ecaa8c544f3488a2562a9ff66f1"
+
+    # Fix -flat_namespace being used on Big Sur and later.
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+      sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+    end
+  end
 
   # The regex here avoids x.99 releases, as they're pre-release versions.
   livecheck do
@@ -12,11 +21,13 @@ class Pulseaudio < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "efcbf144da932e05394e9768bf27dfa1908dbb17f4b7c52f49e56c791dd51860"
-    sha256 big_sur:       "79684acaac85e9b1b7de55fc7659844d9508c6264faa0aac311e0d8eaf4056b0"
-    sha256 catalina:      "e1c181ae27f945ceee403e2e2ec80f44aebd52ac44b8e63140c1c9d2083a643b"
-    sha256 mojave:        "ae0d2ec72fc10a895c7efc330174abef08458576ed847fb4547301a2d8cc147e"
-    sha256 x86_64_linux:  "35c1358237eefe762c268cbbbf86015b425e8ff3bdff697afb93e8449fae2ae3"
+    sha256 arm64_monterey: "ce44a5a697ba790ab27e97f4c96cd5f48489cdfc416a836348584064053eb725"
+    sha256 arm64_big_sur:  "efcbf144da932e05394e9768bf27dfa1908dbb17f4b7c52f49e56c791dd51860"
+    sha256 monterey:       "835e284178eda5eaa8395aab875305d8ba528336f657844d5791f29e0216d46a"
+    sha256 big_sur:        "79684acaac85e9b1b7de55fc7659844d9508c6264faa0aac311e0d8eaf4056b0"
+    sha256 catalina:       "e1c181ae27f945ceee403e2e2ec80f44aebd52ac44b8e63140c1c9d2083a643b"
+    sha256 mojave:         "ae0d2ec72fc10a895c7efc330174abef08458576ed847fb4547301a2d8cc147e"
+    sha256 x86_64_linux:   "35c1358237eefe762c268cbbbf86015b425e8ff3bdff697afb93e8449fae2ae3"
   end
 
   head do

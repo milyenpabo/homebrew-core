@@ -8,10 +8,13 @@ class Nyx < Formula
   revision 3
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "bae78955aa83e7e742c86ead94067128d34ee67e46d3df228782bb14e3ff1933"
-    sha256 cellar: :any_skip_relocation, big_sur:       "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
-    sha256 cellar: :any_skip_relocation, catalina:      "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
-    sha256 cellar: :any_skip_relocation, mojave:        "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "bae78955aa83e7e742c86ead94067128d34ee67e46d3df228782bb14e3ff1933"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "bae78955aa83e7e742c86ead94067128d34ee67e46d3df228782bb14e3ff1933"
+    sha256 cellar: :any_skip_relocation, monterey:       "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
+    sha256 cellar: :any_skip_relocation, catalina:       "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
+    sha256 cellar: :any_skip_relocation, mojave:         "e3361830a3dca5a02c43318bac9b699b6716ccf4b75fd3a2106a4b48bd4915dc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0f07d2404be50cbcba6e7bcc12e95613b6c49e6dcaedd98a003c8350e53a8893"
   end
 
   depends_on "python@3.10"
@@ -26,6 +29,6 @@ class Nyx < Formula
   end
 
   test do
-    assert_match "Errno 61", shell_output("#{bin}/nyx -i 127.0.0.1:9000", 1)
+    assert_match "Connection refused", shell_output("#{bin}/nyx -i 127.0.0.1:#{free_port}", 1)
   end
 end

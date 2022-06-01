@@ -1,21 +1,25 @@
 class Nss < Formula
   desc "Libraries for security-enabled client and server applications"
   homepage "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS"
-  url "https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_71_RTM/src/nss-3.71.tar.gz"
-  sha256 "99acd315d9af35419cda4a6960f00a7d446bd231bd407174a7b07cb3dba0c253"
+  url "https://ftp.mozilla.org/pub/security/nss/releases/NSS_3_78_RTM/src/nss-3.78.tar.gz"
+  sha256 "f455f341e787c1167328e80a84f77b9a557d595066dda6486a1874d72da68800"
   license "MPL-2.0"
 
   livecheck do
     url "https://ftp.mozilla.org/pub/security/nss/releases/"
     regex(%r{href=.*?NSS[._-]v?(\d+(?:[._]\d+)+)[._-]RTM/?["' >]}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).map { |match| match.first.tr("_", ".") }
+    end
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "0adb1d87440062452a125b61ba6f1d02ca1fd08a13f16198eb75c6b8fe8316f3"
-    sha256 cellar: :any,                 big_sur:       "4e2903927f44570829cd06b131dd110ea6b56bf0911bbef8e7109a64f86fb1e5"
-    sha256 cellar: :any,                 catalina:      "9bf1121a058da249531340e5a1cb22f4eaa3c08921ccaf97fb933dfcf7382d75"
-    sha256 cellar: :any,                 mojave:        "1044185d3a60c026f93594fa8f3da8ee2b5db4acecf0585a0d83cc8c0208252f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "72d341b28d6fec1010be353fea8d4154d3066504f8b928ed375958d5f254701d"
+    sha256 cellar: :any,                 arm64_monterey: "3957bd6ff1c7e9bc87bd9f609afc4e1d59967e383b9cef76d0380d45e8d9399f"
+    sha256 cellar: :any,                 arm64_big_sur:  "69aee9c8f3496dfd337731bd64b478edd0563f295cdd22f5abf8566dd6c3fa9e"
+    sha256 cellar: :any,                 monterey:       "58b263c734ebc9503e00eff3a9aad7176d3e0c6de7987c71ed0079a9dd17ea13"
+    sha256 cellar: :any,                 big_sur:        "edd014cd5026204b29a2dae1b3bf72b446cc9c1319c8bb923d60e8b7e3207b66"
+    sha256 cellar: :any,                 catalina:       "4dd85d8443322d2190f33c7e595a49cfa7548969fc1a176d7778b1d50d7b0c75"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6704fa38552bbe9881b15386755aca8b3d71d9597ebe53c6faa879fd2fd9141a"
   end
 
   depends_on "nspr"
@@ -50,11 +54,7 @@ class Nss < Formula
     # rather than copying the referenced file.
     cd "../dist"
     bin.mkpath
-    os = if OS.mac?
-      "Darwin"
-    else
-      "Linux"
-    end
+    os = OS.kernel_name
     Dir.glob("#{os}*/bin/*") do |file|
       cp file, bin unless file.include? ".dylib"
     end

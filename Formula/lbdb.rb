@@ -1,8 +1,8 @@
 class Lbdb < Formula
   desc "Little brother's database for the mutt mail reader"
   homepage "https://www.spinnaker.de/lbdb/"
-  url "https://www.spinnaker.de/lbdb/download/lbdb_0.49.tar.gz"
-  sha256 "f565b64a0bc8edb2a5a273e305d5cdecd9053d834fb96f6b2b2f353c99c3c887"
+  url "https://www.spinnaker.de/lbdb/download/lbdb-0.50.tar.gz"
+  sha256 "afac83d8a4e33732007af70debf71a702db256213998e2efb313bb9bb17b81b0"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,12 +11,12 @@ class Lbdb < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "66ef5f18f5b725ae8bdac2fb8afeb05926a795efa259c3c735909ee81d5c4a70"
-    sha256 cellar: :any_skip_relocation, big_sur:       "169649d76f8f4321f9f682b54aad89d918945463e3d0b855385d017d6671fbd4"
-    sha256 cellar: :any_skip_relocation, catalina:      "9c79b0bbc8d13e16259bce83501a2d3f285f3ca2c6675f49cdb36a4ef4366fa1"
-    sha256 cellar: :any_skip_relocation, mojave:        "71c3c794994b1ec594bdbbef70848c0e5bb43ab1f19e1edff7e0d17e9a2f9e98"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "03f4287b844059e3bc9787c97bc22b903a57067add3c3fe2913d2ca53537d34f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "16f661d1451e25627a72e7eb3dd822179a0ec3b4fe6e1212c6e0ae9de4eddf4a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "fab889c0974bb758db4ec78b98ac2d37a5427a873f9dca877d3391489dc17973"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "abd2d143d05cab01a3097793c12f3f7933cf926c9364ec33bd27b6bda19e5b63"
+    sha256 cellar: :any_skip_relocation, monterey:       "42b0d2ae34f18b4eed75a48bda32c0ab7a887d4cf2532b5637f070d06d814d7b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d5bed5f3cb2fe1f3c12be02280cf1086a7a9e97189be908caa8ceea995c3c6fb"
+    sha256 cellar: :any_skip_relocation, catalina:       "a4d4fa5b4e3147fc59e0ec1f6abd4d5c0d5da177b89815d7c79b569c51d414b3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "12b4bcf8f11f1ea4bf172423d30cb048c64702f10be58455bfc7a773ab91717d"
   end
 
   depends_on "abook"

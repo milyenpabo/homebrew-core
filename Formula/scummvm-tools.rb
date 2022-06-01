@@ -1,10 +1,10 @@
 class ScummvmTools < Formula
   desc "Collection of tools for ScummVM"
   homepage "https://www.scummvm.org/"
-  url "https://downloads.scummvm.org/frs/scummvm-tools/2.2.0/scummvm-tools-2.2.0.tar.xz"
-  sha256 "1e72aa8f21009c1f7447c755e7f4cf499fe9b8ba3d53db681ea9295666cb48a4"
+  url "https://downloads.scummvm.org/frs/scummvm-tools/2.5.0/scummvm-tools-2.5.0.tar.xz"
+  sha256 "5cdc8173e1ee3fb74d62834e79995be0c5b1d999f72a0a125fab611222f927da"
   license "GPL-2.0-or-later"
-  revision 3
+  revision 1
   head "https://github.com/scummvm/scummvm-tools.git", branch: "master"
 
   livecheck do
@@ -13,10 +13,12 @@ class ScummvmTools < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 big_sur:      "08b599a5a43c08ac6bf0b1d9e1595eb20e930f9c5f25bc916b94529f0fab3941"
-    sha256 cellar: :any,                 catalina:     "996875778890186143218b023d6bd1cb53c518d9e98e6f7409fb19b50c745be4"
-    sha256 cellar: :any,                 mojave:       "221fd9eaf4604bb37fc3c204008232d7feed8b93af246772f5c436902bec8ba2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "04ebe28d8b59d672db9d6b3f1d0168db7d496a057726944095eb99dfd6e39aab"
+    sha256 cellar: :any,                 arm64_monterey: "73ef45568a2f2c3eb2a8380d8e82d91883e65f29b68ce8075b6c6c70cecec2c1"
+    sha256 cellar: :any,                 arm64_big_sur:  "183d19df8632730d2151dd50f4cea6d2a1b84aadc781b6060bcbc97a0d30987d"
+    sha256 cellar: :any,                 monterey:       "2fdfe65529343f31ba2546a77cfd6dee2231154398ffbe16499b02128ec0a959"
+    sha256 cellar: :any,                 big_sur:        "3ad6ba0e27b1af1efe346f322ffbe516ac3f86231c502988121f20ba1b30351e"
+    sha256 cellar: :any,                 catalina:       "d8fc65646ca7e7ef48152d0b480fa7741ca8293adca7b8fe4d26f0345c848e25"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e336efaaf645f0ec4f87e1de4355dd6fd745d8debf64c7724936a5b361f48862"
   end
 
   depends_on "boost"

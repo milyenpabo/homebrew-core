@@ -2,26 +2,22 @@ class PhpAT73 < Formula
   desc "General-purpose scripting language"
   homepage "https://www.php.net/"
   # Should only be updated if the new version is announced on the homepage, https://www.php.net/
-  url "https://www.php.net/distributions/php-7.3.31.tar.xz"
-  mirror "https://fossies.org/linux/www/php-7.3.31.tar.xz"
-  sha256 "d1aa8f44595d01ac061ff340354d95e146d6152f70e799b44d6b8654fb45cbcc"
+  url "https://www.php.net/distributions/php-7.3.33.tar.xz"
+  mirror "https://fossies.org/linux/www/php-7.3.33.tar.xz"
+  sha256 "166eaccde933381da9516a2b70ad0f447d7cec4b603d07b9a916032b215b90cc"
   license "PHP-3.01"
-
-  livecheck do
-    url "https://www.php.net/downloads"
-    regex(/href=.*?php[._-]v?(#{Regexp.escape(version.major_minor)}(?:\.\d+)*)\.t/i)
-  end
+  revision 1
 
   bottle do
-    sha256 big_sur:      "ab347e3dd29105a1a7eb34e7a28d1589740f7d8463af6a0d76dd35fbe5f38c75"
-    sha256 catalina:     "aa1bbb036bc30889d14ed097a5c4e3fc0a2887f1c42413063d5687e670c98d4c"
-    sha256 mojave:       "236601a0b21237da9d3d8cc4407a64fb3e2f379d5fcd269ec89a705a4a9b35bc"
-    sha256 x86_64_linux: "6cb331123f318a2807360ceacbc0fb64fc9a1acb06bbdc65aaed959c9ee27966"
+    sha256 monterey:     "93126a75527f2ebb61854eca3d828a2c85be368810d958891e82d01079186fcc"
+    sha256 big_sur:      "e1e2f43e53f5324dd918cb3c53ced792eb39d1a328fdc995df2cc11377c24f4f"
+    sha256 catalina:     "7a1587d14a448ec6c748c93dddde0bded32778dda5c9ee0321f3b9f610a7ffb9"
+    sha256 x86_64_linux: "98174faad5ea86e2bb3c29772d50cd9b62aeb684817bb8aa07fb06f59d66973a"
   end
 
   keg_only :versioned_formula
 
-  deprecate! date: "2021-12-06", because: :versioned_formula
+  disable! date: "2021-12-06", because: :versioned_formula
 
   depends_on "httpd" => [:build, :test]
   depends_on "pkg-config" => :build
@@ -35,7 +31,6 @@ class PhpAT73 < Formula
   depends_on "freetds"
   depends_on "freetype"
   depends_on "gettext"
-  depends_on "glib"
   depends_on "gmp"
   depends_on "icu4c"
   depends_on "jpeg"
@@ -63,11 +58,6 @@ class PhpAT73 < Formula
   end
 
   def install
-    if OS.mac? && (MacOS.version == :el_capitan || MacOS.version == :sierra)
-      # Ensure that libxml2 will be detected correctly in older MacOS
-      ENV["SDKROOT"] = MacOS.sdk_path
-    end
-
     # buildconf required due to system library linking bug patch
     system "./buildconf", "--force"
 
@@ -335,9 +325,9 @@ class PhpAT73 < Formula
       "Zend OPCache extension not loaded")
     # Test related to libxml2 and
     # https://github.com/Homebrew/homebrew-core/issues/28398
-    on_macos do
+    if OS.mac?
       assert_includes MachO::Tools.dylibs("#{bin}/php"),
-        "#{Formula["libpq"].opt_lib}/libpq.5.dylib"
+              "#{Formula["libpq"].opt_lib}/libpq.5.dylib"
     end
 
     system "#{sbin}/php-fpm", "-t"

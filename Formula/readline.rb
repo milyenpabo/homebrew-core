@@ -3,12 +3,13 @@ class Readline < Formula
   homepage "https://tiswww.case.edu/php/chet/readline/rltop.html"
   url "https://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz"
   mirror "https://ftpmirror.gnu.org/readline/readline-8.1.tar.gz"
-  version "8.1.1"
+  version "8.1.2"
   sha256 "f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02"
   license "GPL-3.0-or-later"
 
   %w[
     001 682a465a68633650565c43d59f0b8cdf149c13a874682d3c20cb4af6709b9144
+    002 e55be055a68cb0719b0ccb5edc9a74edcc1d1f689e8a501525b3bc5ebad325dc
   ].each_slice(2) do |p, checksum|
     patch :p0 do
       url "https://ftp.gnu.org/gnu/readline/readline-8.1-patches/readline81-#{p}"
@@ -24,11 +25,15 @@ class Readline < Formula
     regex(/href=.*?readline[._-]v?(\d+(?:\.\d+)+)\.t/i)
     strategy :gnu do |page, regex|
       # Match versions from files
-      versions = page.scan(regex).flatten.uniq.sort
+      versions = page.scan(regex)
+                     .flatten
+                     .uniq
+                     .map { |v| Version.new(v) }
+                     .sort
       next versions if versions.blank?
 
       # Assume the last-sorted version is newest
-      newest_version = Version.new(versions.last)
+      newest_version = versions.last
 
       # Simply return the found versions if there isn't a patches directory
       # for the "newest" version
@@ -50,11 +55,12 @@ class Readline < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "bcb228b99fcecebf6ecc2b2ac80ab96a396374a8d5bc13b21034ef501017254f"
-    sha256 cellar: :any,                 big_sur:       "c596199dc30f2542144a10f10ac686e441bebc5707bb63cca34159e55de66e3b"
-    sha256 cellar: :any,                 catalina:      "7a6136c28be474faf630922495ca617ecad1275baa4ef8646bbc31eece3809f4"
-    sha256 cellar: :any,                 mojave:        "0af6c77e4e554d9ee9f60f7c55ccde1cee46aa916ce8baff66ae10ed1ef13ed1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8bb1e20aafd3dfc3076b62d8f55db867edd93cbfaeb44d1d03f1968fc51209d9"
+    sha256 cellar: :any,                 arm64_monterey: "9d9d9512c80c6ae7c8281da84533222d90cb5e06accdfa98e0bff37672793cec"
+    sha256 cellar: :any,                 arm64_big_sur:  "08efc469d237689a9619ec6b3ea931793d03597e89bd622ebd122b7256d7a446"
+    sha256 cellar: :any,                 monterey:       "976185ec243284d74eb8b9c554d944cbc0208c26495193bcd28fdf12a08f134e"
+    sha256 cellar: :any,                 big_sur:        "1eaadc077c1584e296810abbcefd2e90bc055ddbcb675f0668e86f95f2229212"
+    sha256 cellar: :any,                 catalina:       "7346c1c37bfa5f9b9661450e8d7b627012dfc551813e3df48508a4fa1a05e6e4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2b46aff4f720e0f15601aecb2efd4ae7c2a3454b2fad91b196728ed4ee4f12c3"
   end
 
   keg_only :shadowed_by_macos, "macOS provides BSD libedit"

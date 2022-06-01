@@ -1,34 +1,36 @@
 class Apgdiff < Formula
   desc "Another PostgreSQL diff tool"
   homepage "https://www.apgdiff.com/"
-  url "https://www.apgdiff.com/download/apgdiff-2.4-bin.zip"
-  sha256 "12d95fbb0b8188d7f90e7aaf8bdd29d0eecac26e08d6323624b5b7e3f7c7a3f7"
+  url "https://github.com/fordfrog/apgdiff/archive/refs/tags/release_2.7.0.tar.gz"
+  sha256 "932a7e9fef69a289f4c7bed31a9c0709ebd2816c834b65bad796bdc49ca38341"
   license "MIT"
 
+  livecheck do
+    url :stable
+    regex(/^release[._-]v?(\d+(?:\.\d+)+)$/i)
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "014290d110ccaf01c6f52f02fa1c0a73df5cc0a53ee333e711d4c99140fecc58"
+    sha256 cellar: :any_skip_relocation, all: "f52732f8db636f2d122c471ea2e36b02e10b73ba23048040aafa44f79ff0dd69"
   end
 
   head do
-    url "https://github.com/fordfrog/apgdiff.git"
+    url "https://github.com/fordfrog/apgdiff.git", branch: "develop"
     depends_on "ant" => :build
   end
 
   depends_on "openjdk"
 
   def install
-    jar = "apgdiff-#{version}.jar"
+    jar = "releases/apgdiff-#{version}.jar"
 
     if build.head?
-      system "ant"
-      cd "dist" do
-        jar = Dir["apgdiff-*.jar"].first
-        mv jar, ".."
-      end
+      system "ant", "-Dnoget=1"
+      jar = Dir["dist/apgdiff-*.jar"].first
     end
 
     libexec.install jar
-    bin.write_jar_script libexec/jar, "apgdiff"
+    bin.write_jar_script libexec/File.basename(jar), "apgdiff"
   end
 
   test do

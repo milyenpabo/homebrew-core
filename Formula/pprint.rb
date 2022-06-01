@@ -6,24 +6,42 @@ class Pprint < Formula
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:     "dfe96940a991860fa6b0c3fc1aab207deeea8abe0c3fdf550b062f31a0f2f942"
-    sha256 cellar: :any_skip_relocation, catalina:    "3106733d3d77033431baf9eac61d8cf4b293f48584858ba058d711a045512530"
-    sha256 cellar: :any_skip_relocation, mojave:      "8d6d70f63ecea106323bdd852c1c896f32bf9895c3164680b594c0f8a30c1561"
-    sha256 cellar: :any_skip_relocation, high_sierra: "8d6d70f63ecea106323bdd852c1c896f32bf9895c3164680b594c0f8a30c1561"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, all: "2bd9ae7e3fd65f467b6416bf779f79aa7bb30ab6a064a3971b4cd5fed16fd234"
   end
+
+  deprecate! date: "2022-05-24", because: :repo_archived
 
   depends_on macos: :high_sierra # needs C++17
 
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
   def install
     include.install "include/pprint.hpp"
-    pkgshare.install "test"
   end
 
   test do
-    cp_r pkgshare/"test", testpath
-    cd "test" do
-      system ENV.cxx, "--std=c++17", "-I#{testpath}/test", "main.cpp", "-o", "tests"
-      system "./tests"
-    end
+    cpp_file = testpath/"main.cpp"
+    cpp_file.write <<~EOS
+      #include <pprint.hpp>
+
+      int main() {
+          pprint::PrettyPrinter printer;
+          printer.print(std::set<std::set<std::set<int>>>{ {{1, 2, 3}, {4, 5, 6}}, {{7, 8, 9}, {10, 11, 12}} });
+          return 0;
+      }
+    EOS
+
+    system ENV.cxx, "main.cpp", "--std=c++17", "-o", "test"
+    assert_equal <<~EOS, shell_output("./test")
+      {
+        {{1, 2, 3}, {4, 5, 6}},#{" "}
+        {{7, 8, 9}, {10, 11, 12}}
+      }
+    EOS
   end
 end

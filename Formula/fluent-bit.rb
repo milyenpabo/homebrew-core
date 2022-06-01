@@ -1,10 +1,10 @@
 class FluentBit < Formula
   desc "Fast and Lightweight Logs and Metrics processor"
   homepage "https://github.com/fluent/fluent-bit"
-  url "https://github.com/fluent/fluent-bit/archive/v1.8.7.tar.gz"
-  sha256 "78a290b1ef73487bd367765d369598f9c0ee8e1b1a9be8dbf03bf996efa0b3fd"
+  url "https://github.com/fluent/fluent-bit/archive/v1.9.3.tar.gz"
+  sha256 "26ed6279aced8f122664184d6a999eb3c2372a19aeb1a7ddad9704d23b44b6be"
   license "Apache-2.0"
-  head "https://github.com/fluent/fluent-bit.git"
+  head "https://github.com/fluent/fluent-bit.git", branch: "master"
 
   livecheck do
     url :stable
@@ -12,11 +12,12 @@ class FluentBit < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "3d0de2cf71049ffe6037976cb7b0acae541e76661c5bf8b1cd588e5239c67813"
-    sha256 cellar: :any,                 big_sur:       "0a0f7d4bd35ad5bb862db2114300580733060c1c1f7fc4289e030681b5cf0138"
-    sha256 cellar: :any,                 catalina:      "aeb610804f3f913546ca9292f15e63db34a9a409b00c762437f7bb6a221b2b39"
-    sha256 cellar: :any,                 mojave:        "25f8ffae7b5d80e0024abc0ccbcc7f25ff0cab1ceb066799e03708a6720e7dba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bf697f99c9bb222d688b417db1c9cbe27b4f53bf2634b27d9bf957ed3e868d14"
+    sha256                               arm64_monterey: "d84e697db42b0c1009d151b654a35d5ac17d5c5639d0385008969a9716a4cb80"
+    sha256                               arm64_big_sur:  "6fb69ae473814383acfdea4e8e211bd71101fbd58e85e3cd1e2edc01fddfb260"
+    sha256                               monterey:       "6d9a92311600e127595859a3d4e631506319ca91f8787f6ec2d1181b3bdb1d73"
+    sha256                               big_sur:        "645d9d1037bd5895a708a3e12bb2a1e7c8b5bce2b45494ecaab0c85d6143e9ca"
+    sha256                               catalina:       "f83df8bfd421a3b28895deb596b4dd1fef3c69be875a585bf06cf24a117cbce0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e0dfa4e37609b191ef19a0f3836ed7ec09f889045b7472b6995442e105a652d4"
   end
 
   depends_on "bison" => :build
@@ -27,110 +28,26 @@ class FluentBit < Formula
     depends_on "openssl@1.1"
   end
 
-  # Apply https://github.com/fluent/fluent-bit/pull/3564 to build on M1
-  patch do
-    url "https://github.com/fluent/fluent-bit/commit/fcdf304e5abc3e3b66b1acac76dbaf23b2d22579.patch?full_index=1"
-    sha256 "80d1b0b6916ff1e0c157e6824afa769f08e28e764f65bfd28df0900d6f9bda1e"
-  end
-
-  # Fix error: use of undeclared identifier 'clock_serv_t'
-  #
-  # Also: don't install any service script for Linux
-  patch :DATA
-
   def install
+    # Prevent fluent-bit to install files into global init system
+    #
+    # For more information see https://github.com/fluent/fluent-bit/issues/3393
+    inreplace "src/CMakeLists.txt", "if(IS_DIRECTORY /lib/systemd/system)", "if(False)"
+    inreplace "src/CMakeLists.txt", "elseif(IS_DIRECTORY /usr/share/upstart)", "elif(False)"
+
     chdir "build" do
       # Per https://luajit.org/install.html: If MACOSX_DEPLOYMENT_TARGET
       # is not set then it's forced to 10.4, which breaks compile on Mojave.
       # fluent-bit builds against a vendored Luajit.
       ENV["MACOSX_DEPLOYMENT_TARGET"] = MacOS.version
 
-      system "cmake", "..", "-DWITH_IN_MEM=OFF", *std_cmake_args
+      system "cmake", "..", *std_cmake_args
       system "make", "install"
     end
   end
 
   test do
     output = shell_output("#{bin}/fluent-bit -V").chomp
-    assert_equal "Fluent Bit v#{version}", output
+    assert_match "Fluent Bit v#{version}", output
   end
 end
-
-__END__
-diff --git a/lib/cmetrics/src/cmt_time.c b/lib/cmetrics/src/cmt_time.c
-index 0671542a..67f1c368 100644
---- a/lib/cmetrics/src/cmt_time.c
-+++ b/lib/cmetrics/src/cmt_time.c
-@@ -20,7 +20,7 @@
- #include <cmetrics/cmt_info.h>
-
- /* MacOS */
--#ifdef FLB_HAVE_CLOCK_GET_TIME
-+#ifdef CMT_HAVE_CLOCK_GET_TIME
- #include <mach/clock.h>
- #include <mach/mach.h>
- #endif
-@@ -41,8 +41,8 @@ uint64_t cmt_time_now()
-     mach_timespec_t mts;
-     host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
-     clock_get_time(cclock, &mts);
--    tm->tv_sec = mts.tv_sec;
--    tm->tv_nsec = mts.tv_nsec;
-+    tm.tv_sec = mts.tv_sec;
-+    tm.tv_nsec = mts.tv_nsec;
-     mach_port_deallocate(mach_task_self(), cclock);
- #else /* __STDC_VERSION__ */
-     clock_gettime(CLOCK_REALTIME, &tm);
-diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index f6654506..fe117172 100644
---- a/src/CMakeLists.txt
-+++ b/src/CMakeLists.txt
-@@ -434,27 +434,6 @@ if(FLB_BINARY)
-       DESTINATION "${FLB_INSTALL_BINDIR}")
-   endif()
-
--  # Detect init system, install upstart, systemd or init.d script
--  if(IS_DIRECTORY /lib/systemd/system)
--    set(FLB_SYSTEMD_SCRIPT "${PROJECT_SOURCE_DIR}/init/${FLB_OUT_NAME}.service")
--    configure_file(
--      "${PROJECT_SOURCE_DIR}/init/systemd.in"
--      ${FLB_SYSTEMD_SCRIPT}
--      )
--    install(FILES ${FLB_SYSTEMD_SCRIPT} COMPONENT binary DESTINATION /lib/systemd/system)
--    install(DIRECTORY DESTINATION ${FLB_INSTALL_CONFDIR} COMPONENT binary)
--  elseif(IS_DIRECTORY /usr/share/upstart)
--    set(FLB_UPSTART_SCRIPT "${PROJECT_SOURCE_DIR}/init/${FLB_OUT_NAME}.conf")
--    configure_file(
--      "${PROJECT_SOURCE_DIR}/init/upstart.in"
--      ${FLB_UPSTART_SCRIPT}
--      )
--    install(FILES ${FLB_UPSTART_SCRIPT} COMPONENT binary DESTINATION /etc/init)
--    install(DIRECTORY DESTINATION COMPONENT binary ${FLB_INSTALL_CONFDIR})
--  else()
--    # FIXME: should we support Sysv init script ?
--  endif()
--
-   install(FILES
-     "${PROJECT_SOURCE_DIR}/conf/fluent-bit.conf"
-     DESTINATION ${FLB_INSTALL_CONFDIR}
-diff --git a/src/flb_time.c b/src/flb_time.c
-index 9f3d5964..bdc89d7e 100644
---- a/src/flb_time.c
-+++ b/src/flb_time.c
-@@ -52,13 +52,13 @@ static int _flb_time_get(struct flb_time *tm)
- #elif defined FLB_HAVE_TIMESPEC_GET
-     /* C11 supported! */
-     return timespec_get(&tm->tm, TIME_UTC);
--#elif defined FLB_CLOCK_GET_TIME
-+#elif defined FLB_HAVE_CLOCK_GET_TIME
-     clock_serv_t cclock;
-     mach_timespec_t mts;
-     host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);
-     clock_get_time(cclock, &mts);
--    tm->tv_sec = mts.tv_sec;
--    tm->tv_nsec = mts.tv_nsec;
-+    tm->tm.tv_sec = mts.tv_sec;
-+    tm->tm.tv_nsec = mts.tv_nsec;
-     return mach_port_deallocate(mach_task_self(), cclock);
- #else /* __STDC_VERSION__ */
-     return clock_gettime(CLOCK_REALTIME, &tm->tm);

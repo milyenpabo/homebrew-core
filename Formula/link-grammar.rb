@@ -1,8 +1,8 @@
 class LinkGrammar < Formula
   desc "Carnegie Mellon University's link grammar parser"
   homepage "https://www.abisource.com/projects/link-grammar/"
-  url "https://www.abisource.com/downloads/link-grammar/5.10.2/link-grammar-5.10.2.tar.gz"
-  sha256 "28cec752eaa0e3897ae961333b6927459f8b69fefe68c2aa5272983d7db869b6"
+  url "https://www.abisource.com/downloads/link-grammar/5.10.4/link-grammar-5.10.4.tar.gz"
+  sha256 "3dde2d12cadeeda193944a1eade484962b021975e1c206434ccb785046487f81"
   license "LGPL-2.1"
   head "https://github.com/opencog/link-grammar.git", branch: "master"
 
@@ -12,11 +12,12 @@ class LinkGrammar < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "a6de3d0c3f02e8ca2347cac43ff3498785ae4e5071ee217fae3e9b52b859d571"
-    sha256 big_sur:       "8241b4a41adb497f60591729036512f86eb11976bf3b2277d90b0c30e144d62e"
-    sha256 catalina:      "024139fa467dc7c8826e092a9eb22c5f30bba6ada219cf552d60b709b77a04da"
-    sha256 mojave:        "0697d8408060f2367970378d5166b311a57d8a0b6fa03eea4e9668b99dc10df4"
-    sha256 x86_64_linux:  "82f640caade0e547641890ecda4967c19146366b2b071cc608b20cbc2590d18d"
+    sha256 arm64_monterey: "e70f07afcfb4943edcf572d99870e4b26378414e77837a80d9f5ad689232eec3"
+    sha256 arm64_big_sur:  "367c2d72c5265279d9717928d1a11329880bbd96113d55d80926513333025db6"
+    sha256 monterey:       "7c6ec2df0f6be9eb39741a3211b4926cb0822311504473c205038a229fe6574a"
+    sha256 big_sur:        "67437691cb922c6bde9dfd38ff08645989abaa502898da9a7590ea2ec85d5a1d"
+    sha256 catalina:       "ce09e594aebb4eccd60662f82bc40102ac7b30f600d3549a96d0f1fa38e2ec20"
+    sha256 x86_64_linux:   "93a2bc42281c3a63e747f16e2685c3309be127eec556916e07ad488cb1205313"
   end
 
   depends_on "ant" => :build
@@ -25,8 +26,9 @@ class LinkGrammar < Formula
   depends_on "automake" => :build
   depends_on "libtool" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
+  uses_from_macos "flex" => :build
   uses_from_macos "sqlite"
 
   def install

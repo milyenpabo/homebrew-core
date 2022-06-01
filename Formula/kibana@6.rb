@@ -2,18 +2,19 @@ class KibanaAT6 < Formula
   desc "Analytics and search dashboard for Elasticsearch"
   homepage "https://www.elastic.co/products/kibana"
   url "https://github.com/elastic/kibana.git",
-      tag:      "v6.8.12",
-      revision: "e6710c74e05998719369fe1b92ac1726aa6f0271"
+      tag:      "v6.8.20",
+      revision: "d872739e24c6cdac75501f19bf4fe0a1b198c524"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:     "c6851cd00abc11d5bf62fd244e601e9b9071443c545e3713077ec0cccfd8fc59"
-    sha256 cellar: :any_skip_relocation, catalina:    "d13d9e35a2d55f1e316a16a6dc7662a0be783b11e0707f445902da1a6084a207"
-    sha256 cellar: :any_skip_relocation, mojave:      "726bc34894f26bc18d9b1b9d756febefb03d76ef598445c406f18840554f6198"
-    sha256 cellar: :any_skip_relocation, high_sierra: "4bd89cc139a35c58402dabeaab5dcbccf02e6bd269122b454723941449984f9e"
+    sha256 cellar: :any_skip_relocation, monterey: "3fdc7ae371689838ee1c29ce6d29a14780effc178fc5de39f20cf619f6af1c22"
+    sha256 cellar: :any_skip_relocation, big_sur:  "8b89272e13e281a61a7c82f03e279d11731c9e772f7ccdcdabf0f2b67546733f"
+    sha256 cellar: :any_skip_relocation, catalina: "fa529ae4e4890e3b7e7ee56e25a99c7f95852eadfd08d75121c9bc1f1baf4dd5"
   end
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-02-10", because: :unsupported
 
   depends_on "yarn" => :build
   depends_on :macos # Due to Python 2
@@ -56,29 +57,16 @@ class KibanaAT6 < Formula
     <<~EOS
       Config: #{etc}/kibana/
       If you wish to preserve your plugins upon upgrade, make a copy of
-      #{opt_prefix}/plugins before upgrading, and copy it into the
-      new keg location after upgrading.
+      #{opt_prefix}/plugins before upgrading, and copy it into
+      the new keg location after upgrading.
     EOS
   end
 
   plist_options manual: "kibana"
 
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
-      "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>Program</key>
-          <string>#{opt_bin}/kibana</string>
-          <key>RunAtLoad</key>
-          <true/>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run opt_bin/"kibana"
+    run_type :immediate
   end
 
   test do

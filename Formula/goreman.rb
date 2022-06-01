@@ -1,10 +1,10 @@
 class Goreman < Formula
   desc "Foreman clone written in Go"
   homepage "https://github.com/mattn/goreman"
-  url "https://github.com/mattn/goreman/archive/v0.3.7.tar.gz"
-  sha256 "424dde6592c99468dce19c1302222a15ccc2367f0c908ee2147709398ce6497b"
+  url "https://github.com/mattn/goreman/archive/v0.3.12.tar.gz"
+  sha256 "2068badbfffbe213df2d901be00fed273766ef1329895589e99d4ee8cfcfa7d2"
   license "MIT"
-  head "https://github.com/mattn/goreman.git"
+  head "https://github.com/mattn/goreman.git", branch: "master"
 
   livecheck do
     url :homepage
@@ -12,12 +12,12 @@ class Goreman < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b23fc772de996cff73c26a93ba73c826b5f7e56929f0c717c9388066bb689067"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7935ca50f9a9c6fc0caceb81d64a6439aab37c61fb75edbbff99729e3542568b"
-    sha256 cellar: :any_skip_relocation, catalina:      "8985d410d3b9c56064ceb7a01be4fd448e46c414f0a0b8c3a4f6ec7374c2f5b6"
-    sha256 cellar: :any_skip_relocation, mojave:        "d7781e6ce9c1ab5844f06d77dbbb8355a5f749daa5cd3c2b12266385d73b9a77"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "df59dbb8a079d4eaf095b7a807dcbd0a96de11874dec3b6e560454617eed9b2b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "49363f66d05e2aaa57afa85118546980f4dd8be8484f6f862c813613326f83ae"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "b835de9ad6465257f2e83d72e32066640e21d550af4d2a7db0a20d024ec4659c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2f5c838a8c0d0622ca7dafec485ace3d0161eee628dd14a4e82c95fbc6f4cfb3"
+    sha256 cellar: :any_skip_relocation, monterey:       "a210952b6b9f43b17e4bc346016933baa67042d3684a4559b75ebbd9eb4673fe"
+    sha256 cellar: :any_skip_relocation, big_sur:        "2e8706a404fa519b75b6d3c1b7644cc1938d312ecc8771dd80610e1fbd83dc8d"
+    sha256 cellar: :any_skip_relocation, catalina:       "fa55372eb815aca1025b6055806ce017369850852621d0d2ad7d233ff51af317"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "df2f3b5165bb0635f982d8d06573ced7b9451d8bc8253cf3de25cff2ab5fe215"
   end
 
   depends_on "go" => :build

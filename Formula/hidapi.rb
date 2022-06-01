@@ -1,17 +1,18 @@
 class Hidapi < Formula
   desc "Library for communicating with USB and Bluetooth HID devices"
   homepage "https://github.com/libusb/hidapi"
-  url "https://github.com/libusb/hidapi/archive/hidapi-0.11.0.tar.gz"
-  sha256 "391d8e52f2d6a5cf76e2b0c079cfefe25497ba1d4659131297081fc0cd744632"
+  url "https://github.com/libusb/hidapi/archive/hidapi-0.12.0.tar.gz"
+  sha256 "28ec1451f0527ad40c1a4c92547966ffef96813528c8b184a665f03ecbb508bc"
   license :cannot_represent
-  head "https://github.com/libusb/hidapi.git"
+  head "https://github.com/libusb/hidapi.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "785868d1b729ada62b76b49e1d1340a347b88db0c9a69a12d3417bd5539e750d"
-    sha256 cellar: :any,                 big_sur:       "33612c008465ce62b39f1aeb519eaa58bd1d8e1296b118894765d4729b505f2b"
-    sha256 cellar: :any,                 catalina:      "a90ba3cd69ce428830a5dfba205cf375fd962b19b5653a702b7c1d8616fa62d0"
-    sha256 cellar: :any,                 mojave:        "35827213bd2b8b87c8574d7cf5f4fd18795dbf267d0b9355b4d0e528f9894b4f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1441c545caecc11f3c611d494cd07d253909baa7572ad844374b93c0fef5dfaa"
+    sha256 cellar: :any,                 arm64_monterey: "aa1f68edd1eee2d600109484c6f284374a4dd3275004171eaa819c1c6ff8e67d"
+    sha256 cellar: :any,                 arm64_big_sur:  "8abecf0b9d8a3ce86a4313f3feb33d3a5eae2b8db580c0aa084cae9878400ba4"
+    sha256 cellar: :any,                 monterey:       "becf77159ab020fd2a66cf3e1f0489c95d8020b93b3c48fc095d2b8d0245336a"
+    sha256 cellar: :any,                 big_sur:        "ba016a5a9004eb00fb1c037f9b6db103de6d27f9cae7139fb22f62c668eb9b90"
+    sha256 cellar: :any,                 catalina:       "607766ce3cef88e33a8674b3c7cf69cdbe6124845c7ff223e07cceb2ec74df29"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "828e2c72ca7e6903a9e3b7ddc0e66765eee1df977a6e832b2c66965cb4571f26"
   end
 
   depends_on "cmake" => :build
@@ -42,11 +43,10 @@ class Hidapi < Formula
     EOS
 
     flags = ["-I#{include}/hidapi", "-L#{lib}"]
-    on_macos do
-      flags << "-lhidapi"
-    end
-    on_linux do
-      flags << "-lhidapi-hidraw"
+    flags << if OS.mac?
+      "-lhidapi"
+    else
+      "-lhidapi-hidraw"
     end
     flags += ENV.cflags.to_s.split
     system ENV.cc, "-o", "test", "test.c", *flags

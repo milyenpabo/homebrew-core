@@ -1,8 +1,8 @@
 class Pdns < Formula
   desc "Authoritative nameserver"
   homepage "https://www.powerdns.com"
-  url "https://downloads.powerdns.com/releases/pdns-4.5.1.tar.bz2"
-  sha256 "74d63c7aa0474de3c2137bb808164691a1a3a62942d2a9a70b648cd277923f9b"
+  url "https://downloads.powerdns.com/releases/pdns-4.6.2.tar.bz2"
+  sha256 "f443848944bb11bbb4850221613b3a01ffb57febf2671da6caa57362ee0b19b8"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class Pdns < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "0bf7af4af497448cc1fb444ed7a445a98e1cd0e2dd7dd037f5c078979828b0f4"
-    sha256 big_sur:       "fa4ac0b0c0cacdcced6f1d76d7e42c9212bd1046eac21740b448e8b8380463ba"
-    sha256 catalina:      "6c33506fa12dcb0a883636848a3ea8ab4e42b0e05ad5c43b5d131266c5a8eaf0"
-    sha256 mojave:        "75073ee3c30ec52a2aa8358582a9c5e3933b346505aad6b1715c4105951ecfb4"
-    sha256 x86_64_linux:  "e5434cd26faa2eaed3a978448e6a216ee2df124a8cb491b04987f7ce3536e808"
+    sha256 arm64_monterey: "5f11785a7f2ee10469a79ce44fc7c58debd796445de4710ade9169e7f0a6396d"
+    sha256 arm64_big_sur:  "7488177bc07804ef18d17979aa9693c938d70b91c4b2f9c6fcdf453bb67c578b"
+    sha256 monterey:       "5b8647690138a9cbd97f5dd525a407d115d77ad4fd0e4fb70e10a947df0d187e"
+    sha256 big_sur:        "67ec5b6f05c1d9f73a43ecde2f6fe66de077bf5ca80163f5f0c616fe878a6b39"
+    sha256 catalina:       "01424ecf828fb8645eec581e9bdcfdab89662d8bde2f9d8c7c9825890b3dbaf2"
+    sha256 x86_64_linux:   "f139bc7ba7de91a697ef355d3b1eb201fbb02219e809754d3b4266978a6372ae"
   end
 
   head do
@@ -56,30 +57,9 @@ class Pdns < Formula
     system "make", "install"
   end
 
-  plist_options manual: "pdns_server start"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>KeepAlive</key>
-        <true/>
-        <key>Label</key>
-        <string>#{plist_name}</string>
-        <key>ProgramArguments</key>
-        <array>
-          <string>#{sbin}/pdns_server</string>
-        </array>
-        <key>EnvironmentVariables</key>
-        <key>KeepAlive</key>
-        <true/>
-        <key>SHAuthorizationRight</key>
-        <string>system.preferences</string>
-      </dict>
-      </plist>
-    EOS
+  service do
+    run opt_sbin/"pdns_server"
+    keep_alive true
   end
 
   test do

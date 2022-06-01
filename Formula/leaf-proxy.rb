@@ -1,36 +1,25 @@
 class LeafProxy < Formula
   desc "Lightweight and fast proxy utility"
   homepage "https://github.com/eycorsican/leaf"
-  url "https://github.com/eycorsican/leaf/archive/v0.3.1.tar.gz"
-  sha256 "895057e2424a8b99c2fc330a8b9f34895a377d7fcff5d5fb7b867d357a3bdd83"
+  url "https://github.com/eycorsican/leaf/archive/v0.6.0.tar.gz"
+  sha256 "5b22932e1dea586ead051a09a4c416e538c29c85d1782718e4652415e59884e8"
   license "Apache-2.0"
-  head "https://github.com/eycorsican/leaf.git"
+  head "https://github.com/eycorsican/leaf.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "7436395fb5eb5616771b7b521d8abd053f28b6b370e3244220a78ef3cae7a602"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3acdb89d85419f3f767b19782bd3442c74baad9b0527471ab83bd9f74efa8dd9"
-    sha256 cellar: :any_skip_relocation, catalina:      "31c45ca626144ad34a3bcf09440077cbaeb793851538e2046c581122f378ebe9"
-    sha256 cellar: :any_skip_relocation, mojave:        "e0ea5b75bd333e98c716f9f9782aadb47e4e8d9c6b0e8f087f782eb8c67a58bd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9473c11cdbfee47a2c7a8f6b8b803413a48f135378c747ac74de4d12dedf5a0c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6323a6fbb6e9b3d66ec07217122e4ce547b7aadd8c7fba32bc5c0e79d77a51d4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1a55d70b4064716b248e44daf899e957a715875ff88764c874176655242ab208"
+    sha256 cellar: :any_skip_relocation, monterey:       "ba1b1478b071fd11d549982503d2987f71c0b59b5d342803136e25d9840cfcd4"
+    sha256 cellar: :any_skip_relocation, big_sur:        "da7dac8a2ecfd908021e6124f8224172a681577c6ff0d19c9f9d1a38218fc7ef"
+    sha256 cellar: :any_skip_relocation, catalina:       "cb8c5abac85406d54638a002aaab9aaafbd5fc267dfc5283596a5e7f520d5d87"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b945916a35955cfc33a9926e91e349384373a8bc05f7631a7a2376807cbfdb3d"
   end
 
   depends_on "rust" => :build
 
   conflicts_with "leaf", because: "both install a `leaf` binary"
 
-  resource "lwip" do
-    url "https://github.com/eycorsican/lwip-leaf.git",
-        revision: "86632e2747c926a75d32be8bd9af059aa38ae75e"
-  end
-
-  patch do
-    url "https://github.com/eycorsican/leaf/commit/cfaf9736f42cd7c4e6eb6f3b696d0343834aec7c.patch?full_index=1"
-    sha256 "4403b66732e84d9faedd5a7dae7b32caa32a46099a63af22139640f30a66b3ed"
-  end
-
   def install
-    (buildpath/"leaf/src/proxy/tun/netstack/lwip").install resource("lwip")
-
     cd "leaf-bin" do
       system "cargo", "install", *std_cargo_args
     end
@@ -46,6 +35,6 @@ class LeafProxy < Formula
     EOS
     output = shell_output "#{bin}/leaf -c #{testpath}/config.conf -t SS"
 
-    assert_match "dispatch to outbound SS failed", output
+    assert_match "TCP failed: all attempts failed", output
   end
 end

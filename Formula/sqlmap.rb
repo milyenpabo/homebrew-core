@@ -3,18 +3,18 @@ class Sqlmap < Formula
 
   desc "Penetration testing for SQL injection and database servers"
   homepage "https://sqlmap.org"
-  url "https://github.com/sqlmapproject/sqlmap/archive/1.5.10.tar.gz"
-  sha256 "7147ba8c9ac98fe55daa4928c34f7b6e314bfa7fa60a4f073689f70533128bcb"
+  url "https://github.com/sqlmapproject/sqlmap/archive/1.6.5.tar.gz"
+  sha256 "534194953d8a95ff1d28d1a19f9b2c1b6d021fe9bc3ea7368ecab2084ceba714"
   license "GPL-2.0-or-later"
-  revision 1
   head "https://github.com/sqlmapproject/sqlmap.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "bcadbc807985338e0d0bba23e9525b7446a2dbd3ce6add55a3d5eef50d624355"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b079ef5e78fd53a75fcd9c038b8c7fa0752f454105b21d60cfe6cfc7f2aa9b21"
-    sha256 cellar: :any_skip_relocation, catalina:      "b079ef5e78fd53a75fcd9c038b8c7fa0752f454105b21d60cfe6cfc7f2aa9b21"
-    sha256 cellar: :any_skip_relocation, mojave:        "b079ef5e78fd53a75fcd9c038b8c7fa0752f454105b21d60cfe6cfc7f2aa9b21"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "344b73aa1fa7760a3a16ec47ee58b57e66307a6f41d360731113302b9e4b85d0"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "c8563f0bf5041f1951f26d374134b46296b6869a4d3f5ad8ef0a665a961e2920"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "c8563f0bf5041f1951f26d374134b46296b6869a4d3f5ad8ef0a665a961e2920"
+    sha256 cellar: :any_skip_relocation, monterey:       "5acd44a65abdc23c7ff87d2662b6e1dc2a21e27e946dbf0d77b081d1442a895d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5acd44a65abdc23c7ff87d2662b6e1dc2a21e27e946dbf0d77b081d1442a895d"
+    sha256 cellar: :any_skip_relocation, catalina:       "5acd44a65abdc23c7ff87d2662b6e1dc2a21e27e946dbf0d77b081d1442a895d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4581d44a294b3a3213d840f5b8b267c594a6b76e3fa692b71f009f435c0f64fd"
   end
 
   depends_on "python@3.10"

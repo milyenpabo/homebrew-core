@@ -1,11 +1,13 @@
 class V8AT315 < Formula
   desc "Google's open source JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
-  url "https://github.com/v8/v8-git-mirror/archive/3.15.11.18.tar.gz"
+  url "https://github.com/v8/v8/archive/3.15.11.18.tar.gz"
   sha256 "93a4945a550e5718d474113d9769a3c010ba21e3764df8f22932903cd106314d"
+  license "BSD-3-Clause"
   revision 1
 
   bottle do
+    sha256 cellar: :any, monterey:    "e8a4181b1af77730c7345d61cf38b2a0cb19135e2963d2bddf9bbcc07357e503"
     sha256 cellar: :any, big_sur:     "8d1b84feddb4827106ad10d573f41fc6f4c1ddf6cbc65d78d8e168d7ab541e07"
     sha256 cellar: :any, catalina:    "588e9a3b61c54705d918bc783e1aa2efa1fd31626ca20181c7fe3c38d0d50ca5"
     sha256 cellar: :any, mojave:      "38ef56c652ac4f91ec1ddac61b8719ffba4c949103a6636e15aa1cd768e2d14d"
@@ -16,6 +18,8 @@ class V8AT315 < Formula
   end
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-05-18", because: "depends on Python 2 to build"
 
   resource "gyp" do
     url "https://chromium.googlesource.com/external/gyp.git",

@@ -1,15 +1,15 @@
 class ApacheFlink < Formula
   desc "Scalable batch and stream data processing"
   homepage "https://flink.apache.org/"
-  url "https://www.apache.org/dyn/closer.lua?path=flink/flink-1.14.0/flink-1.14.0-bin-scala_2.12.tgz"
-  mirror "https://archive.apache.org/dist/flink/flink-1.14.0/flink-1.14.0-bin-scala_2.12.tgz"
-  version "1.14.0"
-  sha256 "3dfac757f3da1d8b09c8697008aaad2bbf4ecee24d9672cfcdbe799711b6501f"
+  url "https://www.apache.org/dyn/closer.lua?path=flink/flink-1.15.0/flink-1.15.0-bin-scala_2.12.tgz"
+  mirror "https://archive.apache.org/dist/flink/flink-1.15.0/flink-1.15.0-bin-scala_2.12.tgz"
+  version "1.15.0"
+  sha256 "8d88b555453b162a62b9e7d37ec95b30f65b0219cd97819699ad5cb8e7f32964"
   license "Apache-2.0"
   head "https://github.com/apache/flink.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "90b48eae1d48b23bee7b4a42dd4ab369c4b0e664257903db785cc8107118ee69"
+    sha256 cellar: :any_skip_relocation, all: "30475ff4216cf4d931d73e1308829051f5ec1a04a74f9ecbd17e41510439752f"
   end
 
   depends_on "openjdk@11"
@@ -36,9 +36,11 @@ class ApacheFlink < Formula
     system libexec/"bin/start-cluster.sh"
     system bin/"flink", "run", "-p", "1",
            libexec/"examples/streaming/WordCount.jar", "--input", testpath/"input",
-           "--output", testpath/"result/1"
+           "--output", testpath/"result"
     system libexec/"bin/stop-cluster.sh"
-    assert_predicate testpath/"result/1", :exist?
-    assert_equal expected, (testpath/"result/1").read
+    assert_predicate testpath/"result", :exist?
+    result_files = Dir[testpath/"result/*/*"]
+    assert_equal 1, result_files.length
+    assert_equal expected, (testpath/result_files.first).read
   end
 end

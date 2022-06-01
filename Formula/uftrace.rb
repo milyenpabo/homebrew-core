@@ -4,10 +4,11 @@ class Uftrace < Formula
   url "https://github.com/namhyung/uftrace/archive/v0.11.tar.gz"
   sha256 "101dbb13cb3320ee76525ec26426f2aa1de4e3ee5af74f79cb403ae4d2c6c871"
   license "GPL-2.0-only"
+  revision 1
   head "https://github.com/namhyung/uftrace.git", branch: "master"
 
   bottle do
-    sha256 x86_64_linux: "fda68417a3d5d9d6fd5f961a38f76757b43e634d2b7ebdaac02c81046f985de7"
+    sha256 x86_64_linux: "d60b516de39225dd55aead6358ff5b9f51006ce2d47d51efe89e50d2b7aface1"
   end
 
   depends_on "pandoc" => :build
@@ -18,7 +19,7 @@ class Uftrace < Formula
   depends_on :linux
   depends_on "luajit-openresty"
   depends_on "ncurses"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   def install
     # Obsolete with git master, to be removed when updating to next release

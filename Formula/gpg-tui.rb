@@ -1,15 +1,17 @@
 class GpgTui < Formula
   desc "Manage your GnuPG keys with ease! 🔐"
   homepage "https://github.com/orhun/gpg-tui"
-  url "https://github.com/orhun/gpg-tui/archive/v0.8.0.tar.gz"
-  sha256 "6a9a6cc163e139f03b6983cdb07442187a8e1bcc705698f2b7228ad41c3d3c75"
+  url "https://github.com/orhun/gpg-tui/archive/v0.9.0.tar.gz"
+  sha256 "7aab4ecaf08bc020e21405e07cac40baf5d11f91e012fdddb4bf1138092eafe0"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "60fc3b626cd6b87cd5a3a6eac8a6d54ba4bd36c567192ffd8da39ddf8063a50c"
-    sha256 cellar: :any, big_sur:       "63d70ee7c14a915b15ee50c20a486575f6ec227615e25c87d23b66b0159e948b"
-    sha256 cellar: :any, catalina:      "143b63d02903a7bcf06bc681056041f097a9b130f37a0839bd7ee28d8c04dabc"
-    sha256 cellar: :any, mojave:        "0601ebaeefb30cd91d20c0f87cd7fb2fd2f0a2baa2888dd24192bb75ed88cba2"
+    sha256 cellar: :any,                 arm64_monterey: "ec8d9d8796f55165941493f1bc17a91567b097b8ddd69671dab60642b8caecae"
+    sha256 cellar: :any,                 arm64_big_sur:  "7b7c98635a7fcc508a524325374e45ff5fe031575957052d256b3566a0f95d14"
+    sha256 cellar: :any,                 monterey:       "7fa532d99b87cd4b5af650966dbbb1caaaeee8d9dd56488b431e10eeba793818"
+    sha256 cellar: :any,                 big_sur:        "127e702384df1496119fd982f180175bfc7d0b517dc6b86b727fee7145be2f78"
+    sha256 cellar: :any,                 catalina:       "3995470495945c3b13d0cb3dfd4488240a3bc53a0f079108e6a4e852285eae8f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b655ee425c43cda1c81137d49aee7f7c98d92773a3045ce1ae6ca31004656c02"
   end
 
   depends_on "rust" => :build
@@ -36,11 +38,15 @@ class GpgTui < Formula
     require "io/console"
 
     (testpath/"gpg-tui").mkdir
-    r, w, pid = PTY.spawn "#{bin}/gpg-tui"
-    r.winsize = [80, 43]
-    sleep 1
-    w.write "q"
-    assert_match(/^.*<.*list.*pub.*>.*$/, r.read)
+    begin
+      r, w, pid = PTY.spawn "#{bin}/gpg-tui"
+      r.winsize = [80, 43]
+      sleep 1
+      w.write "q"
+      assert_match(/^.*<.*list.*pub.*>.*$/, r.read)
+    rescue Errno::EIO
+      # GNU/Linux raises EIO when read is done on closed pty
+    end
   ensure
     Process.kill("TERM", pid)
   end

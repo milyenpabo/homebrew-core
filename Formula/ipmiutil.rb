@@ -1,16 +1,16 @@
 class Ipmiutil < Formula
   desc "IPMI server management utility"
   homepage "https://ipmiutil.sourceforge.io/"
-  url "https://downloads.sourceforge.net/project/ipmiutil/ipmiutil-3.1.7.tar.gz"
-  sha256 "911fd6f8b33651b98863d57e678d2fc593bc43fcd2a21f5dc7d5db8f92128a9a"
+  url "https://downloads.sourceforge.net/project/ipmiutil/ipmiutil-3.1.8.tar.gz"
+  sha256 "b14357b9723e38a19c24df2771cff63d5f15f8682cd8a5b47235044b767b1888"
+  license all_of: ["BSD-2-Clause", "BSD-3-Clause", "GPL-2.0-or-later"]
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d2870b00ddad6b22295009482c51e7d699dd8d0d0c32fafe3a5699c6b30e3f45"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3cb5c77d4305480078d8a4cfbab0118a5e8304a13eff06ac95ba9575f9ec06d1"
-    sha256 cellar: :any_skip_relocation, catalina:      "ad8fc089b714a2286884168e7ce78e4cfb9a2c045e7daf9ee77eae3524bb0f8f"
-    sha256 cellar: :any_skip_relocation, mojave:        "af41d4e3592cea0b3151276cff34bfabc810b47af165dc16436e8af30877e52e"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "502b711bfa0411d970ac6fc5dabd65e04a0a80b0bf0adead2fa1e965f2079050"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "ed08858c9437926761cfa4989285194d32f137fe3097eedde464cce544b6768e"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur: "7fcbfd7ad87af3180be0a707028d053d40ac5015e56492215b31ecdeb12594d1"
+    sha256 cellar: :any_skip_relocation, monterey:      "2ccf8da9a193781f4afc3df39aed16631347dc6c9dc54e2ff18e900ea2f8bd30"
+    sha256 cellar: :any_skip_relocation, big_sur:       "89d488a24b1d2e48cb4b59f97a6728f40bb6f5537ad216990d1a8cb7cf126935"
+    sha256 cellar: :any_skip_relocation, catalina:      "22cbdf5b31cbbe32d43972f8f65b9e7cd1ab4b502fc853bb5ec4ba8c881da217"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "97654675eb07ff4c52dfc12434302e4c57a50be29e18839d063e9f2acf4955b1"
   end
 
   depends_on "autoconf" => :build
@@ -25,8 +25,8 @@ class Ipmiutil < Formula
     inreplace "configure.ac", "test \"$archp\" = \"powerpc\"", "true"
     system "autoreconf", "-fiv"
 
-    system "./configure", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}",
+    system "./configure", *std_configure_args,
+                          "--disable-lanplus",
                           "--enable-sha256",
                           "--enable-gpl"
 

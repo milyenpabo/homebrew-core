@@ -1,17 +1,18 @@
 class Fizz < Formula
   desc "C++14 implementation of the TLS-1.3 standard"
   homepage "https://github.com/facebookincubator/fizz"
-  url "https://github.com/facebookincubator/fizz/releases/download/v2021.10.04.00/fizz-v2021.10.04.00.tar.gz"
-  sha256 "69a86ce3fa9f11942ba67456b6b748045082f690fb86dd16806b40350c656eb5"
+  url "https://github.com/facebookincubator/fizz/releases/download/v2022.05.30.00/fizz-v2022.05.30.00.tar.gz"
+  sha256 "cbe82c714578e71315c37212be3cce811ac170e7f6bcbef802b27acaeeb624eb"
   license "BSD-2-Clause"
-  head "https://github.com/facebookincubator/fizz.git"
+  head "https://github.com/facebookincubator/fizz.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "efd29aad792cb9cef64c718761a05b03830b271682ad6b57ae8b14ca10cc56b4"
-    sha256 cellar: :any,                 big_sur:       "baf1c03e59920f03f79251f15ff6f2c350d3489bc0ec29b7d5aac838a020a0f6"
-    sha256 cellar: :any,                 catalina:      "7ca0632ce5bbc66ad1f7bb9a73c394e1472f555c41fca4d7eb4317ef6cfd6267"
-    sha256 cellar: :any,                 mojave:        "8fc819f9a724c299a5948354080ef99ebd62bbc760f7bdca1bb71356a66eaee0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "881ec50000d9c55683828cbe80bf3737913310e0df7f71af792e4aec37f315d8"
+    sha256 cellar: :any,                 arm64_monterey: "3c1eac1a2b9e6ddf6472bf23ebbd09a8c76bf281d7024484980930e183d95fae"
+    sha256 cellar: :any,                 arm64_big_sur:  "d0c6dd609270a25b42e9b553d31c4d190f3f1be30bee827e562df4503632bbc7"
+    sha256 cellar: :any,                 monterey:       "85b3ca1a857a889dd10b9cb78c494a23549e960c0271f3148c5697bd9826a097"
+    sha256 cellar: :any,                 big_sur:        "95da9f48e129059f6464631222784bc1e318e8831ff757fbc2f5986797bc6c7b"
+    sha256 cellar: :any,                 catalina:       "e5d274a8ec81ed5293b0b15302bf5ea9fc60b0e50fbdd6ad5c2d1a9b38f84251"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "edc22a2dd158ca2be42ad06c217e3cfbf63aa83702f185788879309df5669940"
   end
 
   depends_on "cmake" => :build
@@ -38,11 +39,13 @@ class Fizz < Formula
     args = []
     args << "-DLIBRT_LIBRARY=/usr/lib/x86_64-linux-gnu/librt.so" if OS.linux?
 
-    mkdir "fizz/build" do
-      system "cmake", "..", "-DBUILD_TESTS=OFF", "-DBUILD_SHARED_LIBS=ON", *std_cmake_args, *args
-      system "make"
-      system "make", "install"
-    end
+    system "cmake", "-S", "fizz", "-B", "build",
+                    "-DBUILD_TESTS=OFF",
+                    "-DBUILD_SHARED_LIBS=ON",
+                    "-DCMAKE_INSTALL_RPATH=#{rpath}",
+                    *std_cmake_args, *args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do

@@ -1,17 +1,18 @@
 class Yaegi < Formula
   desc "Yet another elegant Go interpreter"
-  homepage "https://github.com/containous/yaegi"
-  url "https://github.com/containous/yaegi/archive/v0.10.0.tar.gz"
-  sha256 "3eaf52702e8cde067951b67a48c011370dfd335a21e9ae93e60df0174132634f"
+  homepage "https://github.com/traefik/yaegi"
+  url "https://github.com/traefik/yaegi/archive/v0.12.0.tar.gz"
+  sha256 "caad3b3f2272aa31c8a853a383a2199fc7fc11d54e186bd3dbb80ced6da64e56"
   license "Apache-2.0"
-  head "https://github.com/containous/yaegi.git", branch: "master"
+  head "https://github.com/traefik/yaegi.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "17c4ee9c1c3ee094e30fc0e89c3890b1de52acc9e3bd2565677ceb841e3f77c8"
-    sha256 cellar: :any_skip_relocation, big_sur:       "ee94f53273fbb3375f7c86fb433c10e90940ca0a4e23ac9e02de613f4d7f47ac"
-    sha256 cellar: :any_skip_relocation, catalina:      "5a9d1de5dc490564cd3e05da48aaedaf1d0c9ed57730d7d8a26311b0f08263be"
-    sha256 cellar: :any_skip_relocation, mojave:        "9e2110dcbc51188064dd8ca461674f1a6973ac5e14a5b3ff2a6f3304714b1a24"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "948cec6172bc410d3d104955430873f7c4e1d11c4bf8354e56b149d18869eced"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "827d118bcd1e205c6fc7e5e31bd6efaec628c16c4e7289b86426922d4d2e9506"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "3dca5101dd81e6243629cca9788814c75988b775230d5564fa047a71b2a8ce8d"
+    sha256 cellar: :any_skip_relocation, monterey:       "65d4fd34d037f1412344655397c44980125f043ba0b4e77c0d2df14239baf338"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fdef900d47c60cb90039109a222a0053fb30b979c92abed2a9386508e4015f0c"
+    sha256 cellar: :any_skip_relocation, catalina:       "2749d8b7b7b227d21995907856e2648c3f2ca2e690acf91070392661a3ccd8a3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1c2e7729b8065d1a4f57ced852da9ee8584b3445f1bd7bef3e1a0cb8fbfe2181"
   end
 
   depends_on "go" => :build

@@ -1,17 +1,18 @@
 class Wangle < Formula
   desc "Modular, composable client/server abstractions framework"
   homepage "https://github.com/facebook/wangle"
-  url "https://github.com/facebook/wangle/releases/download/v2021.10.04.00/wangle-v2021.10.04.00.tar.gz"
-  sha256 "7b95f76e9377e733e5ff3bc2ef860fea352d35c847f6ee1f164483e115c98355"
+  url "https://github.com/facebook/wangle/releases/download/v2022.05.30.00/wangle-v2022.05.30.00.tar.gz"
+  sha256 "34b056fa3f64ab3c1e3dff9d24167e5a403f92cc765222396f3ed73fa8a56eff"
   license "Apache-2.0"
   head "https://github.com/facebook/wangle.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "003396fdf81ce5d38019682b6092996793b8fc2fe5a84140c340032b108f7ca1"
-    sha256 cellar: :any,                 big_sur:       "46101c077d9db73a79d0ba51dd4414d7004a42ba30df80bc20423cf70aaa9769"
-    sha256 cellar: :any,                 catalina:      "ba040bd66a20b6ea0563370757f5d74014ada184215c9ad757d3f7557514459a"
-    sha256 cellar: :any,                 mojave:        "d87ff9028f5cae30921238c1b1aa52015e51ab407151dfe12ea7c5f839dbb3a4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "afaf31d2c5785beaf62a95653ad4eab1c16d359df927f1eec73a2a3f12ea9c2c"
+    sha256 cellar: :any,                 arm64_monterey: "a6da5a6d9557517150a711a4ae0f702ddf8d3699c88adc730929854f08830709"
+    sha256 cellar: :any,                 arm64_big_sur:  "92ee7681e91c9a7ce43fb18e071e24a87d311bddee972b7cd0b1fc52c347565e"
+    sha256 cellar: :any,                 monterey:       "e19ccc371ad4621089d65173cf3d0659b360d7a7b203131996102f4cdcd66882"
+    sha256 cellar: :any,                 big_sur:        "ed68951757dd0ad549e2f4fce7d6d96a39ec1c51a1d8470961034ccc648d888d"
+    sha256 cellar: :any,                 catalina:       "59154117e9a9158e6ebf3523b72b9d54bc4d1fdcd13a22bd0886c478fa847702"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "39ffd431d27840d10ef81a76b5863cfd626fefbea89b8487469bd5c2559c25e6"
   end
 
   depends_on "cmake" => :build
@@ -67,7 +68,7 @@ class Wangle < Formula
       -lfizz
       -lwangle
     ]
-    on_linux do
+    if OS.linux?
       cxx_flags << "-L#{Formula["boost"].opt_lib}"
       cxx_flags << "-lboost_context-mt"
       cxx_flags << "-ldl"
@@ -80,14 +81,14 @@ class Wangle < Formula
     port = free_port
     ohai "Starting EchoServer on port #{port}"
     fork { exec testpath/"EchoServer", "-port", port.to_s }
-    sleep 3
+    sleep 10
 
     require "pty"
     output = ""
     PTY.spawn(testpath/"EchoClient", "-port", port.to_s) do |r, w, pid|
       ohai "Sending data via EchoClient"
       w.write "Hello from Homebrew!\nAnother test line.\n"
-      sleep 3
+      sleep 20
       Process.kill "TERM", pid
       begin
         ohai "Reading received data"

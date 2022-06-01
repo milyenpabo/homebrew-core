@@ -5,8 +5,14 @@ class Kumo < Formula
   sha256 "43e4e2ea9da62a2230deed9151d8484f80bd6ae5fef304eaadf3301378f45fb6"
   license "MIT"
 
+  livecheck do
+    url "https://search.maven.org/remotecontent?filepath=com/kennycason/kumo-cli/maven-metadata.xml"
+    regex(%r{<version>v?(\d+(?:\.\d+)+)</version>}i)
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "6700fb72542fbe098fd2a769ecb5b80f4749cd69bf6811b3cfb29fb9b31276d6"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, all: "596af3ddc1bc9b8881fbc386ae85804fe999cee118a99fc13e123db2c5acefe1"
   end
 
   depends_on "openjdk"

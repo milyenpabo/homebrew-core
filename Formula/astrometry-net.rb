@@ -3,8 +3,8 @@ class AstrometryNet < Formula
 
   desc "Automatic identification of astronomical images"
   homepage "https://github.com/dstndstn/astrometry.net"
-  url "https://github.com/dstndstn/astrometry.net/releases/download/0.85/astrometry.net-0.85.tar.gz"
-  sha256 "e5aa28cbd6c5dd2eaf6df68f95398c3cae190668d86e9922521d29689fc27221"
+  url "https://github.com/dstndstn/astrometry.net/releases/download/0.89/astrometry.net-0.89.tar.gz"
+  sha256 "98e955a6f747cde06904e461df8e09cd58fe14b1ecceb193e3619d0f5fc64acb"
   license "BSD-3-Clause"
   revision 1
 
@@ -14,11 +14,12 @@ class AstrometryNet < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "83e1307f40aa32d8815abc05f871386ae9d21e02dac40a4a42135e5701328154"
-    sha256 cellar: :any,                 big_sur:       "48ce09c0a007ff83c025e87f62ae388ef70c855f1ce5fbb507228b2b9384d13b"
-    sha256 cellar: :any,                 catalina:      "812735fc4b3038e7004693d8f59bd81e434edc0ed2b5334e634259fdf8071074"
-    sha256 cellar: :any,                 mojave:        "ec10f1e44c5dfdb49e290cb180d30945d69c100514a07b2c3a07da3f9dff88db"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a12548d700b89741f91aa2d9371fac5a95aca3066d5d2769eb9c0b58226aca90"
+    sha256 cellar: :any,                 arm64_monterey: "ab82820ca73b7ff92197bfc1fcdd424951ef3e946e4bdb17e780090df2d8cd46"
+    sha256 cellar: :any,                 arm64_big_sur:  "c965cf45db269d7399ddf42dc5899df5e2fb4ef6d371260d15b7408a65604e42"
+    sha256 cellar: :any,                 monterey:       "7a0fe0133ba37138b8ac9b05a603b42598cf512f047f4914cee223a31a79bfd7"
+    sha256 cellar: :any,                 big_sur:        "8620d6be5c82ba6575b4641a6808940eca0eea0751724d3b705aaf6fd0d517be"
+    sha256 cellar: :any,                 catalina:       "a00a127f86ce596651a613480b4bb682b4704e76dbeb325b046faf50753d5505"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7c7ac288fb560fa9327ae3de30e4296e71674aa94066cdeb89666f20a70b1121"
   end
 
   depends_on "pkg-config" => :build
@@ -34,8 +35,8 @@ class AstrometryNet < Formula
   depends_on "wcslib"
 
   resource "fitsio" do
-    url "https://files.pythonhosted.org/packages/98/2b/0b36a6d039d10da5bfa96d0d6206523f8787fbcc4b8aa0b8107e5139b8b4/fitsio-1.1.4.tar.gz"
-    sha256 "59c281648ea8fe50ed557857b201eacb21671b83ae60956a7e22c2a7e2a82b9d"
+    url "https://files.pythonhosted.org/packages/23/ec/280f91842d5aeaa1a95dc1d86d64d3fe57a5a37a98bb39b73a963f5dc91d/fitsio-1.1.6.tar.gz"
+    sha256 "3e7e5d4fc025d8b6328ae330e72628b92784d4c2bb2f1f0caeb75e730b2f91a5"
   end
 
   def install

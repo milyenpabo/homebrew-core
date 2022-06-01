@@ -1,16 +1,17 @@
 class Utf8proc < Formula
   desc "Clean C library for processing UTF-8 Unicode data"
   homepage "https://juliastrings.github.io/utf8proc/"
-  url "https://github.com/JuliaStrings/utf8proc/archive/v2.6.1.tar.gz"
-  sha256 "4c06a9dc4017e8a2438ef80ee371d45868bda2237a98b26554de7a95406b283b"
+  url "https://github.com/JuliaStrings/utf8proc/archive/v2.7.0.tar.gz"
+  sha256 "4bb121e297293c0fd55f08f83afab6d35d48f0af4ecc07523ad8ec99aa2b12a1"
   license all_of: ["MIT", "Unicode-DFS-2015"]
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "e3845f14873623bba6259adc3f2b129d7a2ca41683764de6335eda07a30c3de7"
-    sha256 cellar: :any,                 big_sur:       "7d57bb4f93fdfd377fda65e74b9bf1cb7b2b4875a4481682a4b2a39cfe65d3e7"
-    sha256 cellar: :any,                 catalina:      "cf77fdee400e5692c3b78f0fc599e575b071b11a70ff1f3443e22c8dd14bd0fe"
-    sha256 cellar: :any,                 mojave:        "1bee383abb84a7f9921e1c6b3aa26de0c8c79295c4ae184959521bf537ba4552"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e574cf4da70696401aa9ebad3062929851ce5ee722216d67b454447a276e6a08"
+    sha256 cellar: :any,                 arm64_monterey: "72863230e3a49a319ccf71db211b7866decc25b424c24b57a6e3417211222c90"
+    sha256 cellar: :any,                 arm64_big_sur:  "d7b7ee1475f28c34e6702a93bf9fb16abaa49fcd84bdb28c3d07a8d13040f4a6"
+    sha256 cellar: :any,                 monterey:       "43f71ce7d7399280dfe784c8c10091d33d4fcd3680366720ea56c8c5d3c8330c"
+    sha256 cellar: :any,                 big_sur:        "459ccaa0dae192d1c8b1f181090ab2a1712c0cb2aebd445e91d3fc92124783e4"
+    sha256 cellar: :any,                 catalina:       "9d2ebee54aeddd64fd8189efe788a388e26482c2ff334ab4e85057861f1e948a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e820113377424418246a2ce4bfba88f9241fd8c456673a313b7f9b85f55cf3a5"
   end
 
   def install

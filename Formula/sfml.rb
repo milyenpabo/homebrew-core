@@ -10,11 +10,13 @@ class Sfml < Formula
 
   bottle do
     rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "ef472896cd55333ffe21c531b3edb055e487f5a675174feacfa6e02269877a6d"
-    sha256 cellar: :any,                 big_sur:       "3b8efaafe447f0f3a218eb81a65d92715c35e3a703373256031cb0c3d9d21084"
-    sha256 cellar: :any,                 catalina:      "12898a75c1d21de54fef1ca9c42c2d115d30ffcc9d7b10546c9c8d7428b467fa"
-    sha256 cellar: :any,                 mojave:        "c45c383d9e0049ad94cbadb1f5bdd7b870bb01a9cdc8804f495e3ac48e8955d3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "35d1a87aeb3e38917032e7cd318742cbe3edc159deb39cfe70534c9ff149d7a1"
+    sha256 cellar: :any,                 arm64_monterey: "1c47115d6352b6c60d3d99630532107ee64aa55d1e4f0c0e4cb5da969c6e99fb"
+    sha256 cellar: :any,                 arm64_big_sur:  "ef472896cd55333ffe21c531b3edb055e487f5a675174feacfa6e02269877a6d"
+    sha256 cellar: :any,                 monterey:       "62789446ecdd1939ae40c7a793c5089d44a945245b7169c66c0423e5e76c845d"
+    sha256 cellar: :any,                 big_sur:        "3b8efaafe447f0f3a218eb81a65d92715c35e3a703373256031cb0c3d9d21084"
+    sha256 cellar: :any,                 catalina:       "12898a75c1d21de54fef1ca9c42c2d115d30ffcc9d7b10546c9c8d7428b467fa"
+    sha256 cellar: :any,                 mojave:         "c45c383d9e0049ad94cbadb1f5bdd7b870bb01a9cdc8804f495e3ac48e8955d3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "35d1a87aeb3e38917032e7cd318742cbe3edc159deb39cfe70534c9ff149d7a1"
   end
 
   depends_on "cmake" => :build
@@ -37,8 +39,10 @@ class Sfml < Formula
   # https://github.com/Homebrew/homebrew/issues/40301
 
   def install
-    # error: expected function body after function declarator
-    ENV["SDKROOT"] = MacOS.sdk_path if MacOS.version == :sierra
+    # Fix "fatal error: 'os/availability.h' file not found" on 10.11 and
+    # "error: expected function body after function declarator" on 10.12
+    # Requires the CLT to be the active developer directory if Xcode is installed
+    ENV["SDKROOT"] = MacOS.sdk_path if MacOS.version <= :sierra
 
     # Always remove the "extlibs" to avoid install_name_tool failure
     # (https://github.com/Homebrew/homebrew/pull/35279) but leave the

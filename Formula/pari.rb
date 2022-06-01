@@ -1,10 +1,9 @@
 class Pari < Formula
   desc "Computer algebra system designed for fast computations in number theory"
   homepage "https://pari.math.u-bordeaux.fr/"
-  url "https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.13.2.tar.gz"
-  sha256 "1679985094a0b723d14f49aa891dbe5ec967aa4040050a2c50bd764ddb3eba24"
+  url "https://pari.math.u-bordeaux.fr/pub/pari/unix/pari-2.13.4.tar.gz"
+  sha256 "bcde9eceae1592814381c1697cdb7063567b6504201b1be47bb58920f3bce185"
   license "GPL-2.0-or-later"
-  revision 2
 
   livecheck do
     url "https://pari.math.u-bordeaux.fr/pub/pari/unix/"
@@ -12,11 +11,12 @@ class Pari < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "ad45cc834d4454d84412e62628c85afbc2364748c1ddbbd9faeced13741e3ce7"
-    sha256 cellar: :any,                 big_sur:       "a895d0124e8e155a943598c6e487da9c2695f4fe176bb6387ebd94b59db673ba"
-    sha256 cellar: :any,                 catalina:      "c3345af4b6b315eb0ba121a96b0b475c9ce9ecf299529cba821e406d20deb666"
-    sha256 cellar: :any,                 mojave:        "729e94c8cb530d7169c49569faa30c55a00cb799deffc3764b83c58386747879"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "92b1ef4819c3b0de0dd757f047949cf771ebf596e57aabed790824d14c61d8a0"
+    sha256 cellar: :any,                 arm64_monterey: "e1c950eecbb7fe0877e054706dd3ea302fd35197aeb1268d15adf7ff7a006a23"
+    sha256 cellar: :any,                 arm64_big_sur:  "ff5c62049416d85cb3981f2913b45901a5738b7bf4c23de678f0e4749d4354a7"
+    sha256 cellar: :any,                 monterey:       "8613b0be1eb6140ae00e70b1da63891302e828a9d7fbb335e02d8c417c0fcaca"
+    sha256 cellar: :any,                 big_sur:        "c039a203f00b495a0d0d0c304383fd26ee4dc0b23d0133c1f6dcc928285aec11"
+    sha256 cellar: :any,                 catalina:       "b6067a936ab86bc50e247b0fdd75704f73f373679b55463d6bc5e8b549a7e407"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5482cc0f5056c067a3b5b85fdf4346416d3f40c2449362b52d4ae848f292888c"
   end
 
   depends_on "gmp"

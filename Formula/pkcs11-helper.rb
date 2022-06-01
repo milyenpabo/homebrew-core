@@ -1,8 +1,8 @@
 class Pkcs11Helper < Formula
   desc "Library to simplify the interaction with PKCS#11"
   homepage "https://github.com/OpenSC/OpenSC/wiki/pkcs11-helper"
-  url "https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.27/pkcs11-helper-1.27.0.tar.bz2"
-  sha256 "653730f0c561bbf5941754c0783976113589b2dc64a0661c908dc878bfa4e58b"
+  url "https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.29.0/pkcs11-helper-1.29.0.tar.bz2"
+  sha256 "996846a3c8395e03d8c0515111dc84d82e6e3648d44ba28cb2dbbbca2d4db7d6"
   license any_of: ["BSD-3-Clause", "GPL-2.0-or-later"]
   head "https://github.com/OpenSC/pkcs11-helper.git", branch: "master"
 
@@ -13,11 +13,12 @@ class Pkcs11Helper < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "79eaec51f13a0bda941703a652f790a2306233428878fd9c2beaca7fcbdb9422"
-    sha256 cellar: :any,                 big_sur:       "84c49ac08cc1c9f222742d7aa3bd628b32673d2376efbe7059fc8d355ff540ad"
-    sha256 cellar: :any,                 catalina:      "5cdee7e99d40242d5026b2fbb448f7390e272bb610f8f7a125ab599941c73a06"
-    sha256 cellar: :any,                 mojave:        "3bc3ca9909c0cc67a51ab579ed498dbc9c9dc2842d572b5adc4c715405f78ada"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6887bf48e4dcb35860dcc487b8ed57f883f2c5ff8c06722ac43b006be529b73c"
+    sha256 cellar: :any,                 arm64_monterey: "02155c6d56975a3cb96cdd5b2e57e993b5841300af1636fd0d8ae5b8e9fae33d"
+    sha256 cellar: :any,                 arm64_big_sur:  "2fe182fd00dd0baca77ff94f26a3648a2afbfb3c2ffe7f57b73ece952cacecf0"
+    sha256 cellar: :any,                 monterey:       "1ae6236ec0c857d5dc1cc2f80c0a50b4d69e8672cf895ce4d53f5c511ea0a511"
+    sha256 cellar: :any,                 big_sur:        "caa4474b77fbb8d95e11c77a7d2f4da6ab3b8dec4fe62128e5a72f8572e0a8a8"
+    sha256 cellar: :any,                 catalina:       "06f17f7492feabec8b42fa5d2da9f16f4b83526b6f5fa36c251c20a4132db6b1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4b5bcb11b8e1317ef37b1b3e6ba37675ef05fbb7c6f6c314694a9fef3d9c0299"
   end
 
   depends_on "autoconf" => :build

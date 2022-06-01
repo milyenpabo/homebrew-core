@@ -2,17 +2,18 @@ class Revive < Formula
   desc "Fast, configurable, extensible, flexible, and beautiful linter for Go"
   homepage "https://revive.run"
   url "https://github.com/mgechev/revive.git",
-      tag:      "v1.1.2",
-      revision: "111721be475b73b5a2304dd01ccbcab587357fca"
+      tag:      "v1.2.1",
+      revision: "23828cc39d4f91b69247bdea0ab4903bd6c1912e"
   license "MIT"
   head "https://github.com/mgechev/revive.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4dd6420a0f09eb9d82821c76be285ce7f607ee67f9b769f8d2d5e6a6a4fb2367"
-    sha256 cellar: :any_skip_relocation, big_sur:       "cb2c909f8240e9139f2bf99b5817db422a64e85703c23d355f99c01106ba110d"
-    sha256 cellar: :any_skip_relocation, catalina:      "cb2c909f8240e9139f2bf99b5817db422a64e85703c23d355f99c01106ba110d"
-    sha256 cellar: :any_skip_relocation, mojave:        "cb2c909f8240e9139f2bf99b5817db422a64e85703c23d355f99c01106ba110d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "752f0f64a9ee4157ecba309e80d8e85abe29bb3f3684ae9ebfadef58399e23eb"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0cdb14e6af9f9f7f78315711f6d4185d7a4beaf9310f7cc2250a9ba693aea384"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0cdb14e6af9f9f7f78315711f6d4185d7a4beaf9310f7cc2250a9ba693aea384"
+    sha256 cellar: :any_skip_relocation, monterey:       "5450d5524e8838886536e0ade87db29e06ffebc5ca19c57a4020230b311b06eb"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5450d5524e8838886536e0ade87db29e06ffebc5ca19c57a4020230b311b06eb"
+    sha256 cellar: :any_skip_relocation, catalina:       "5450d5524e8838886536e0ade87db29e06ffebc5ca19c57a4020230b311b06eb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5d415242a47a6db059d03b6bb14af33e9725694f36a19de861b211f2df1eaec9"
   end
 
   depends_on "go" => :build

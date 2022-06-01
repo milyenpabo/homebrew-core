@@ -1,8 +1,8 @@
 class Pidgin < Formula
   desc "Multi-protocol chat client"
   homepage "https://pidgin.im/"
-  url "https://downloads.sourceforge.net/project/pidgin/Pidgin/2.14.7/pidgin-2.14.7.tar.bz2"
-  sha256 "fea6ab4f0572fe24646049c2b3fecbdca27abca6d06e95bd655e44db99bd69fe"
+  url "https://downloads.sourceforge.net/project/pidgin/Pidgin/2.14.9/pidgin-2.14.9.tar.bz2"
+  sha256 "1872d1629a26e9b775d9ec0bdd3d3fd348f721376f320b29bcd5ff3f0443222b"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -12,10 +12,12 @@ class Pidgin < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "5a4a12719ba5f0ecf8760a4b924421e53436894c9768aef39ccb746556dea921"
-    sha256 big_sur:       "1818362c8ad056d5527ab78423b8d9439bb1e8cd5008dc0cea99d296e37ed482"
-    sha256 catalina:      "454cf51fead6fb7b37b226b9ffe45ab7af64b327f6a3022fd3c6b89cce93a060"
-    sha256 mojave:        "2940e978897485867020f76745c82069617eac27632421c3e0063e9d6a61ee90"
+    sha256 arm64_monterey: "01a98620a3ec20a08e94493606514e2880f5e70398b8360f8e74b43f78da8deb"
+    sha256 arm64_big_sur:  "db3e891bc35acd42bba41703c8cfebee9a624c9ed2092a1ad02d31d5a56688ec"
+    sha256 monterey:       "1cebf59ad06dc543545168bdc3f977e9b15d1a3be7409626b636b09232a0d279"
+    sha256 big_sur:        "e8cbef36831f6f5c298b014c6bfdb135a0f50f210ad5b08c5feb0b249db92752"
+    sha256 catalina:       "7dcd7822ee195f4daffb436ea655f6c092e887200688368d6fa5c7403a07b059"
+    sha256 x86_64_linux:   "8956f645394856fd074a93cd7814e4d5d19e60d842ffd409394add8656ea1434"
   end
 
   depends_on "intltool" => :build
@@ -30,6 +32,16 @@ class Pidgin < Formula
   depends_on "libotr"
   depends_on "pango"
 
+  uses_from_macos "cyrus-sasl"
+  uses_from_macos "ncurses"
+  uses_from_macos "perl"
+  uses_from_macos "tcl-tk"
+
+  on_linux do
+    depends_on "libsm"
+    depends_on "libxscrnsaver"
+  end
+
   # Finch has an equal port called purple-otr but it is a NIGHTMARE to compile
   # If you want to fix this and create a PR on Homebrew please do so.
   resource "pidgin-otr" do
@@ -38,6 +50,8 @@ class Pidgin < Formula
   end
 
   def install
+    ENV.prepend "PERL5LIB", Formula["intltool"].libexec/"lib/perl5" unless OS.mac?
+
     args = %W[
       --disable-debug
       --disable-dependency-tracking
@@ -52,10 +66,21 @@ class Pidgin < Formula
       --disable-meanwhile
       --disable-vv
       --enable-gnutls=yes
-      --with-tclconfig=#{MacOS.sdk_path}/System/Library/Frameworks/Tcl.framework
-      --with-tkconfig=#{MacOS.sdk_path}/System/Library/Frameworks/Tk.framework
-      --without-x
     ]
+
+    args += if OS.mac?
+      %W[
+        --with-tclconfig=#{MacOS.sdk_path}/System/Library/Frameworks/Tcl.framework
+        --with-tkconfig=#{MacOS.sdk_path}/System/Library/Frameworks/Tk.framework
+        --without-x
+      ]
+    else
+      %W[
+        --with-tclconfig=#{Formula["tcl-tk"].opt_lib}
+        --with-tkconfig=#{Formula["tcl-tk"].opt_lib}
+        --with-ncurses-headers=#{Formula["ncurses"].opt_include}
+      ]
+    end
 
     ENV["ac_cv_func_perl_run"] = "yes" if MacOS.version == :high_sierra
 

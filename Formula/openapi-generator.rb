@@ -1,16 +1,21 @@
 class OpenapiGenerator < Formula
   desc "Generate clients, server & docs from an OpenAPI spec (v2, v3)"
   homepage "https://openapi-generator.tech/"
-  url "https://search.maven.org/remotecontent?filepath=org/openapitools/openapi-generator-cli/5.2.1/openapi-generator-cli-5.2.1.jar"
-  sha256 "b2d46d4990af3d442e4e228e1e627b93ca371ad972f54a7e82272b0ce7968c8b"
+  url "https://search.maven.org/remotecontent?filepath=org/openapitools/openapi-generator-cli/6.0.0/openapi-generator-cli-6.0.0.jar"
+  sha256 "0cb8a6950fc9b8c6a0e161b2b1827fbdd825370ea7bb440feef0d3eba2c4293e"
   license "Apache-2.0"
 
+  livecheck do
+    url "https://search.maven.org/remotecontent?filepath=org/openapitools/openapi-generator-cli/maven-metadata.xml"
+    regex(%r{<version>v?(\d+(?:\.\d+)+)</version>}i)
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "990cfa2b178ecdba850494c6aca3e5aad5e76303f33808d7fc6403c60b80262f"
+    sha256 cellar: :any_skip_relocation, all: "a2461c0225cecdc79b47c9c8cfcbb8c8e1ebc46cf8e38b03f6244331313f31f5"
   end
 
   head do
-    url "https://github.com/OpenAPITools/openapi-generator.git"
+    url "https://github.com/OpenAPITools/openapi-generator.git", branch: "master"
 
     depends_on "maven" => :build
   end

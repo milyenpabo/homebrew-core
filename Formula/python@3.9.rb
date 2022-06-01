@@ -1,10 +1,10 @@
 class PythonAT39 < Formula
   desc "Interpreted, interactive, object-oriented programming language"
   homepage "https://www.python.org/"
-  # Keep in sync with python-tk@3.9.
-  url "https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz"
-  sha256 "f8145616e68c00041d1a6399b76387390388f8359581abc24432bb969b5e3c57"
+  url "https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tar.xz"
+  sha256 "125b0c598f1e15d2aa65406e83f792df7d171cdf38c16803b149994316a3080f"
   license "Python-2.0"
+  revision 1
 
   livecheck do
     url "https://www.python.org/ftp/python/"
@@ -12,11 +12,12 @@ class PythonAT39 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "695e7b5aee119f5e4e379dfa6701496e30d3ee199792e78b88fe3eb506256d4f"
-    sha256 big_sur:       "41d99040ba87c30b59dda54f1718aa05c584c0c3e6dc366bd63589e6dfd6cb25"
-    sha256 catalina:      "304126999e2d730bc76d13584f47326a2e8626a7f0b36c5b9119693182033da9"
-    sha256 mojave:        "0320d20a3aead6f61344f86d3ed5338192b7be24b095d0170dc06911a5b01eae"
-    sha256 x86_64_linux:  "7c4c4f890a448fe247c1717226f57f7a4c4f99426b4da3620c563bf3ff02ad0d"
+    sha256 arm64_monterey: "2e02d1c12a0baecc8b1af05701c7db8038e6b9a7bf453cc49992eef74c268f7b"
+    sha256 arm64_big_sur:  "2b26548e5bd01505398539a0a4ba8a891cae2688569d109295e16bc91342d17c"
+    sha256 monterey:       "74a5bc1cb0c57f60a65f63f4c2cd7b10ce9aed3fb0d4e8634be0e7f44b8d02a7"
+    sha256 big_sur:        "c91826d8daf2835b6b0f4dbc1697e8cb6227e2cc3cb7d9dfd47a73e4da1636f0"
+    sha256 catalina:       "4cb2b93b180f1aeacd7a89551c36ff0986c8cf31d66099649f44067755c83866"
+    sha256 x86_64_linux:   "ba4a42a1bb96ff3abe62e2f622bbe304b42c99b2d6e5381f5fa761d022c4a1d8"
   end
 
   # setuptools remembers the build flags python is built with and uses them to
@@ -34,6 +35,7 @@ class PythonAT39 < Formula
   uses_from_macos "bzip2"
   uses_from_macos "expat"
   uses_from_macos "libffi"
+  uses_from_macos "libxcrypt"
   uses_from_macos "ncurses"
   uses_from_macos "unzip"
   uses_from_macos "zlib"
@@ -59,18 +61,18 @@ class PythonAT39 < Formula
 
   # Always update to latest release
   resource "setuptools" do
-    url "https://files.pythonhosted.org/packages/db/e2/c0ced9ccffb61432305665c22842ea120c0f649eec47ecf2a45c596707c4/setuptools-57.4.0.tar.gz"
-    sha256 "6bac238ffdf24e8806c61440e755192470352850f3419a52f26ffe0a1a64f465"
+    url "https://files.pythonhosted.org/packages/4a/25/ec29a23ef38b9456f9965c57a9e1221e6c246d87abbf2a31158799bca201/setuptools-62.3.2.tar.gz"
+    sha256 "a43bdedf853c670e5fed28e5623403bad2f73cf02f9a2774e91def6bda8265a7"
   end
 
   resource "pip" do
-    url "https://files.pythonhosted.org/packages/52/e1/06c018197d8151383f66ebf6979d951995cf495629fc54149491f5d157d0/pip-21.2.4.tar.gz"
-    sha256 "0eb8a1516c3d138ae8689c0c1a60fde7143310832f9dc77e11d8a4bc62de193b"
+    url "https://files.pythonhosted.org/packages/3e/0a/6125e67aa4d3245faeed476e4e26f190b5209f84f01efd733ac6372eb247/pip-22.1.1.tar.gz"
+    sha256 "8dfb15d8a1c3d3085a4cbe11f29e19527dfaf2ba99354326fd62cec013eaee81"
   end
 
   resource "wheel" do
-    url "https://files.pythonhosted.org/packages/4e/be/8139f127b4db2f79c8b117c80af56a3078cc4824b5b94250c7f81a70e03b/wheel-0.37.0.tar.gz"
-    sha256 "e2ef7239991699e3355d54f8e968a21bb940a1dbf34a4d226741e64462516fad"
+    url "https://files.pythonhosted.org/packages/c0/6c/9f840c2e55b67b90745af06a540964b73589256cb10cc10057c87ac78fc2/wheel-0.37.1.tar.gz"
+    sha256 "e9a504e793efbca1b8e0e9cb979a249cf4a0a7b5b8c9e8b65a5e39d49529c1c4"
   end
 
   # Link against libmpdec.so.3, update for mpdecimal.h symbol cleanup.
@@ -132,10 +134,6 @@ class PythonAT39 < Formula
     if OS.mac?
       args << "--enable-framework=#{frameworks}"
       args << "--with-dtrace"
-
-      # Override LLVM_AR to be plain old system ar.
-      # https://bugs.python.org/issue43109
-      args << "LLVM_AR=/usr/bin/ar"
     else
       args << "--enable-shared"
     end

@@ -1,21 +1,23 @@
 class ClickhouseCpp < Formula
   desc "C++ client library for ClickHouse"
   homepage "https://github.com/ClickHouse/clickhouse-cpp#readme"
-  url "https://github.com/ClickHouse/clickhouse-cpp/archive/refs/tags/1.5.0.tar.gz"
-  sha256 "bb6f268f9c788deb9beccb0b05c2caccf77b141afa408343e09993f12bff55a9"
+  url "https://github.com/ClickHouse/clickhouse-cpp/archive/refs/tags/v2.1.0.tar.gz"
+  sha256 "d724df55f9d4e13b3028355141c6af08fc7f2cd184d8b531e57f0d4f4a376db9"
   license "Apache-2.0"
   head "https://github.com/ClickHouse/clickhouse-cpp.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "5474994e7b1cee4b8a59dd29d1a4d8ebfdca4ae8b950e78b16fba2beaa085ab1"
-    sha256 cellar: :any,                 big_sur:       "b9ad77091970889f729e933ebba966805e24a798077a8b1f7dbedfd03085e4b3"
-    sha256 cellar: :any,                 catalina:      "2ce4a74242a33abc278c17a5fd51f82dfe427a014e06170ed89dedc4c41fc807"
-    sha256 cellar: :any,                 mojave:        "cc2b93d7b7727a606a9554ff0346f8027880c72b5cd95aadb4789fad578d809e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0c98ae1539ce939c7907e4646860067ba29da9265ae581c3bb38cb1feafe7468"
+    sha256 cellar: :any,                 arm64_monterey: "472399e540b1eeefca43801ebb2512ce972b0e70795a697658a0aa58c36134df"
+    sha256 cellar: :any,                 arm64_big_sur:  "2324d8e0318eb0e64c3bca66865fb2e71e6a0db8432e87bb46c26b9b5d04655f"
+    sha256 cellar: :any,                 monterey:       "6a99a0ea829244bfcff82932a1ad99613593f7fa38fc77488a5ae0dd7329bd63"
+    sha256 cellar: :any,                 big_sur:        "e1e9aa84d8828813fd7162d66cab5b44d3c1c88ed5b1836f948be52a54a7c022"
+    sha256 cellar: :any,                 catalina:       "5f7c0eba509be90e77fa801b0da2fcc4b1ec4b7f6c45048702cfeb41a1e24b70"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a72a1585ce0b441de3cc58db9a12e2695aaabcb915b9dc34dc0473133cc83e86"
   end
 
   depends_on "cmake" => [:build, :test]
   depends_on "abseil"
+  depends_on "openssl@1.1"
 
   on_linux do
     depends_on "gcc"
@@ -25,7 +27,8 @@ class ClickhouseCpp < Formula
   fails_with gcc: "6"
 
   def install
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    system "cmake", "-S", ".", "-B", "build",
+      "-DWITH_OPENSSL=ON", "-DOPENSSL_ROOT_DIR=#{Formula["openssl@1.1"].opt_prefix}", *std_cmake_args
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
   end
@@ -82,6 +85,7 @@ class ClickhouseCpp < Formula
       add_executable (test-client main.cpp)
       target_include_directories (test-client PRIVATE ${CLICKHOUSE_CPP_INCLUDE})
       target_link_libraries (test-client PRIVATE ${CLICKHOUSE_CPP_LIB})
+      target_compile_definitions (test-client PUBLIC WITH_OPENSSL)
     EOS
 
     system "cmake", "-S", testpath, "-B", (testpath/"build"), *std_cmake_args

@@ -1,10 +1,9 @@
 class Abyss < Formula
   desc "Genome sequence assembler for short reads"
   homepage "https://www.bcgsc.ca/resources/software/abyss"
-  url "https://github.com/bcgsc/abyss/releases/download/2.3.1/abyss-2.3.1.tar.gz"
-  sha256 "664045e7903e9732411effc38edb9ebb1a0c1b7636c64b3a14a681f465f43677"
+  url "https://github.com/bcgsc/abyss/releases/download/2.3.5/abyss-2.3.5.tar.gz"
+  sha256 "5455f7708531681ee15ec4fd5620526a53c86d28f959e630dc495f526b7d40f7"
   license all_of: ["GPL-3.0-only", "LGPL-2.1-or-later", "MIT", "BSD-3-Clause"]
-  revision 1
 
   livecheck do
     url :stable
@@ -12,11 +11,12 @@ class Abyss < Formula
   end
 
   bottle do
-    sha256                               arm64_big_sur: "21d1cb2d31fa162cefea32db0630fc6011f8d3d0bb7ababa31f8e772820d1c7f"
-    sha256 cellar: :any,                 big_sur:       "e56ce6b9bf533fb34bd2f87e87fb1019e3cccdcdc94d0e665e144121c95ddcad"
-    sha256 cellar: :any,                 catalina:      "5a95037e8675013c34f4119d5a2914706ec3b99f522426878a19f27031ad4d79"
-    sha256 cellar: :any,                 mojave:        "fc1208b6ff7dbcdc23d621076a271a40f1090cab41690ce35433c81425984494"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "36113b6fa458aaf594892cf86bbce9e0c6098285d42a3477dd9ffd85ecf06982"
+    sha256 cellar: :any,                 arm64_monterey: "1e541d242060ab3e5ff9544a4a9fe61327824692e3ad8ee37db2a52709683b74"
+    sha256 cellar: :any,                 arm64_big_sur:  "0ce0917d17014e1a82c1928695fb87b3a5dcaaec638feb9e97a9e0f536e3c813"
+    sha256 cellar: :any,                 monterey:       "74d2f18f1d5bce6c64fd8c0cdb3107d754c6e4e047d8a51c5374bdd197534149"
+    sha256 cellar: :any,                 big_sur:        "530b0b23c9af599146f4acf2ca548a4881b02e96e16adc11606cbafb41dfe802"
+    sha256 cellar: :any,                 catalina:       "9a6e75c4710d0e7d9ca55119250defb2f82ac1295882f809e5bc669e8e446386"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1023cb4e3ee62d6feec535b310d4d9957e8517cedc032d16e2245fb43e750070"
   end
 
   head do
@@ -29,15 +29,13 @@ class Abyss < Formula
 
   depends_on "boost" => :build
   depends_on "google-sparsehash" => :build
+  depends_on "gcc"
   depends_on "open-mpi"
 
-  on_macos do
-    depends_on "gcc"
-  end
-
+  fails_with gcc: "5"
   fails_with :clang # no OpenMP support
 
-  resource("testdata") do
+  resource "homebrew-testdata" do
     url "https://www.bcgsc.ca/sites/default/files/bioinformatics/software/abyss/releases/1.3.4/test-data.tar.gz"
     sha256 "28f8592203daf2d7c3b90887f9344ea54fda39451464a306ef0226224e5f4f0e"
   end
@@ -56,12 +54,12 @@ class Abyss < Formula
   end
 
   test do
-    testpath.install resource("testdata")
+    testpath.install resource("homebrew-testdata")
     if which("column")
-      system "#{bin}/abyss-pe", "k=25", "name=ts", "in=reads1.fastq reads2.fastq"
+      system "#{bin}/abyss-pe", "B=2G", "k=25", "name=ts", "in=reads1.fastq reads2.fastq"
     else
       # Fix error: abyss-tabtomd: column: not found
-      system "#{bin}/abyss-pe", "unitigs", "scaffolds", "k=25", "name=ts", "in=reads1.fastq reads2.fastq"
+      system "#{bin}/abyss-pe", "B=2G", "unitigs", "scaffolds", "k=25", "name=ts", "in=reads1.fastq reads2.fastq"
     end
     system "#{bin}/abyss-fac", "ts-unitigs.fa"
   end

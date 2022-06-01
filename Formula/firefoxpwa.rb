@@ -1,20 +1,26 @@
 class Firefoxpwa < Formula
   desc "Tool to install, manage and use Progressive Web Apps in Mozilla Firefox"
-  homepage "https://github.com/filips123/FirefoxPWA"
-  url "https://github.com/filips123/FirefoxPWA/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "e3a18c742cc44d0ffde698753182733da75bfe9a2e331efddeb133c479108328"
+  homepage "https://github.com/filips123/PWAsForFirefox"
+  url "https://github.com/filips123/PWAsForFirefox/archive/refs/tags/v1.4.0.tar.gz"
+  sha256 "cef7cbd33e3055e7075acb1bbfc5d58f88bc7b0707b43936b36dc326537174a1"
   license "MPL-2.0"
-  revision 1
-  head "https://github.com/filips123/FirefoxPWA.git", branch: "main"
+  head "https://github.com/filips123/PWAsForFirefox.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4fbf340e22c41fdc52c9930d0e204676e995f30c4c02819b4364a4d98fdc07e2"
-    sha256 cellar: :any_skip_relocation, big_sur:       "9073ea5fe13a7d12483980167eabc5a5df55928d413a3ee971f9436a2badaa56"
-    sha256 cellar: :any_skip_relocation, catalina:      "1620d3c7125ae7375fe32d5fb83e503adc1f6fd4cb99ea9bb7d640808201f6e8"
-    sha256 cellar: :any_skip_relocation, mojave:        "0cd9de8abd4f35d253efee5f27ea3fa48289337e92e492f0ca14620464e1fbf6"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1878f2af24d9a836306a907f195ef91f8993b362dfd9b09b26849a36776aaae4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "deeb9b786e37f655635a18b8066ac2ce7d1ae736815beda9d900d3753fd29f1a"
+    sha256 cellar: :any_skip_relocation, monterey:       "14569e3c06262583152b5fed3085759ebdf51be363724cc8194e0fa9327d456c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "492bc17e28724fd82408bd23ef9f07bc32acd0983c56d90703cc0cd052bbb4ac"
+    sha256 cellar: :any_skip_relocation, catalina:       "fb421b693e1b85b5eb0ffde1390ec2cdc4b591d4c9bf4083e59ff4c12f39d428"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "da6422ce946aa89d6448dc58b38d2215486d4021dc5299c10ffa355a76858889"
   end
 
   depends_on "rust" => :build
+
+  on_linux do
+    depends_on "pkg-config" => :build
+    depends_on "openssl@1.1"
+  end
 
   def install
     cd "native"

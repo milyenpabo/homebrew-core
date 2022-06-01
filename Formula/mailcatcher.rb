@@ -1,17 +1,17 @@
 class Mailcatcher < Formula
   desc "Catches mail and serves it through a dream"
   homepage "https://mailcatcher.me"
-  url "https://github.com/sj26/mailcatcher/archive/refs/tags/v0.8.1.tar.gz"
-  sha256 "c40105f63407efc3fb18c2b1e2408896e4b86b0c8ba4e53ea17e087cbb2d7fee"
+  url "https://github.com/sj26/mailcatcher/archive/refs/tags/v0.8.2.tar.gz"
+  sha256 "3bf200ab3b2926d3747a462afd68dce5a28a11fe8d2834ce929c99c90d4192d3"
   license "MIT"
 
   bottle do
-    rebuild 1
-    sha256                               arm64_big_sur: "6e1c1a2648d208d664a3c80533a895e4ad2fddb0f89cd8076a99ed52f7216fbe"
-    sha256                               big_sur:       "f66c059ff505ac51846dd6a749e9b76a3f734b603e620d0612a00ae834bb9ad7"
-    sha256                               catalina:      "30ab2a3c7040c47eaf0463fb98ca112eb78eeadcb5330363e80388ea1c5e0816"
-    sha256                               mojave:        "508b814f8c365c9cb0cf0fcdd94eecdb4cfc4bda6a9e165082c10304b558bec8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "99095d3f11a9228cf71d4f9a4e29eebf6f13390c60591321964c1bb5e12af1f3"
+    sha256                               arm64_monterey: "3be13e4d6da19162bc7d70f201185fdb3f7dcd1b6207d632df446a3adc9b27dc"
+    sha256                               arm64_big_sur:  "f1a3d77e3f95325952f78a408eba5e08b125b962f47a12265afd80489458f077"
+    sha256                               monterey:       "d33f530eef6e1f7455c7d2dd36fcf75472a709f76118da99d82d207034b6f484"
+    sha256                               big_sur:        "4f8ffd6afc2180fb12b59fda6ff9346ff2bbf6e6e10e685286cb161f706179b6"
+    sha256                               catalina:       "5bb1102c3a30c01a72f6b6a44ef0d19c35f434b32960cce7b2a3aa19c4ccbf20"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c27e2ce76bc1ea4b0d32f40e36a429eaf375a2dd7bc8bcc1e0a80240589720ee"
   end
 
   depends_on "pkg-config" => :build

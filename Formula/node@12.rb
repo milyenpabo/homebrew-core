@@ -1,25 +1,23 @@
 class NodeAT12 < Formula
   desc "Platform built on V8 to build network applications"
   homepage "https://nodejs.org/"
-  url "https://nodejs.org/dist/v12.22.6/node-v12.22.6.tar.gz"
-  sha256 "02763dcf6532a997143b03c1f7d23552a3bd19ddcad1fd2425956db7596cbc9c"
+  url "https://nodejs.org/dist/v12.22.12/node-v12.22.12.tar.xz"
+  sha256 "bc42b7f8495b9bfc7f7850dd180bb02a5bdf139cc232b8c6f02a6967e20714f2"
   license "MIT"
-  revision 1
-
-  livecheck do
-    url "https://nodejs.org/dist/"
-    regex(%r{href=["']?v?(12(?:\.\d+)+)/?["' >]}i)
-  end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "215d642ed997c347c3a3abc4b2913a8c813b46870b3822fe4084e1d1e4f91372"
-    sha256 cellar: :any,                 big_sur:       "5d6a32315fd68e3a91d2ce30ef5e26e8cca73ab89893b7f965efcbfc1ae7af6e"
-    sha256 cellar: :any,                 catalina:      "cee28342085656ad34b77e968aee90e2a8c02f527e2df820885e887de2ef08ee"
-    sha256 cellar: :any,                 mojave:        "33b95dafb0722d184e56c06eedcb7d89f79c4261ce80139a0b2918f92b70f254"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "53027363c72756694fc56639cdf44d0427daac715e038d167b95bba9f562f38c"
+    sha256 cellar: :any,                 arm64_monterey: "55ac811bdbf7b23af17685ffc6ca8f856b24eb12cdacf0090ba4db180601fcd0"
+    sha256 cellar: :any,                 arm64_big_sur:  "f77863889d72ff635fc8636c2c981129f77b63ca3f8089b1d3352a0f82fba82b"
+    sha256 cellar: :any,                 monterey:       "e17dd5d3ed174f07c209c3d997c754d955391204212015145dfd5a00babd0a1e"
+    sha256 cellar: :any,                 big_sur:        "f11dbd58e394229abb675d9d0f8bd4194b74ed4e00fe4450179864fc90961ff4"
+    sha256 cellar: :any,                 catalina:       "6fbfa5dc3b8ca2f79139a3d590a8672941d2d1d97468994cb0517e67fe56e1f0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "85107636ad59250c7b50c4f47d44d28fb6044f254f9b5f0f585defbbbb76aaaf"
   end
 
   keg_only :versioned_formula
+
+  # https://nodejs.org/en/about/releases/
+  deprecate! date: "2022-04-30", because: :unsupported
 
   depends_on "pkg-config" => :build
   depends_on "python@3.9" => :build
@@ -35,14 +33,6 @@ class NodeAT12 < Formula
   on_macos do
     depends_on "macos-term-size"
   end
-
-  # Fix build with brewed c-ares.
-  # https://github.com/nodejs/node/pull/39739
-  #
-  # Remove when the following lands in a *c-ares* release:
-  # https://github.com/c-ares/c-ares/commit/7712fcd17847998cf1ee3071284ec50c5b3c1978
-  # https://github.com/c-ares/c-ares/pull/417
-  patch :DATA
 
   def install
     # make sure subprocesses spawned by make are using our Python 3
@@ -113,16 +103,3 @@ class NodeAT12 < Formula
     assert_match "< hello >", shell_output("#{bin}/npx cowsay hello")
   end
 end
-
-__END__
---- a/src/cares_wrap.cc
-+++ b/src/cares_wrap.cc
-@@ -39,7 +39,7 @@
- # include <netdb.h>
- #endif  // __POSIX__
- 
--# include <ares_nameser.h>
-+# include <arpa/nameser.h>
- 
- // OpenBSD does not define these
- #ifndef AI_ALL

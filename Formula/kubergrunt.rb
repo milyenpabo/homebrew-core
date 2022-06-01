@@ -1,19 +1,21 @@
 class Kubergrunt < Formula
   desc "Collection of commands to fill in the gaps between Terraform, Helm, and Kubectl"
   homepage "https://github.com/gruntwork-io/kubergrunt"
-  url "https://github.com/gruntwork-io/kubergrunt/archive/v0.7.10.tar.gz"
-  sha256 "e474e97bf344a1e547a7b04bf99c0fe63afe5a72a6d08c7d2e86803a41007ed3"
+  url "https://github.com/gruntwork-io/kubergrunt/archive/v0.9.0.tar.gz"
+  sha256 "9616fb78bb7a47788ababb4a6a03a4045619cc82772f0415d9ebd41254a5cb6b"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "faaa313e8d0657196dac651629f00d050665dba11dd550399d6c601743518f63"
-    sha256 cellar: :any_skip_relocation, big_sur:       "d3dd08aa250aeaac07f7b37fa8528c0afba674fc99ffe220d900a62c7e2aabbc"
-    sha256 cellar: :any_skip_relocation, catalina:      "ad163f56ac0a42756af0efd81f25cd1e1c5786fb69c80763d610bb09ccf86d6b"
-    sha256 cellar: :any_skip_relocation, mojave:        "9f644f15583e5e6cdf25160c637155edde3326039a5b1d18e010dea768d28d22"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "205069ac85b982c4e35ab1c01440653edaca209b11c105879569b5daec5ca942"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4927506439c7c6c5e5b4eeb1213f3570d96aec7a008773926a0be7dc9b40ce6c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5065390fccb9abd280c710b6755855604303f69e793618d143537b29ca72255b"
+    sha256 cellar: :any_skip_relocation, monterey:       "47cd63be178269a1819b9bf29c69843e3123dc3630ffb20868f7795ada10ee95"
+    sha256 cellar: :any_skip_relocation, big_sur:        "06401824b1d5d034b1b1c27c3a471deec712ea97d14e2dd6601c2152c1274451"
+    sha256 cellar: :any_skip_relocation, catalina:       "fd8eca5225bd566f91805e6ebba3702d66593e80eed2c957d4651eb8c68626e7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "759ff120a5f19a2027c6b013b645130682b4653bab07e4257e7a8cf2f383e9ba"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w -X main.VERSION=v#{version}"), "./cmd"

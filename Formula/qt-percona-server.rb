@@ -1,8 +1,8 @@
 class QtPerconaServer < Formula
   desc "Qt SQL Database Driver"
   homepage "https://www.qt.io/"
-  url "https://download.qt.io/official_releases/qt/6.1/6.1.3/submodules/qtbase-everywhere-src-6.1.3.tar.xz"
-  sha256 "1e9abb2ea4daa0fd11f46fc871d9e896b916e1b7130fed74c83d66221bb4fe78"
+  url "https://download.qt.io/official_releases/qt/6.3/6.3.0/submodules/qtbase-everywhere-src-6.3.0.tar.xz"
+  sha256 "b865aae43357f792b3b0a162899d9bf6a1393a55c4e5e4ede5316b157b1a0f99"
   license all_of: ["LGPL-2.1-only", "LGPL-3.0-only"]
 
   livecheck do
@@ -10,10 +10,12 @@ class QtPerconaServer < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "8bf3ea2a32d66415dd802813ea09fa15ac9eeab75b5d4e49effcad08ab3771a5"
-    sha256 cellar: :any, big_sur:       "7228edab478768ef2398b4f1c9d36f075d95e932f7083f1b5b5deecc98c966e2"
-    sha256 cellar: :any, catalina:      "fd84ae9e43efc6844a7ce0895f4060465444f48dbcb903fb1129c26ca634c497"
-    sha256 cellar: :any, mojave:        "1b4d4e64aa2e52436873b7c71a3f2f5202b0b6285f96a1776d2c701385ccc8b7"
+    sha256 cellar: :any,                 arm64_monterey: "e3483655cda12d84fbfa75ea968a60a52b0b53604bf7745fecd99924169524a9"
+    sha256 cellar: :any,                 arm64_big_sur:  "685a75c9a530522c95ec68730a7d08c950c3e6ee32f51294e6988dd4ce21ca53"
+    sha256 cellar: :any,                 monterey:       "9682f42c09c963fef2a6e5ffdc7c6d51fca12366f6b9bd891d4c706ca04d2c0f"
+    sha256 cellar: :any,                 big_sur:        "43a4b77883ed88cb4a23845cdac7ec04e92146dcc1582e672de881f1e631046a"
+    sha256 cellar: :any,                 catalina:       "80dbfbd93673f6ff01e1ff6136093e2060b1bf6311a4f07b94e4fa42bf25118f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3b7e656e1679c386b3f7c604c738d2c290c854d1d9f64179c042267627be7f43"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -22,8 +24,14 @@ class QtPerconaServer < Formula
   depends_on "percona-server"
   depends_on "qt"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
   conflicts_with "qt-mysql", "qt-mariadb",
     because: "qt-mysql, qt-mariadb, and qt-percona-server install the same binaries"
+
+  fails_with gcc: "5"
 
   def install
     args = std_cmake_args + %W[
@@ -78,6 +86,7 @@ class QtPerconaServer < Formula
       #include <cassert>
       int main(int argc, char *argv[])
       {
+        QCoreApplication::addLibraryPath("#{share}/qt/plugins");
         QCoreApplication a(argc, argv);
         QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
         assert(db.isValid());

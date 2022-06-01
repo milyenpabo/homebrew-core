@@ -1,16 +1,17 @@
 class Libfido2 < Formula
   desc "Provides library functionality for FIDO U2F & FIDO 2.0, including USB"
   homepage "https://developers.yubico.com/libfido2/"
-  url "https://github.com/Yubico/libfido2/archive/1.8.0.tar.gz"
-  sha256 "554291188f24ab595cb947f9d2b6ec40ce5afe39d9257c1e2cd0bdef8bf7fd1d"
+  url "https://github.com/Yubico/libfido2/archive/1.11.0.tar.gz"
+  sha256 "0830c5853e3b44099a97166e0cec54a65b54b7faaac07071872f77b8e4d7b302"
   license "BSD-2-Clause"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "dc337533af36a3756e758f13590a09a62b9dbe92740f14129af70fc0f48f1f20"
-    sha256 cellar: :any,                 big_sur:       "c128be0d0ff853f9db7c921c1b1272a11671525aa6b2d34b11a8d8ea26989d7d"
-    sha256 cellar: :any,                 catalina:      "13c88e8935bae584abcc70e817328009689689e1e057b6f0e0df99f88481b702"
-    sha256 cellar: :any,                 mojave:        "faa172bd93fb5976aa8044ec0a4b1ce07832d4681b70309529bdc5207e7b7392"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e4ee18fc6862c83e0662060a240acad3ae0b7a10c139df78da277d342280d4d5"
+    sha256 cellar: :any,                 arm64_monterey: "7efcbcc6ba548f2410d5fdf45788782de457a0dc6093220eacf89480fcd496db"
+    sha256 cellar: :any,                 arm64_big_sur:  "6b3b260583c40834aec71d64de1a679e27ea3e7da1788a8d913bca38b7985f10"
+    sha256 cellar: :any,                 monterey:       "aeb657a45d240d679bebf88fd5d8fe9253464fe7aa986a34e6531c1c531baf25"
+    sha256 cellar: :any,                 big_sur:        "e4ffb026a067f1d1fb49eb0033bfac05f29a4a390790fd1b29aee00363ed62d2"
+    sha256 cellar: :any,                 catalina:       "1029bd3cccdda9ba93a80ed44151ebb9153a6f79ece7110b2c4d1e014830b98f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dd9ba79bc1fb55d32160414994b907ff66bcf7a4bbb11ac30518d763a912fa12"
   end
 
   depends_on "cmake" => :build

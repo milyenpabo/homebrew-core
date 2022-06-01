@@ -1,9 +1,9 @@
 class Maven < Formula
   desc "Java-based project management"
   homepage "https://maven.apache.org/"
-  url "https://www.apache.org/dyn/closer.lua?path=maven/maven-3/3.8.3/binaries/apache-maven-3.8.3-bin.tar.gz"
-  mirror "https://archive.apache.org/dist/maven/maven-3/3.8.3/binaries/apache-maven-3.8.3-bin.tar.gz"
-  sha256 "0f1597d11085b8fe93d84652a18c6deea71ece9fabba45a02cf6600c7758fd5b"
+  url "https://www.apache.org/dyn/closer.lua?path=maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz"
+  mirror "https://archive.apache.org/dist/maven/maven-3/3.8.5/binaries/apache-maven-3.8.5-bin.tar.gz"
+  sha256 "88e30700f32a3f60e0d28d0f12a3525d29b7c20c72d130153df5b5d6d890c673"
   license "Apache-2.0"
 
   livecheck do
@@ -12,11 +12,12 @@ class Maven < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d5316ed4579d366299cad35d57376413ef5942be27e9def61967b417468b8e2d"
-    sha256 cellar: :any_skip_relocation, big_sur:       "e20b223a764265a88cd00a3a526fcafdda834a038dccfef6ad63d551dd6d5594"
-    sha256 cellar: :any_skip_relocation, catalina:      "e20b223a764265a88cd00a3a526fcafdda834a038dccfef6ad63d551dd6d5594"
-    sha256 cellar: :any_skip_relocation, mojave:        "e20b223a764265a88cd00a3a526fcafdda834a038dccfef6ad63d551dd6d5594"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "07797e93cf8c6f358b149d6bfc31da7b65b469d2585b2efaa7ce36741bc1887f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2cebb1dc17611d23752838368125c5b5cf96b520724492aefa7bd23c5074e897"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2cebb1dc17611d23752838368125c5b5cf96b520724492aefa7bd23c5074e897"
+    sha256 cellar: :any_skip_relocation, monterey:       "2f45f971e0d4f54b3200f7f0b1e99d793c4882200a44cba2f1c0b95daae264bf"
+    sha256 cellar: :any_skip_relocation, big_sur:        "2f45f971e0d4f54b3200f7f0b1e99d793c4882200a44cba2f1c0b95daae264bf"
+    sha256 cellar: :any_skip_relocation, catalina:       "2f45f971e0d4f54b3200f7f0b1e99d793c4882200a44cba2f1c0b95daae264bf"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2cebb1dc17611d23752838368125c5b5cf96b520724492aefa7bd23c5074e897"
   end
 
   depends_on "openjdk"

@@ -1,8 +1,8 @@
 class Aqbanking < Formula
   desc "Generic online banking interface"
-  homepage "https://www.aquamaniac.de/sites/aqbanking/"
-  url "https://www.aquamaniac.de/rdm/attachments/download/386/aqbanking-6.3.2.tar.gz"
-  sha256 "a97ab42f7298cbb2617b2bda53ca51a2b0fe5f780bde098a39a5f4a3243e3418"
+  homepage "https://www.aquamaniac.de/rdm/projects/aqbanking"
+  url "https://www.aquamaniac.de/rdm/attachments/download/435/aqbanking-6.5.0.tar.gz"
+  sha256 "4d2d3bea086e96ada7b6819206d4eb4168ceb7e32dce9a68dc6c6eabcc9eb63e"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,18 +11,12 @@ class Aqbanking < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "68e171896fd9c1c8e4da47726a8e6c8e40aaf318a2da026cba67fd0a89cdcf9f"
-    sha256 big_sur:       "2ec730d26adbca6c0745aa4301ab2aea51894b6b2db5bc4f61f06a91db678a6a"
-    sha256 catalina:      "7421db73ffd8f34a960d3a095ed93d32b22bbdda1eaf63675083750e42986ba9"
-    sha256 mojave:        "8f0fc769af2fcdc03281a0b0447e93ee6653df51650a43c5e5513dd16628ccde"
-  end
-
-  head do
-    url "https://git.aquamaniac.de/git/aqbanking.git"
-
-    depends_on "autoconf" => :build
-    depends_on "automake" => :build
-    depends_on "libtool" => :build
+    sha256 arm64_monterey: "d9e446b646d77b35070d3949d544f2c921bd39987e90e18f619de9193c8122f5"
+    sha256 arm64_big_sur:  "a726b3584d9f28941485c2ebc587c2f6c42b7f46d6107395913b8e562c249a3a"
+    sha256 monterey:       "dd8f1879bb07bf8712cf2777ad63e5687cb5de4efb13af0feae02f88dfefe64e"
+    sha256 big_sur:        "bd2d08d03cf5aaa9f5ebbf1c319e827030f0db7fac3f6952a9c8a0dc8ad6ac29"
+    sha256 catalina:       "1cd5ee4252aaf868fb9ad14e1adb3cf229dbee853bf2e4867699cb6a035a85a3"
+    sha256 x86_64_linux:   "3d7eb8830810d4841a5545a4bcba94849096a0b3d9e910e02655c1bc529cb4a4"
   end
 
   depends_on "gettext"
@@ -31,7 +25,7 @@ class Aqbanking < Formula
   depends_on "ktoblzcheck"
   depends_on "libxml2"
   depends_on "libxmlsec1"
-  depends_on "libxslt"
+  depends_on "libxslt" # Our libxslt links with libgcrypt
   depends_on "pkg-config" # aqbanking-config needs pkg-config for execution
 
   def install
@@ -42,6 +36,8 @@ class Aqbanking < Formula
                           "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
                           "--enable-cli"
+    # This is banking software, so let's run the test suite.
+    system "make", "check"
     system "make", "install"
   end
 

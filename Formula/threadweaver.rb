@@ -1,16 +1,25 @@
 class Threadweaver < Formula
   desc "Helper for multithreaded programming"
   homepage "https://api.kde.org/frameworks/threadweaver/html/index.html"
-  url "https://download.kde.org/stable/frameworks/5.86/threadweaver-5.86.0.tar.xz"
-  sha256 "84dcbe648e2960084b13ad59a88dd7ed7fee0305351b015345d59848072e64be"
+  url "https://download.kde.org/stable/frameworks/5.94/threadweaver-5.94.0.tar.xz"
+  sha256 "87d8431a62c53b7e433b49dfad4fd6cacb58356a50cfa17ac480c6bb00a8e1c5"
   license "LGPL-2.0-or-later"
   head "https://invent.kde.org/frameworks/threadweaver.git", branch: "master"
 
+  # We check the tags from the `head` repository because the latest stable
+  # version doesn't seem to be easily available elsewhere.
+  livecheck do
+    url :head
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
+
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "ab63e8e0f342315945f3f44851abea4b9d6258041a2f8c93f02859fdc036deab"
-    sha256 cellar: :any, big_sur:       "3292d7fc2cb4932bd0fbda38d510c3e3e37c0a2007f822e912da164a4f2a17bf"
-    sha256 cellar: :any, catalina:      "dce58a4c3a347fff98c44a20ea89f7d3383f3e2126bc60284ebb1f335cae4723"
-    sha256 cellar: :any, mojave:        "6c2bcbafdb3a3e98ebff128ff609a4ce748bb6ad3bc7778964877dd97945af3f"
+    sha256 cellar: :any,                 arm64_monterey: "88042d3a4e7cbdb83047c4be6012010e9cd1f41eb8b75f7cd2b610c522925de3"
+    sha256 cellar: :any,                 arm64_big_sur:  "56d64afe72182837d2bd78c9aa6c091f3a5204bd889a14224b85249f13373037"
+    sha256 cellar: :any,                 monterey:       "8fdcb18083c7b95b3b2cbcbe1b8be0162843258fc1d7e43429ba25cf6922887e"
+    sha256 cellar: :any,                 big_sur:        "86fbb3fc66069d8a8c1da09f2effd22b609c02b174405b5e477cc141f4c42258"
+    sha256 cellar: :any,                 catalina:       "467601f5a2ab88a728e04cbeb489259d5d0f42f42ac639696c7f5c8b04e28683"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "69660914f3c216895b74b6189c444f663997ac598c0e6e99e99bc7da64d53bd8"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -19,24 +28,32 @@ class Threadweaver < Formula
   depends_on "graphviz" => :build
   depends_on "qt@5"
 
-  def install
-    args = std_cmake_args
-    args << "-DBUILD_TESTING=OFF"
-    args << "-DBUILD_QCH=ON"
+  on_linux do
+    depends_on "gcc"
+  end
 
-    mkdir "build" do
-      system "cmake", "..", *args
-      system "make", "install"
-    end
+  fails_with gcc: "5"
+
+  def install
+    args = std_cmake_args + %w[
+      -S .
+      -B build
+      -DBUILD_QCH=ON
+    ]
+
+    system "cmake", *args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
 
     pkgshare.install "examples"
   end
 
   test do
     ENV.delete "CPATH"
-    qt5_arg = "-DQt5Core_DIR=#{Formula["qt@5"].opt_prefix/"lib/cmake/Qt5Core"}"
-    system "cmake", (pkgshare/"examples/HelloWorld"), *std_cmake_args, qt5_arg
-    system "make"
+    qt5_args = ["-DQt5Core_DIR=#{Formula["qt@5"].opt_lib}/cmake/Qt5Core"]
+    qt5_args << "-DCMAKE_EXE_LINKER_FLAGS=-Wl,-rpath,#{Formula["qt@5"].opt_lib}" unless OS.mac?
+    system "cmake", (pkgshare/"examples/HelloWorld"), *std_cmake_args, *qt5_args
+    system "cmake", "--build", "."
 
     assert_equal "Hello World!", shell_output("./ThreadWeaver_HelloWorld 2>&1").strip
   end

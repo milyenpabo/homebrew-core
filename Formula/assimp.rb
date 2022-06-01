@@ -1,29 +1,42 @@
 class Assimp < Formula
   desc "Portable library for importing many well-known 3D model formats"
   homepage "https://www.assimp.org/"
-  url "https://github.com/assimp/assimp/archive/v5.0.1.tar.gz"
-  sha256 "11310ec1f2ad2cd46b95ba88faca8f7aaa1efe9aa12605c55e3de2b977b3dbfc"
+  url "https://github.com/assimp/assimp/archive/v5.2.3.tar.gz"
+  sha256 "b20fc41af171f6d8f1f45d4621f18e6934ab7264e71c37cd72fd9832509af2a8"
   license :cannot_represent
   head "https://github.com/assimp/assimp.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "0571a9c07e7166cbfbd2c12b17f121c718204491501f268cdd904791df3c3697"
-    sha256 cellar: :any,                 big_sur:       "8cd36113e1e7db18e625e652a522374bf6158306254f31627f2e8f067ae665db"
-    sha256 cellar: :any,                 catalina:      "b2450bc0cc287a25a2e4ca42ff229ee104a6de51ef3a8cc02603850572126f18"
-    sha256 cellar: :any,                 mojave:        "4ee11342b9d284810e88828be1662ee5be09a161f2c1353648e63255bbf4375b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "28a1c666ece91069a06490a3ea899a7f4051950f47b5e703fed96b0f22e04347"
+    sha256 cellar: :any,                 arm64_monterey: "9961dc6c4704e8755b236aaa77b8dae1f1c1533f167f1f47ed15a7fa89105c06"
+    sha256 cellar: :any,                 arm64_big_sur:  "e27cc4e35d08e02ca00ac292cd36c2d4a5513fd6a07be739b38f1ee4cc6ef758"
+    sha256 cellar: :any,                 monterey:       "d5faece7848806ffb74c5fed86ee9fd9413cd4dee86f84210cc033cb146457dd"
+    sha256 cellar: :any,                 big_sur:        "debb34ddf106651903ab16650d7a52af85f6d3d14f993979d09ec3ecba4df97b"
+    sha256 cellar: :any,                 catalina:       "d42b184019a11b425d9c3d14a9080dea21d59e5dfd11f384a901ed76dc6accc8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9c1b396cbf9435fad17fbbdfbf46f8181964c93c72bd6e030dece5cd7a10492a"
   end
 
   depends_on "cmake" => :build
+  depends_on "ninja" => :build
 
   uses_from_macos "zlib"
 
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
   def install
-    args = std_cmake_args
-    args << "-DASSIMP_BUILD_TESTS=OFF"
-    args << "-DCMAKE_INSTALL_RPATH=#{rpath}"
-    system "cmake", *args
-    system "make", "install"
+    args = std_cmake_args + %W[
+      -GNinja
+      -DASSIMP_BUILD_TESTS=OFF
+      -DCMAKE_INSTALL_RPATH=#{rpath}
+    ]
+
+    mkdir "build" do
+      system "cmake", *args, ".."
+      system "ninja", "install"
+    end
   end
 
   test do

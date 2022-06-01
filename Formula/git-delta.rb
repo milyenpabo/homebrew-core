@@ -1,21 +1,22 @@
 class GitDelta < Formula
   desc "Syntax-highlighting pager for git and diff output"
   homepage "https://github.com/dandavison/delta"
-  url "https://github.com/dandavison/delta/archive/0.8.3.tar.gz"
-  sha256 "cf48d52d20a12e11a3a6afd436a75550e78fc39c358e85a75caa08b39e4e75c6"
+  url "https://github.com/dandavison/delta/archive/0.13.0.tar.gz"
+  sha256 "5a0ba70a094a7884beb6f1efd4d155861e4b3e3584c452cabbce1607f8eb0f30"
   license "MIT"
-  head "https://github.com/dandavison/delta.git"
+  head "https://github.com/dandavison/delta.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "c1863678cb96ffb95451fc4677cea5ef2fb2280d61efe7061884e21fddc0c4f9"
-    sha256 cellar: :any_skip_relocation, big_sur:       "784f02aca241d3055f7932a4ebdc983955dbfa1551cf96b99a67c67da382e9e5"
-    sha256 cellar: :any_skip_relocation, catalina:      "50954d3cc47cdf353f050ca12f378779e827f724c41a48e40b3d4b6a7ebb53d6"
-    sha256 cellar: :any_skip_relocation, mojave:        "45420b913807614d341c14e715253be518ac9b77ebaa947af2b32528c3ed0382"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1b20c3983f9578a40a3644fa9b6078bf4cc77c63e18ac80ef2c751104b5f91c5"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "b871380c531484f3eb60c3f3965971d4e1974846e23ebbda2c4c4b4e6969c279"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8a37fd9b4838aa5f039aa9b92b70ed92ea7e2e3cde223c848f64b7fc4520378a"
+    sha256 cellar: :any_skip_relocation, monterey:       "4fa85062a8ec07516f772aefea1d0da0c70500b4992e86157e4daeac699db73b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "009656e3089eb400dbb964db081e169b172a9d3918cc3afdc5ca3715c0363c23"
+    sha256 cellar: :any_skip_relocation, catalina:       "eb71a5e4badf7f096607feb7a58dd5116d2954705948a43045a7f943c3d27999"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "725478975f1e92f80fd7e5584cf924e585e69f9c2e4a39e64ccf83b3e07fac2e"
   end
 
   depends_on "rust" => :build
-  uses_from_macos "llvm"
+  uses_from_macos "zlib"
 
   conflicts_with "delta", because: "both install a `delta` binary"
 

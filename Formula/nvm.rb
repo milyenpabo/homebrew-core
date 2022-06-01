@@ -1,17 +1,28 @@
 class Nvm < Formula
   desc "Manage multiple Node.js versions"
   homepage "https://github.com/nvm-sh/nvm"
-  url "https://github.com/creationix/nvm/archive/v0.38.0.tar.gz"
-  sha256 "35bb7bc74bf9efacde270ee5f52ef3c41fd585c5f8ddd57ca6e8e07e4f29fc74"
+  url "https://github.com/nvm-sh/nvm/archive/v0.39.1.tar.gz"
+  sha256 "4b6f6af05f94839b1116d661adb7d3af4ac17a7f10c280cdf84be084c7ab3b61"
   license "MIT"
+  revision 1
   head "https://github.com/nvm-sh/nvm.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "f3cd481b024f9e46a56450d6aaf43c83875e8e7796db6838a6441195b039a368"
+    sha256 cellar: :any_skip_relocation, all: "6e14c8a2bf94212545c1ebac9a722df168c318d0e8af2fc75b729a07fea54efe"
   end
 
   def install
-    prefix.install "nvm.sh", "nvm-exec"
+    (prefix/"nvm.sh").write <<~EOS
+      # $NVM_DIR should be "$HOME/.nvm" by default to avoid user-installed nodes destroyed every update
+      [ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
+      \\. #{libexec}/nvm.sh
+      # "nvm exec" and certain 3rd party scripts expect "nvm.sh" and "nvm-exec" to exist under $NVM_DIR
+      [ -e "$NVM_DIR" ] || mkdir -p "$NVM_DIR"
+      [ -e "$NVM_DIR/nvm.sh" ] || ln -s #{opt_libexec}/nvm.sh "$NVM_DIR/nvm.sh"
+      [ -e "$NVM_DIR/nvm-exec" ] || ln -s #{opt_libexec}/nvm-exec "$NVM_DIR/nvm-exec"
+    EOS
+    libexec.install "nvm.sh", "nvm-exec"
+    prefix.install_symlink libexec/"nvm-exec"
     bash_completion.install "bash_completion" => "nvm"
   end
 
@@ -29,8 +40,8 @@ class Nvm < Formula
       configuration file:
 
         export NVM_DIR="$HOME/.nvm"
-        [ -s "#{opt_prefix}/nvm.sh" ] && \. "#{opt_prefix}/nvm.sh"  # This loads nvm
-        [ -s "#{opt_prefix}/etc/bash_completion.d/nvm" ] && \. "#{opt_prefix}/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+        [ -s "#{opt_prefix}/nvm.sh" ] && \\. "#{opt_prefix}/nvm.sh"  # This loads nvm
+        [ -s "#{opt_prefix}/etc/bash_completion.d/nvm" ] && \\. "#{opt_prefix}/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
       You can set $NVM_DIR to any location, but leaving it unchanged from
       #{prefix} will destroy any nvm-installed Node installations

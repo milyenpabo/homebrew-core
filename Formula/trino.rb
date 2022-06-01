@@ -1,8 +1,10 @@
 class Trino < Formula
+  include Language::Python::Shebang
+
   desc "Distributed SQL query engine for big data"
   homepage "https://trino.io"
-  url "https://search.maven.org/remotecontent?filepath=io/trino/trino-server/360/trino-server-360.tar.gz"
-  sha256 "cd313867fd5461a26920ca6cb170413893853b0cc1acc4f454d4141a0790a50e"
+  url "https://search.maven.org/remotecontent?filepath=io/trino/trino-server/375/trino-server-375.tar.gz"
+  sha256 "293c1456f1cb4292890226cc092884ab85cd206e52704509e2e27a58d3b318b6"
   license "Apache-2.0"
 
   livecheck do
@@ -11,43 +13,54 @@ class Trino < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "8dfd61e34f50f01f90c7ea51f93cfce06da99ab5008e66bb63768b293647370e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5e9fec133101fbe331768e3826fdee180d2697609b246e8dab3f09fc27158054"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5e9fec133101fbe331768e3826fdee180d2697609b246e8dab3f09fc27158054"
+    sha256 cellar: :any_skip_relocation, monterey:       "5e9fec133101fbe331768e3826fdee180d2697609b246e8dab3f09fc27158054"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5e9fec133101fbe331768e3826fdee180d2697609b246e8dab3f09fc27158054"
+    sha256 cellar: :any_skip_relocation, catalina:       "5e9fec133101fbe331768e3826fdee180d2697609b246e8dab3f09fc27158054"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e7377af0312b739814bdcf3adf278fb5973ed86e4f60987509d43845c5d9111e"
   end
 
   depends_on "gnu-tar" => :build
-  depends_on arch: :x86_64
   depends_on "openjdk"
+  depends_on "python@3.10"
 
   resource "trino-src" do
-    url "https://github.com/trinodb/trino/archive/360.tar.gz", using: :nounzip
-    sha256 "48fbe2f29f67b5c655d4de6eaec905c94f735c42df17e5509dc3c387e732aeb2"
+    url "https://github.com/trinodb/trino/archive/375.tar.gz", using: :nounzip
+    sha256 "bab8287f387931faa228b698a30886c084f2981c4313b8ebef4340c685c490c8"
   end
 
   resource "trino-cli" do
-    url "https://search.maven.org/remotecontent?filepath=io/trino/trino-cli/360/trino-cli-360-executable.jar"
-    sha256 "9203abd2ee3e36b7476aba23102b93e2adca7b030031fa3828e2320cb4c38be2"
+    url "https://search.maven.org/remotecontent?filepath=io/trino/trino-cli/375/trino-cli-375-executable.jar"
+    sha256 "0b96af66dca43353389be3c348f0472a9e709ace22c9a2a9689acb64b70beac1"
   end
 
   def install
     libexec.install Dir["*"]
 
     # Manually untar, since macOS-bundled tar produces the error:
-    #   trino-360/plugin/trino-hive/src/test/resources/<truncated>.snappy.orc.crc: Failed to restore metadata
+    #   trino-363/plugin/trino-hive/src/test/resources/<truncated>.snappy.orc.crc: Failed to restore metadata
     # Remove when https://github.com/trinodb/trino/issues/8877 is fixed
     resource("trino-src").stage do |r|
       ENV.prepend_path "PATH", Formula["gnu-tar"].opt_libexec/"gnubin"
       system "tar", "-xzf", "trino-#{r.version}.tar.gz"
       (libexec/"etc").install Dir["trino-#{r.version}/core/docker/default/etc/*"]
-      inreplace libexec/"etc/node.properties", "docker", "homebrew"
-      inreplace libexec/"etc/node.properties", "/data/trino", "#{var}/trino/data"
+      inreplace libexec/"etc/node.properties", "docker", tap.user.downcase
+      inreplace libexec/"etc/node.properties", "/data/trino", var/"trino/data"
     end
 
+    rewrite_shebang detected_python_shebang, libexec/"bin/launcher.py"
     (bin/"trino-server").write_env_script libexec/"bin/launcher", Language::Java.overridable_java_home_env
 
     resource("trino-cli").stage do
       libexec.install "trino-cli-#{version}-executable.jar"
       bin.write_jar_script libexec/"trino-cli-#{version}-executable.jar", "trino"
     end
+
+    # Remove incompatible pre-built binaries
+    libprocname_dirs = libexec.glob("bin/procname/*")
+    libprocname_dirs.reject! { |dir| dir.basename.to_s == "#{OS.kernel_name}-#{Hardware::CPU.arch}" }
+    libprocname_dirs.map(&:rmtree)
   end
 
   def post_install

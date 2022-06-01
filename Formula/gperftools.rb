@@ -1,9 +1,12 @@
 class Gperftools < Formula
   desc "Multi-threaded malloc() and performance analysis tools"
   homepage "https://github.com/gperftools/gperftools"
-  url "https://github.com/gperftools/gperftools/releases/download/gperftools-2.9.1/gperftools-2.9.1.tar.gz"
-  sha256 "ea566e528605befb830671e359118c2da718f721c27225cbbc93858c7520fee3"
   license "BSD-3-Clause"
+
+  stable do
+    url "https://github.com/gperftools/gperftools/releases/download/gperftools-2.10/gperftools-2.10.tar.gz"
+    sha256 "83e3bfdd28b8bcf53222c3798d4d395d52dadbbae59e8730c4a6d31a9c3732d8"
+  end
 
   livecheck do
     url :stable
@@ -12,11 +15,12 @@ class Gperftools < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "a8711aa1a9496a1c801b10bcfc3572fc204be3af52f2455a0a3d9e1b2d924aae"
-    sha256 cellar: :any,                 big_sur:       "db13bfa856a699c5e74e95ee81722cc76b38bb9dcca1d10cebe2eed17888ff68"
-    sha256 cellar: :any,                 catalina:      "df9901c12be430101b403c8024a4dc5b5f5d0f718e4ace970f52bc68b17a3659"
-    sha256 cellar: :any,                 mojave:        "9976b82f86958d3ad6924d138d138d5bddbc2bcc6eb16ea44c4255ed9cb889b5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "35bdc71ea25b996acec0752c3dbb6a68b1f56529f577f08f1a32556893ce70ca"
+    sha256 cellar: :any,                 arm64_monterey: "b6083efd21e2ba10f38b8d8884bec70a5ad96b60e4f159d700b88a4f32626dcf"
+    sha256 cellar: :any,                 arm64_big_sur:  "53e182d8321912b58fa8a9e7989ac13d337323cea79c9a6865ca9aef8235fdad"
+    sha256 cellar: :any,                 monterey:       "119236efb407004d2d1c794d3fa97ac2d903f6271f03ba49ee905e23b8230320"
+    sha256 cellar: :any,                 big_sur:        "1e55694d046edcecc802b5ebb93529ba9515abc833c10f0612ac281174611643"
+    sha256 cellar: :any,                 catalina:       "425c644c9b7956e9e5d25153c3020d98b1ac2eaada5dcc497a87c4f142a1c1c4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bab264991e8d70ad7bde43cc3ce05077fd5560a808e8ac1c939dd1764deba29f"
   end
 
   head do
@@ -36,9 +40,6 @@ class Gperftools < Formula
   end
 
   def install
-    # Fix "error: unknown type name 'mach_port_t'"
-    ENV["SDKROOT"] = MacOS.sdk_path if MacOS.version == :sierra
-
     ENV.append_to_cflags "-D_XOPEN_SOURCE" if OS.mac?
 
     system "autoreconf", "-fiv" if build.head?
@@ -71,5 +72,20 @@ class Gperftools < Formula
     EOS
     system ENV.cc, "test.c", "-L#{lib}", "-ltcmalloc", "-o", "test"
     system "./test"
+
+    (testpath/"segfault.c").write <<~EOS
+      #include <stdio.h>
+      #include <stdlib.h>
+
+      int main()
+      {
+        void *ptr = malloc(128);
+        if (ptr == NULL) return 1;
+        free(ptr);
+        return 0;
+      }
+    EOS
+    system ENV.cc, "segfault.c", "-L#{lib}", "-ltcmalloc", "-o", "segfault"
+    system "./segfault"
   end
 end

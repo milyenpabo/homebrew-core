@@ -1,18 +1,19 @@
 class Octave < Formula
   desc "High-level interpreted language for numerical computing"
   homepage "https://www.gnu.org/software/octave/index.html"
-  url "https://ftp.gnu.org/gnu/octave/octave-6.3.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/octave/octave-6.3.0.tar.xz"
-  sha256 "fb472cb957c748670391cbc3385ff230cf44832bc314fee359e43c69cf9da5ef"
+  url "https://ftp.gnu.org/gnu/octave/octave-7.1.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/octave/octave-7.1.0.tar.xz"
+  sha256 "3fd4615ebbab02c38c93ea6ba318756aedec38d98a5c732d409899e8b4356273"
   license "GPL-3.0-or-later"
   revision 1
 
   bottle do
-    sha256 arm64_big_sur: "0b7a9156e2160caa28bf0d545b8e627582b9470c4517c19966de6d5e24e6141b"
-    sha256 big_sur:       "088f112687c0706417c97f8ea5492c64a46dc95577c27ed78d27ce5573d5f03e"
-    sha256 catalina:      "4321a0c3d4625f4503bd41e0b02b39f1a7993b6e3d6ebb1a216a403b8d366b1c"
-    sha256 mojave:        "1c4b0f3ec21cd8bf37154c3e9fb58a2174f8db5fc00be726427919160b40417d"
-    sha256 x86_64_linux:  "b9713f64b36cee185b8b580b5641724a371bb6529fa3dd906f6fde2142b6b812"
+    sha256 arm64_monterey: "0ece8d7d02a7cc2e18be91949f5fd3561310f2a1f9c5c00b907aa1d6ab43caf6"
+    sha256 arm64_big_sur:  "82db6fcc9cc74df705b8c8b859ab3061d0f39cfc730c868c0b59861ae0905fd8"
+    sha256 monterey:       "55de37c7c7e5de2174ce76e16c8b0bdbc81a48b6623bd94535848ffd5eab6cb6"
+    sha256 big_sur:        "c9ce843da78b1a12f732716d8f4b62ff64606c2acd03609736be242a244a4bb8"
+    sha256 catalina:       "a860d2b307b4356fabaae372d20b6f517cc16ad280664bf91a6a5ded2eaffc81"
+    sha256 x86_64_linux:   "1a907e64c8e7272e6c23043644faca4203106daea1fb87cdfb24b17f61380ece"
   end
 
   head do
@@ -140,5 +141,22 @@ class Octave < Formula
     system bin/"octave", "--eval", "(22/7 - pi)/pi"
     # This is supposed to crash octave if there is a problem with BLAS
     system bin/"octave", "--eval", "single ([1+i 2+i 3+i]) * single ([ 4+i ; 5+i ; 6+i])"
+    # Test basic compilation
+    (testpath/"oct_demo.cc").write <<~EOS
+      #include <octave/oct.h>
+      DEFUN_DLD (oct_demo, args, /*nargout*/, "doc str")
+      { return ovl (42); }
+    EOS
+    system bin/"octave", "--eval", <<~EOS
+      mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', 'oct_demo.cc');
+      assert(oct_demo, 42)
+    EOS
+    # Test FLIBS environment variable
+    system bin/"octave", "--eval", <<~EOS
+      args = strsplit (mkoctfile ('-p', 'FLIBS'));
+      args = args(~cellfun('isempty', args));
+      mkoctfile ('-v', '-std=c++11', '-L#{lib}/octave/#{version}', args{:}, 'oct_demo.cc');
+      assert(oct_demo, 42)
+    EOS
   end
 end

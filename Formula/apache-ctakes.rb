@@ -1,17 +1,16 @@
 class ApacheCtakes < Formula
   desc "NLP system for extraction of information from EMR clinical text"
   homepage "https://ctakes.apache.org"
-  url "https://apache.claz.org/ctakes/ctakes-4.0.0.1/apache-ctakes-4.0.0.1-bin.tar.gz"
+  url "https://dlcdn.apache.org//ctakes/ctakes-4.0.0.1/apache-ctakes-4.0.0.1-bin.tar.gz"
   sha256 "f741016e3755054876f3bb27f916a8008af27175ef33785638a6292d300c972e"
-
-  livecheck do
-    url "https://ctakes.apache.org/downloads.cgi"
-    regex(/href=.*?apache-ctakes[._-]v?(\d+(?:\.\d+)+)-bin\.t/i)
-  end
+  license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "99b42543678adc7a3d3ae931e52130a48fda2f46df7b5de143f7efb708de31ef"
+    rebuild 1
+    sha256 cellar: :any_skip_relocation, all: "4c6af60f27e2795e09763b88aa81e00faa80ba6d46e6f6cac3d2cd0b72b9f69f"
   end
+
+  deprecate! date: "2021-12-21", because: "installs binaries and does not build from source"
 
   depends_on "openjdk"
 

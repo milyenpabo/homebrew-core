@@ -1,12 +1,10 @@
 class Git < Formula
   desc "Distributed revision control system"
   homepage "https://git-scm.com"
-  # NOTE: Please keep these values in sync with git-gui.rb when updating.
-  url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.33.0.tar.xz"
-  sha256 "bf3c6ab5f82e072aad4768f647cfb1ef60aece39855f83f080f9c0222dd20c4f"
+  url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.36.1.tar.xz"
+  sha256 "405d4a0ff6e818d1f12b3e92e1ac060f612adcb454f6299f70583058cb508370"
   license "GPL-2.0-only"
-  revision 1
-  head "https://github.com/git/git.git"
+  head "https://github.com/git/git.git", branch: "master"
 
   livecheck do
     url "https://www.kernel.org/pub/software/scm/git/"
@@ -14,11 +12,12 @@ class Git < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "037c3cbd910200eea187054d8e66667a13d7c96c4853f0a03cb5472a7d312ab3"
-    sha256 big_sur:       "8fc2e1399a07679cbb10cb372df2039d54588ff46449d9cdf110ef1451e0cdda"
-    sha256 catalina:      "3536885eb4f7e392f6f37916d3488c0db6c34c8e78d23eec03ecad29ef63d24c"
-    sha256 mojave:        "a95073a02c60df1067475a59c8282bb287b5a2ebd5fd33f2f65796b278045229"
-    sha256 x86_64_linux:  "13fcfb955b755aee931e440659afdb73d111f1b281b01ce661928412644a79c5"
+    sha256 arm64_monterey: "5941a1eb703ac9814c2f8ae7c78ff31630aed04ad90a6a3073e45f4748f96e25"
+    sha256 arm64_big_sur:  "c85780549ae8975a0ab785039d4d58eb1e3d8a251770b05ad8d1c6b4e0bf7d44"
+    sha256 monterey:       "ab1bc7b6fe710217007d10792425733c09e97d97f1aa3a3b1590038a9d9f4187"
+    sha256 big_sur:        "37917165881c4e3bdd99f35b37eb16499e026a67aba92439fb2b3ff5a68c589a"
+    sha256 catalina:       "67f355f93ec444d7b0e4ef501c4d7e236eb744dc9f22b03fa00693b86060956d"
+    sha256 x86_64_linux:   "17b34da213e4d9f530b2775694a58fbf41212f10684cfae37bc02bdab0cb6e91"
   end
 
   depends_on "gettext"
@@ -26,7 +25,7 @@ class Git < Formula
 
   uses_from_macos "curl", since: :catalina # macOS < 10.15.6 has broken cert path logic
   uses_from_macos "expat"
-  uses_from_macos "zlib"
+  uses_from_macos "zlib", since: :high_sierra
 
   on_linux do
     depends_on "linux-headers@4.4"
@@ -34,13 +33,13 @@ class Git < Formula
   end
 
   resource "html" do
-    url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-htmldocs-2.33.0.tar.xz"
-    sha256 "309c5d3cdd9a115f693c0e035298cc867a3b8ba8ce235fa1ac950a48cb4b0447"
+    url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-htmldocs-2.36.1.tar.xz"
+    sha256 "f2a44ee1acfc1b8e2ce9a90ae767226c862d5a6596bed0404de70fdef8e67c8d"
   end
 
   resource "man" do
-    url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-manpages-2.33.0.tar.xz"
-    sha256 "d6d38abe3fe45b74359e65d53e51db3aa92d7f551240b7f7a779746f24c4bc31"
+    url "https://mirrors.edge.kernel.org/pub/software/scm/git/git-manpages-2.36.1.tar.xz"
+    sha256 "b1e6e651333283bfe2abbdf10baa858f61c5ec9d3caacb30f44888d78d964e6f"
   end
 
   resource "Net::SMTP::SSL" do
@@ -95,6 +94,7 @@ class Git < Formula
     system "make", "install", *args
 
     git_core = libexec/"git-core"
+    rm git_core/"git-svn"
 
     # Install the macOS keychain credential helper
     if OS.mac?
@@ -169,6 +169,7 @@ class Git < Formula
   def caveats
     <<~EOS
       The Tcl/Tk GUIs (e.g. gitk, git-gui) are now in the `git-gui` formula.
+      Subversion interoperability (git-svn) is now in the `git-svn` formula.
     EOS
   end
 
@@ -182,7 +183,7 @@ class Git < Formula
     assert_equal "haunted\nhouse", shell_output("#{bin}/git ls-files").strip
 
     # Check Net::SMTP or Net::SMTP::SSL works for git-send-email
-    on_macos do
+    if OS.mac?
       %w[foo bar].each { |f| touch testpath/f }
       system bin/"git", "add", "foo", "bar"
       system bin/"git", "commit", "-a", "-m", "Second Commit"

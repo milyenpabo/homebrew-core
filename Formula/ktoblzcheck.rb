@@ -4,7 +4,7 @@ class Ktoblzcheck < Formula
   url "https://downloads.sourceforge.net/project/ktoblzcheck/ktoblzcheck-1.53.tar.gz"
   sha256 "18b9118556fe83240f468f770641d2578f4ff613cdcf0a209fb73079ccb70c55"
   license "LGPL-2.1-or-later"
-  revision 1
+  revision 2
 
   livecheck do
     url :stable
@@ -12,16 +12,16 @@ class Ktoblzcheck < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "2680587208310fe00870bdbdc4ae0af5446c4cee7e3c3e53ba1839004450f0ed"
-    sha256 big_sur:       "11c08b9ae4ce285d404ee1eeba912f8bb37b44fe1a142372d366f6233f7e111e"
-    sha256 catalina:      "b7abb3dd65cefac9c8ebe1f54482c42adc6a4dbc2c6e3f18452f4b500d5d9aa5"
-    sha256 mojave:        "94c9812c2bcffef71b7e6805fa0f54b4a17cc52cb92dadb87fd804fcfab97701"
-    sha256 high_sierra:   "39e8b0149fcd448eddace995b7dc37331716b25a5f77b2be5f7b3eb462635854"
-    sha256 x86_64_linux:  "5f72ad5d838d0baf3dc83d439cdb39588f919729ec7d7d41114d5d250ce96f0c"
+    sha256 arm64_monterey: "d1e75023d21fbaa68a173f878474b43a24fd184664b96295641262aebef5a6bb"
+    sha256 arm64_big_sur:  "95ab5216faa25bf03e89defdde3df6c417334c684c917ec07c5f8ff8c736a114"
+    sha256 monterey:       "00598c7d9ff6b53ac757ab6ccc7467d8d0bf7e0b71394c439bfae4be00573aef"
+    sha256 big_sur:        "5f8054e0ed931d250012966ef8da4fe5b0ca5719f2b7588ea8b5aa80712e00a9"
+    sha256 catalina:       "464bc30654e445495ad0e4bd35d7bec38c16cbe4e4ea16432a8965836a2691bd"
+    sha256 x86_64_linux:   "64522473dfd9dd4272ce4cd706ebef68136f130123bacc8fd57f6c28339f2a90"
   end
 
   depends_on "cmake" => :build
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   def install
     system "cmake", ".", *std_cmake_args, "-DCMAKE_INSTALL_RPATH=#{opt_lib}"

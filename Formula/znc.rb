@@ -4,14 +4,15 @@ class Znc < Formula
   url "https://znc.in/releases/archive/znc-1.8.2.tar.gz"
   sha256 "ff238aae3f2ae0e44e683c4aee17dc8e4fdd261ca9379d83b48a7d422488de0d"
   license "Apache-2.0"
-  revision 3
+  revision 5
 
   bottle do
-    sha256 arm64_big_sur: "e3aae77ed8c97b6495e5f04fabe977206239ee83d3b8cb96b20e3618364b2e18"
-    sha256 big_sur:       "37a5eaf20286fab88bd11f0f6f44ebf5bd2bb787deac43529d01cde28ef94188"
-    sha256 catalina:      "dc2145a17c2d550c367c1de12ab1e8c20bfc273cd92fe02da55678892b75a29c"
-    sha256 mojave:        "85a43a2796ec9d97fbe224a09501b82ae5495202dfffcc1ce8f9515a399076a5"
-    sha256 x86_64_linux:  "c8705bab2cbf518a0f7a6abbbc6a40881f19b65073f3649df32e1dfd9962b040"
+    sha256 arm64_monterey: "a5cefafd6afb35a8088d63c38c7eaba3ea1f6bc03b32826c2e6c046bc3213b18"
+    sha256 arm64_big_sur:  "9d363de93b8feb7187615978a6aca7630666a6b86fa3c2f5016bce5f48adf1e0"
+    sha256 monterey:       "56b9619483c6d8214c9ae0647571440b86e9cd8a0f0074ec199f1217c848ceb0"
+    sha256 big_sur:        "18eb1fb1b9e70de8db85ae790909ba5cdb61ebdea6d90b42c82df0372d46db19"
+    sha256 catalina:       "da3ec87a956fa3141d7cb7051a7b9926d84947271e84ce664d130a8849e3d8e2"
+    sha256 x86_64_linux:   "5e20a56f59e8da43b0f7e1b1f55ead1c82705ce6d8ef54be36b83b76482760c2"
   end
 
   head do
@@ -25,7 +26,7 @@ class Znc < Formula
   depends_on "pkg-config" => :build
   depends_on "icu4c"
   depends_on "openssl@1.1"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   uses_from_macos "zlib"
 
@@ -47,32 +48,12 @@ class Znc < Formula
     system "make", "install"
   end
 
-  plist_options manual: "znc --foreground"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{opt_bin}/znc</string>
-            <string>--foreground</string>
-          </array>
-          <key>StandardErrorPath</key>
-          <string>#{var}/log/znc.log</string>
-          <key>StandardOutPath</key>
-          <string>#{var}/log/znc.log</string>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>StartInterval</key>
-          <integer>300</integer>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin/"znc", "--foreground"]
+    run_type :interval
+    interval 300
+    log_path var/"log/znc.log"
+    error_log_path var/"log/znc.log"
   end
 
   test do

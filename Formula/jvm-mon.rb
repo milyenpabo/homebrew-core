@@ -4,7 +4,7 @@ class JvmMon < Formula
   url "https://github.com/ajermakovics/jvm-mon/releases/download/0.3/jvm-mon-0.3.tar.gz"
   sha256 "9b5dd3d280cb52b6e2a9a491451da2ee41c65c770002adadb61b02aa6690c940"
   license "Apache-2.0"
-  revision 2
+  revision 3
 
   livecheck do
     url :stable
@@ -12,22 +12,23 @@ class JvmMon < Formula
   end
 
   bottle do
-    sha256 cellar: :any, all: "27e30abfe7f273fa4e1194cc674c979b07694a44be43485c360a60bf533e183e"
+    sha256 cellar: :any_skip_relocation, monterey:     "c20d541a04a08a0282c90ed1968fbc03d5be5012f9a73e22b52d2ded67c9a880"
+    sha256 cellar: :any_skip_relocation, big_sur:      "c20d541a04a08a0282c90ed1968fbc03d5be5012f9a73e22b52d2ded67c9a880"
+    sha256 cellar: :any_skip_relocation, catalina:     "c20d541a04a08a0282c90ed1968fbc03d5be5012f9a73e22b52d2ded67c9a880"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "0c83187b28705971793ac3f89c385a07edd958d20d3d30e0c133b77bc5fc0ac0"
   end
 
-  depends_on arch: :x86_64 # openjdk@8 is not supported on ARM
   depends_on "openjdk@8"
 
   def install
     rm_f Dir["bin/*.bat"]
     libexec.install Dir["*"]
 
-    (bin/"jvm-mon").write_env_script "#{libexec}/bin/jvm-mon",
-      Language::Java.java_home_env("1.8")
-    system "unzip", "-j", libexec/"lib/j2v8_macosx_x86_64-4.6.0.jar", "libj2v8_macosx_x86_64.dylib", "-d", libexec
+    (bin/"jvm-mon").write_env_script libexec/"bin/jvm-mon", Language::Java.java_home_env("1.8")
   end
 
   test do
+    ENV.append "_JAVA_OPTIONS", "-Duser.home=#{testpath}"
     system "echo q | #{bin}/jvm-mon"
   end
 end

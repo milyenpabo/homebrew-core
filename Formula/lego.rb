@@ -1,22 +1,23 @@
 class Lego < Formula
   desc "Let's Encrypt client and ACME library"
   homepage "https://go-acme.github.io/lego/"
-  url "https://github.com/go-acme/lego/archive/v4.5.3.tar.gz"
-  sha256 "82778a122e98225b55e1e6c102a06948747263533d88284216f0cce238b897c9"
+  url "https://github.com/go-acme/lego/archive/v4.7.0.tar.gz"
+  sha256 "c0eea1bf280ae28559f1e10dac777fc0d1e9cd520f9c9ab2368591c16587271e"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "1b390230208cb901698f134fa8d17209863b665b8b06155de9b858e5f68ea8ca"
-    sha256 cellar: :any_skip_relocation, big_sur:       "d1a51477380a955c9e0c7e7f8302a6d224d8ba099ccadfcd502a998e7a2cdc65"
-    sha256 cellar: :any_skip_relocation, catalina:      "8ea6c8c495023bd3eeda17208afa4f16bfbc869e142975942e6c59afaf37e6c9"
-    sha256 cellar: :any_skip_relocation, mojave:        "d2396922556bc444386b8deffa50097a26ac7e83a4eeed5cb0e505b25ec0069f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6e6ed7dfc213ad51d356008f1e2f3e7caa048bbb78d5bd09690a31d8543876f0"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ec95a75df8434533b4883c5b049d37ff5f7f1f7690fac8abc86089d595cbea37"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5e6eb7653a30384207373e3374c1ad773f22d44881b1c5c89d1f53c39511e995"
+    sha256 cellar: :any_skip_relocation, monterey:       "9461227b026ef980d5ac0aaca62df4f637e8a32611cc6fea304a3df0ef5e12c3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c4ef5f9f784e6500e196bbca9f5af7d546f8f9a530b0e1abc3a95d7461f4c0a7"
+    sha256 cellar: :any_skip_relocation, catalina:       "f93f1345c405c8c80c4551dbcec1e1d5e732226c6829ea49972bdb349ed9119c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "af2f4a984388a476ea3fd29092568433f0320471e4fa138c33a009ad3596c027"
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", *std_go_args, "-ldflags", "-s -w -X main.version=#{version}", "./cmd/lego"
+    system "go", "build", *std_go_args(ldflags: "-s -w -X main.version=#{version}"), "./cmd/lego"
   end
 
   test do

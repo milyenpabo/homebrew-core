@@ -1,8 +1,8 @@
 class PgpoolIi < Formula
   desc "PostgreSQL connection pool server"
   homepage "https://www.pgpool.net/mediawiki/index.php/Main_Page"
-  url "https://www.pgpool.net/mediawiki/images/pgpool-II-4.2.5.tar.gz"
-  sha256 "d745cf38659596cfd1bc2167012bcb091f87588477bb89803cdbac88e26e0e7d"
+  url "https://www.pgpool.net/mediawiki/images/pgpool-II-4.3.2.tar.gz"
+  sha256 "5715f562635f41fc6b62e241cd753109a3e2014ccfb62352063115310d034f0a"
 
   livecheck do
     url "https://www.pgpool.net/mediawiki/index.php/Downloads"
@@ -10,14 +10,21 @@ class PgpoolIi < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "5828372d6ca3200174cff7f8ffdd248de570f0d378c60db47ecd35c4a46ecab5"
-    sha256 big_sur:       "59740c49588ae2a35b2b15d9f88a7654435d70c05ccf14792054eb9bdd1a2b56"
-    sha256 catalina:      "cce39ff3a542fe53fcb46a1a224f65a1b7f791d3a3ba0d85e452cbccba56931b"
-    sha256 mojave:        "907f52bf7604e8dc88866f65d12814bf33cd853ebdb4a6d013921e3e499f9ecf"
-    sha256 x86_64_linux:  "27cff1b485ad2f62e617b8bf14647f3ea2b43447911a91aa0d97b80668a6a5c1"
+    sha256 arm64_monterey: "ef9e1d85dd0408f231620471f8973e9938bca70703858bdd6ce377e9dc972e04"
+    sha256 arm64_big_sur:  "428cfb6fa6ca6907f8bd8bc8e2fd0033190e3b41b75044db00df22c546f45ab7"
+    sha256 monterey:       "f2990632c2c5d29b42a984ffee627658416e8bb63f558921edf29f20b85ff4f5"
+    sha256 big_sur:        "1e1226f8866f6452abe59dc763d5030a24fa825146f364daeb30f3fd174e8bfd"
+    sha256 catalina:       "01bfd000c01f4a917e5689e348c9b1d7bb0bd17aecb2db0ae2c7155bc5672cbc"
+    sha256 x86_64_linux:   "9b1443b0444aca2330656f3d0c557249e537b551626a9c5124fbd8c11cb9f54f"
   end
 
   depends_on "postgresql"
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-pre-0.4.2.418-big_sur.diff"
+    sha256 "83af02f2aa2b746bb7225872cab29a253264be49db0ecebb12f841562d9a2923"
+  end
 
   def install
     system "./configure", "--disable-dependency-tracking", "--prefix=#{prefix}",

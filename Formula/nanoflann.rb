@@ -1,23 +1,28 @@
 class Nanoflann < Formula
   desc "Header-only library for Nearest Neighbor search wih KD-trees"
   homepage "https://github.com/jlblancoc/nanoflann"
-  url "https://github.com/jlblancoc/nanoflann/archive/v1.3.2.tar.gz"
-  sha256 "e100b5fc8d72e9426a80312d852a62c05ddefd23f17cbb22ccd8b458b11d0bea"
+  url "https://github.com/jlblancoc/nanoflann/archive/v1.4.2.tar.gz"
+  sha256 "97fce650eb644a359a767af526cab9ba31842e53790a7279887e1ae2fffe7319"
   license "BSD-3-Clause"
   head "https://github.com/jlblancoc/nanoflann.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "dd4506127f2bd65002f11b2deb0b2f6b636fd864bee4a4294fd6123b9c94b6b6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "9ce420030884830f6b94c1fa7304d647ad4ceb44622a56781e94d2c3e8c5ca6c"
-    sha256 cellar: :any_skip_relocation, catalina:      "a0cba3b9ca8e124b841a62554ebbf71234253b6706e779c0e928a3a012bc2598"
-    sha256 cellar: :any_skip_relocation, mojave:        "0df3f7eb8bbea15676f63d57c96ac6ad7ebd74996a496ee94adff7845799a651"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8a70a8dace8f5f823b993f32246c12b5cff47c551fe8326c4338871bfb2b874f"
+    sha256 cellar: :any_skip_relocation, all: "34a23c7a0d427201a8c75a5fc585a116117d76f55d7087d2267f0a572d47a11c"
   end
 
   depends_on "cmake" => :build
 
+  on_macos do
+    depends_on "gcc" => [:build, :test] if DevelopmentTools.clang_build_version <= 1200
+  end
+
+  fails_with :clang do
+    build 1200
+    cause "https://bugs.llvm.org/show_bug.cgi?id=23029"
+  end
+
   def install
-    system "cmake", "-S", ".", "-B", "build", *std_cmake_args
+    system "cmake", "-S", ".", "-B", "build", *std_cmake_args, "-DNANOFLANN_BUILD_EXAMPLES=OFF"
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
   end

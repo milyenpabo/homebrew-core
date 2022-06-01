@@ -1,16 +1,17 @@
 class Himalaya < Formula
   desc "CLI email client written in Rust"
   homepage "https://github.com/soywod/himalaya"
-  url "https://github.com/soywod/himalaya/archive/v0.4.0.tar.gz"
-  sha256 "07359cc9827ecda8052a23428f642e06da5a899c40fe887acc5a880c76676131"
-  license "BSD-3-Clause"
+  url "https://github.com/soywod/himalaya/archive/v0.5.10.tar.gz"
+  sha256 "2922b60caa37de70464a11df44704d8b5589f6d968532350267ffb136da54cbd"
+  license "BSD-4-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "b9f1a4782b7eccff169258d151394248048c3d87383091464ee2f81c6f95b82e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b312c3288de354c72d4fdeaffe0cad976b4e0b05fd8c07232b5b39bd2eeeff3a"
-    sha256 cellar: :any_skip_relocation, catalina:      "32e04cd25c7c15f041ffbbb835d789b4d90aa1368d26478011d91d79e6303d7d"
-    sha256 cellar: :any_skip_relocation, mojave:        "155a6e3097c420a9b48a6136778fc35b1deadec83047da7c1f5b4d92a81f32f8"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a3f38e475139deecaca7a218e4d38f8864dc65d6ef293379b08b9e707c0ffa9b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ff6ee45d34052bdba6d8da86f2f0e3251cf74fd2ad18ea7f0254e166311bfe54"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "fcaa547be65906a98ec560fef65213f3dbd4ec6598927a27b4334ccc05db7c4a"
+    sha256 cellar: :any_skip_relocation, monterey:       "dbcb6e9b30553dd5e065021ac668bb4c1717ec35d240629e7d73727bb7fc4e75"
+    sha256 cellar: :any_skip_relocation, big_sur:        "025f5ff6ea9df1b3ca941c4b7f6ed56981d6c600b0ec33918ae6fdfba00d8a0e"
+    sha256 cellar: :any_skip_relocation, catalina:       "2bd1d8dd88fff95258d007ed887fb1ac6e1fad297f7858ac73934e6f0059aa25"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6ff18edde049c95b4111b02c5755b30cb8245fa42209a32d0fdb8005094d1cad"
   end
 
   depends_on "rust" => :build
@@ -21,7 +22,7 @@ class Himalaya < Formula
   end
 
   def install
-    system "cargo", "install", *std_cargo_args
+    system "cargo", "install", *std_cargo_args(path: "cli")
   end
 
   test do
@@ -49,6 +50,6 @@ class Himalaya < Formula
       smtp-passwd-cmd = "security find-internet-password -gs gmail -w"
     EOS
 
-    assert_match "Could not login to IMAP server", shell_output("#{bin}/himalaya write 2>&1", 1)
+    assert_match "Error: cannot login to IMAP server", shell_output("#{bin}/himalaya 2>&1", 1)
   end
 end

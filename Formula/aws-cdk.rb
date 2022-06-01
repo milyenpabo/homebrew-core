@@ -3,16 +3,17 @@ require "language/node"
 class AwsCdk < Formula
   desc "AWS Cloud Development Kit - framework for defining AWS infra as code"
   homepage "https://github.com/aws/aws-cdk"
-  url "https://registry.npmjs.org/aws-cdk/-/aws-cdk-1.126.0.tgz"
-  sha256 "1df97adb33d523c27f2481f0d0d20fde4044a0d57192c5c6dd230591da228bc4"
+  url "https://registry.npmjs.org/aws-cdk/-/aws-cdk-2.26.0.tgz"
+  sha256 "29f35bd3d775393de40a0b962c23d6dae299dc1cd4a65bc0df5418caccc52a4d"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f9d1ffbc638ce2593ea6bc585970ba8a0a364a25660e92f489b5e6f1cdf69470"
-    sha256 cellar: :any_skip_relocation, big_sur:       "0afedd394364291f335a9e2915cd58ccff1fa0d6874309d6fb37e3256b82ed23"
-    sha256 cellar: :any_skip_relocation, catalina:      "0afedd394364291f335a9e2915cd58ccff1fa0d6874309d6fb37e3256b82ed23"
-    sha256 cellar: :any_skip_relocation, mojave:        "0afedd394364291f335a9e2915cd58ccff1fa0d6874309d6fb37e3256b82ed23"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f9d1ffbc638ce2593ea6bc585970ba8a0a364a25660e92f489b5e6f1cdf69470"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "db8dee8fa94634ef072bd9c88c9b6e7f7dd79426d8f6ac45f7aa2c82f658eab4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "db8dee8fa94634ef072bd9c88c9b6e7f7dd79426d8f6ac45f7aa2c82f658eab4"
+    sha256 cellar: :any_skip_relocation, monterey:       "b30fdbac5645c33f5573bfcdc8e2ab9107fde36df087819da03a0bdfb002e9d5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b30fdbac5645c33f5573bfcdc8e2ab9107fde36df087819da03a0bdfb002e9d5"
+    sha256 cellar: :any_skip_relocation, catalina:       "b30fdbac5645c33f5573bfcdc8e2ab9107fde36df087819da03a0bdfb002e9d5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "959b03ac8cf294203058c391797282c05e637fef51b2af4a94b6693c0d697f98"
   end
 
   depends_on "node"
@@ -20,6 +21,9 @@ class AwsCdk < Formula
   def install
     system "npm", "install", *Language::Node.std_npm_install_args(libexec)
     bin.install_symlink Dir["#{libexec}/bin/*"]
+
+    # Replace universal binaries with native slices.
+    deuniversalize_machos
   end
 
   test do

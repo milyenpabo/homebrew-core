@@ -1,20 +1,21 @@
 class Scipy < Formula
   desc "Software for mathematics, science, and engineering"
   homepage "https://www.scipy.org"
-  url "https://files.pythonhosted.org/packages/47/33/a24aec22b7be7fdb10ec117a95e1e4099890d8bbc6646902f443fc7719d1/scipy-1.7.1.tar.gz"
-  sha256 "6b47d5fa7ea651054362561a28b1ccc8da9368a39514c1bbf6c0977a1c376764"
+  url "https://files.pythonhosted.org/packages/26/b5/9330f004b9a3b2b6a31f59f46f1617ce9ca15c0e7fe64288c20385a05c9d/scipy-1.8.1.tar.gz"
+  sha256 "9e3fb1b0e896f14a85aa9a28d5f755daaeeb54c897b746df7a55ccb02b340f33"
   license "BSD-3-Clause"
   head "https://github.com/scipy/scipy.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "65e79aed434b4c9dc97445916046490023e91a578583089d06cd97b96251f1df"
-    sha256 cellar: :any, big_sur:       "7273e64702e01f65615143059f6af35f5226fc938d1ef7d048a644f329dfb93e"
-    sha256 cellar: :any, catalina:      "27ade676309a263bab19e497b66941c18969285318846033213b9af9ea4c2150"
-    sha256 cellar: :any, mojave:        "8e2729704d6789206056dc8887dc110d94cda11f2c6b1e8e0a3485d47e4f678b"
-    sha256               x86_64_linux:  "da77380c3ac02a0a27c6b9c4560af76cf2815adf3129c87a1ef26777d9d2259e"
+    sha256 cellar: :any, arm64_monterey: "e70703dd223d9b678f465c268e77a892cfe2602b7f7ad9a288a8efbd65ec3c92"
+    sha256 cellar: :any, arm64_big_sur:  "1382ef60f57a259d00f76239d5763f70e3ce7b922da295023ea2970068527054"
+    sha256 cellar: :any, monterey:       "556d91d10b74c316dc5fdbcb3ab5382b6b4d3d4f33ea0ac4faa412155cbb75c8"
+    sha256 cellar: :any, big_sur:        "5b5eafe225aceef063771c22197b882dd6b6dfd2e9a7656cd65c3967ba8f0537"
+    sha256 cellar: :any, catalina:       "4484ed1e364d8175548e3f59080669f1a6563310ec3a8a355bc6130029eb3b3c"
+    sha256               x86_64_linux:   "ec5adbad1bff9d60dc84e9e0b4f92f9b1dc3c25c2532e744ef78b6b3a0cae92c"
   end
 
-  depends_on "cython" => :build
+  depends_on "libcython" => :build
   depends_on "pythran" => :build
   depends_on "swig" => :build
   depends_on "gcc" # for gfortran
@@ -28,10 +29,6 @@ class Scipy < Formula
   fails_with gcc: "5"
 
   def install
-    # Fix for current GCC on Big Sur, which does not like 11 as version value
-    # (reported at https://github.com/iains/gcc-darwin-arm64/issues/31#issuecomment-750343944)
-    ENV["MACOSX_DEPLOYMENT_TARGET"] = "11.0" if MacOS.version == :big_sur
-
     openblas = Formula["openblas"].opt_prefix
     ENV["ATLAS"] = "None" # avoid linking against Accelerate.framework
     ENV["BLAS"] = ENV["LAPACK"] = "#{openblas}/lib/#{shared_library("libopenblas")}"
@@ -49,7 +46,7 @@ class Scipy < Formula
     Pathname("site.cfg").write config
 
     site_packages = Language::Python.site_packages("python3")
-    ENV.prepend_create_path "PYTHONPATH", Formula["cython"].opt_libexec/site_packages
+    ENV.prepend_create_path "PYTHONPATH", Formula["libcython"].opt_libexec/site_packages
     ENV.prepend_create_path "PYTHONPATH", Formula["pythran"].opt_libexec/site_packages
     ENV.prepend_create_path "PYTHONPATH", Formula["numpy"].opt_prefix/site_packages
     ENV.prepend_create_path "PYTHONPATH", site_packages

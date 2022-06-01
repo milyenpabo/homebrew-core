@@ -2,23 +2,30 @@ class Osm < Formula
   desc "Open Service Mesh (OSM)"
   homepage "https://openservicemesh.io/"
   url "https://github.com/openservicemesh/osm.git",
-      tag:      "v0.10.0",
-      revision: "3265b4e2b38e661e2bf5d171717c6b0647694c2a"
+      tag:      "v1.1.1",
+      revision: "407bbedd5edb6ff9f1f51a4cabb95bedeb567312"
   license "Apache-2.0"
+  head "https://github.com/openservicemesh/osm.git", branch: "main"
+
+  livecheck do
+    url :stable
+    regex(/^v?(\d+(?:\.\d+)+)$/i)
+  end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "3eb4833efcae34ac92de8850d6f13b8770a4318a346566a3bb29c4bb45bb7282"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7c2c2b7280a1327a0c48229f2008b905cb6ffcb46f77246ffbf961d0d8d2859c"
-    sha256 cellar: :any_skip_relocation, catalina:      "4dc71c67511cca66d0491362133aeb97ab4491e7482669ac175b6089d0821456"
-    sha256 cellar: :any_skip_relocation, mojave:        "49ecd218120e585109d08e91522fd16fb34d86c071073325e2ac02f3e54bf5d3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "df1e58cae68dbdfe8ead4e49a19aeacd9d878954d0edba9f0ad74ad62a64ee2a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3fd08295d2f98652d45bea238a4a1ed03553f61e075344093a99ade23b8e2e26"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "81172012cc84f14efc38ace7890a7659eda7fda73e4917b327c5a594726dd2e6"
+    sha256 cellar: :any_skip_relocation, monterey:       "9fb4b1e2cff02963938905fe37d2bdfe4245bb7646a5f3b608a77a690b908ad8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "bf8152d718cf3c29a8b29326899ffdfad0bcd0c98211cacf38497fbc0f7252b4"
+    sha256 cellar: :any_skip_relocation, catalina:       "23118bbcecbfc1f171e79be9e568a9f371b2e4efcfde0dd1745e06804575ffd7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3051189b1dcac96851d280d64f5f79db40d42a848c36f82762b55d1020d262b0"
   end
 
   depends_on "go" => :build
   depends_on "helm" => :build
 
   def install
-    ENV["VERSION"] = "v"+version
+    ENV["VERSION"] = "v"+version unless build.head?
     ENV["BUILD_DATE"] = time.strftime("%Y-%m-%d-%H:%M")
     system "make", "build-osm"
     bin.install "bin/osm"
@@ -26,6 +33,6 @@ class Osm < Formula
 
   test do
     assert_match "Error: Could not list namespaces related to osm", shell_output("#{bin}/osm namespace list 2>&1", 1)
-    assert_match "Version: v#{version};", shell_output("#{bin}/osm version 2>&1")
+    assert_match "Version:\"v#{version}\"", shell_output("#{bin}/osm version 2>&1", 1)
   end
 end

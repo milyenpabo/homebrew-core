@@ -1,24 +1,25 @@
 class Caddy < Formula
   desc "Powerful, enterprise-ready, open source web server with automatic HTTPS"
   homepage "https://caddyserver.com/"
-  url "https://github.com/caddyserver/caddy/archive/v2.4.5.tar.gz"
-  sha256 "f25a24dfd6398e02ed3e530621f800eb7c7496d302d0a86b6932c219e46320cd"
+  url "https://github.com/caddyserver/caddy/archive/v2.5.1.tar.gz"
+  sha256 "841f5524e2e107bff278b604c544843564a4a1ef0c3803eeae588e79e4ea5d06"
   license "Apache-2.0"
   head "https://github.com/caddyserver/caddy.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "978286796a9e06f3bbaf65ceebeb2ec435756c20f9b1826945207a8539bdd321"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3e0a42061349cbaa0e7c8ebc1999868772f4cde71162c95220c9c202f2f1f932"
-    sha256 cellar: :any_skip_relocation, catalina:      "3e0a42061349cbaa0e7c8ebc1999868772f4cde71162c95220c9c202f2f1f932"
-    sha256 cellar: :any_skip_relocation, mojave:        "3e0a42061349cbaa0e7c8ebc1999868772f4cde71162c95220c9c202f2f1f932"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "559278f9a8219596855c856c8db58e8289c66940e52fcea7ce5b023e0f96400f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "7ab2af1cb302e0995d647d7176a159f6713a09b040b6c42108f6f8cd0ba1a8a0"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7ab2af1cb302e0995d647d7176a159f6713a09b040b6c42108f6f8cd0ba1a8a0"
+    sha256 cellar: :any_skip_relocation, monterey:       "0dead9c1b56850d827fd38af040beb27df250147dfee9d96fca2d3b7588bd2ee"
+    sha256 cellar: :any_skip_relocation, big_sur:        "0dead9c1b56850d827fd38af040beb27df250147dfee9d96fca2d3b7588bd2ee"
+    sha256 cellar: :any_skip_relocation, catalina:       "0dead9c1b56850d827fd38af040beb27df250147dfee9d96fca2d3b7588bd2ee"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b782b13b8d77625c9c8de6276cd444fabbcf1ef687bdcb0e38f1616fa9a2f3aa"
   end
 
   depends_on "go" => :build
 
   resource "xcaddy" do
-    url "https://github.com/caddyserver/xcaddy/archive/v0.2.0.tar.gz"
-    sha256 "20e4994cc52323f8420741efafa78b8d29b1ad600e59671287436e236c2c3be2"
+    url "https://github.com/caddyserver/xcaddy/archive/v0.3.0.tar.gz"
+    sha256 "1a59ff6f51959072a512002e7ec280ea96775361277ba046a8af5a820a37aacd"
   end
 
   def install

@@ -1,18 +1,18 @@
 class Qemu < Formula
   desc "Emulator for x86 and PowerPC"
   homepage "https://www.qemu.org/"
-  url "https://download.qemu.org/qemu-6.1.0.tar.xz"
-  sha256 "eebc089db3414bbeedf1e464beda0a7515aad30f73261abc246c9b27503a3c96"
+  url "https://download.qemu.org/qemu-7.0.0.tar.xz"
+  sha256 "f6b375c7951f728402798b0baabb2d86478ca53d44cedbefabbe1c46bf46f839"
   license "GPL-2.0-only"
-  revision 1
   head "https://git.qemu.org/git/qemu.git", branch: "master"
 
   bottle do
-    sha256 arm64_big_sur: "94b094a62401c3384e57c572f1009545bd94765426ba39a7b0878cb883d0220a"
-    sha256 big_sur:       "5213e72d5dc5641593b415f5e37618cbd3d1e291d25c4e9478c86b5b8a9c8f08"
-    sha256 catalina:      "561fa5f3d141ae025fe5e611957af4b33ff9b5df614e9a307fecce1645fb3170"
-    sha256 mojave:        "5d938b8949e5d2cf4d41cca27ce4bfd5cfc17dc27f0ec45b6e8b27ab99cc2e87"
-    sha256 x86_64_linux:  "a1447609f66aeaf33aefb8f9bbe3119b58a24374e3c4a102ec173128229c4f09"
+    sha256 arm64_monterey: "0aff3ed76118297c2d63c1af3042e6153342c0dbc3fa983dd8eb7e7b2c08cccb"
+    sha256 arm64_big_sur:  "6b73ee277ce451648f43256c0350955b5420021723318c56d0302aa8f5a064e5"
+    sha256 monterey:       "eb00fbcbb8efab558f6c4eff542da9da653694e96c548e2cd1825044335d2555"
+    sha256 big_sur:        "7714e626b8dface002e237c085f040751520a1669a8db38118d4db1e47d5b981"
+    sha256 catalina:       "c81502e9803c091830ccc8d9360b57eddbed67cd44e8777b6e64c3ddc6e18ba2"
+    sha256 x86_64_linux:   "9cb56c9026cd2d3b798958e95ab1c1fb77f23d846a0adb2a3945f49fff7eb143"
   end
 
   depends_on "libtool" => :build
@@ -35,22 +35,18 @@ class Qemu < Formula
   depends_on "vde"
 
   on_linux do
+    depends_on "attr"
     depends_on "gcc"
+    depends_on "gtk+3"
+    depends_on "libcap-ng"
   end
 
   fails_with gcc: "5"
 
   # 820KB floppy disk image file of FreeDOS 1.2, used to test QEMU
-  resource "test-image" do
-    url "https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.2/FD12FLOPPY.zip"
+  resource "homebrew-test-image" do
+    url "https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.2/official/FD12FLOPPY.zip"
     sha256 "81237c7b42dc0ffc8b32a2f5734e3480a3f9a470c50c14a9c4576a2561a35807"
-  end
-
-  if Hardware::CPU.arm?
-    patch do
-      url "https://patchwork.kernel.org/series/548227/mbox/"
-      sha256 "5b9c9779374839ce6ade1b60d1377c3fc118bc43e8482d0d3efa64383e11b6d3"
-    end
   end
 
   def install
@@ -66,10 +62,14 @@ class Qemu < Formula
       --enable-libssh
       --enable-slirp=system
       --enable-vde
+      --enable-virtfs
       --extra-cflags=-DNCURSES_WIDECHAR=1
       --disable-sdl
-      --disable-gtk
     ]
+
+    # Please remove this line when the CI gets updated to a recent version of Ubuntu(kernel version >= 4.9)
+    args << "--disable-linux-user"
+
     # Sharing Samba directories in QEMU requires the samba.org smbd which is
     # incompatible with the macOS-provided version. This will lead to
     # silent runtime failures, so we set it to a Homebrew path in order to
@@ -77,7 +77,9 @@ class Qemu < Formula
     # Samba installations from external taps.
     args << "--smbd=#{HOMEBREW_PREFIX}/sbin/samba-dot-org-smbd"
 
+    args << "--disable-gtk" if OS.mac?
     args << "--enable-cocoa" if OS.mac?
+    args << "--enable-gtk" if OS.linux?
 
     system "./configure", *args
     system "make", "V=1", "install"
@@ -114,7 +116,7 @@ class Qemu < Formula
     assert_match expected, shell_output("#{bin}/qemu-system-x86_64 --version")
     assert_match expected, shell_output("#{bin}/qemu-system-xtensa --version")
     assert_match expected, shell_output("#{bin}/qemu-system-xtensaeb --version")
-    resource("test-image").stage testpath
+    resource("homebrew-test-image").stage testpath
     assert_match "file format: raw", shell_output("#{bin}/qemu-img info FLOPPY.img")
   end
 end

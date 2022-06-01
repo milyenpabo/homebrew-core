@@ -1,8 +1,15 @@
 [
-  "anjuta",
-  "fdroidserver",
+  "arxiv_latex_cleaner",
+  "coin3d",
+  "emscripten",
+  "freedink",
   "hive",
+  "libgaiagraphics",
+  "librasterlite",
+  "mpv",
   "predictionio",
+  "pyside",
+  "pyside@2",
   "sqoop",
-  "visp"
+  "watchman"
 ]

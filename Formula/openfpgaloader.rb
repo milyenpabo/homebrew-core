@@ -1,23 +1,25 @@
 class Openfpgaloader < Formula
   desc "Universal utility for programming FPGA"
   homepage "https://github.com/trabucayre/openFPGALoader"
-  url "https://github.com/trabucayre/openFPGALoader/archive/v0.5.0.tar.gz"
-  sha256 "39c9686bdfcfa96b6bb1d8b37a8a53732372c16cda562036abe9930b61b29e97"
+  url "https://github.com/trabucayre/openFPGALoader/archive/v0.8.0.tar.gz"
+  sha256 "1d94c2b40c4d6b22d4099ef48b7ed4cb3f3ebfc73f36b1e87c739418a7d3045d"
   license "Apache-2.0"
   head "https://github.com/trabucayre/openFPGALoader.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "77483712fb4bc07885f71696245d13d3bbb34255db2e94188588345b52f81866"
-    sha256 cellar: :any_skip_relocation, big_sur:       "33f9a2c0324595ab30136b1f83e5b97db844c362f7b5543fa009796145f23f42"
-    sha256 cellar: :any_skip_relocation, catalina:      "01322e5f63e499776d44a32f7752b71c7238f633e51ef46d46a5b8aaebc73929"
-    sha256 cellar: :any_skip_relocation, mojave:        "759abeb1d7b64b34f216518ffebc9584bccd6eef7003c29eb11740cd49c38549"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d30a0f2f57e76b8e667eecdf85281fc619dcddb9d8e6f3b2ba7491bb01ca8fb8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0d5aa0dabfedf7425f462a5bacd32e249d19c2762c36adcd3cbb04b07d25f160"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "307a7a664358b43d6281b067af97ee7dba47095929118d16ab4ecaeccc4e2fb4"
+    sha256 cellar: :any_skip_relocation, monterey:       "c4f6417721e855b3b19ac481db833c9ddd16188f43f5012ab903ef41788cd738"
+    sha256 cellar: :any_skip_relocation, big_sur:        "1cb1f8ab058d833c7b744290bfa97ee31ed3b67ad6a5a7ea3dbb39000a077758"
+    sha256 cellar: :any_skip_relocation, catalina:       "fc6fbb2bf1056f376901db3f246cabb6b685abfe5c11177721cbba43a9a765a2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bd15f028b4ad1c4a89d4eaa582fe6c652a24e6c3a143b477b39c136474d38848"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "libftdi"
   depends_on "libusb"
+  uses_from_macos "zlib"
 
   def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args

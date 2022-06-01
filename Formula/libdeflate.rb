@@ -1,16 +1,17 @@
 class Libdeflate < Formula
   desc "Heavily optimized DEFLATE/zlib/gzip compression and decompression"
   homepage "https://github.com/ebiggers/libdeflate"
-  url "https://github.com/ebiggers/libdeflate/archive/v1.8.tar.gz"
-  sha256 "50711ad4e9d3862f8dfb11b97eb53631a86ee3ce49c0e68ec2b6d059a9662f61"
+  url "https://github.com/ebiggers/libdeflate/archive/v1.10.tar.gz"
+  sha256 "5c1f75c285cd87202226f4de49985dcb75732f527eefba2b3ddd70a8865f2533"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "663669870ff0bde818c9d35e24d6dbb4c0601d61b81576e34e18931b1f4badfe"
-    sha256 cellar: :any,                 big_sur:       "c984576da43b8e60e2f263cbdc13c176a42958b1c1e168ca8bd49505042b67d0"
-    sha256 cellar: :any,                 catalina:      "083f6b73565408c7a3fb01d92dd917364ab0345125741d8e811963ff74949ade"
-    sha256 cellar: :any,                 mojave:        "7c9e2f9ef003ee75d5639b04ca25b7abe97d3d7548bf9f1d60b13e7071cbf1c6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9b307828767aa51938d7f552e7c6ba69473338907bce68e6cf561e9302a1c36e"
+    sha256 cellar: :any,                 arm64_monterey: "a8d921576fe13e8c72327b14701a7db6db27654bc837d7faf0a46ce19b32ba15"
+    sha256 cellar: :any,                 arm64_big_sur:  "fe80e93d1d0010bbbf00cb881ae6ece58987840880cbef0ed570bdad2329a436"
+    sha256 cellar: :any,                 monterey:       "1d2a45ad39ef09f59d67ccee89b25a5bec78448ef93afe047e80af7f61d04300"
+    sha256 cellar: :any,                 big_sur:        "2b6ffb1987abd35deb9e8f924da7af6b2fa1dde4defc4687a59da3a28496e140"
+    sha256 cellar: :any,                 catalina:       "4615cfae8a578b52054a7a0dbf62ca90493f0ca9883bc2715a52d27371be052c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fffaccfc47fc5a767ab19d370bc3fd832c96281dc1b46d7a7d31bec9917ba034"
   end
 
   def install

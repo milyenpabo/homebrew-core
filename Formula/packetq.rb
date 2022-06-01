@@ -1,8 +1,8 @@
 class Packetq < Formula
-  desc "SQL-frontend to PCAP-files"
+  desc "SQL-like frontend to PCAP files"
   homepage "https://www.dns-oarc.net/tools/packetq"
-  url "https://www.dns-oarc.net/files/packetq/packetq-1.4.3.tar.gz"
-  sha256 "330fcdf63e56a97c5321726f48f28a76a7d574318dd235a16dac27f43277b0b7"
+  url "https://www.dns-oarc.net/files/packetq/packetq-1.7.0.tar.gz"
+  sha256 "6c275d1a0139ed191973593895ac0b313866a4bfb832e969eec0650d1c03f82f"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,20 +11,18 @@ class Packetq < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "daad15e1b55f8d9fb135177127a169470374dd5e4c8631b1722586d1c66af8a7"
-    sha256 cellar: :any_skip_relocation, big_sur:       "78b947bf8208aceefdbca0119ed141b5617347ce08f20ce6493157ab4a567c77"
-    sha256 cellar: :any_skip_relocation, catalina:      "e09c6588aa801951e518c10e09339d496fa23ab88c0a837a06b963bf6c6a5ba9"
-    sha256 cellar: :any_skip_relocation, mojave:        "cf369b7e772dd7a390ca50f68e6b8eead2448414353ce313042ecaedb2f6ee88"
-    sha256 cellar: :any_skip_relocation, high_sierra:   "58bfb682012318c49bb013b791771f94896d008d77f0ce1bb189d13ab55b20ea"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c4aabb14f5045620a988da9e36766a4a755b80172bac18e328d6b8c97866b96c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3b18d16fd291fbcc6e7b89e94d1beb38c28c55d9058aecc5a47762e544451842"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "602151d75bfa0684f3aa52b957b6e63a51757741e8a67647abbc5a500e9bf838"
+    sha256 cellar: :any_skip_relocation, monterey:       "fd2d3343a6a827431b84d4ca63a61b025cbed8c8bacfe89f82ed2af66d0290ec"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c2a675266e49a77bd5ccc5b354506c0fe41bcaca3254126363ad9f3df1b5f8a6"
+    sha256 cellar: :any_skip_relocation, catalina:       "a7ab7f52ebef6e9ef147be842e3cc1ca4e25a4a456850072e1b33841391451b9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "87eac1791759336c6189f9b4d055ddbab4674523848b1aa54511e9f5dcc9f5ab"
   end
 
   uses_from_macos "zlib"
 
   def install
-    system "./configure", "--disable-dependency-tracking",
-                          "--disable-silent-rules",
-                          "--prefix=#{prefix}"
+    system "./configure", *std_configure_args
     system "make", "install"
   end
 

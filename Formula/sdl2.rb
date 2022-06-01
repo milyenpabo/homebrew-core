@@ -1,8 +1,8 @@
 class Sdl2 < Formula
   desc "Low-level access to audio, keyboard, mouse, joystick, and graphics"
   homepage "https://www.libsdl.org/"
-  url "https://libsdl.org/release/SDL2-2.0.16.tar.gz"
-  sha256 "65be9ff6004034b5b2ce9927b5a4db1814930f169c4b2dae0a1e4697075f287b"
+  url "https://libsdl.org/release/SDL2-2.0.22.tar.gz"
+  sha256 "fe7cbf3127882e3fc7259a75a0cb585620272c51745d3852ab9dd87960697f2e"
   license "Zlib"
 
   livecheck do
@@ -11,11 +11,12 @@ class Sdl2 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "6adac3ca2899ab923427b9b9322c8a4a412485ac7fe6448e276b4aae598f7a49"
-    sha256 cellar: :any,                 big_sur:       "71fe247bc197133b02186fac4e8f296d7f457a9507e0c77357b1069e5ee2ca61"
-    sha256 cellar: :any,                 catalina:      "4634185a35d9fc37c8fc07f884e45e7e2fbaa3fdec615171e647a9e02c395bd4"
-    sha256 cellar: :any,                 mojave:        "9966890d7d39147e75e92d6a7390ef5fb2f043b08f913e751638bdeef8c1c220"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "664cf8d5df1066a7d1bd4121e5805ac8bb7230e068237bbbb4654b7f085e7150"
+    sha256 cellar: :any,                 arm64_monterey: "d299f67194020898fa457130d11ecc89beab6020d2d8ed6cb6c546ca91858f03"
+    sha256 cellar: :any,                 arm64_big_sur:  "77512d6fc260326313d7c02d8442a967740d4b7e616a6995e87844dcf7a2f523"
+    sha256 cellar: :any,                 monterey:       "eac3c4de97e453a8e26e142fae4f960b81685a6278193af27d9ab231a975c41c"
+    sha256 cellar: :any,                 big_sur:        "cb7bd018480f11182cf123add9d2f409b2de0013eb40fc08ac94f79e5b8c4848"
+    sha256 cellar: :any,                 catalina:       "fd1311f75f9b584bd8621ec419deb05a63f29de0e5ae8fd88b737186d5bd2e97"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d3522d4ffdbae2fd6e413dd10027d7c645a87ea19ecd4443423fba7cf316c4d2"
   end
 
   head do

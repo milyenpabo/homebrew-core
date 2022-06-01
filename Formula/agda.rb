@@ -2,31 +2,31 @@ class Agda < Formula
   desc "Dependently typed functional programming language"
   homepage "https://wiki.portal.chalmers.se/agda/"
   license "BSD-3-Clause"
-  revision 2
 
   stable do
-    url "https://hackage.haskell.org/package/Agda-2.6.2/Agda-2.6.2.tar.gz"
-    sha256 "072caaad7a405b764423958d2001b68fbfd3fc8f98870cd0a5f0bcaeadfd3095"
+    url "https://hackage.haskell.org/package/Agda-2.6.2.2/Agda-2.6.2.2.tar.gz"
+    sha256 "e5be3761717b144f64e760d8589ec6fdc0dda60d40125c49cdd48f54185c527a"
 
     resource "stdlib" do
-      url "https://github.com/agda/agda-stdlib/archive/v1.7.tar.gz"
-      sha256 "180302df8bdd01fd404ae5ee217d4c04376fcfbab2b70958a87109df531e299d"
+      url "https://github.com/agda/agda-stdlib/archive/v1.7.1.tar.gz"
+      sha256 "6f92ae14664e5d1217e8366c647eb23ca88bc3724278f22dc6b80c23cace01df"
     end
   end
 
   bottle do
-    sha256 arm64_big_sur: "c7baff979a3b1d808bbd8c22f3eb246db593cea21df144865576fac01710ed49"
-    sha256 big_sur:       "9072742c57132671ea5246b526f602d10994aa12b773f39b0d35d8b781c24f98"
-    sha256 catalina:      "5bf2ec66f3afe40a457aa443f3bbd6dda01a565eb3d1706cfd872a83165981d6"
-    sha256 mojave:        "db59d32055496482f06e18630667e190fb8299033d28c06a899afa238239e4b9"
-    sha256 x86_64_linux:  "776e8b2131d576072c3a3126ce70376817e6a6cbabaf946c8e1f112da40fa39f"
+    sha256 arm64_monterey: "f9450332b803dc4212b194b5692bccd0cc4e2f7935cc0b5e0f4aeb2f3a2ace3c"
+    sha256 arm64_big_sur:  "96def5d383e8004c2165cc75b561789efa33a8d2a61940cc77a9f51c2a2e0462"
+    sha256 monterey:       "89218cc3cc71273dfccb03c1da82d5207ce30cc308b0cc100fd8b3158efff337"
+    sha256 big_sur:        "610fde4f70b27f6ad76f5a1c28e477b9dc7454f079ee209a8ad609e8fbc61bc6"
+    sha256 catalina:       "be368491b302813d8b0f6e8a7b49ae3476ab2fdb2e0782561071b37af2fda7bc"
+    sha256 x86_64_linux:   "29bd833cdec176b7f3eebafb68579613c413fb6de62adc76f615920f1573d29e"
   end
 
   head do
-    url "https://github.com/agda/agda.git"
+    url "https://github.com/agda/agda.git", branch: "master"
 
     resource "stdlib" do
-      url "https://github.com/agda/agda-stdlib.git"
+      url "https://github.com/agda/agda-stdlib.git", branch: "master"
     end
   end
 
@@ -37,8 +37,8 @@ class Agda < Formula
   uses_from_macos "zlib"
 
   resource "alex" do
-    url "https://hackage.haskell.org/package/alex-3.2.6/alex-3.2.6.tar.gz"
-    sha256 "91aa08c1d3312125fbf4284815189299bbb0be34421ab963b1f2ae06eccc5410"
+    url "https://hackage.haskell.org/package/alex-3.2.7.1/alex-3.2.7.1.tar.gz"
+    sha256 "9bd2f1a27e8f1b2ffdb5b2fbd3ed82b6f0e85191459a1b24ffcbef4e68a81bec"
   end
 
   resource "cpphs" do

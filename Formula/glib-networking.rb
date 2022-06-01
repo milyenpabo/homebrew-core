@@ -1,16 +1,17 @@
 class GlibNetworking < Formula
   desc "Network related modules for glib"
   homepage "https://gitlab.gnome.org/GNOME/glib-networking"
-  url "https://download.gnome.org/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz"
-  sha256 "66b408e7afa86c582fe38963db56133869ab4b57d34e48ec56aba621940d6f35"
+  url "https://download.gnome.org/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz"
+  sha256 "100aaebb369285041de52da422b6b716789d5e4d7549a3a71ba587b932e0823b"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256               arm64_big_sur: "ba522c00fb66cdecb8ffd2a59097d40442e0d4855448a0ec35fa930511ecccb4"
-    sha256 cellar: :any, big_sur:       "eab028e138ec9fe2017f9dcf052c09469b906ccb2e5b147572487cacd9061777"
-    sha256 cellar: :any, catalina:      "a7002f6e071a68e70a0d5af8377bdcf4c9ab6f9606272cb94b94aaa0ce8a3be8"
-    sha256 cellar: :any, mojave:        "5a48d3f2012eb407b90c38ae8db334d516b53ec5d8127f58bac4ed2a571e09af"
-    sha256               x86_64_linux:  "ca7db942c847b82b7115b770d585ce8bf6791e0e09a0f06cdce9b47f8eeaadea"
+    sha256 arm64_monterey: "f6c4a13ec7563d1571e52950f0b93ee71b0b463898509b7fe4710b7afd9dd472"
+    sha256 arm64_big_sur:  "ddc66736ac03cd391e75089bae25f94672d8144026a2d270d95a696245fa6ee1"
+    sha256 monterey:       "c23aaf5bff245462e0fd2176d15df17fd1c49244f49a3f290b0deeae791da2b3"
+    sha256 big_sur:        "cd11ebc642a0660a726131579cf6b5bcceb86496ae55f641bc5a5fc9afb1840b"
+    sha256 catalina:       "74649e42fae22c69aea564dca13b6c047e0b4b9d8df965e57d0614c46118f858"
+    sha256 x86_64_linux:   "8e13ca5733c1d5e9948edcba67dc09683fb4d82dfc627f88838ca7fa6cf6705e"
   end
 
   depends_on "meson" => :build

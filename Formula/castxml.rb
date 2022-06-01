@@ -1,10 +1,9 @@
 class Castxml < Formula
   desc "C-family Abstract Syntax Tree XML Output"
   homepage "https://github.com/CastXML/CastXML"
-  url "https://github.com/CastXML/CastXML/archive/v0.4.3.tar.gz"
-  sha256 "3dd94096e07ffe103b2a951e4ff0f9486cc615b3ef08e95e5778eaaec667fb65"
+  url "https://github.com/CastXML/CastXML/archive/v0.4.5.tar.gz"
+  sha256 "007f6d073165e150df0e40e1ec331f6f94304684af9eed3b0e5dabaebcfb1197"
   license "Apache-2.0"
-  revision 2
   head "https://github.com/CastXML/castxml.git", branch: "master"
 
   livecheck do
@@ -13,11 +12,12 @@ class Castxml < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "d0e05d60c1a96f65e5a492a6532e60c7907386fee4f5cf961e183aba7c02d846"
-    sha256 cellar: :any,                 big_sur:       "8f6cf4bf0246dd2af8d297ea05a61d93687d1607084e8fb0e4c422b3f676889f"
-    sha256 cellar: :any,                 catalina:      "180ea24e0b779c8003f0a76a9d9a2db7d2c32812ae9686bc47a14df208a326ec"
-    sha256 cellar: :any,                 mojave:        "d334ea9ce46b1345b8bb79eb2f2f7f1d4d4f595f6d395a2fb4271eb985dd16e9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e1e0d381ef2d6403f64f356b7227dbce4a6a93441bbe0982aa7d8adf9cab9339"
+    sha256 cellar: :any,                 arm64_monterey: "a1b3a58769ebb3cdf0e42fd9ea907b34155e1bff987988936e810baa7cec08cc"
+    sha256 cellar: :any,                 arm64_big_sur:  "1b2d81fc9a9dd3830f323d70ed4f965a756394cae2d85d717802e577bfccc007"
+    sha256 cellar: :any,                 monterey:       "c79f9f01ef4de2a7ca9b982f9934d92eab64447c2ff4f6b0a51c203b6c3b8856"
+    sha256 cellar: :any,                 big_sur:        "26d6c7f54cfa7c772aee126440a5b39c9ea7849d1a835f964a190bdc1832b17c"
+    sha256 cellar: :any,                 catalina:       "a39f4d192bc2aa37dd111375d5d1771cc1ef3606333c51214f52746fc02549a8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "64a4eba1043aaca30763bbbe880491391b6b3260710f636521e30e4a58ea1a92"
   end
 
   depends_on "cmake" => :build

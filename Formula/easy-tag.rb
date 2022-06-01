@@ -1,16 +1,18 @@
 class EasyTag < Formula
   desc "Application for viewing and editing audio file tags"
-  homepage "https://projects.gnome.org/easytag"
+  homepage "https://wiki.gnome.org/Apps/EasyTAG"
   url "https://download.gnome.org/sources/easytag/2.4/easytag-2.4.3.tar.xz"
   sha256 "fc51ee92a705e3c5979dff1655f7496effb68b98f1ada0547e8cbbc033b67dd5"
-  revision 5
+  license "GPL-2.0-or-later"
+  revision 6
 
   bottle do
-    sha256 arm64_big_sur: "d710681540b59898e8eb6560a5970ba0862d726f47b4ea2f2deda97d199ca619"
-    sha256 big_sur:       "0f5db8b133620eeea75819572f9bb644ad42c0608ca72a1e0972fa87e791eab8"
-    sha256 catalina:      "cf6e6683991f2aaf8072b3ff0ab1c645ecf189ca009787ed179022d65d8111e4"
-    sha256 mojave:        "bc97c0feed958d5af987bf691e669e4e358d06f072568e5c68eb746a852a7bdb"
-    sha256 high_sierra:   "7e95b30ce2c317eb3ced35ae007d3396e4f3e0dfada0a88914695341ecd03c83"
+    sha256 arm64_monterey: "39d4f47a2a8310fbef48070f247e2ec45cc0761bf5e1baa8ebda5446e1aee0b4"
+    sha256 arm64_big_sur:  "8a1cef2c91b3216179ce0eb8ace40e845c2956bb08602747d9c4b433b8c138e2"
+    sha256 monterey:       "d0ef9d0bc6d61b5c2c68b1f26d363a1ed2fd95c5dbe671e6492e94db032d9b3d"
+    sha256 big_sur:        "f10db53f7c6852dc2d83920c64b5166612b7ebfcfd8b8789228bcc2917b183c4"
+    sha256 catalina:       "cf12b241113c19be8fb1b91871d0428f29c9d4e39066c5fd0c197bba1f12088a"
+    sha256 x86_64_linux:   "f33415cd657483d9eea16b2d51d12938cb2cc2296662c0761142ad760f5c21c4"
   end
 
   depends_on "intltool" => :build
@@ -29,12 +31,16 @@ class EasyTag < Formula
   depends_on "taglib"
   depends_on "wavpack"
 
+  uses_from_macos "perl" => :build
+
   # disable gtk-update-icon-cache
   patch :DATA
 
   def install
     xy = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
     ENV.append_path "PYTHONPATH", "#{Formula["libxml2"].opt_lib}/python#{xy}/site-packages"
+    ENV.prepend_path "PERL5LIB", Formula["intltool"].libexec/"lib/perl5" unless OS.mac?
+    ENV.append "LDFLAGS", "-lz"
 
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
@@ -50,6 +56,10 @@ class EasyTag < Formula
   end
 
   test do
+    # Disable test on Linux because it fails with:
+    # Gtk-WARNING **: 18:38:23.471: cannot open display
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
+
     system "#{bin}/easytag", "--version"
   end
 end

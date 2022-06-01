@@ -2,35 +2,36 @@ class NewrelicInfraAgent < Formula
   desc "New Relic infrastructure agent"
   homepage "https://github.com/newrelic/infrastructure-agent"
   url "https://github.com/newrelic/infrastructure-agent.git",
-      tag:      "1.20.2",
-      revision: "d30d434995dc539e38ab84f8324f1a07d0f552ff"
+      tag:      "1.27.0",
+      revision: "e7250602d834d296341e0553ae7d96605da8bbc5"
   license "Apache-2.0"
-  revision 1
   head "https://github.com/newrelic/infrastructure-agent.git", branch: "master"
 
-  bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:      "e2cc3d32941798e5f4dd0e8aad7f50214ba4b6863e863cb210d973b028977ae7"
-    sha256 cellar: :any_skip_relocation, catalina:     "ed5d80ba8cef45ccd7b3ac75fef36642c08c9e2ec56c09f08fddb09109f0623c"
-    sha256 cellar: :any_skip_relocation, mojave:       "567ac22418bafde0e9908aeb52ba66477b9e2f58982e466d283c3685a357d2f0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "688145f81ded66d1e52023e9e94ea745c138237bfca5156f7f0377900cb28396"
+  # Upstream sometimes creates a tag with a stable version format but marks it
+  # as pre-release on GitHub.
+  livecheck do
+    url :stable
+    strategy :github_latest
   end
 
-  # https://github.com/newrelic/infrastructure-agent/issues/723
-  depends_on "go@1.16" => :build
+  bottle do
+    sha256 cellar: :any_skip_relocation, monterey:     "b0ed1c9ac51b9b56a1603d24a91300e14fd982399d52cf913ae20841875938b3"
+    sha256 cellar: :any_skip_relocation, big_sur:      "265821268cb2114982ad50ea9bfb4a8e55ab594ec308aaf20daaa16e6f513275"
+    sha256 cellar: :any_skip_relocation, catalina:     "90d748dee41bc9f8c78c8f5cebeea4de4c74e2aecf02b788d60c1f4555f7c5f5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "0df443221b13bcb4b4b1f4858bb8f216ccfaec07373dc0cc81f5583564fd7ab6"
+  end
+
+  depends_on "go" => :build
   # https://github.com/newrelic/infrastructure-agent/issues/695
   depends_on arch: :x86_64
 
   def install
-    goarch = Hardware::CPU.arm? ? "arm64" : "amd64"
+    goarch = Hardware::CPU.intel? ? "amd64" : Hardware::CPU.arch.to_s
+    os = OS.kernel_name.downcase
     ENV["VERSION"] = version.to_s
-    os = if OS.mac?
-      ENV["CGO_ENABLED"] = "1"
-      "darwin"
-    else
-      ENV["CGO_ENABLED"] = "0"
-      "linux"
-    end
     ENV["GOOS"] = os
+    ENV["CGO_ENABLED"] = OS.mac? ? "1" : "0"
+
     system "make", "dist-for-os"
     bin.install "dist/#{os}-newrelic-infra_#{os}_#{goarch}/newrelic-infra"
     bin.install "dist/#{os}-newrelic-infra-ctl_#{os}_#{goarch}/newrelic-infra-ctl"

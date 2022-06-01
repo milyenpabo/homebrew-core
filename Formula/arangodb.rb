@@ -1,37 +1,44 @@
 class Arangodb < Formula
   desc "Multi-Model NoSQL Database"
   homepage "https://www.arangodb.com/"
-  url "https://download.arangodb.com/Source/ArangoDB-3.8.1.tar.gz"
-  sha256 "31a17e09cd7fdec94430b8a97864009f24a142e35cdf185068fe148ae781c3a9"
+  url "https://download.arangodb.com/Source/ArangoDB-3.9.1.tar.bz2"
+  sha256 "afc5dfbe9fb80d2154707520b4c44ad2f5ba22c1f5877228cc0d03d352856721"
   license "Apache-2.0"
+  revision 1
   head "https://github.com/arangodb/arangodb.git", branch: "devel"
 
+  livecheck do
+    url "https://www.arangodb.com/download-major/source/"
+    regex(/href=.*?ArangoDB[._-]v?(\d+(?:\.\d+)+)(-\d+)?\.t/i)
+  end
+
   bottle do
-    sha256 big_sur:  "f895aba7329d3bf1f7dc40c6eac687320d722015fd237a0d61c2f320c5f27bf1"
-    sha256 catalina: "76603e9b4734489f997141b5c378f13cb28a95bd6cd7059ea49b014d0845f994"
-    sha256 mojave:   "3b5326020d7813edbf0fd42c3ed6c5f8a817603f0854778bb4a3cbb0b78e54eb"
+    sha256 monterey:     "6b7d80d0d952e3f39e18cfb91e3c76881f89dab5d7a8e141de4c4b6c9c9e5b3b"
+    sha256 big_sur:      "c6d5be3d12057a9e7ee2999f6b1fc20f419d30b8f3fb126ceac80a27e7eb1934"
+    sha256 catalina:     "081eb0952791da03bbdad0990b596b25a4888a25ab717c585549343e366c7d05"
+    sha256 x86_64_linux: "2efb2e317b088344bdc880dc5a34035cd986008e663f4c98a1a55e0f017b5015"
   end
 
   depends_on "ccache" => :build
   depends_on "cmake" => :build
-  depends_on "go@1.13" => :build
-  depends_on "python@3.9" => :build
+  depends_on "go@1.17" => :build
+  depends_on "python@3.10" => :build
   depends_on macos: :mojave
   depends_on "openssl@1.1"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
 
   # the ArangoStarter is in a separate github repository;
   # it is used to easily start single server and clusters
   # with a unified CLI
   resource "starter" do
     url "https://github.com/arangodb-helper/arangodb.git",
-        tag:      "0.15.1",
-        revision: "3c27ad4cfb89e96db551445212f78706b7263851"
-  end
-
-  # Fix compilation with Xcode 13 on 10.14, remove in next release
-  patch do
-    url "https://github.com/arangodb/arangodb/commit/d3fde7986.patch?full_index=1"
-    sha256 "9699643d4ea2f1b679631b92672215e258c3e7a958638f9fdd8d6de6910dc146"
+        tag:      "0.15.4",
+        revision: "ed743d2293efd763309f3ba0a1ba6fb68ac4a41a"
   end
 
   def install
@@ -40,38 +47,34 @@ class Arangodb < Formula
     resource("starter").stage do
       ENV["GO111MODULE"] = "on"
       ENV["DOCKERCLI"] = ""
-      system "make", "deps"
       ldflags = %W[
         -s -w
         -X main.projectVersion=#{resource("starter").version}
         -X main.projectBuild=#{Utils.git_head}
       ]
-      system "go", "build", *std_go_args, "-ldflags", ldflags.join(" "), "github.com/arangodb-helper/arangodb"
+      system "go", "build", *std_go_args(ldflags: ldflags), "github.com/arangodb-helper/arangodb"
     end
 
-    mkdir "build" do
-      openssl = Formula["openssl@1.1"]
-      args = std_cmake_args + %W[
-        -DHOMEBREW=ON
-        -DCMAKE_BUILD_TYPE=RelWithDebInfo
-        -DUSE_MAINTAINER_MODE=Off
-        -DUSE_JEMALLOC=Off
-        -DCMAKE_SKIP_RPATH=On
-        -DOPENSSL_USE_STATIC_LIBS=On
-        -DCMAKE_LIBRARY_PATH=#{openssl.opt_lib}
-        -DOPENSSL_ROOT_DIR=#{openssl.opt_lib}
-        -DCMAKE_OSX_DEPLOYMENT_TARGET=#{MacOS.version}
-        -DTARGET_ARCHITECTURE=nehalem
-        -DUSE_CATCH_TESTS=Off
-        -DUSE_GOOGLE_TESTS=Off
-        -DCMAKE_INSTALL_LOCALSTATEDIR=#{var}
-      ]
+    openssl = Formula["openssl@1.1"]
+    args = std_cmake_args + %W[
+      -DHOMEBREW=ON
+      -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      -DUSE_MAINTAINER_MODE=Off
+      -DUSE_JEMALLOC=Off
+      -DCMAKE_LIBRARY_PATH=#{openssl.opt_lib}
+      -DOPENSSL_ROOT_DIR=#{openssl.opt_lib}
+      -DCMAKE_OSX_DEPLOYMENT_TARGET=#{MacOS.version}
+      -DUSE_CATCH_TESTS=Off
+      -DUSE_GOOGLE_TESTS=Off
+      -DCMAKE_INSTALL_LOCALSTATEDIR=#{var}
+    ]
+    args << "-DTARGET_ARCHITECTURE=nehalem" if build.bottle? && Hardware::CPU.intel?
 
-      ENV["V8_CXXFLAGS"] = "-O3 -g -fno-delete-null-pointer-checks" if ENV.compiler == "gcc-6"
+    ENV["V8_CXXFLAGS"] = "-O3 -g -fno-delete-null-pointer-checks" if ENV.compiler == "gcc-6"
 
-      system "cmake", "..", *args
-      system "make", "install"
-    end
+    system "cmake", "-S", ".", "-B", "build", *args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   def post_install

@@ -3,16 +3,17 @@ class GobjectIntrospection < Formula
 
   desc "Generate introspection data for GObject libraries"
   homepage "https://gi.readthedocs.io/en/latest/"
-  url "https://download.gnome.org/sources/gobject-introspection/1.70/gobject-introspection-1.70.0.tar.xz"
-  sha256 "902b4906e3102d17aa2fcb6dad1c19971c70f2a82a159ddc4a94df73a3cafc4a"
+  url "https://download.gnome.org/sources/gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz"
+  sha256 "02fe8e590861d88f83060dd39cda5ccaa60b2da1d21d0f95499301b186beaabc"
   license all_of: ["GPL-2.0-or-later", "LGPL-2.0-or-later", "MIT"]
 
   bottle do
-    sha256 arm64_big_sur: "03b9152f0a5a212197934b2d9f0b403166a59f5e98a1f5641344d21a27640644"
-    sha256 big_sur:       "96e7c0007fa6a2b1d602d28761df216109f55d7e6722da1f5e04086960be6a09"
-    sha256 catalina:      "7502549ca04091d2956a9e75fafb6f11ec89b1f549f83d70eefd70aeca01ff02"
-    sha256 mojave:        "b54d2609d522a28371816f7c3a95f67e4024c7db372c1c0cb672c420f7faaf9b"
-    sha256 x86_64_linux:  "bd4962d70fcda1762926d9f5738fe97c1b32a228592147271210234eab94f574"
+    sha256 arm64_monterey: "f99f2db1c00cdde18f0cbfa00e70604dfaea7aa512256750eabc31cbb0181204"
+    sha256 arm64_big_sur:  "49ce2c6051e3e993326f45e8d29ee9c5ad4827acc7a49f69726e33c4c49e035f"
+    sha256 monterey:       "691d417a183544a9b772e10d51c4279d153e3e0261ccfaff592b44099d02d843"
+    sha256 big_sur:        "5cb0f78a5c9b1bd0c834b073ad8fffe0349a3b34428244374cb04eef05b88097"
+    sha256 catalina:       "aa6e5ba50fc0702af44f8d43539447d1fc8d2a018c41fca919564308d91ae634"
+    sha256 x86_64_linux:   "a5fa6b022fa051a18dc59c4bdd92411bc15cfc2bb6c768da5d62dd302ca24974"
   end
 
   depends_on "bison" => :build
@@ -53,7 +54,7 @@ class GobjectIntrospection < Formula
         ".."
       system "ninja", "-v"
       system "ninja", "install", "-v"
-      bin.find { |f| rewrite_shebang detected_python_shebang, f }
+      rewrite_shebang detected_python_shebang, *bin.children
     end
   end
 

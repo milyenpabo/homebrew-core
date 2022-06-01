@@ -1,15 +1,17 @@
 class Lmod < Formula
   desc "Lua-based environment modules system to modify PATH variable"
   homepage "https://lmod.readthedocs.io"
-  url "https://github.com/TACC/Lmod/archive/8.5.16.tar.gz"
-  sha256 "0643a871c5a32fa25534cffd4babde80a0a7580672899d6c102f2aee0ee8421c"
+  url "https://github.com/TACC/Lmod/archive/8.7.3.tar.gz"
+  sha256 "c00c45b629daa11574d61dd94e120725be4c51c46bb7221d9b2c75f1190672d3"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "88d9401059d1a0d1763596e920932eb5e5f4f04032909593c777a5d44f2293cb"
-    sha256 cellar: :any_skip_relocation, big_sur:       "e6f10069c6e25cbc199024e5d1530574400f1304cb47174f3aef3a7976feac2b"
-    sha256 cellar: :any_skip_relocation, catalina:      "41375c46e302f23827b6a7895b17d3418e50f6e6976440ed6772060283c8a69b"
-    sha256 cellar: :any_skip_relocation, mojave:        "c6b7a550f60a85894d8bdb286216892ed205a020bfa50aa78ef9badf5277c3ed"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "e5cd6b2f2ba486a089a7fafa9e797fe8c880649d26c3fb130d01c216a3d44bad"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "829a519d71b278494da0af9cd217ec954a8a5b1d39851835999e1cecb39c05cc"
+    sha256 cellar: :any_skip_relocation, monterey:       "71689705e176b2ed71ecbef0054000a1cb0ea95c34d21d575e6f58aa1ecd9050"
+    sha256 cellar: :any_skip_relocation, big_sur:        "71ba5046c474001dbeca5c655f303b65136792aa43ddc05a542faca46e42257c"
+    sha256 cellar: :any_skip_relocation, catalina:       "412fe715f66b105008dbcb018280a956e7c1d297595a4159387f306ac00475c5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "73fb79f62fcd8ecaddc22a27752163a3c656e32175deaca677dd9741e2c35fc8"
   end
 
   depends_on "luarocks" => :build
@@ -63,7 +65,7 @@ class Lmod < Formula
 
     (testpath/"lmodtest.sh").write <<~EOS
       #!/bin/sh
-      source #{sh_init}
+      . #{sh_init}
       module list
     EOS
 

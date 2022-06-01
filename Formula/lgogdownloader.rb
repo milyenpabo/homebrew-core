@@ -1,10 +1,10 @@
 class Lgogdownloader < Formula
   desc "Unofficial downloader for GOG.com games"
   homepage "https://sites.google.com/site/gogdownloader/"
-  url "https://github.com/Sude-/lgogdownloader/releases/download/v3.8/lgogdownloader-3.8.tar.gz"
-  sha256 "2f4941f07b94f4e96557ca86f33f7d839042bbcac7535f6f9736092256d31eb5"
+  url "https://github.com/Sude-/lgogdownloader/releases/download/v3.9/lgogdownloader-3.9.tar.gz"
+  sha256 "d0b3b6198e687f811294abb887257c5c28396b5af74c7f3843347bf08c68e3d0"
   license "WTFPL"
-  head "https://github.com/Sude-/lgogdownloader.git"
+  head "https://github.com/Sude-/lgogdownloader.git", branch: "master"
 
   livecheck do
     url :homepage
@@ -12,10 +12,12 @@ class Lgogdownloader < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "369c84e75a36b791769eb7cb84b888fd050a5ad16f9cb010e85c4bd28a17463c"
-    sha256 cellar: :any, big_sur:       "2fa1804d59145b057b02b32e358ba179246248d35ea69d53873e756d88ab95ff"
-    sha256 cellar: :any, catalina:      "850adc82be488503d799eb2211311ab455839ca65b1e9d65b94c3ce9a8f3ec97"
-    sha256 cellar: :any, mojave:        "3be4696256c82a16e5f30caaf0c9c2b7e99d465b3b96df2ff4e937ee7d3c78d7"
+    sha256 cellar: :any,                 arm64_monterey: "608cdf54c36258a9767484b0b4b438ca4a2ba6faf89b16b5cb0cd7160e00d0a5"
+    sha256 cellar: :any,                 arm64_big_sur:  "8879639d2a294cbd65336ad479510d2f158099d3832460bbb4435841eeed8d51"
+    sha256 cellar: :any,                 monterey:       "4f26ab65e771664b7511ed551fd2ca835900bf6cd385693629203c3fd07c0382"
+    sha256 cellar: :any,                 big_sur:        "b529aea5b1beb3a6367bfc61b20ad22ccf6aec8377bfea8e02b987f0801ee852"
+    sha256 cellar: :any,                 catalina:       "3129fbdeb795eca7cd7a176dd9b2db7d1eb28cec1f346c06ed3b79ff887f8475"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0d7b6b69d254055f9ae0b5ed2d88662a4a52bf0699b3f1173e655723ed9a2ae8"
   end
 
   depends_on "cmake" => :build
@@ -27,6 +29,8 @@ class Lgogdownloader < Formula
   depends_on "liboauth"
   depends_on "rhash"
   depends_on "tinyxml2"
+
+  uses_from_macos "curl"
 
   def install
     system "cmake", ".", *std_cmake_args, "-DJSONCPP_INCLUDE_DIR=#{Formula["jsoncpp"].opt_include}"
@@ -44,7 +48,13 @@ class Lgogdownloader < Formula
       secret
     EOS
     writer.close
-    assert_equal "HTTP: Login failed", reader.read.lines.last.chomp
+    lastline = ""
+    begin
+      reader.each_line { |line| lastline = line }
+    rescue Errno::EIO
+      # GNU/Linux raises EIO when read is done on closed pty
+    end
+    assert_equal "HTTP: Login failed", lastline.chomp
     reader.close
   end
 end

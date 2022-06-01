@@ -1,17 +1,18 @@
 class Hlint < Formula
   desc "Haskell source code suggestions"
   homepage "https://github.com/ndmitchell/hlint"
-  url "https://hackage.haskell.org/package/hlint-3.3.4/hlint-3.3.4.tar.gz"
-  sha256 "189bab4a78ded3bf0db64878a0775805855aff49796396abbac5d90a81db100c"
+  url "https://hackage.haskell.org/package/hlint-3.4/hlint-3.4.tar.gz"
+  sha256 "76fc615d6949fb9478e586c9ddd5510578ddaa32261d94f1a1f3670f20db8e95"
   license "BSD-3-Clause"
-  head "https://github.com/ndmitchell/hlint.git"
+  head "https://github.com/ndmitchell/hlint.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "4dbfc4114cb81b399e3d998ad8ebe67d2f5d8361908159d821fd79fbeaea163f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "9ccdf7b77e4ed209b06b5f65007b1fc560e27d8f8d334723f92fac504d2251bb"
-    sha256 cellar: :any_skip_relocation, catalina:      "2d20096003764312d23aa3c1ca4d83fc4c383e00f440c71af140573ad977bc91"
-    sha256 cellar: :any_skip_relocation, mojave:        "7b3c9dbda4c9c9f37d54669cc04c91ff98ebf8f1ad90d40f23e77c81c049e4fd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "51e3e65b1785ace7deb2faaaec2e00ca3cf330cfd7200dabf92401952cd76f42"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "245b2f2b7c336f971c4cc76d61c0783990440d1fc6d456f80acdf4ac5ed75d99"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "284d0bfddd62fb7b9701d40af5382a658c176b5a7753d2ae6384b1ee081a4cd8"
+    sha256 cellar: :any_skip_relocation, monterey:       "754c276f838e043992df0afb6d3cc5ee124b424231b1173cd09e369661bb9b0c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fe66eea5d9ec45bf4a85368fec60feb60fdc98c99c7ee7e89e2ddc77f49d7df2"
+    sha256 cellar: :any_skip_relocation, catalina:       "852ef74d5b7bd71654b6c05c9bfa287dfc7a51c61d9794cbcfcae3291491c6a6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d27417652ffd657d1e319605a120edbe9ae00e78b5f39ae87d99f9b79e1d57ec"
   end
 
   depends_on "cabal-install" => :build

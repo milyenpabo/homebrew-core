@@ -1,18 +1,20 @@
 class Sourcedocs < Formula
   desc "Generate Markdown files from inline source code documentation"
-  homepage "https://github.com/eneko/SourceDocs"
-  url "https://github.com/eneko/sourcedocs/archive/1.2.1.tar.gz"
-  sha256 "b37029b986055164297bc870e65e40672de05dc281f9e039f988e49a0bc00482"
+  homepage "https://github.com/SourceDocs/SourceDocs"
+  url "https://github.com/SourceDocs/SourceDocs/archive/2.0.1.tar.gz"
+  sha256 "07547c929071124264ec9cc601331f21dc67a104ffc76fbc1801c1ecb4c35bbf"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "06b1e8ad009967c2c97ce74d7df61a17797f5aa8a15b23f2cfd9041158219d77"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a1f7e8ecf73fd06ca1b1f79814f5d4bbac116060cd0abf58039af3d0c8e10d73"
-    sha256 cellar: :any_skip_relocation, catalina:      "9bdc9f8b2d42d2f66251a5f201ff4d978dd96030d726dc924e3c1928b70bf91a"
-    sha256 cellar: :any_skip_relocation, mojave:        "d0f79030518567fa2fee422afa683015191440dfca26b4e3a5718b79502a9d49"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "b8757a91d73d96999da362afbc5a5c42c7be949f562cf5569b2bf24853af6ef9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1254fb0f47a037f929e579b4a68dd375b0e587d9adb3e876865b6de031d39f46"
+    sha256 cellar: :any_skip_relocation, monterey:       "974904c0b5b4d0d54fe8392c84fe06b3aa23e47fb76f95579f09e5fc94704d2d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "292dbf6713d17716e685ac74c0e9fdbe07038b95bca36f234a94bfe2fffe5aab"
+    sha256 cellar: :any_skip_relocation, catalina:       "56cad5d1e01271614fd93c5ec93b4b7fc7cabb64bef767581bc5ad179ee20a63"
   end
 
-  depends_on xcode: ["10.3", :build, :test]
+  depends_on xcode: ["12.0", :build, :test]
+  uses_from_macos "swift"
 
   def install
     system "swift", "build", "--disable-sandbox", "-c", "release"

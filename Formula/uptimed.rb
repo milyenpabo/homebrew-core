@@ -1,16 +1,17 @@
 class Uptimed < Formula
   desc "Utility to track your highest uptimes"
   homepage "https://github.com/rpodgorny/uptimed/"
-  url "https://github.com/rpodgorny/uptimed/archive/v0.4.4.tar.gz"
-  sha256 "041f59710c316c68907e9bd07db2606f3dc16bee908b5644715ff2be30c59453"
+  url "https://github.com/rpodgorny/uptimed/archive/v0.4.6.tar.gz"
+  sha256 "48656498ac30c59b902e98dc5e411e97cbb96278a01946bdf0941d8da72b2ae1"
   license "GPL-2.0-only"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "4e1ae62985ae67f3733325ee8c87c8aafcc3702f58d8e97257eaca2c19367e96"
-    sha256 cellar: :any,                 big_sur:       "a7b8ccdc3076867427de19187190942d9403468a6d793de109d1207f9dab873e"
-    sha256 cellar: :any,                 catalina:      "8c30d6732c2ce84262b94e38df3a6eaa6a9412d7a35faff593167fb5cdec8450"
-    sha256 cellar: :any,                 mojave:        "309c440655a5166596facdcbcdd2035fd7fa5a6b1263f4bd10a8d1aa1be612b7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "bd27de8d758ab4c321995dcef58b156ecd302e70089bc6aa6e14bb802d8cb177"
+    sha256 cellar: :any,                 arm64_monterey: "fe2014e9e8554a794a76538e627b3f7ea2061ec80b8397cbf59a73eb122f0448"
+    sha256 cellar: :any,                 arm64_big_sur:  "35d18dbe25c5f32c163aba74b1c3bd76bef2d1e56daa157b0ee69b9260d31b03"
+    sha256 cellar: :any,                 monterey:       "b7d4687e1268f63e2db6c206e3c689f12e1551d33486e76d6bd2630a7a222e5a"
+    sha256 cellar: :any,                 big_sur:        "bae2b12de112b4078b7c27b944685296259fffffa703375c8537fdcf7fcf095f"
+    sha256 cellar: :any,                 catalina:       "809aff2f1b2f94e3806b873087141df575cce1a95178ff5789c936542f0ab521"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "27663baf2b3c2fb110f345fdf3e7d88293d44e92563d36364e29f8e342cf308d"
   end
 
   depends_on "autoconf" => :build

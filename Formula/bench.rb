@@ -1,9 +1,9 @@
 class Bench < Formula
   desc "Command-line benchmark tool"
-  homepage "https://github.com/Gabriel439/bench"
+  homepage "https://github.com/Gabriella439/bench"
   license "BSD-3-Clause"
   revision 1
-  head "https://github.com/Gabriel439/bench.git", branch: "master"
+  head "https://github.com/Gabriella439/bench.git", branch: "main"
 
   stable do
     url "https://hackage.haskell.org/package/bench-1.0.12/bench-1.0.12.tar.gz"
@@ -11,12 +11,13 @@ class Bench < Formula
 
     # Compatibility with GHC 8.8. Remove with the next release.
     patch do
-      url "https://github.com/Gabriel439/bench/commit/846dea7caeb0aee81870898b80345b9d71484f86.patch?full_index=1"
+      url "https://github.com/Gabriella439/bench/commit/846dea7caeb0aee81870898b80345b9d71484f86.patch?full_index=1"
       sha256 "fac63cd1ddb0af3bda78900df3ac5a4e6b6d2bb8a3d4d94c2f55d3f21dc681d1"
     end
   end
 
   bottle do
+    sha256 cellar: :any_skip_relocation, monterey:     "c092373768cce8b0beee7c4a110afd4eca5a4cc57090a87ac065d58eb72f376a"
     sha256 cellar: :any_skip_relocation, big_sur:      "c9ee5713f0c97785f37506da9e34f4cda353beaad06a5209fce27aeb93e3f770"
     sha256 cellar: :any_skip_relocation, catalina:     "b1eccbf77a04e4de1a59a0eed5c0f6e2d8b6b191736ee9ad4fdea9a173010651"
     sha256 cellar: :any_skip_relocation, mojave:       "493de8888b6fe1745a887cda10a421448a08943496124b1cb49cc02453002638"

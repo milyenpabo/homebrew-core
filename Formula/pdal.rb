@@ -1,8 +1,8 @@
 class Pdal < Formula
   desc "Point data abstraction library"
   homepage "https://www.pdal.io/"
-  url "https://github.com/PDAL/PDAL/releases/download/2.3.0/PDAL-2.3.0-src.tar.gz"
-  sha256 "5b0b92258874ef722b5027054d64c8b318b524e7a9b2b250d0330d76e19b8618"
+  url "https://github.com/PDAL/PDAL/releases/download/2.4.1/PDAL-2.4.1-src.tar.gz"
+  sha256 "4df8463f68087e3742691048f5ab9db04269fc54bc418e4dc53e2c761bd825f2"
   license "BSD-3-Clause"
   head "https://github.com/PDAL/PDAL.git", branch: "master"
 
@@ -18,10 +18,12 @@ class Pdal < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "bab6bc4359165c0114f42bfaa336efd455f4be53504b4c9ccd730f69fa4138e6"
-    sha256 big_sur:       "c5b53c3b047b1cc147c4b7a2b32337c219f29b04ca5badb054ba2c5d282f6d6f"
-    sha256 catalina:      "5ed3e147a0d6078d4757b59ec97edd1b582c6e696f0c1a7b458deed020be38c7"
-    sha256 mojave:        "c907f76ffd95101e6d7555cc0f7da93c0380e03a54973b03c02e0be0998e8b79"
+    sha256                               arm64_monterey: "2cc2d40e46a6ba825e7433a891dda892aa99f096ad9f4a7bbe5e579181be1c82"
+    sha256                               arm64_big_sur:  "de708dfbb95cd7909f75bb248d5b277f69c6b40c8866ff177609d7f76c64b7b1"
+    sha256                               monterey:       "479ad24653ab0f409e4d450e4a960937e83aa982ebed5957594b09cb2d656886"
+    sha256                               big_sur:        "f78507d9035a9ff5ad7f4b124c0af86a9b99c8a0ccc2ee55324067b7b8cc8fb2"
+    sha256                               catalina:       "e0bfb84ef816bad5e47a63d7ab82335c3dcdaf4e776217d01d71debf92184937"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "06958cd3f681635b2ec5501394d63326c3c84b7b768c439414b35dcdfb508ece"
   end
 
   depends_on "cmake" => :build
@@ -32,6 +34,12 @@ class Pdal < Formula
   depends_on "numpy"
   depends_on "pcl"
   depends_on "postgresql"
+
+  on_linux do
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5" # gdal is compiled with GCC
 
   def install
     system "cmake", ".", *std_cmake_args,

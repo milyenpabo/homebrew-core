@@ -1,9 +1,11 @@
+require "language/node"
+
 class Octant < Formula
   desc "Kubernetes introspection tool for developers"
   homepage "https://octant.dev"
   url "https://github.com/vmware-tanzu/octant.git",
-      tag:      "v0.24.0",
-      revision: "5a8648921cc2779eb62a0ac11147f12aa29f831c"
+      tag:      "v0.25.1",
+      revision: "f16cbb951905f1f8549469dfc116ca16cf679d46"
   license "Apache-2.0"
   head "https://github.com/vmware-tanzu/octant.git", branch: "master"
 
@@ -13,11 +15,12 @@ class Octant < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "779435947bf68cdda1fed06f6dc3986f6818afd6a4c71e42524d865dd2afb9b4"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7b5920d5e5e9ca14e34d27d09fa32877f20818d136470896d1e2434f1e09aa3e"
-    sha256 cellar: :any_skip_relocation, catalina:      "8e29c1b51ec3b2d1c9b5cdc0de357cd41851f4f0df42c07afe270b6078595cf4"
-    sha256 cellar: :any_skip_relocation, mojave:        "e8d3d6fbaf7cd9f368ab7f010be4ce869e841aea1e124f7dd69ebcb98310eb75"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "27709ab5ecfc271d40b1ff8c6f984b6edd9694bc5d2929023448d1a96544f37d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3979f72547fd4ab0f49aebc0d3b7e31cddf579a225450f21ce882a6ccd4c4d83"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b03fd4872ba4ec08a4c5992e38f33d55717bf5aae69cf58bb5e7d19da8bc1844"
+    sha256 cellar: :any_skip_relocation, monterey:       "6e3ef528790c99983c18ee34e7cddd3d3fc5a8293822d18ae5cdac6f0be41ca0"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b9fcb7b4c1b04b0a14157668298580e968b7bf8108c38112e7882fd3d2574fe1"
+    sha256 cellar: :any_skip_relocation, catalina:       "733232f99202af616246a23733949ba64beb39fe0f710f48271132bfa207b3b9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f920929c581cb864011705ed3cd5c972fe59ed8587efaf3e1fe2c19f9ee84054"
   end
 
   depends_on "go" => :build
@@ -28,29 +31,21 @@ class Octant < Formula
   end
 
   def install
-    ENV["GOPATH"] = buildpath
     ENV["GOFLAGS"] = "-mod=vendor"
 
-    ENV.append_path "PATH", HOMEBREW_PREFIX/"bin"
+    Language::Node.setup_npm_environment
 
-    dir = buildpath/"src/github.com/vmware-tanzu/octant"
-    dir.install buildpath.children
+    system "go", "run", "build.go", "go-install"
+    system "go", "run", "build.go", "web-build"
 
-    cd "src/github.com/vmware-tanzu/octant" do
-      system "go", "run", "build.go", "go-install"
-      ENV.prepend_path "PATH", buildpath/"bin"
+    ldflags = ["-X main.version=#{version}",
+               "-X main.gitCommit=#{Utils.git_head}",
+               "-X main.buildTime=#{time.iso8601}"].join(" ")
 
-      system "go", "run", "build.go", "web-build"
+    tags = "embedded exclude_graphdriver_devicemapper exclude_graphdriver_btrfs containers_image_openpgp"
 
-      ldflags = ["-X \"main.version=#{version}\"",
-                 "-X \"main.gitCommit=#{Utils.git_head}\"",
-                 "-X \"main.buildTime=#{time.iso8601}\""].join(" ")
-
-      tags = "embedded exclude_graphdriver_devicemapper exclude_graphdriver_btrfs containers_image_openpgp"
-
-      system "go", "build", *std_go_args(ldflags: ldflags),
-             "-tags", tags, "-v", "./cmd/octant"
-    end
+    system "go", "build", *std_go_args(ldflags: ldflags),
+           "-tags", tags, "-v", "./cmd/octant"
   end
 
   test do

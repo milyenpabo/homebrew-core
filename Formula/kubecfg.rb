@@ -1,24 +1,25 @@
 class Kubecfg < Formula
   desc "Manage complex enterprise Kubernetes environments as code"
-  homepage "https://github.com/bitnami/kubecfg"
-  url "https://github.com/bitnami/kubecfg/archive/v0.21.0.tar.gz"
-  sha256 "deb0fb737a5d792a7f8ef1b7ed1680f0ab318a5b79cddfd73c81b3119a555c36"
+  homepage "https://github.com/kubecfg/kubecfg"
+  url "https://github.com/kubecfg/kubecfg/archive/v0.26.0.tar.gz"
+  sha256 "322ed2b6d4214bafac63ee3d666aa240b077a0949d68bc97e5b6dfc484345b7e"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f8ae382e7b63ec1c2b860e1aee2fd4e6d69a5845e1c0597912ebf9356ba58558"
-    sha256 cellar: :any_skip_relocation, big_sur:       "4f4984ac3a047e7d0d7dc0a45ddd78096320d66d6642aa8e8685bcdad05fbf8b"
-    sha256 cellar: :any_skip_relocation, catalina:      "d8d18d85c19f8537e6905c137f41dbc4afc713486b350a765cdda3bbb9c0c035"
-    sha256 cellar: :any_skip_relocation, mojave:        "bb49c7511c9e2eb764834ace4dc32792cab62199ce80381a76673587093ba680"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "82336212dd3ea4f212cec0b8d0b02019abc750b11c462f526084c9d93d86f97e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a9768b8d05bb597d10c17b651a2f53e359672bdff4c62d5f7014af0f9f179ed1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d1e27b47349c5f79a07cd74caee23d669b62525e5c35f9eb753b94a5cc9999d2"
+    sha256 cellar: :any_skip_relocation, monterey:       "a507a3f199887fe0cc53bf95abe8b9bae088884835a808396a095f3f10fc5b19"
+    sha256 cellar: :any_skip_relocation, big_sur:        "9fdd1ec9b49b9025110e2e7170ae17eaa748555b3aa2f4dc0d517bac414f4e37"
+    sha256 cellar: :any_skip_relocation, catalina:       "bbebd74f09def44ea84f6f1d93379d9afe323fd68179796eba8039c646e0dbc5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d5515ec29c682a2ce2920551134b1521327c769f88295fa7af57218c73df9c71"
   end
 
   depends_on "go" => :build
 
   def install
-    (buildpath/"src/github.com/bitnami/kubecfg").install buildpath.children
+    (buildpath/"src/github.com/kubecfg/kubecfg").install buildpath.children
 
-    cd "src/github.com/bitnami/kubecfg" do
+    cd "src/github.com/kubecfg/kubecfg" do
       system "make", "VERSION=v#{version}"
       bin.install "kubecfg"
       pkgshare.install Dir["examples/*"], "testdata/kubecfg_test.jsonnet"

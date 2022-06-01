@@ -1,17 +1,20 @@
 class Keydb < Formula
   desc "Multithreaded fork of Redis"
   homepage "https://keydb.dev"
-  url "https://github.com/JohnSully/KeyDB/archive/v6.2.0.tar.gz"
-  sha256 "61a2996c8d56e564930119b115674032d8a1de2b50d67a9c555be6e7975ed567"
+  url "https://github.com/Snapchat/KeyDB/archive/v6.3.0.tar.gz"
+  sha256 "58793c1ed2f0afc81582a6216844ef9e9b1b4d3ceb8a9bbda5b34ed1b1e17e0c"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, big_sur:      "6a23ffe855a1778880d8dda557da1b993899a83472cfeae29822504812ded307"
-    sha256 cellar: :any_skip_relocation, catalina:     "f14d248e73516c85b53a72285301dac6a43d78fa39606787a127d7e21bda8a0f"
-    sha256 cellar: :any_skip_relocation, mojave:       "22932ae18bbe44f1f580f292ef9aceb379c0774573e6df30be20655a35161392"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "6572526b3ffbd3161f8d93c32e1283ae9199286046a25d5b6b03b30074abe906"
+    sha256 cellar: :any,                 arm64_monterey: "5f67cc6109bcf302b7298b9fdf3d6440851c822f1e41067711ce2f0acd997ebc"
+    sha256 cellar: :any,                 arm64_big_sur:  "0d3c175286f20d74387ad91da01b6960428d726724c84b801a33d07f10c1206c"
+    sha256 cellar: :any,                 monterey:       "5326f26759e31697f474186479d86f70190f79843245f7c3542a66c86c8141ed"
+    sha256 cellar: :any,                 big_sur:        "1e51a0da309923c61c5c5e00a1d64671b95e5b02a5fd2f6dbfe4f5b9ac3f91e2"
+    sha256 cellar: :any,                 catalina:       "6766829c11cdac2d5610e37b4e0a51f16f1821754cf01d47bd3acd1e7e0bc2c4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a839ca5809be0438bc6eb68834310316fd32e4fc8ccf583f4508a28f640402f4"
   end
 
+  depends_on "openssl@3"
   uses_from_macos "curl"
 
   on_linux do

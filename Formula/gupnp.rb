@@ -3,16 +3,17 @@ class Gupnp < Formula
 
   desc "Framework for creating UPnP devices and control points"
   homepage "https://wiki.gnome.org/Projects/GUPnP"
-  url "https://download.gnome.org/sources/gupnp/1.4/gupnp-1.4.0.tar.xz"
-  sha256 "590ffb02b84da2a1aec68fd534bc40af1b37dd3f6223f9d1577fc48ab48be36f"
+  url "https://download.gnome.org/sources/gupnp/1.4/gupnp-1.4.3.tar.xz"
+  sha256 "14eda777934da2df743d072489933bd9811332b7b5bf41626b8032efb28b33ba"
   license "LGPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "189d75ec84ee768b7788a884231ddaec044b2af8693cc57c6555b94ee34f320a"
-    sha256 cellar: :any, big_sur:       "af46ddf4a8872d6a181a4e71e2667ff3d2a9d99f15123d44c330b3dcce9a9ab0"
-    sha256 cellar: :any, catalina:      "2f4cde6e0b70a5bbfe8e32ed284b22499f05ed5d8b7e230af50a9b0ed6ce7c52"
-    sha256 cellar: :any, mojave:        "35c75d08d5898cc3477a118598d9439c3e717885ff6c351206a754456458e1e1"
-    sha256               x86_64_linux:  "a95c5f0a9c64e3f64d6837ced1d8693fbd687de0d115b14d3a89efddb0528cfb"
+    sha256 cellar: :any, arm64_monterey: "1937e917519b9784475606a21cc66d5b2ed5914c2008105c992b91a04bee834f"
+    sha256 cellar: :any, arm64_big_sur:  "811b1ec251e75dcec1a4f0b885edb3ec50f3b26e27ef0220f2da02bdc19017ff"
+    sha256 cellar: :any, monterey:       "56d15f95db673670a3cb899a223bba0b683daa6ddc3c65aadb0a6a85b0a51cef"
+    sha256 cellar: :any, big_sur:        "82379629f5708acfbfb767f53e6a0bdfd69ae3a8aeb4b3b747b0c906d7fcda44"
+    sha256 cellar: :any, catalina:       "7e2f769606feeb7276facb34f936b547cbabe451dcd76e3428ccf11c03c32f86"
+    sha256               x86_64_linux:   "5c70c2506558b48c9457ab89025929328f31333a14afe65d8d96010c7d8ed7f4"
   end
 
   depends_on "docbook-xsl" => :build
@@ -20,20 +21,26 @@ class Gupnp < Formula
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
+  depends_on "vala" => :build
   depends_on "gettext"
   depends_on "glib"
   depends_on "gssdp"
-  depends_on "libsoup"
+  depends_on "libsoup@2"
+  depends_on "libxml2"
   depends_on "python@3.9"
 
   def install
+    ENV.prepend_path "PKG_CONFIG_PATH", Formula["libsoup@2"].opt_lib/"pkgconfig"
+    ENV.prepend_path "XDG_DATA_DIRS", Formula["libsoup@2"].opt_share
+    ENV.prepend_path "XDG_DATA_DIRS", HOMEBREW_PREFIX/"share"
+
     mkdir "build" do
       ENV["XML_CATALOG_FILES"] = "#{etc}/xml/catalog"
 
       system "meson", *std_meson_args, ".."
       system "ninja"
       system "ninja", "install"
-      bin.find { |f| rewrite_shebang detected_python_shebang, f }
+      rewrite_shebang detected_python_shebang, *bin.children
     end
   end
 
@@ -62,9 +69,10 @@ class Gupnp < Formula
       }
     EOS
 
-    libxml2 = "-I#{MacOS.sdk_path}/usr/include/libxml2"
-    on_linux do
-      libxml2 = "-I#{Formula["libxml2"].include}/libxml2"
+    libxml2 = if OS.mac?
+      "-I#{MacOS.sdk_path}/usr/include/libxml2"
+    else
+      "-I#{Formula["libxml2"].include}/libxml2"
     end
 
     system ENV.cc, testpath/"test.c", "-I#{include}/gupnp-1.2", "-L#{lib}", "-lgupnp-1.2",
@@ -74,7 +82,7 @@ class Gupnp < Formula
            "-I#{Formula["glib"].opt_lib}/glib-2.0/include",
            "-L#{Formula["glib"].opt_lib}",
            "-lglib-2.0", "-lgobject-2.0",
-           "-I#{Formula["libsoup"].opt_include}/libsoup-2.4",
+           "-I#{Formula["libsoup@2"].opt_include}/libsoup-2.4",
            libxml2, "-o", testpath/"test"
     system "./test"
   end

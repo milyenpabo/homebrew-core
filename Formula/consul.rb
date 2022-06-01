@@ -1,8 +1,8 @@
 class Consul < Formula
   desc "Tool for service discovery, monitoring and configuration"
   homepage "https://www.consul.io"
-  url "https://github.com/hashicorp/consul/archive/refs/tags/v1.10.3.tar.gz"
-  sha256 "2f5334ba13c324ce166e290904daa5207bd9dafb5eb4c8ebf496c5f9d90cfa9c"
+  url "https://github.com/hashicorp/consul/archive/refs/tags/v1.12.1.tar.gz"
+  sha256 "72b0c3ccb94e127cec95d0c26d6c91afbeda873730d56151932b6cd48c9fd176"
   license "MPL-2.0"
   head "https://github.com/hashicorp/consul.git", branch: "main"
 
@@ -12,20 +12,15 @@ class Consul < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "38c883579980eeaa29b7fbbf8c0c8ea024310fd38ad0fd4188a64dc552690ab6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3270fd47e75ffef527dcb8360d6e73a0bb44a9dee2dc1aceda2cb0385886ce5b"
-    sha256 cellar: :any_skip_relocation, catalina:      "c67e5fc2ad0d55fe9f55d1e8de64b2b355ce13b77f12a16775b81ada03d16737"
-    sha256 cellar: :any_skip_relocation, mojave:        "b3d551d48fe949ee3af2addf98e96aced37722122798d42775d167873df48aba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2187746a484810e520d49f4e85dd7a4d84e45e88ced001f5be5eac5d641682ff"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "87103e4d613d7ec4b87a0e9e2e4da752d5a07e46c6a526b3e1ac8a3b31989926"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ab6df5fabe3cad80243a429a27ede1ab3589632421089aaf230bb3866c921e2e"
+    sha256 cellar: :any_skip_relocation, monterey:       "10f597b239a6c5d598e3eb100ab392171046c53609acbdf684db78a6791d1c97"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3311c6837b476ae5ef5925f29278a2d372244396da68f3874a97a6954700eef7"
+    sha256 cellar: :any_skip_relocation, catalina:       "9559d0ce71cd47f5f2c6cc242f4f57b1b00f84ffd6845772d7bf3d9789903b23"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ec3b9245555c1482a4af50aa4a29978933e931b1a39099c6940b8b23ddb9f015"
   end
 
   depends_on "go" => :build
-
-  # Support go 1.17, remove after next release
-  patch do
-    url "https://github.com/hashicorp/consul/commit/e43cf462679b6fdd8b15ac7891747e970029ac4a.patch?full_index=1"
-    sha256 "4f0edde54f0caa4c7290b17f2888159a4e0b462b5c890e3068a41d4c3582ca2f"
-  end
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w")

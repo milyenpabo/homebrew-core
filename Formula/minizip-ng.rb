@@ -1,17 +1,18 @@
 class MinizipNg < Formula
   desc "Zip file manipulation library with minizip 1.x compatibility layer"
   homepage "https://github.com/zlib-ng/minizip-ng"
-  url "https://github.com/zlib-ng/minizip-ng/archive/3.0.3.tar.gz"
-  sha256 "5f1dd0d38adbe9785cb9c4e6e47738c109d73a0afa86e58c4025ce3e2cc504ed"
+  url "https://github.com/zlib-ng/minizip-ng/archive/3.0.6.tar.gz"
+  sha256 "383fa1bdc28c482828a8a8db53f758dbd44291b641182724fda5df5b59cce543"
   license "Zlib"
   head "https://github.com/zlib-ng/minizip-ng.git", branch: "dev"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "1c9600fafaf889c6b370ce12904552909a3f833580c5d575ce5d982214470ffa"
-    sha256 cellar: :any,                 big_sur:       "07f7ab4bd6c1d82d98ed205ba07ccbc44ead3c9d27775c66884ddfa29e50ad89"
-    sha256 cellar: :any,                 catalina:      "4cb41d70d8b612c81bac2e143403e0ba1e4b2eae2972e9680b14ec906deedc86"
-    sha256 cellar: :any,                 mojave:        "6def73d2083177581703aa90b3d9db733638975c980e9293d60e47474429e040"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "eefb6f377cf037770f8e674016d02e389e0dcd9035a97c6b25439d4e8e9ae3e2"
+    sha256 cellar: :any,                 arm64_monterey: "3b1a7fa90dae23cd69a27d16199279ea53d72d92eb96d59a1c4a6e888ccb89d4"
+    sha256 cellar: :any,                 arm64_big_sur:  "a61b06c3cd78bafd1a1f89fd6c59b6ee4fb600f4c69eed324c41a720e1129c8c"
+    sha256 cellar: :any,                 monterey:       "9ad34a5621f4f7da367f3ab215330236c4330e4620950da57530a98832918f2e"
+    sha256 cellar: :any,                 big_sur:        "f3b8970f1b0a42acc3993f3c898a6bc15ed454cbea4b0f13dacc71ce3f64d48d"
+    sha256 cellar: :any,                 catalina:       "a0afd89b7407ebe56deee2492654f24b76d5d9de9a10261a9e4429b82198ecb0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ba63cc8cc80ef8527b37ab6cc5b82471adef4d7cf2dedc33a6d4d74aab9adaba"
   end
 
   depends_on "cmake" => :build

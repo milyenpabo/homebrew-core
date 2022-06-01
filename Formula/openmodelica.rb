@@ -6,13 +6,15 @@ class Openmodelica < Formula
       tag:      "v1.18.0",
       revision: "49be4faa5a625a18efbbd74cc2f5be86aeea37bb"
   license "GPL-3.0-only"
+  revision 2
   head "https://github.com/OpenModelica/OpenModelica.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "1c6072cfb6fcbd9070f0034e0ee5f6cf07644b5ab166e2d2b76697a228cff90b"
-    sha256 cellar: :any, big_sur:       "c146bb1c66a1b2520a6fc62a332f7ce123390340f387aaf3d97f0cc61b828726"
-    sha256 cellar: :any, catalina:      "64d475196245720a5db041f8d9d9818a1e9e40d7d120270d4542890e728b9d45"
-    sha256 cellar: :any, mojave:        "7baffdeff87bb5b6d2a044d75d50afb65ddb86033db9fbca48108cfb6da3a5cc"
+    sha256 cellar: :any, arm64_monterey: "75002fbf9d3c198532225e4f6a37bec61d97699ed70e716b346ceef7b2193182"
+    sha256 cellar: :any, arm64_big_sur:  "7ea8eb11f80949d5c4a73edc5d763cfe45189bc1db3ea5b470ce341129d076a0"
+    sha256 cellar: :any, monterey:       "1962a20583637845546a2406580a735f0dc618ab28628293aea75e1c7800390b"
+    sha256 cellar: :any, big_sur:        "fa9307c4afd3b7b44058bd34103ca20f589d0645a37402fa535efaf73890a633"
+    sha256 cellar: :any, catalina:       "0046d95490220b162ed08423070f6912bc7fd8db770fe6b09d71e4632bf42358"
   end
 
   depends_on "autoconf" => :build
@@ -39,6 +41,10 @@ class Openmodelica < Formula
   uses_from_macos "expat"
   uses_from_macos "libffi", since: :catalina
   uses_from_macos "ncurses"
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  # We patch `libtool.m4` and not `configure` because we call `autoreconf`
+  patch :DATA
 
   def install
     if MacOS.version >= :catalina
@@ -80,3 +86,28 @@ class Openmodelica < Formula
     assert_match "class test", shell_output("#{bin}/omc #{testpath/"test.mo"}")
   end
 end
+
+__END__
+--- a/OMCompiler/3rdParty/lis-1.4.12/m4/libtool.m4
++++ b/OMCompiler/3rdParty/lis-1.4.12/m4/libtool.m4
+@@ -1067,16 +1067,11 @@ _LT_EOF
+       _lt_dar_allow_undefined='$wl-undefined ${wl}suppress' ;;
+     darwin1.*)
+       _lt_dar_allow_undefined='$wl-flat_namespace $wl-undefined ${wl}suppress' ;;
+-    darwin*) # darwin 5.x on
+-      # if running on 10.5 or later, the deployment target defaults
+-      # to the OS version, if on x86, and 10.4, the deployment
+-      # target defaults to 10.4. Don't you love it?
+-      case ${MACOSX_DEPLOYMENT_TARGET-10.0},$host in
+-	10.0,*86*-darwin8*|10.0,*-darwin[[91]]*)
+-	  _lt_dar_allow_undefined='$wl-undefined ${wl}dynamic_lookup' ;;
+-	10.[[012]][[,.]]*)
++    darwin*)
++      case ${MACOSX_DEPLOYMENT_TARGET},$host in
++	10.[[012]],*|,*powerpc*)
+ 	  _lt_dar_allow_undefined='$wl-flat_namespace $wl-undefined ${wl}suppress' ;;
+-	10.*)
++	*)
+ 	  _lt_dar_allow_undefined='$wl-undefined ${wl}dynamic_lookup' ;;
+       esac
+     ;;

@@ -1,8 +1,8 @@
 class PostgresqlAT13 < Formula
   desc "Object-relational database system"
   homepage "https://www.postgresql.org/"
-  url "https://ftp.postgresql.org/pub/source/v13.4/postgresql-13.4.tar.bz2"
-  sha256 "ea93e10390245f1ce461a54eb5f99a48d8cabd3a08ce4d652ec2169a357bc0cd"
+  url "https://ftp.postgresql.org/pub/source/v13.7/postgresql-13.7.tar.bz2"
+  sha256 "1b905bf4f3d83614a393b3c51fd345910fd261e4f5124a68d9a1fdd3a2a46399"
   license "PostgreSQL"
 
   livecheck do
@@ -11,11 +11,12 @@ class PostgresqlAT13 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "64cbe3328adbd3b38870e30fdc1c237a364e24b2130193f4f86b41c7bc292446"
-    sha256 big_sur:       "ccfa372d9d36d32fe67e8db01efc96bdc89d09261c77523ff11843a9a39e7a33"
-    sha256 catalina:      "e9c8001d59522349069422a196365fbfd79706c4abdcac970adf6a60b01aa82b"
-    sha256 mojave:        "ed5091bf32aab906bd0a9ad64549500c0fedede3c9f496f7e886582b8456bfa5"
-    sha256 x86_64_linux:  "0f8c864c2c7add7917b0301a90e04f6dd6f2b373c918939074247b33b740f25c"
+    sha256 arm64_monterey: "e12a3d28673f4d485c2bfc8c1e504ac6bdc4d6555cacc808c1fcedf43dba4c0f"
+    sha256 arm64_big_sur:  "5e5959ea666415850d48d80fb4b715ead0f6ed92c1bd81681662674198a3e0ae"
+    sha256 monterey:       "a2b8a7d754ea1676f7394b216921fcd45fbae3123fc9c1bac0ca409b64a28ff1"
+    sha256 big_sur:        "7a89ffb971b699c9c17e5e7d0727efcc6c9ef7d6c310b3fd12482708c9d9488a"
+    sha256 catalina:       "e4b5210e8ea63d267f4e2a1c5bfca57cc3b58a215590e463cd4f454a4726ee0a"
+    sha256 x86_64_linux:   "e51c55a8bfc15e86e8b71798761ab69f063bfc80da0bcf65d0dc14c3428cdc70"
   end
 
   keg_only :versioned_formula
@@ -44,6 +45,7 @@ class PostgresqlAT13 < Formula
   end
 
   def install
+    ENV.delete "PKG_CONFIG_LIBDIR" if MacOS.version == :catalina
     ENV.prepend "LDFLAGS", "-L#{Formula["openssl@1.1"].opt_lib} -L#{Formula["readline"].opt_lib}"
     ENV.prepend "CPPFLAGS", "-I#{Formula["openssl@1.1"].opt_include} -I#{Formula["readline"].opt_include}"
 

@@ -1,19 +1,21 @@
 class Curlie < Formula
   desc "Power of curl, ease of use of httpie"
   homepage "https://curlie.io"
-  url "https://github.com/rs/curlie/archive/v1.6.2.tar.gz"
-  sha256 "4cf14accb5e027fc5ecc5804679a4b52f9aae076b4bdbe33a5c002fc84e0f437"
+  url "https://github.com/rs/curlie/archive/refs/tags/v1.6.9.tar.gz"
+  sha256 "95b7061861aa8d608f9df0d63a11206f8cd532295ca13dd39ed37e0136bdcc5f"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "c765bf3a15919c4452fb9cf470f30f274ecc77c39a1033e262aca4306b799981"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b9e22d8ea5d1459740bc0c0f7a8eac471fd81dc4411af99659fd0d7a36583922"
-    sha256 cellar: :any_skip_relocation, catalina:      "b9e22d8ea5d1459740bc0c0f7a8eac471fd81dc4411af99659fd0d7a36583922"
-    sha256 cellar: :any_skip_relocation, mojave:        "b9e22d8ea5d1459740bc0c0f7a8eac471fd81dc4411af99659fd0d7a36583922"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "88e6f1236f129fd2268636d89dad87549739e55050fa23a966fbba5e33517aa4"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "98627f52c4737c631f5e7f90b3f036bdbe9f9e1c11932ee451794eb7add782c5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "98627f52c4737c631f5e7f90b3f036bdbe9f9e1c11932ee451794eb7add782c5"
+    sha256 cellar: :any_skip_relocation, monterey:       "bb9cbbb7ca13f987707332837474404f606c499d9f411db18d88e5d86d995cb6"
+    sha256 cellar: :any_skip_relocation, big_sur:        "bb9cbbb7ca13f987707332837474404f606c499d9f411db18d88e5d86d995cb6"
+    sha256 cellar: :any_skip_relocation, catalina:       "bb9cbbb7ca13f987707332837474404f606c499d9f411db18d88e5d86d995cb6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8a851ca189f46f1d4b7a76c29cb6f0d36c37f6a73f0800e944a0bda4632fe3ff"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
 
   uses_from_macos "curl"
 

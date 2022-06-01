@@ -1,17 +1,18 @@
 class Kubeaudit < Formula
   desc "Helps audit your Kubernetes clusters against common security controls"
   homepage "https://github.com/Shopify/kubeaudit"
-  url "https://github.com/Shopify/kubeaudit/archive/v0.14.2.tar.gz"
-  sha256 "b3ab3339f67bdb2c8fa310428feae9a203ea1c8458337474c4c452a0037bc44b"
+  url "https://github.com/Shopify/kubeaudit/archive/refs/tags/0.17.0.tar.gz"
+  sha256 "98351b9498ea053887512cc98e63b4178216dd1e4ad73345ec215ec88dea33fc"
   license "MIT"
-  head "https://github.com/Shopify/kubeaudit.git"
+  head "https://github.com/Shopify/kubeaudit.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "fddbcbf7cd3c84264ff76ffc533fbdc4cda773c58152b697ad578286712a3d62"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f33fcdeb51a461850918e8bed31c8ef2647b26e4cd851a1729996d751434f9b4"
-    sha256 cellar: :any_skip_relocation, catalina:      "ed46f15a76ecb0c6496818d7e5bfbfa82408c7451a67180ec554b2044dc25dd5"
-    sha256 cellar: :any_skip_relocation, mojave:        "e8aebb94a49195697799379ae7b8b75b26f7be08ce297764551e4e2921edfbb6"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "073b5c7e6f66dff1e30ed0a0599e65d06cc030b5a7dca72ab349865f2a9dc8f1"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2bad1e9aa367e2eb825b0fc05b6e7b39fa1acd7f8905fcc5dd89de3c7ff8c9c4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "819f98d293fb3dc8db5e2d0e764f8f3ef98297e61e0e7f3fb065a08f1bd8c966"
+    sha256 cellar: :any_skip_relocation, monterey:       "9b611f53c7ed25c4a1cd6f274f2f505b1e1cec52d9c2109d951e4285e9719d1c"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f51a42612debecb09872e6ab4f7837cd150dc8b7472ca875dd097c331330bb2d"
+    sha256 cellar: :any_skip_relocation, catalina:       "25ff8e0cd8a67d5685aedf6e3c6f488fae5a9aefe3206ef5926cee5223b7834e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "854b237ba6a399cc64cc084ec3324be4dc9f47e80521d509b3b0680a10a1cb8f"
   end
 
   depends_on "go" => :build
@@ -23,7 +24,7 @@ class Kubeaudit < Formula
       -X github.com/Shopify/kubeaudit/cmd.BuildDate=#{time.strftime("%F")}
     ]
 
-    system "go", "build", "-ldflags", ldflags.join(" "), *std_go_args, "./cmd"
+    system "go", "build", *std_go_args(ldflags: ldflags), "./cmd"
   end
 
   test do

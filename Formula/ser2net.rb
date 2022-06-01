@@ -1,8 +1,8 @@
 class Ser2net < Formula
   desc "Allow network connections to serial ports"
   homepage "https://ser2net.sourceforge.io"
-  url "https://downloads.sourceforge.net/project/ser2net/ser2net/ser2net-4.2.3.tar.gz"
-  sha256 "d63448d10064419f1783fbb04d0a95461d54d6b17cf50c9d33a63cbf0c732f37"
+  url "https://downloads.sourceforge.net/project/ser2net/ser2net/ser2net-4.3.6.tar.gz"
+  sha256 "65515c7e9a5289167ae64c4032450904449a87ce20653241022af4f5db2e9510"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,26 +11,33 @@ class Ser2net < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "1845d6644d7cd518e8b1c7f7abd4ab1d6515eb482690a062b8e17ddbc6eb7c4c"
-    sha256 cellar: :any,                 big_sur:       "03feeb3d9e3049231fccb29a8ca8bc7d79c0e4839381d1340c45cf932ddaea68"
-    sha256 cellar: :any,                 catalina:      "21a9c4c0a980b74a864c7db0782f71786e133cc2e3d62411fa9ea0f99c38e0b2"
-    sha256 cellar: :any,                 mojave:        "a2abbe3f823de5e70a863f521e63fcb079801b22d653f4bdb26a775c97fa4289"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "2c4726875c7f661b925b6fbd7d82eeaf89fd4b91a28ba34377860c8ebbb3f999"
+    sha256 cellar: :any,                 arm64_monterey: "5789705f28519128fce9c9e1af6a24aca48f5dee193e9f631065f8372db3a6e5"
+    sha256 cellar: :any,                 arm64_big_sur:  "b69ebf939c28e950724c7a1ccca8275014d6815d84eacd1f7040acd652afad31"
+    sha256 cellar: :any,                 monterey:       "fdf28ab2fd6407cc937c4dfd656f48fce1f3fd65c58b7cd424e224956ff21f96"
+    sha256 cellar: :any,                 big_sur:        "d0f529585752c51874d9719cb57946480546f4fa9117678ffa62f5552a17b212"
+    sha256 cellar: :any,                 catalina:       "2a98a1fd8562223f138046fc75a723510a76a2dbabdf1d9187f4bb76681ebad8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b8894c15d9a8f4dd044d1c39e8eb6f8ae6e230f0fc915d1d3e7120fcc166ee1a"
   end
 
   depends_on "libyaml"
 
   resource "gensio" do
-    url "https://downloads.sourceforge.net/project/ser2net/ser2net/gensio-2.1.4.tar.gz"
-    sha256 "1f5a29aabfb35886893cfda5cd78192db67e96de796dbf9758dbecd4077a3fd8"
+    url "https://downloads.sourceforge.net/project/ser2net/ser2net/gensio-2.3.2.tar.gz"
+    sha256 "0b6333a5546f14396041900bbe5b83575a0e97d200a581a6ddb8fcf6e95adfbd"
+
+    # Fix -flat_namespace being used on Big Sur and later.
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+      sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+    end
   end
 
   def install
     resource("gensio").stage do
-      system "./configure", "--with-python=no",
-                            "--disable-dependency-tracking",
-                            "--prefix=#{libexec}/gensio"
+      system "./configure", "--disable-dependency-tracking",
+                            "--prefix=#{libexec}/gensio",
+                            "--with-python=no",
+                            "--with-tcl=no"
       system "make", "install"
     end
 
@@ -38,10 +45,16 @@ class Ser2net < Formula
     ENV.append_path "CFLAGS", "-I#{libexec}/gensio/include"
     ENV.append_path "LDFLAGS", "-L#{libexec}/gensio/lib"
 
+    if OS.mac?
+      # Patch to fix compilation error
+      # https://sourceforge.net/p/ser2net/discussion/90083/thread/f3ae30894e/
+      # Remove with next release
+      inreplace "addsysattrs.c", "#else", "#else\n#include <gensio/gensio.h>"
+    end
+
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
                           "--mandir=#{man}"
-
     system "make", "install"
 
     (etc/"ser2net").install "ser2net.yaml"

@@ -7,12 +7,8 @@ class ErlangAT21 < Formula
   license "Apache-2.0"
   revision 2
 
-  livecheck do
-    url :stable
-    regex(/^OTP[._-]v?(21(?:\.\d+)+)$/i)
-  end
-
   bottle do
+    sha256 cellar: :any,                 monterey:     "9effd9cdb8786f80257db78e9d1c587e4065313628f6c04c1ffe588afe0d9953"
     sha256 cellar: :any,                 big_sur:      "f05c014c491877da25d19f775a576803a25c36c5d57309548711c253b90711c8"
     sha256 cellar: :any,                 catalina:     "042070fc8af915df870a67f1eaa43e87beacd3bcf4c8cde8d78bbe1e195cf133"
     sha256 cellar: :any,                 mojave:       "03315a212e5e5ddcb5bf37d45faacd0ce075d6a2503217f42f5eda083ebacec5"
@@ -20,6 +16,8 @@ class ErlangAT21 < Formula
   end
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-03-01", because: :unsupported
 
   depends_on "autoconf@2.69" => :build
   depends_on "automake" => :build

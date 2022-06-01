@@ -1,31 +1,30 @@
 class Gmailctl < Formula
   desc "Declarative configuration for Gmail filters"
   homepage "https://github.com/mbrt/gmailctl"
-  url "https://github.com/mbrt/gmailctl/archive/v0.9.0.tar.gz"
-  sha256 "1b4d04c0fa46990231565cb743d3b9aba2011501322c224a96bec747003c35e1"
+  url "https://github.com/mbrt/gmailctl/archive/v0.10.4.tar.gz"
+  sha256 "779752e853d5f59d73e37a74681d52ba6f98ecb54c31fe266d4b85bedafc7774"
   license "MIT"
   head "https://github.com/mbrt/gmailctl.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "32361886ab245d106bfdabc60eceb43f803636aa5c4db59187396f2dcf80674e"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3c9080dfdc290ee0747fbd7d70c786166636d22c0114bdfd8dfe27f8ad0ca330"
-    sha256 cellar: :any_skip_relocation, catalina:      "6239ab2e534e2b0b013bdf0068a75d88aa51abb91fc9f9b8f079dc3c80abdd41"
-    sha256 cellar: :any_skip_relocation, mojave:        "b6a4a9554edec82d0386efa66a88bf4d7503d3cda5d6e96940834afd270c90e4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "388790f3dff736f78e035afd488374cdd8da3f433da2d051e7f0cb67f4a92d5b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "13a173734e62e0e060e03ccd0049289f0dbaa687d376cde9926a4834d9a7dde5"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0330737821e56d883585187c5db80abd81faf4d014869d2e2cad3eb0e34bf17e"
+    sha256 cellar: :any_skip_relocation, monterey:       "5602a349c56579915cf29c3995f3a214345c4b354bc8875eb8c639040745a535"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4393fd98611c97ba9bacf53166ce0e42e729d8ea89b697f3e81abccf5bc006f8"
+    sha256 cellar: :any_skip_relocation, catalina:       "2b694152a729cdb850ba5eac3750247999344a078beddfdad02bf024fb8637c4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ea955ccf87bfcc188d8132d2ef86b0e520843b61a5c4d9d54ae9522721cd2c55"
   end
 
   depends_on "go" => :build
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w -X main.version=#{version}"), "cmd/gmailctl/main.go"
-    pkgshare.install ["default-config.jsonnet", "gmailctl.libsonnet"]
   end
 
   test do
-    cp pkgshare/"default-config.jsonnet", testpath
-    cp pkgshare/"gmailctl.libsonnet", testpath
-
-    assert_includes shell_output("#{bin}/gmailctl init --config #{testpath} 2>&1"),
+    assert_includes shell_output("#{bin}/gmailctl init --config #{testpath} 2>&1", 1),
       "The credentials are not initialized"
+
+    assert_match version.to_s, shell_output("#{bin}/gmailctl version")
   end
 end

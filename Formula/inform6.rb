@@ -1,35 +1,34 @@
 class Inform6 < Formula
   desc "Design system for interactive fiction"
   homepage "https://inform-fiction.org/inform6.html"
-  url "https://ifarchive.org/if-archive/infocom/compilers/inform6/source/inform-6.35-r3.tar.gz"
-  version "6.35-r3"
-  sha256 "6284a60b7680cc5e228ad6d944d88d6f3eeee5838812ee86dbe42910c9f6e7e2"
+  url "https://ifarchive.org/if-archive/infocom/compilers/inform6/source/inform-6.36-r2.tar.gz"
+  version "6.36-r2"
+  sha256 "aaf1b2b81ef07b2cff1f0936cec3d7b6fda9a163170468e81d2ba2458faa353d"
   license "Artistic-2.0"
-  head "https://gitlab.com/DavidGriffith/inform6unix.git"
+  head "https://gitlab.com/DavidGriffith/inform6unix.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "405eb7f9b7210aac100f069acc228a8058013c947961bc3c9ab1a0ede7a24740"
-    sha256 cellar: :any_skip_relocation, big_sur:       "0d546e5f3ad90dec09e480b1be8f6cac0d1cd3a62138444f17b827eb599c169d"
-    sha256 cellar: :any_skip_relocation, catalina:      "dd0c1f7bbc4c07025ceca29441fa6dc8b821c6dfc0224a7576d64f714db34a53"
-    sha256 cellar: :any_skip_relocation, mojave:        "2cdc7aa7871f147452be33738b78ed671e8006def20cd2774cdea610bda04878"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "a3712d8dcc5f3ec6edd340e2d88a5d81949463d08c6bfd5883cccc8f02ad585c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "d1b0cccdcc6fd3e5e8bfc7d1fd4b2e69ab9750ca6d6cdef7c7659d97792be035"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "67a681c6a2c9f3020b7d5448879d5813c2f41d58438aa66afe6d43fde20428f9"
+    sha256 cellar: :any_skip_relocation, monterey:       "0c154947a1820a62001c550c89ea803ae7622634a5a2862a87132b3fd64daaac"
+    sha256 cellar: :any_skip_relocation, big_sur:        "5343b0bccbc4f87c0d025fd707e53cdb0469e37d3aea5f504f71618df8722426"
+    sha256 cellar: :any_skip_relocation, catalina:       "415d3e2f87bb24f707837a73cd5d738cd9f24cbeb044381681f875328e5fe96c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1a9db2f2f5ca89b16da784083beba1138baacf7376975011c19ed8914880ef27"
   end
 
-  resource "Adventureland.inf" do
+  resource "homebrew-test_resource" do
     url "https://inform-fiction.org/examples/Adventureland/Adventureland.inf"
     sha256 "3961388ff00b5dfd1ccc1bb0d2a5c01a44af99bdcf763868979fa43ba3393ae7"
   end
 
   def install
-    # Parallel install fails at:
-    # install -d -m 755 /usr/local/Cellar/inform6/6.35-r3/share/inform/punyinform/documentation
-    # install: /usr/local/Cellar/inform6/6.35-r3/bin/punyinform.sh: Not a directory
+    # Parallel install fails because of: https://gitlab.com/DavidGriffith/inform6unix/-/issues/26
     ENV.deparallelize
     system "make", "PREFIX=#{prefix}", "MAN_PREFIX=#{man}", "MANDIR=#{man1}", "install"
   end
 
   test do
-    resource("Adventureland.inf").stage do
+    resource("homebrew-test_resource").stage do
       system "#{bin}/inform", "Adventureland.inf"
       assert_predicate Pathname.pwd/"Adventureland.z5", :exist?
     end

@@ -1,8 +1,8 @@
 class Z3 < Formula
   desc "High-performance theorem prover"
   homepage "https://github.com/Z3Prover/z3"
-  url "https://github.com/Z3Prover/z3/archive/z3-4.8.12.tar.gz"
-  sha256 "e3aaefde68b839299cbc988178529535e66048398f7d083b40c69fe0da55f8b7"
+  url "https://github.com/Z3Prover/z3/archive/z3-4.8.17.tar.gz"
+  sha256 "1e57637ce8d5212fd38453df28e2730a18e0a633f723682267be87f5b858a126"
   license "MIT"
   head "https://github.com/Z3Prover/z3.git", branch: "develop"
 
@@ -13,16 +13,17 @@ class Z3 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "7718352b7b7b7e3cc454892a563212ac8b02259e90005a1d73ba30062b7e7df3"
-    sha256 cellar: :any,                 big_sur:       "ec65441e86922c521bfee1ec48ddcedd7ddcadcaac5b0301ffa5b6ba4cde4895"
-    sha256 cellar: :any,                 catalina:      "55d80044e8f62f8846d787c813fa0da76d20b84e278ea173cec922741854790b"
-    sha256 cellar: :any,                 mojave:        "0c7796128c833fb0a0da6cafb1d3564d8f42484df722b84035ccbc07a737f69a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1ded592aadd4c67db5f1dcee03799d7363e48579882cfd34a4c00b71cb87ca28"
+    sha256 cellar: :any,                 arm64_monterey: "b8749a0b889793fb7cfa72d1d380b74bdfeba5607e60d1d1deb0080dea7115bb"
+    sha256 cellar: :any,                 arm64_big_sur:  "2f59c37465aecdfbcc50a5ba0fe627535c0ff4cffb9080bfbddc0a2af0f97b53"
+    sha256 cellar: :any,                 monterey:       "d5dc7cb5a4a51bb544531f8ef9add76f22eda73d65c5603523c3573203b48bae"
+    sha256 cellar: :any,                 big_sur:        "b71b46a3a98b756ff456a591c2cd372013fd166f7e9ee8e25ceda8f990f9880d"
+    sha256 cellar: :any,                 catalina:       "2da92fd5596dd0a2c0a0b21f63bd474872933a5910a8d9f2e93619c687418a25"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f76abc05ef9587b811f14c70f430278e47405c7d68f610e65bd2157d11c99687"
   end
 
   # Has Python bindings but are supplementary to the main library
   # which does not need Python.
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
 
   on_linux do
     depends_on "gcc" # For C++17
@@ -31,12 +32,11 @@ class Z3 < Formula
   fails_with gcc: "5"
 
   def install
-    python3 = Formula["python@3.9"].opt_bin/"python3"
-    xy = Language::Python.major_minor_version python3
+    python3 = Formula["python@3.10"].opt_bin/"python3"
     system python3, "scripts/mk_make.py",
                      "--prefix=#{prefix}",
                      "--python",
-                     "--pypkgdir=#{lib}/python#{xy}/site-packages",
+                     "--pypkgdir=#{prefix/Language::Python.site_packages(python3)}",
                      "--staticlib"
 
     cd "build" do

@@ -1,21 +1,22 @@
 class Bmake < Formula
   desc "Portable version of NetBSD make(1)"
-  homepage "http://www.crufty.net/help/sjg/bmake.html"
-  url "http://www.crufty.net/ftp/pub/sjg/bmake-20200902.tar.gz"
-  sha256 "082c0442f03f2dbef8c3171000398c1936047aa0d5a2e1efc2c8474d69403bec"
+  homepage "https://www.crufty.net/help/sjg/bmake.html"
+  url "https://www.crufty.net/ftp/pub/sjg/bmake-20220418.tar.gz"
+  sha256 "6ea7de515cba74f173dc14ee17b1488ae032582028d2e86ea12f70369cc896f5"
   license "BSD-3-Clause"
 
   livecheck do
-    url "http://www.crufty.net/ftp/pub/sjg/"
+    url "https://www.crufty.net/ftp/pub/sjg/"
     regex(/href=.*?bmake[._-]v?(\d{6,8})\.t/i)
   end
 
   bottle do
-    sha256 arm64_big_sur: "d71c622988e64db5539e83abb09914b2cfadd17c7b4a797f8a4b906a4ffd8ee5"
-    sha256 big_sur:       "d8c3cb2430880e38822291e68afc105f7af9418b8bc14a4f923a86ae973cbd49"
-    sha256 catalina:      "29e4ba42d18ce3e974cf9bd402a17519635ba350c371d3da5672fea14e40fe81"
-    sha256 mojave:        "4f0b8d35af1cf7fb1119359a82dffeb84a042e8804f0994b1dd56c8c4a952df1"
-    sha256 high_sierra:   "d0c4003a00e1d40d5273386eb54a0667daa928a78fe5aa03ce4449cead4207e4"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ea6d347e27b41d0fe9e672910c829123de6563da61b665b2d0f17a45d7f14994"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "801ad5c98a414c1efc6be2d83ffe15c2c25af0ef3d973421ea2a1ed6864856bc"
+    sha256                               monterey:       "cc70133aa230c37eca6973c9759b8d08ffcc1d3ffc9f147f8ac73cc978d075b9"
+    sha256                               big_sur:        "467fbaa19a541763345a973dc9041a2a88c6ad4eef1e31bf660814c32bdff409"
+    sha256                               catalina:       "a9d6f26a78e81862230f1cee75746431fb049235dd811028b032fe6f52716bec"
+    sha256                               x86_64_linux:   "e420bc8442cf5eb48296e98d142a9de2000baf2b600444c1f6cd1e4937f2725d"
   end
 
   def install
@@ -23,7 +24,8 @@ class Bmake < Formula
     inreplace "mk/man.mk", "MANTARGET?", "MANTARGET"
 
     # -DWITHOUT_PROG_LINK means "don't symlink as bmake-VERSION."
-    args = ["--prefix=#{prefix}", "-DWITHOUT_PROG_LINK", "--install"]
+    # shell-ksh test segfaults since macOS 11.
+    args = ["--prefix=#{prefix}", "-DWITHOUT_PROG_LINK", "--install", "BROKEN_TESTS=shell-ksh"]
     system "sh", "boot-strap", *args
 
     man1.install "bmake.1"

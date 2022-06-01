@@ -4,7 +4,7 @@ class G2 < Formula
   url "https://github.com/orefalo/g2/archive/v1.1.tar.gz"
   sha256 "bc534a4cb97be200ba4e3cc27510d8739382bb4c574e3cf121f157c6415bdfba"
   license "MIT"
-  head "https://github.com/orefalo/g2.git"
+  head "https://github.com/orefalo/g2.git", branch: "master"
 
   bottle do
     sha256 cellar: :any_skip_relocation, arm64_big_sur: "e41e0df4fe1e129acfc132add642219228b9bafafef804ad6528e8a42b3ed7d6"
@@ -16,6 +16,7 @@ class G2 < Formula
     sha256 cellar: :any_skip_relocation, el_capitan:    "45c2029c3fc914866ba32966a78cba39b8415ba7f191cd1eaaf604db798b6d3f"
     sha256 cellar: :any_skip_relocation, yosemite:      "5645b9c9401aa9f047082612de0e7bbd119ff7fd9fd49d94d45ce2adfbbfb69a"
     sha256 cellar: :any_skip_relocation, x86_64_linux:  "81a6e2069539abef38ec1f36d7c7f6db1a088d775c56e61c786bcaad4d1a6e25"
+    sha256 cellar: :any_skip_relocation, all:           "81a6e2069539abef38ec1f36d7c7f6db1a088d775c56e61c786bcaad4d1a6e25"
   end
 
   def install

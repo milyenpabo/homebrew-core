@@ -1,10 +1,10 @@
 class Libexosip < Formula
   desc "Toolkit for eXosip2"
   homepage "https://savannah.nongnu.org/projects/exosip"
-  url "https://download.savannah.gnu.org/releases/exosip/libexosip2-5.2.1.tar.gz"
-  mirror "https://download-mirror.savannah.gnu.org/releases/exosip/libexosip2-5.2.1.tar.gz"
-  sha256 "87256b45a406f3c038e1e75e31372d526820366527c2af3bb89329bafd87ec42"
-  license "GPL-2.0"
+  url "https://download.savannah.gnu.org/releases/exosip/libexosip2-5.3.0.tar.gz"
+  mirror "https://download-mirror.savannah.gnu.org/releases/exosip/libexosip2-5.3.0.tar.gz"
+  sha256 "5b7823986431ea5cedc9f095d6964ace966f093b2ae7d0b08404788bfcebc9c2"
+  license "GPL-2.0-or-later"
 
   livecheck do
     url "https://download.savannah.gnu.org/releases/exosip/"
@@ -12,10 +12,12 @@ class Libexosip < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "60ef1b3f024a0ec02a8e1fc59418df4d0cb1ca86728145a2b9976d62f2b01a30"
-    sha256 cellar: :any, big_sur:       "7e69d1381e87307b4dd882fbb54842378886a847d7ef8f5353e2ed409e2f3d76"
-    sha256 cellar: :any, catalina:      "a0fe16f1dc217f051a8aab3ac24c78a41f618a66983ccf52c4838e23720ed60a"
-    sha256 cellar: :any, mojave:        "5e211736f686f45183c103da6fa9181e832740019c983c57de2617133e11055a"
+    sha256 cellar: :any,                 arm64_monterey: "f25383f6e18e92d09bea5ce9a5355de38897736a00a1b5b73198f093e9f0302e"
+    sha256 cellar: :any,                 arm64_big_sur:  "e5862acc819d00bfe377cb07242481b6bf0749c358eb3d7e3523a22efa05b893"
+    sha256 cellar: :any,                 monterey:       "15e973aa1ca096bd2f5120d2fc9a99549eef1349e73d44225370f47ddb1e3e5b"
+    sha256 cellar: :any,                 big_sur:        "5a9c2568c86ffd96558f1d3c30dba6b088db674016df2ca5a70b265309108e59"
+    sha256 cellar: :any,                 catalina:       "f5afd5d2f0a37b824d6d054eaceae651c8b91484f0e8ca7f501c04f52e4daee6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "15d4453f9ff8cf68f1e4862fe2e4bfcffbf5ccc3c17b735b78cd14b68f218759"
   end
 
   depends_on "pkg-config" => :build
@@ -27,8 +29,10 @@ class Libexosip < Formula
     # Extra linker flags are needed to build this on macOS. See:
     # https://growingshoot.blogspot.com/2013/02/manually-install-osip-and-exosip-as.html
     # Upstream bug ticket: https://savannah.nongnu.org/bugs/index.php?45079
-    ENV.append "LDFLAGS", "-framework CoreFoundation -framework CoreServices "\
-                          "-framework Security"
+    if OS.mac?
+      ENV.append "LDFLAGS", "-framework CoreFoundation -framework CoreServices "\
+                            "-framework Security"
+    end
     system "./configure", "--disable-debug", "--disable-dependency-tracking",
                           "--prefix=#{prefix}"
     system "make", "install"

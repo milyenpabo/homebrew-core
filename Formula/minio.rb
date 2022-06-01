@@ -2,11 +2,11 @@ class Minio < Formula
   desc "High Performance, Kubernetes Native Object Storage"
   homepage "https://min.io"
   url "https://github.com/minio/minio.git",
-      tag:      "RELEASE.2021-10-06T23-36-31Z",
-      revision: "3a7c79e2c71f7b09974ff1a1c70e4d149a83a6a9"
-  version "20211006233631"
+      tag:      "RELEASE.2022-05-26T05-48-41Z",
+      revision: "372a08be49a2213a4a01de1fb7b271d98f38215c"
+  version "20220526054841"
   license "AGPL-3.0-or-later"
-  head "https://github.com/minio/minio.git"
+  head "https://github.com/minio/minio.git", branch: "master"
 
   livecheck do
     url :stable
@@ -17,11 +17,12 @@ class Minio < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "bcec828a7602b5f0d050badfc8a69444c69f1584b7045a07d241dfa2eb20c693"
-    sha256 cellar: :any_skip_relocation, big_sur:       "c777d6915ca761983d2b36afb3911a72967a0575adfc28417fd3728ffae2c85f"
-    sha256 cellar: :any_skip_relocation, catalina:      "e0f9c7dfd00a12ba046400fe920131752ed08b6914d891df158808da83f80b12"
-    sha256 cellar: :any_skip_relocation, mojave:        "fd1772ddb4b9e7b4d18cfa6233b7dde6cf44c6df3153c20ed2e8f4292ec137cd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b3e502a5924f45985c8674e08906f871d39ff688ba346f58031a8a242c399d3b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "cdd8c92ff0af63ba1872beff55661d9b2580fda720710b609234d1480585398a"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9c751a39173d30e42d961fb1fac1d4c8310472f2854476fdd2ecb1b428115cbf"
+    sha256 cellar: :any_skip_relocation, monterey:       "a5cc6dd64dcc46745f8b8fbfe2d12a709ef0a211e8c36309c163d6669308885d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d62a3c1d66ad36415c5c51c3fefb8c2e8cc832ea34e34eb2a9151762d1795e89"
+    sha256 cellar: :any_skip_relocation, catalina:       "fd6587d6d4f7ced6201aa24671bd816f80c9b6d6bf819ddbc022f35d8518b4d7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "774c12e0c186ce3f81f5d3688294cdda870cf487add9abe37d8328c3c8756828"
   end
 
   depends_on "go" => :build
@@ -40,7 +41,7 @@ class Minio < Formula
         -X github.com/minio/minio/cmd.CommitID=#{Utils.git_head}
       ]
 
-      system "go", "build", *std_go_args(ldflags: ldflags.join(" "))
+      system "go", "build", *std_go_args(ldflags: ldflags)
     end
   end
 

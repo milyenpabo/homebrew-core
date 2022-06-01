@@ -1,8 +1,8 @@
 class Gnupg < Formula
   desc "GNU Pretty Good Privacy (PGP) package"
   homepage "https://gnupg.org/"
-  url "https://gnupg.org/ftp/gcrypt/gnupg/gnupg-2.3.2.tar.bz2"
-  sha256 "e1d953e0e296072fca284215103ef168885eaac596c4660c5039a36a83e3041b"
+  url "https://gnupg.org/ftp/gcrypt/gnupg/gnupg-2.3.6.tar.bz2"
+  sha256 "21f7fe2fc5c2f214184ab050977ec7a8e304e58bfae2ab098fec69f8fabda9c1"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class Gnupg < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "941069d6ef19f59b24dfe2f8851fea635f679eb740a595ff0a74ac007181bc99"
-    sha256 big_sur:       "ca228c2800845d8d0e020c3e3359201edc0bac8554cfc3a2e985617eb09b629a"
-    sha256 catalina:      "9d0e847588e735e9f1137b7ccfa73a9439a8653a6949d284e3192e6fb2fdf5a5"
-    sha256 mojave:        "a483dd421a3156007c163969705a617676c78e2780ed7bf9279cbcefc903b904"
-    sha256 x86_64_linux:  "cb12c6aab9f508b977047bf4053047b3f48d010988760c53d4c728d78ba7dae9"
+    sha256 arm64_monterey: "d961dff294b7bfd45a14f8f6f8d92de6acd5c384f6c04e5db445c9b4698d1aa5"
+    sha256 arm64_big_sur:  "2ac2e09be47bca4d64ffb243c3cc37dec0824315ba04627e2d183b2bafaf8855"
+    sha256 monterey:       "fc2af0aa23bcf8f7a9c5d4685f3744e6ed4f115a0d4fde0669285389ff7b679c"
+    sha256 big_sur:        "a80cd7d926b0b82a15fb956f1e2fc137fb024f318807d666dd64133538b2f977"
+    sha256 catalina:       "429ee6d3cc907fe696d8b5a6d3ba831d8e840ef2381f5d433b21e6d462276f2f"
+    sha256 x86_64_linux:   "b501ef3afcfbeb8626d438446609d5c65f8d36749cda7f6c04d183e0017fa822"
   end
 
   depends_on "pkg-config" => :build
@@ -36,6 +37,9 @@ class Gnupg < Formula
   end
 
   def install
+    libusb = Formula["libusb"]
+    ENV.append "CPPFLAGS", "-I#{libusb.opt_include}/libusb-#{libusb.version.major_minor}"
+
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
                           "--prefix=#{prefix}",
@@ -60,7 +64,7 @@ class Gnupg < Formula
 
   def post_install
     (var/"run").mkpath
-    quiet_system "gpgconf", "--reload", "all"
+    quiet_system "killall", "gpg-agent"
   end
 
   test do

@@ -1,10 +1,9 @@
 class Ldns < Formula
   desc "DNS library written in C"
   homepage "https://nlnetlabs.nl/projects/ldns/"
-  url "https://nlnetlabs.nl/downloads/ldns/ldns-1.7.1.tar.gz"
-  sha256 "8ac84c16bdca60e710eea75782356f3ac3b55680d40e1530d7cea474ac208229"
+  url "https://nlnetlabs.nl/downloads/ldns/ldns-1.8.1.tar.gz"
+  sha256 "958229abce4d3aaa19a75c0d127666564b17216902186e952ca4aef47c6d7fa3"
   license "BSD-3-Clause"
-  revision 4
 
   # https://nlnetlabs.nl/downloads/ldns/ since the first-party site has a
   # tendency to lead to an `execution expired` error.
@@ -14,11 +13,12 @@ class Ldns < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "8bd8186ef4b0e89f852828f66a99952bb9a6635dae7090fc6a569b33e3d86667"
-    sha256 cellar: :any,                 big_sur:       "311ced9ff7f664b64f10939ba335fb3458d7b020e4f293a36a9fa10c92203620"
-    sha256 cellar: :any,                 catalina:      "014c23349aa56ea585da062b287e19999ed83609e3b75626cdd4b3ca4cdb9555"
-    sha256 cellar: :any,                 mojave:        "8228a7d9fdcb7e6c5210e9b4ce3975a68c36764a6c3025ded8abd2b60bef3c49"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "886bf69bb1a7215a5e9626ac6cbb04fd52cc4ddd2cdec9769ffc77480099a4d3"
+    sha256 cellar: :any,                 arm64_monterey: "554036b4baf7a7f9e35651d5c0c33d727bcc1652c5b2e0335ab4568c9f793910"
+    sha256 cellar: :any,                 arm64_big_sur:  "5cbb8e5386b8f9c72121964ba2d6e992dbca80021341319d061411037b6003fb"
+    sha256 cellar: :any,                 monterey:       "a8e6b863f885131869c9096cb9ad0344dc60c8864c478b36f894a1222dc1006b"
+    sha256 cellar: :any,                 big_sur:        "84765e40f28a2600004a834740f62ca35388872c1873276d8d2009712f46f972"
+    sha256 cellar: :any,                 catalina:       "bdb1f97710e5887ee79f48d817058471bcf86bc8a19ad80deb7f1ad82dd84bf9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3fb168f9c4e7a52cf94ab2d116b5c6db3959ec2cc9b3f7d27f32b491c208a87c"
   end
 
   depends_on "swig" => :build
@@ -46,9 +46,10 @@ class Ldns < Formula
     system "./configure", *args
 
     if OS.mac?
+      # FIXME: Turn this into a proper patch and send it upstream.
       inreplace "Makefile" do |s|
-        s.change_make_var! "PYTHON_LDFLAGS", "-undefined dynamic_lookup"
-        s.gsub!(/(\$\(PYTHON_LDFLAGS\).*) -no-undefined/, "\\1")
+        s.change_make_var! "PYTHON_LIBS", "-undefined dynamic_lookup"
+        s.gsub!(/(\$\(PYTHON_CFLAGS\).*) -no-undefined/, "\\1")
       end
     end
 

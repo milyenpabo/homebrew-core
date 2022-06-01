@@ -1,20 +1,22 @@
 class Fn < Formula
   desc "Command-line tool for the fn project"
   homepage "https://fnproject.io"
-  url "https://github.com/fnproject/cli/archive/0.6.9.tar.gz"
-  sha256 "77c7f52b595e53740ecc7f82e19ed0e66ea20267dd8957854d04605ad9540e3a"
+  url "https://github.com/fnproject/cli/archive/0.6.19.tar.gz"
+  sha256 "3e723259ed038cedfcefb9110ea970ceda3bab9e493afd1ba48fa24291f2779e"
   license "Apache-2.0"
   head "https://github.com/fnproject/cli.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ca67fb44b667930bedc4d70d479cf0898a2959411d72ef27df38e75ceb751cdf"
-    sha256 cellar: :any_skip_relocation, big_sur:       "f9242da69c2ff818effdd57b29441c5b70f919e203fad4ac758d3d53f1368df9"
-    sha256 cellar: :any_skip_relocation, catalina:      "a916fca3a10a3c67c970078901982bf8a9627b6125ae22830e3b093b8e202ddf"
-    sha256 cellar: :any_skip_relocation, mojave:        "31b30385e76a5c3020487e583d1369b414633b038419fd96b43f395277efef8c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e0a90ba76f98db9f8b66786d61b7b7fe9ba53a58702eb91d3fdfb33c1e1f7dce"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8407f799cec4723d7244dec71ba925e87f91a2a316f8a9e83d9a3fd5eabd36d1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5a56d0797435cdcab945f3db2f0c4c4982bff6867b53140f734450b0207e6713"
+    sha256 cellar: :any_skip_relocation, monterey:       "ee1807449afb195bfbbc63e0233916e4a8a1ed30d5e87279ce40501b5e0a868d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "01e654dcec06074346dd45b985b116f494524f3401d8d1c975b514491b2eaca6"
+    sha256 cellar: :any_skip_relocation, catalina:       "a891436e41183f189e808b9095cfe2883cfc107ee0adcc2fad5bce3b17b266e9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "385fda78d9f806ca3d3d175aa6b088d64016deed970a175e0e3282843f2ad72a"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
 
   def install
     system "go", "build", *std_go_args(ldflags: "-s -w")
@@ -37,6 +39,7 @@ class Fn < Formula
         }.to_json
 
         socket = server.accept
+        socket.gets
         socket.print "HTTP/1.1 200 OK\r\n" \
                      "Content-Length: #{response.bytesize}\r\n" \
                      "Connection: close\r\n"

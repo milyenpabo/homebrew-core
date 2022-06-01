@@ -1,16 +1,17 @@
 class Pgweb < Formula
   desc "Web-based PostgreSQL database browser"
   homepage "https://sosedoff.github.io/pgweb/"
-  url "https://github.com/sosedoff/pgweb/archive/v0.11.8.tar.gz"
-  sha256 "b391dee6e88c534db82d71515d7efa642e6a34bcded93250fd3f8c2150e75cd9"
+  url "https://github.com/sosedoff/pgweb/archive/v0.11.11.tar.gz"
+  sha256 "4d8c64db7ec463a9366d404cbaf12215db855a5bdbf09253494d79dedd92db98"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "6f12b6b5957c31af8f22c5ab8df4fa094ce594aa15207f0d29f2a390499ee96d"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a02d31f0e35883aa3bf87d2644f8d2388bb93c5009c91c59bfc04382bd4282c3"
-    sha256 cellar: :any_skip_relocation, catalina:      "4f8da0cec857035c52cb0d867f11dfeb9b25713079f4d5b1837e6123ea741f47"
-    sha256 cellar: :any_skip_relocation, mojave:        "ca983073d0229389be16276d51550a2d2a52cc9fa80dbddeca1a0821d790e989"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f712d2198798bca0e0788f6aa65a9d95bb2b609f34d53983685b7153341a21e3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4ab4d7f6ef6f033ba9e255ba5ba1192f2f835e6a430d03dc553872011d516d14"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4de10cd67782077f391a212cecc978605813488eaf1f09d66a339aaf99f1b6c7"
+    sha256 cellar: :any_skip_relocation, monterey:       "9ef3651c6bca97057478b218a913d4d83c53825283e82f20a40138ee278de3c0"
+    sha256 cellar: :any_skip_relocation, big_sur:        "65bbbca6901f6bf3ae3022250e2f138ad9dbc386476503641eaac9bbac4585c1"
+    sha256 cellar: :any_skip_relocation, catalina:       "a30327b12de71ad523c7efdc94e53b1f7b855879c8396499f7d095d84a39a946"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7f7e79fae8d7692422706790b129dd609c4b93d5bcf7e6d67343e19e53fba034"
   end
 
   depends_on "go" => :build

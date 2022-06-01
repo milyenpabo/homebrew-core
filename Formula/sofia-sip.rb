@@ -1,16 +1,17 @@
 class SofiaSip < Formula
   desc "SIP User-Agent library"
   homepage "https://sofia-sip.sourceforge.io/"
-  url "https://github.com/freeswitch/sofia-sip/archive/v1.13.4.tar.gz"
-  sha256 "3f3f7b7b26cc150dae7e1cae95a0fe2c65905311fe143145b4bcda8f97d7ed4e"
+  url "https://github.com/freeswitch/sofia-sip/archive/v1.13.8.tar.gz"
+  sha256 "792b99eb35e50d7abeb42e91a5dceaf28afc5be1a85ffb01995855792a747fec"
   license "LGPL-2.1-or-later"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "8f12d10a964bf50201c0bbfcd56d8e36e535ad0f6e9e51e99d48666b7c713723"
-    sha256 cellar: :any,                 big_sur:       "3d9b90b06dd6f6d3ba28fa1525101ed143810a1cb96203d0d95363d78fad1dfc"
-    sha256 cellar: :any,                 catalina:      "e92ec1e1f654338dc3507424f67c2120eecb6f8159fcbce7e3d4939b97167b98"
-    sha256 cellar: :any,                 mojave:        "7c3971a7ed6d4c363e65fa0ab03d84544c0ad25ae09115e1b08f847a313e7394"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0af154f6157a8377d41e02c058f9d6eb15b01bf68fb224c4d3f1d3ae8bc4eaa1"
+    sha256 cellar: :any,                 arm64_monterey: "4a9236cfca7bdf5f2b0150c43b6880bb3228aeb74e78f4ca5d90b23e7629345e"
+    sha256 cellar: :any,                 arm64_big_sur:  "ce246432a246e2d745544771006439d443b639b5a40c7e155c13d8e4b6d1175b"
+    sha256 cellar: :any,                 monterey:       "4634460ca33e34cca0c8261a164f1b17d9585ab4824836f78518dc52d945e543"
+    sha256 cellar: :any,                 big_sur:        "34823f7ddba4cabc4ecfbd38441f2a0efec3f99dcfc05203f15b2c69d3ac8ab8"
+    sha256 cellar: :any,                 catalina:       "6c76cd5a4ddbcf0f886a511baa0dfd351a25f1f49ec38ea5bf73f29d7874a78a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1508be4f8955a341f1e100e657a260ae2e291325a36e1fe71d42664a095cb112"
   end
 
   depends_on "autoconf" => :build

@@ -1,27 +1,24 @@
 class RakudoStar < Formula
   desc "Rakudo compiler and commonly used packages"
   homepage "https://rakudo.org/"
-  url "https://rakudo.org/dl/star/rakudo-star-2021.04.tar.gz"
-  sha256 "66a5c9d7375f8b83413974113e1024f2e8317d8a6f505e6de0e54d5683c081e7"
+  url "https://github.com/rakudo/star/releases/download/2022.04/rakudo-star-2022.04.tar.gz"
+  sha256 "bb87464d8dcdfc457d4fd60488f22e4a6a7ec821d781b479f725aa3a635137c2"
   license "Artistic-2.0"
 
-  livecheck do
-    url "https://rakudo.org/dl/star/"
-    regex(/".*?rakudo-star[._-]v?(\d+(?:\.\d+)+)\.t/i)
-  end
-
   bottle do
-    sha256 arm64_big_sur: "13f29562a836448fb820c7efa93eb2fd635eda7b428635bce9002ccac1e28a6a"
-    sha256 big_sur:       "a7dd4d2139e570762a78b60e505f62e581825732768ae49b4f9ca2ffc52bbb23"
-    sha256 catalina:      "40bf7dfbdda3c1091dc5d4b8fd5a776ca8e6ba722b48fb7c536deb1914263096"
-    sha256 mojave:        "4bb9fd2754e328dca6a7199f900a85bea5a673bd7ee4a1f47e330144eee81cff"
-    sha256 x86_64_linux:  "1b05bf9ce1cf2b663b0f7c2b25332352db5a4e848df0b49b7b55ed49c298e5d1"
+    sha256 arm64_monterey: "8f2672c7e76d1ae11be18bec8f2c97e130170474755249cc53c65e2ec375dfca"
+    sha256 arm64_big_sur:  "24f14fa90ffd79862c19d84ec9b1039365d3a65ccef6cdd5269de4fa008c944d"
+    sha256 monterey:       "aa80c798963e43e47d29ff2567e8045fb35d81079ea9f3ac526557ce773a01ce"
+    sha256 big_sur:        "a0ab788118f99615eb00758cb40abb9ac441d2d82367fefcd596c564ee20f53d"
+    sha256 catalina:       "a14337712149b65a19f835e88ff838f65919b1cca963cc66d82f3ec122f9c64c"
+    sha256 x86_64_linux:   "b9874b6a0a559c423d05d9830cf282363cb4babb4647d990fbe5c7292fb30cab"
   end
 
   depends_on "bash" => :build
   depends_on "gmp"
   depends_on "icu4c"
   depends_on "libffi"
+  depends_on "openssl@3"
   depends_on "pcre"
   depends_on "readline"
 
@@ -39,6 +36,12 @@ class RakudoStar < Formula
     # make install runs tests that can hang on sierra
     # set this variable to skip those tests
     ENV["NO_NETWORK_TESTING"] = "1"
+
+    # openssl module's brew --prefix openssl probe fails so
+    # set value here
+    openssl_prefix = Formula["openssl@3"].opt_prefix
+    ENV["OPENSSL_PREFIX"] = openssl_prefix.to_s
+
     system "bin/rstar", "install", "-p", prefix.to_s
 
     #  Installed scripts are now in share/perl/{site|vendor}/bin, so we need to symlink it too.

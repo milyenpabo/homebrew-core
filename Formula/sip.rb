@@ -3,29 +3,35 @@ class Sip < Formula
 
   desc "Tool to create Python bindings for C and C++ libraries"
   homepage "https://www.riverbankcomputing.com/software/sip/intro"
-  url "https://files.pythonhosted.org/packages/98/3a/f1b69503d6129ba3b06cf066740f5188aa20bd32cfd2e788ca58c073b2ba/sip-6.2.0.tar.gz"
-  sha256 "34d2270b4ed8d7f8e55cc4ba821d718ee40d9bb2449c6b5cf8a10139d5c121ac"
+  url "https://files.pythonhosted.org/packages/c6/08/34642c4db19e9d41f43640547c5a997cb9b12b512f8c61d0d476e8b9e883/sip-6.6.1.tar.gz"
+  sha256 "696c575c72144122701171f2cc767fe6cc87050ea755a04909152a8508ae10c3"
   license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
   head "https://www.riverbankcomputing.com/hg/sip", using: :hg
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f600f9c31cac8eaaedbd6b9e4e41a6334911fa812a803a48e59fadcdc6089a4c"
-    sha256 cellar: :any_skip_relocation, big_sur:       "0db8a3bc2db45ec99181f435f888711a76fa5316f8a8d2757dc0778836abdda4"
-    sha256 cellar: :any_skip_relocation, catalina:      "334ed2ad3ee30c3e209a5ea4663b5d321aa8d39fce1f9208cabf1b952ec5ad0b"
-    sha256 cellar: :any_skip_relocation, mojave:        "cfd7abf91ec045eb654c4e8b5ddc1a7e6dfea1cdc23a1d82d57badf7fb0fc059"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6b0319ea1fb2a7a66d239dad066eb6b215e1a2af7184ca57863f67df9ad24063"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "05a83ad491c0d85776d57eb4a88f32e62c7c2993f9f2e14d062dee5ca385d7e3"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "524717eec41d3ed756d6d84a9d292f0c6c270404d04d4b9da1953ad1783c95fd"
+    sha256 cellar: :any_skip_relocation, monterey:       "372c6e6d792377c0877bf54b6f89f2641b9e259223309a16f316380cdbcdb696"
+    sha256 cellar: :any_skip_relocation, big_sur:        "292c4973d4abf7809847ffcf5f663c7c63ce8dda1b0dac463c32c088a22623b4"
+    sha256 cellar: :any_skip_relocation, catalina:       "8dfe30410122af28b6d2f1e6a33cabbcabfdf010626f8d7742dba76f16a44cb8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ec3052f27f48036a35a34037abf9b79c237c15d6225da0e66a889d34668d63fa"
   end
 
   depends_on "python@3.9"
 
   resource "packaging" do
-    url "https://files.pythonhosted.org/packages/df/86/aef78bab3afd461faecf9955a6501c4999933a48394e90f03cd512aad844/packaging-21.0.tar.gz"
-    sha256 "7dc96269f53a4ccec5c0670940a4281106dd0bb343f47b7471f779df49c2fbe7"
+    url "https://files.pythonhosted.org/packages/df/9e/d1a7217f69310c1db8fdf8ab396229f55a699ce34a203691794c5d1cad0c/packaging-21.3.tar.gz"
+    sha256 "dd47c42927d89ab911e606518907cc2d3a1f38bbd026385970643f9c5b8ecfeb"
+  end
+
+  resource "ply" do
+    url "https://files.pythonhosted.org/packages/e5/69/882ee5c9d017149285cab114ebeab373308ef0f874fcdac9beb90e0ac4da/ply-3.11.tar.gz"
+    sha256 "00c7c1aaa88358b9c765b6d3000c6eec0ba42abca5351b095321aef446081da3"
   end
 
   resource "pyparsing" do
-    url "https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz"
-    sha256 "c203ec8783bf771a155b207279b9bccb8dea02d8f0c9e5f8ead507bc3246ecc1"
+    url "https://files.pythonhosted.org/packages/31/df/789bd0556e65cf931a5b87b603fcf02f79ff04d5379f3063588faaf9c1e4/pyparsing-3.0.8.tar.gz"
+    sha256 "7bf433498c016c4314268d95df76c81b842a4cb2b276fa3312cfb1e1d85f6954"
   end
 
   resource "toml" do

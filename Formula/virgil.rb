@@ -8,6 +8,7 @@ class Virgil < Formula
   head "https://github.com/VirgilSecurity/virgil-cli.git", branch: "master"
 
   bottle do
+    sha256 cellar: :any_skip_relocation, monterey:     "6ad1a2ee3c09e0ea3ae2027c7a35a26a9ab048ba3b3454072bc47ff2f144a7dc"
     sha256 cellar: :any_skip_relocation, big_sur:      "e9ce86f5569a014b80c43e5bdf3d16aed3fc81c3e6fe4841e0b649f6d07542d3"
     sha256 cellar: :any_skip_relocation, catalina:     "841082fa11c796ba0045d4ced3cead342fba308b049f07db4a0bd3309acc08c7"
     sha256 cellar: :any_skip_relocation, mojave:       "d115016c280fbfe9381b56d0e08b9a69b4dc62042bb73424c243ea3f73280cd9"
@@ -15,7 +16,10 @@ class Virgil < Formula
     sha256 cellar: :any_skip_relocation, x86_64_linux: "05da77ebed1e01c11281b7f148441a6aa22f9be8d219037913c238d95c615425"
   end
 
-  depends_on "go" => :build
+  # Bump to 1.18 on the next release, if possible.
+  depends_on "go@1.17" => :build
+  # https://github.com/VirgilSecurity/virgil-cli/issues/58
+  depends_on arch: :x86_64
 
   def install
     system "make"

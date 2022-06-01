@@ -1,10 +1,10 @@
 class Jsonnet < Formula
   desc "Domain specific configuration language for defining JSON data"
   homepage "https://jsonnet.org/"
-  url "https://github.com/google/jsonnet/archive/v0.17.0.tar.gz"
-  sha256 "076b52edf888c01097010ad4299e3b2e7a72b60a41abbc65af364af1ed3c8dbe"
+  url "https://github.com/google/jsonnet/archive/v0.18.0.tar.gz"
+  sha256 "85c240c4740f0c788c4d49f9c9c0942f5a2d1c2ae58b2c71068107bc80a3ced4"
   license "Apache-2.0"
-  head "https://github.com/google/jsonnet.git"
+  head "https://github.com/google/jsonnet.git", branch: "master"
 
   livecheck do
     url :stable
@@ -12,11 +12,12 @@ class Jsonnet < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "96cbd225f3a8d64bda895c4052b2af3a3e1d5bbe137ba017aa3d4c8127cf9d68"
-    sha256 cellar: :any_skip_relocation, big_sur:       "dd84e7d6175e98b4839c009120569ece03b5b98db3f152f97ca05b5ae7169843"
-    sha256 cellar: :any_skip_relocation, catalina:      "4e06530634324040a69a9f22018e154febc71467cadf2498806d9ba07b06a1b3"
-    sha256 cellar: :any_skip_relocation, mojave:        "1e4faf2a09e9a233275d78ede532a0e757d3f8cc9b0ab152326ff9ea9d244dba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5e86d04d342629c577c07656417e91d7d9b5896a7e167bfbee4d2990c0b5ee94"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8d0fcbd957bf1e3fa91a3e7e6f1d1316fb0dfb8aaa72f94ded7d1ab8ac96caf6"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "deb98f7009d75ce4a9f68464e6d8347c885b5f4de50691d0ab8228e775cc5beb"
+    sha256 cellar: :any_skip_relocation, monterey:       "6ed8bac0e7eb061832f680b8305a22b25298730741aebb6e2bbc3cbfba95a19d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "087b337943c70e343383517a99ff4013206b8d1fa2c902d4b3c945873fd1e493"
+    sha256 cellar: :any_skip_relocation, catalina:       "2455ed01cf6b28b5a6fb7466e6ad3c8d6c64c351aabf1b2cfdc102fc9af421f7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "35bec7fa0eed3d22933083ba80f5d05ae770e4bbc0b42e549e3a0e8bb770a086"
   end
 
   conflicts_with "go-jsonnet", because: "both install binaries with the same name"

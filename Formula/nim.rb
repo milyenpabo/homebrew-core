@@ -1,17 +1,23 @@
 class Nim < Formula
   desc "Statically typed compiled systems programming language"
   homepage "https://nim-lang.org/"
-  url "https://nim-lang.org/download/nim-1.4.8.tar.xz"
-  sha256 "b798c577411d7d95b8631261dbb3676e9d1afd9e36740d044966a0555b41441a"
+  url "https://nim-lang.org/download/nim-1.6.6.tar.xz"
+  sha256 "67b111ce6f3861503b9fcc1cae59fc34d0122566d3ecfef3a064a2174121a452"
   license "MIT"
   head "https://github.com/nim-lang/Nim.git", branch: "devel"
 
+  livecheck do
+    url "https://nim-lang.org/install.html"
+    regex(/href=.*?nim[._-]v?(\d+(?:\.\d+)+)\.t/i)
+  end
+
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "6da9b8800dc0ed04a52c42b45e9571b023c1775f34ac6e6d432d80ef974cec42"
-    sha256 cellar: :any_skip_relocation, big_sur:       "82ddb5ffb529f4754ccbda1cfd39fdffa145f08e7824dd5139f9a4e25912f4a2"
-    sha256 cellar: :any_skip_relocation, catalina:      "431720cc75e0b4203982bb27481cee9d2ed16924a56fcc5b1ba56e834f6c4843"
-    sha256 cellar: :any_skip_relocation, mojave:        "c491410e36acd9723e4c3827e9bbbded66fcb4bb97c383d34dc82c49d2db9d95"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8025769966d4c54e25bbe3807c1f6429880074c118f0213a3d817cb62d4113be"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3e214ca5ddbf7d42963f13f2cbab8c574cf21a8baf321d3ed3747f09f27bce76"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b2ef248de065620fdeb54db3faaf5082ec32d67734590074546c84facdb5be05"
+    sha256 cellar: :any_skip_relocation, monterey:       "bf085cf759a3ecdd1e680e809f2cb73ac503d5951d34ed49c8b6927cc8a56024"
+    sha256 cellar: :any_skip_relocation, big_sur:        "0b149204287e7bbde1e80e2cc5829dffe94c158ac095324fe3bbbbc67abbacb9"
+    sha256 cellar: :any_skip_relocation, catalina:       "de0fe0f7e2e0738cc72993964ac02364f73b9bdd8a832c8be353686336eabdbb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "76c949ae021e7d3fea06f4738d58adea8cb0bc2b79031a5640cec1e80908f496"
   end
 
   depends_on "help2man" => :build

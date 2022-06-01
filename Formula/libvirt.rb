@@ -1,10 +1,10 @@
 class Libvirt < Formula
   desc "C virtualization API"
-  homepage "https://www.libvirt.org"
-  url "https://libvirt.org/sources/libvirt-7.8.0.tar.xz"
-  sha256 "a727cd0a47bfa24fa7de2874d23f3a9f9f02ceb6b49ba15288f6d9a098b19921"
+  homepage "https://libvirt.org/"
+  url "https://libvirt.org/sources/libvirt-8.3.0.tar.xz"
+  sha256 "be229b9ad1d48be7007e7bf341fc990c65e24aea624c16db6b36d02c820df5eb"
   license all_of: ["LGPL-2.1-or-later", "GPL-2.0-or-later"]
-  head "https://github.com/libvirt/libvirt.git", branch: "master"
+  head "https://gitlab.com/libvirt/libvirt.git", branch: "master"
 
   livecheck do
     url "https://libvirt.org/sources/"
@@ -12,11 +12,12 @@ class Libvirt < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "7c105ea503b711342411bcecdb237b6be0c9bdc0007478c86e1eb181f8550d7f"
-    sha256 big_sur:       "5fa6ba649a3e151cb3a98ee397b043f8aca153d24329d1ff00f286de7a58ac9e"
-    sha256 catalina:      "4cb61a8f7c2866797bb89894b72152f39735af0b90bbaddd30a5f475a5955d70"
-    sha256 mojave:        "70946ecc63511165d972462a20b27cbbc743c85aea7ce1bfdcf504122d277f87"
-    sha256 x86_64_linux:  "b304884ef4b54ecbdd974c5ad423862c4b0c4c1e89b4a9a45dfc952e374929bc"
+    sha256 arm64_monterey: "426c4dbe77cb04f0c36db7c3d8c30195a8e17c319787930732587ceba283017f"
+    sha256 arm64_big_sur:  "4ba6aaa6d5d24b93eaca19c00e2313831d1285d19ea71c8242212a9bc1e968d7"
+    sha256 monterey:       "4583eb76feaa0bdfd56b71e7fe6bd8dd50a190e9e67797c354bc46f04938d6e0"
+    sha256 big_sur:        "cb9da500b18a2c100aa61f2e3cbb8c6a1b88a71a817fd8454d409d2a9b7ec6b2"
+    sha256 catalina:       "ddde93a9b3fb8140411ca0dde4a651e6edc6cd6040504f1a81733fc4eeaa4c0c"
+    sha256 x86_64_linux:   "18062dd27a891c0c46277170580270746a851a921d7dd305b32962fa84007cb2"
   end
 
   depends_on "docutils" => :build
@@ -24,7 +25,7 @@ class Libvirt < Formula
   depends_on "ninja" => :build
   depends_on "perl" => :build
   depends_on "pkg-config" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "gettext"
   depends_on "glib"
   depends_on "gnu-sed"
@@ -43,8 +44,12 @@ class Libvirt < Formula
   end
 
   on_linux do
+    depends_on "gcc"
     depends_on "libtirpc"
+    depends_on "linux-headers@5.16"
   end
+
+  fails_with gcc: "5"
 
   def install
     mkdir "build" do
@@ -54,7 +59,9 @@ class Libvirt < Formula
         --sysconfdir=#{etc}
         -Ddriver_esx=enabled
         -Ddriver_qemu=enabled
+        -Ddriver_network=enabled
         -Dinit_script=none
+        -Dqemu_datadir=#{Formula["qemu"].opt_pkgshare}
       ]
       system "meson", *std_meson_args, *args, ".."
       system "meson", "compile"

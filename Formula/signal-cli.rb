@@ -1,91 +1,63 @@
 class SignalCli < Formula
   desc "CLI and dbus interface for WhisperSystems/libsignal-service-java"
   homepage "https://github.com/AsamK/signal-cli"
-  url "https://github.com/AsamK/signal-cli/releases/download/v0.9.0/signal-cli-0.9.0.tar.gz"
-  sha256 "c24f2493e3c6d27c36384ee671c1a33f8df9484cad4ad472d6e9f183a12a3fff"
+  url "https://github.com/AsamK/signal-cli/archive/refs/tags/v0.10.7.tar.gz"
+  sha256 "c577673b40c82ca3242d2ec5ed3305b380cd400856cf3f8504afea56845c7538"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a113e18096174f4d0e69d37fa12f7c5ff3a7051c1279f07ecf7d56600981efb1"
-    sha256 cellar: :any_skip_relocation, big_sur:       "cd1943cfe050cf2ad6bcb6e02ad727eadf8e18e8da77a0d7ac8439f131d9ce80"
-    sha256 cellar: :any_skip_relocation, catalina:      "39898b369f9a94d98d486c59b2c5ccf235236344287d5186b68cefb2f9136e09"
-    sha256 cellar: :any_skip_relocation, mojave:        "b04fba6a346787064b2fc20965f9bbc49be2ae751f2566e92a2f6bd77bd240eb"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "7b86b1d7df87deeb644f5c05259a0b652729ec55962575a5299371e568218597"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8073a963756f5941714309ae2b8a9e96b21abc50fab59fbed8087cd7593eab8f"
+    sha256 cellar: :any_skip_relocation, monterey:       "03351fc76ddb40e4b3d6681c3a361bc85c01d16030702a43e9d7e8ff53768ab5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f54a9ab39ffb9a5a8e97174fed7ceeca1853b25760abb207d86f7eb65b60ea4e"
+    sha256 cellar: :any_skip_relocation, catalina:       "2b92d438aaddbfefcc618affd038dbe7941e99d131c3987309bd589b64c0981a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "773b9bc0521d6266d598b63c91cba1b138c9b7b1b21cf0e6c2dabb9ae970f06c"
   end
 
   depends_on "gradle" => :build
   depends_on "protobuf" => :build
-  # the libsignal-client build targets a specific rustc (nightly-2020-11-09)
+  # the libsignal-client build targets a specific rustc listed in the file
+  # https://github.com/signalapp/libsignal/blob/#{libsignal-client.version}/rust-toolchain
   # which doesn't automatically happen if we use brew-installed rust. rustup-init
   # allows us to use a toolchain that lives in HOMEBREW_CACHE
   depends_on "rustup-init" => :build
 
   depends_on "openjdk"
 
-  resource "libsignal-client" do
-    # per https://github.com/AsamK/signal-cli/wiki/Provide-native-lib-for-libsignal#libsignal-client
-    # we want the specific libsignal-client version from 'signal-cli-0.9.0/lib/signal-client-XXXX-X.X.X.jar'
-    url "https://github.com/signalapp/libsignal-client/archive/refs/tags/v0.9.0.tar.gz"
-    sha256 "7caa3a337190d473052a7e84cb7b2cfdb83b59209bfab30ed68b2c346637d54e"
-  end
+  uses_from_macos "zip" => :build
 
-  resource "libzkgroup" do
-    # per https://github.com/AsamK/signal-cli/wiki/Provide-native-lib-for-libsignal#libzkgroup
-    # we want to use the same version signal-cli uses; see 'signal-cli-X.X.X/lib/zkgroup-java-X.X.X.jar'
-    url "https://github.com/signalapp/zkgroup/archive/refs/tags/v0.7.0.tar.gz"
-    sha256 "6479d00f7b4f5acab3694c6970849502879f6fa82a74ab2879d7128d79a42007"
+  # per https://github.com/AsamK/signal-cli/wiki/Provide-native-lib-for-libsignal#libsignal-client
+  # we want the specific libsignal-client version from 'signal-cli-#{version}/lib/libsignal-client-X.X.X.jar'
+  resource "libsignal-client" do
+    url "https://github.com/signalapp/libsignal/archive/refs/tags/v0.17.0.tar.gz"
+    sha256 "7866ae9679c482a16dc4ef3fd3891e558ce0615234e7e775f887190782a88b63"
   end
 
   def install
-    libexec.install Dir["lib", "bin"]
+    system "gradle", "build"
+    system "gradle", "installDist"
+    libexec.install Dir["build/install/signal-cli/*"]
+    (libexec/"bin/signal-cli.bat").unlink
     (bin/"signal-cli").write_env_script libexec/"bin/signal-cli", Language::Java.overridable_java_home_env
 
     # this will install the necessary cargo/rustup toolchain bits in HOMEBREW_CACHE
-    system "#{Formula["rustup-init"].bin}/rustup-init", "-qy", "--no-modify-path"
+    system Formula["rustup-init"].bin/"rustup-init", "-qy", "--no-modify-path"
     ENV.prepend_path "PATH", HOMEBREW_CACHE/"cargo_cache/bin"
 
     resource("libsignal-client").stage do |r|
       # https://github.com/AsamK/signal-cli/wiki/Provide-native-lib-for-libsignal#building-libsignal-client-yourself
 
-      libsignal_client_jar = libexec/"lib/signal-client-java-#{r.version}.jar"
+      libsignal_client_jar = libexec/"lib/libsignal-client-#{r.version}.jar"
       # rm originally-embedded libsignal_jni lib
-      system "zip", "-d", libsignal_client_jar, "libsignal_jni.so"
+      system "zip", "-d", libsignal_client_jar, "libsignal_jni.so", "libsignal_jni.dylib", "signal_jni.dll"
 
       # build & embed library for current platform
       cd "java" do
-        inreplace "settings.gradle", ", ':android'", ""
+        inreplace "settings.gradle", "include ':android'", ""
         system "./build_jni.sh", "desktop"
-        cd "java/src/main/resources" do
+        cd "shared/resources" do
           system "zip", "-u", libsignal_client_jar, shared_library("libsignal_jni")
         end
-      end
-    end
-
-    resource("libzkgroup").stage do
-      # https://github.com/AsamK/signal-cli/wiki/Provide-native-lib-for-libsignal#libzkgroup
-
-      zkgroup_jar = Dir[libexec/"lib/zkgroup-java-*.jar"].first
-      # rm originally-embedded libzkgroup library
-      system "zip", "-d", zkgroup_jar, "libzkgroup.so"
-
-      # https://github.com/Homebrew/homebrew-core/pull/83322#issuecomment-918945146
-      # this fix is needed until signal-cli updates to zkgroup v0.7.3
-      # use the same version of the rust-toolchain used in libsignal-client
-      inreplace "rust-toolchain", "1.41.1", "nightly-2021-06-08" if Hardware::CPU.arm?
-
-      # build & embed library for current platform
-      target = if OS.mac? && !Hardware::CPU.arm?
-        "mac_dylib"
-      else
-        "libzkgroup"
-      end
-      system "make", target
-      location = if Hardware::CPU.arm?
-        "target/release"
-      else
-        "ffi/java/src/main/resources"
-      end
-      cd location do
-        system "zip", "-u", zkgroup_jar, shared_library("libzkgroup")
       end
     end
   end
@@ -103,6 +75,6 @@ class SignalCli < Formula
       Process.kill("SIGINT", io.pid)
       Process.wait(io.pid)
     end
-    assert_match "tsdevice:/?uuid=", io.read
+    assert_match "sgnl://linkdevice?uuid=", io.read
   end
 end

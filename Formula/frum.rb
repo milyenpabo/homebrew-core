@@ -1,8 +1,8 @@
 class Frum < Formula
   desc "Fast and modern Ruby version manager written in Rust"
   homepage "https://github.com/TaKO8Ki/frum/"
-  url "https://github.com/TaKO8Ki/frum/archive/v0.1.1.tar.gz"
-  sha256 "b1227899d7b49c478cc56eba6c0e36325dca34e49db096c1a6fddceec5b0b9b9"
+  url "https://github.com/TaKO8Ki/frum/archive/v0.1.2.tar.gz"
+  sha256 "0a67d12976b50f39111c92fa0d0e6bf0ae6612a0325c31724ea3a6b831882b5d"
   license "MIT"
   head "https://github.com/TaKO8Ki/frum.git", branch: "main"
 
@@ -12,11 +12,12 @@ class Frum < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d5caa257bf4b00da8d4000219f0aafd402c513f738894265c7b470d7add8acc6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "22742696bfd99efab6ba483134f00c8ae3316213a7d9e03a3b21bb2f20f2c984"
-    sha256 cellar: :any_skip_relocation, catalina:      "8287568e2d549cf13620b70f2d3b1a40e1e68b82c91fbc6a26e0ec01f717b28a"
-    sha256 cellar: :any_skip_relocation, mojave:        "24d6362695e8559f302e48a189e0b334b9480ddcdef845a93d07d2a743f03b73"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "eab5b0c5456aceb386de43ff1a378f1cc23c2b41e01ac7c0c8ae2266c398ee6b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "9a6b4e42c48ff1381587393d6495921f2efb48843b4b4d7d92ce58bd65eaa576"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b12d32db1a4e855e270187a4408a04d07910a569e36e53d3a7117b4f8ab0ec21"
+    sha256 cellar: :any_skip_relocation, monterey:       "a7171c8633b63aa98c0ba9a59d94153574fc55122d7832a71fab2e4a6191cf69"
+    sha256 cellar: :any_skip_relocation, big_sur:        "450a3b50d33857da4162dd71c43747088f9bb48f91267340c2e0f84fcc388277"
+    sha256 cellar: :any_skip_relocation, catalina:       "00c21c236c923c435f6345fb3671ea1357332bb31fb2b33d08154f05b5659f0e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "789664a6d8d6f4544fe2693a48b75b7b6fd832ed7685ab6dc6fd306a9b3eafa1"
   end
 
   depends_on "rust" => :build

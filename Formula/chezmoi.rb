@@ -2,17 +2,18 @@ class Chezmoi < Formula
   desc "Manage your dotfiles across multiple diverse machines, securely"
   homepage "https://chezmoi.io/"
   url "https://github.com/twpayne/chezmoi.git",
-      tag:      "v2.6.1",
-      revision: "8d9a89b0c131e69fc97ecbb2279558e2930ae9e1"
+      tag:      "v2.17.1",
+      revision: "565cbbe117746aa6bfec5f2cee20ae4cbbb5e645"
   license "MIT"
   head "https://github.com/twpayne/chezmoi.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "22dd0c1b6aba54da9a065b244ea7ff54d808a06071d793998111e79eb982b631"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3197c40beb6ec614256ee2b3a469486785ba90359aedd386eee22ecf979184d0"
-    sha256 cellar: :any_skip_relocation, catalina:      "0b49b033446409badce168148b26bb288d447bb14fed01df7ab0321b7a16cc41"
-    sha256 cellar: :any_skip_relocation, mojave:        "c885c8f5e9167394c111075941d955392b247aa6b90f895796af5dea614a3147"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "dce0bf303f910d18ddb1e2280382cb1c5d01209d27ad78c837fb2e34ebd257dd"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "929e4da0f29952ac5f480515e8a4a75674adada2a6b1b87ccef4304301363481"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5ba924b9fab60f8e029b7b0e32ac7097299ed86b7d56580916e4b84cfdc15471"
+    sha256 cellar: :any_skip_relocation, monterey:       "8b57b5625897175206ff06a9f119a2d3b88d90d2ce27d3352358e780d2d3ea61"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4e91f97fd77a6d2bef1333fd2727181cd0541f79e5650d3b12ca34b4ff2543be"
+    sha256 cellar: :any_skip_relocation, catalina:       "6299e002b0908f3022d280dfcb8d533e48293a5c757f2d84b1b114262011b9ba"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "05f7607c7abec7d89dbafa561f1893d780e03d2d38c0e6d1daac55db670a44e3"
   end
 
   depends_on "go" => :build
@@ -24,7 +25,7 @@ class Chezmoi < Formula
       -X main.commit=#{Utils.git_head}
       -X main.date=#{time.rfc3339}
       -X main.builtBy=#{tap.user}
-    ].join(" ")
+    ]
     system "go", "build", *std_go_args(ldflags: ldflags)
 
     bash_completion.install "completions/chezmoi-completion.bash"

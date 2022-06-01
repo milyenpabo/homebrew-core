@@ -1,20 +1,16 @@
 class Nco < Formula
   desc "Command-line operators for netCDF and HDF files"
   homepage "https://nco.sourceforge.io/"
-  url "https://github.com/nco/nco/archive/5.0.2.tar.gz"
-  sha256 "7486e7e03da4caf2736e8eb3d2299a686fb58dbcc04391ce073e0a8c2baf80d6"
+  url "https://github.com/nco/nco/archive/5.0.7.tar.gz"
+  sha256 "6ddb397e7de4a7876e7d84ea82d4ee716cfd60ad8ee50ef49716945c505cbc1d"
   license "BSD-3-Clause"
 
-  livecheck do
-    url :stable
-    strategy :github_latest
-  end
-
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "9f3ec489259da71a4d3275e483d2b8ebbab31294bed962d1fd4e97d645426755"
-    sha256 cellar: :any, big_sur:       "d7da7609d9399a60c9291b312a0fcb41e66e34e1fab08b5b5db22f7d0cc94dcb"
-    sha256 cellar: :any, catalina:      "955242dc2318ae49b5c43764ba5ad026e83462fe5ce9277803f12219674d10b4"
-    sha256 cellar: :any, mojave:        "0d53fde9a7fc26e2125aa87a47134ba13adcfe1b73ec3affb6c81fa2973b7afb"
+    sha256 cellar: :any, arm64_monterey: "4f48120f508b526c1d65e1e49a1aac82b9f1bc475d35eb9674689e25446df57f"
+    sha256 cellar: :any, arm64_big_sur:  "36bb42798bdc5522cce9eb0736e05350d6f5c1723d34d058275ab56194138c55"
+    sha256 cellar: :any, monterey:       "d5592375add37d98bbb1eb9257a52044cea0aacd6619a34723a9a1882cbc7a04"
+    sha256 cellar: :any, big_sur:        "1f9458115d4ba8666df67010b6699a25a7d99a273f7bb4448c1ad7b0daea0b3e"
+    sha256 cellar: :any, catalina:       "5aabec029e698e23958d49210ff8efb12afc17e3cb0f5cc98615ad3317acce5f"
   end
 
   head do
@@ -29,14 +25,13 @@ class Nco < Formula
   depends_on "texinfo"
   depends_on "udunits"
 
-  resource "example_nc" do
+  resource "homebrew-example_nc" do
     url "https://www.unidata.ucar.edu/software/netcdf/examples/WMI_Lear.nc"
     sha256 "e37527146376716ef335d01d68efc8d0142bdebf8d9d7f4e8cbe6f880807bdef"
   end
 
   def install
     system "./autogen.sh" if build.head?
-
     system "./configure", "--disable-dependency-tracking",
                           "--prefix=#{prefix}",
                           "--enable-netcdf4"
@@ -44,7 +39,7 @@ class Nco < Formula
   end
 
   test do
-    testpath.install resource("example_nc")
+    testpath.install resource("homebrew-example_nc")
     output = shell_output("#{bin}/ncks --json -M WMI_Lear.nc")
     assert_match "\"time\": 180", output
   end

@@ -1,8 +1,8 @@
 class OsinfoDbTools < Formula
   desc "Tools for managing the libosinfo database files"
   homepage "https://libosinfo.org/"
-  url "https://releases.pagure.org/libosinfo/osinfo-db-tools-1.9.0.tar.xz"
-  sha256 "255f1c878bacec70c3020ff5a9cb0f6bd861ca0009f24608df5ef6f62d5243c0"
+  url "https://releases.pagure.org/libosinfo/osinfo-db-tools-1.10.0.tar.xz"
+  sha256 "802cdd53b416706ea5844f046ddcfb658c1b4906b9f940c79ac7abc50981ca68"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,11 +11,12 @@ class OsinfoDbTools < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "800f45e86f13d9b276e419c7df616033ede3dd8f4a3956c698fe0f09be436035"
-    sha256 big_sur:       "460a75b81da6d76332f29596cecc9bcf543262e8d5848c7fb1bf627b5c5645ad"
-    sha256 catalina:      "8a572a5e4559404c4ee8b293d934286a155debc374c6e9acbb19decf480e7d5e"
-    sha256 mojave:        "784931937986f8132ca5f742ce7d966fe08eb11742d1bbf48d5253ecbcff3bfb"
-    sha256 x86_64_linux:  "95a2338adb2f05354a14fcf5bec97cd5a0bdb03e5f1d3b1f9664e829d9b911bf"
+    sha256 arm64_monterey: "1d1c7ce896178ca36d6e80d74c4ee079ccef9d33aa23b3497507ae10a0e639ba"
+    sha256 arm64_big_sur:  "82486837eb8ac3f291f0c19417fb3c039a6f8dc964a53cdbefd38a3ace4f4082"
+    sha256 monterey:       "5fd3aecf2c0b5d73a53ca7f040492b18488fcae29e95a87f472e5b7748b4656d"
+    sha256 big_sur:        "b8f2bb99ccdf6e52e3b9210047975945e145b710066a870562a16ab1d1e8fa1d"
+    sha256 catalina:       "b15b9a51705d8bdcfd115f9e43fd9129a84a7004efc3229e19d3e0286432914d"
+    sha256 x86_64_linux:   "ff2927f346097164c57287e06974a74455e79d9f0ef62f438ff0e4ffadfaa266"
   end
 
   depends_on "meson" => :build
@@ -26,7 +27,6 @@ class OsinfoDbTools < Formula
   depends_on "json-glib"
   depends_on "libarchive"
   depends_on "libsoup"
-  depends_on "python@3.9"
 
   uses_from_macos "pod2man" => :build
   uses_from_macos "libxml2"

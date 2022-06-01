@@ -2,17 +2,18 @@ class Wtfutil < Formula
   desc "Personal information dashboard for your terminal"
   homepage "https://wtfutil.com"
   url "https://github.com/wtfutil/wtf.git",
-      tag:      "v0.39.2",
-      revision: "1dc4115bcb5e15534d06543e275f72dfdb550bc6"
+      tag:      "v0.41.0",
+      revision: "fb027f1ec75b52137bc2828a8e0976a510b5591e"
   license "MPL-2.0"
   head "https://github.com/wtfutil/wtf.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "0087a906e160dce6afde89f20d056c88503c308362576abf23cfc9f7f1ad9943"
-    sha256 cellar: :any_skip_relocation, big_sur:       "6ca8e81a096523c0ac2265b85e106a1c223015310bd79a774f8fe273647377f6"
-    sha256 cellar: :any_skip_relocation, catalina:      "977b8c6e48a5233ad69973bfc75c6190d3f74d81dfc780b3323675f3f8b96825"
-    sha256 cellar: :any_skip_relocation, mojave:        "267f0d2b52a91e56aaca45429efeda90ad007e4f1877d65dc6e0ccd09f8be9cc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3e1b3187db2b9c39a7908cff30e3438290d9bece81aafc1a264a3e297500bebc"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "328f632701bb230bb7c1f585eaa8e8302caee981132bee7ece771ea620068d93"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "be10a4a93edcba84f41e3ee1963e846e1b0835d4ccf463a7ceef1aa949ea6063"
+    sha256 cellar: :any_skip_relocation, monterey:       "854d20c1a7b251d6c696a43b53bccd951c3ae68848b294067a11a483d77bedf5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f2b79ebab8e78ad546ef90e286907e85b7973c72be7678ee1f84d7d4c0a7bca9"
+    sha256 cellar: :any_skip_relocation, catalina:       "8f0694be170caf23c9ca6e45acdc0992059adee1dbdd6d477095d2a211dcd368"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "28ccf8bde8dda105bfaae2762d4a2f9bebdd58748fad6db78c1d4b12d6651253"
   end
 
   depends_on "go" => :build

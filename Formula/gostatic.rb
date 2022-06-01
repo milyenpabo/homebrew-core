@@ -1,23 +1,24 @@
 class Gostatic < Formula
   desc "Fast static site generator"
   homepage "https://github.com/piranha/gostatic"
-  url "https://github.com/piranha/gostatic/archive/2.30.tar.gz"
-  sha256 "652595f364436833792501f31de36f0cd4fe27f50f4ea0009bfae83c9e518ebb"
+  url "https://github.com/piranha/gostatic/archive/2.34.tar.gz"
+  sha256 "fc61c77e76e81b17b9955d18341da3f62e2f8def6a8f33156681e046ab1e80c5"
   license "ISC"
-  head "https://github.com/piranha/gostatic.git"
+  head "https://github.com/piranha/gostatic.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "1ecdb8c14c707eb0f7dc42796c07ffa5303b1f687c3bbfc6924d8b9506b8655f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "b1b74b8e646a07562fb4201215a55cdca9975d189b669b0a1a92ddd5915c9bf7"
-    sha256 cellar: :any_skip_relocation, catalina:      "4db3ec282a190b3fe7b79f37cce04dd5b9913924a1c539563c5ee42b89c480c4"
-    sha256 cellar: :any_skip_relocation, mojave:        "0bf75b7c812f2ef9bf9ecd78ea2d74c5fbb93bb7edf8502a796271fe312c21ff"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "489dcb53c5a2e1f96136a17602b91b3223428b3099a94123d577f7c4198b09be"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4daa04700da1032af0a162412f3c9c853ba1c2044daef8169fbbd55eae60fe46"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5ea61a4050fccf533069aefa065611beedf2d43438fcf6d5eacb0df0789271a4"
+    sha256 cellar: :any_skip_relocation, monterey:       "716362ef77b40110d1ae1613613b67d51a985c84c567fefd0e759ac5c7d168bb"
+    sha256 cellar: :any_skip_relocation, big_sur:        "8493519376ae8512fb5e2d4c83481c27e964bb63c854c1aa14f15d0494311fa3"
+    sha256 cellar: :any_skip_relocation, catalina:       "01d319962c9ad1c3f5955ceaeadf4286944d33e82d90b44d36a0f4bec37089d1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ce5a780002a737100f543ff761ae7c8bdff06de65e0f0931ceb931061d740f61"
   end
 
   depends_on "go" => :build
 
   def install
-    system "go", "build", *std_go_args, "-ldflags", "-s -w"
+    system "go", "build", *std_go_args(ldflags: "-s -w")
   end
 
   test do

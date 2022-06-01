@@ -4,15 +4,15 @@ class ShadowsocksLibev < Formula
   url "https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.5/shadowsocks-libev-3.3.5.tar.gz"
   sha256 "cfc8eded35360f4b67e18dc447b0c00cddb29cc57a3cec48b135e5fb87433488"
   license "GPL-3.0-or-later"
-  revision 3
+  revision 4
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any,                 arm64_big_sur: "b1e8d388ea9ad7619ac942468e64697c4ee10f1d969b0ad6d779a7be95c84e08"
-    sha256 cellar: :any,                 big_sur:       "66f3fc332d7acd21599736d33995fe421d95cc89b6d7ce9057bc72a3713ec8d0"
-    sha256 cellar: :any,                 catalina:      "bbb14b97724efb4acf511b122f414a8f3f02810c7ec207413bb413063ef693ee"
-    sha256 cellar: :any,                 mojave:        "292cca782f44f284592f3538dd24dd5ebdb0d1e9a978f9f507cc78be3a8e471a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5bd589c0338a9991d42dd08f5b470e74f3aab6843c09036d13f6b074c73a81ed"
+    sha256 cellar: :any,                 arm64_monterey: "bcdae7a01e62e6af170c92174da04167b501787e7b041afa652f8f267c21a080"
+    sha256 cellar: :any,                 arm64_big_sur:  "0974cdce9f0a548d04d0798d9b878013075206938ebf8b68273aa57f02df3ef4"
+    sha256 cellar: :any,                 monterey:       "27acec0ff096021b2a7fb186451522a74699bbd0c185e66bb460425a768bdb40"
+    sha256 cellar: :any,                 big_sur:        "88117a8122f9724516e77265546624b6581b6ff3b9980bb6caf3a49fa5fd1aec"
+    sha256 cellar: :any,                 catalina:       "99b4f3a61adefcca75290f2957f22bc1506779119789e0a81fe4c635fe5045e9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5d275effb2feb43f639da0ee1f5dfb91dce384b1815232f852386cd61f3ae010"
   end
 
   head do

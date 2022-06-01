@@ -1,8 +1,8 @@
 class GnomeAutoar < Formula
   desc "GNOME library for archive handling"
   homepage "https://github.com/GNOME/gnome-autoar"
-  url "https://download.gnome.org/sources/gnome-autoar/0.4/gnome-autoar-0.4.0.tar.xz"
-  sha256 "ea8c6d524babc712ac59e1d0e3ac8bf0137482dadf33c94fe9113794a1bc4474"
+  url "https://download.gnome.org/sources/gnome-autoar/0.4/gnome-autoar-0.4.3.tar.xz"
+  sha256 "7bdf0789553496abddc3c963b0ce7363805c0c02c025feddebcaacc787249e88"
   license "LGPL-2.1-or-later"
 
   # gnome-autoar doesn't seem to follow the typical GNOME version format where
@@ -14,10 +14,12 @@ class GnomeAutoar < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "c878f58ddccf4f6ccb9fb21f85284434072706235dca4dcd281b02fe3206ca4c"
-    sha256 cellar: :any, big_sur:       "28531f6dadc4e792c3689da6c041a65134a5f9a3eeb8cefdddba3e91dbc2fddc"
-    sha256 cellar: :any, catalina:      "0de2d5a412701bd644080e47c4dcae47f262f76a6f5762477f3497f42202d647"
-    sha256 cellar: :any, mojave:        "93261513fc4078cecc0e921d809de1f549e5c39e83cf06fbbeaea194fe83b850"
+    sha256 cellar: :any, arm64_monterey: "0df6603337a1cff502ba253b8801db07224f32598eb347f94fb5785378520fbc"
+    sha256 cellar: :any, arm64_big_sur:  "cb7cbf77725dfb8c63132595f9328165d05c88ff06bb354c0439b619046ea089"
+    sha256 cellar: :any, monterey:       "eb9b26d88d0999f3eda261336868815893a94680dfb59041093ca108a38a278c"
+    sha256 cellar: :any, big_sur:        "a6b34eb24dbdc52a7e616dc1fda7bd10b37428d97a182006da2f6b18b34bbdfb"
+    sha256 cellar: :any, catalina:       "ac757f0f9b548f9a993d6f4f80bcb2b48abbed49189b7c7ebad0b13e9a75ec0d"
+    sha256               x86_64_linux:   "f19b2f3e7c3014bd7e65e2326b2d550ce10add78fc35c09bd6016cce51b98f6d"
   end
 
   depends_on "meson" => :build
@@ -68,8 +70,8 @@ class GnomeAutoar < Formula
       -lglib-2.0
       -lgnome-autoar-0
       -lgobject-2.0
-      -lintl
     ]
+    flags << "-lintl" if OS.mac?
     system ENV.cc, "test.c", "-o", "test", *flags
     system "./test"
   end

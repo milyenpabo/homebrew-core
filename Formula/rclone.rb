@@ -1,17 +1,18 @@
 class Rclone < Formula
   desc "Rsync for cloud storage"
   homepage "https://rclone.org/"
-  url "https://github.com/rclone/rclone/archive/v1.56.2.tar.gz"
-  sha256 "a5b0b7dfe17d9ec74e3a33415eec4331c61d800d8823621e61c6164e8f88c567"
+  url "https://github.com/rclone/rclone/archive/v1.58.1.tar.gz"
+  sha256 "b1fe94642547d63ce52cdc49a06696e8b478a04ca100ab4ab1c92ff7157177a9"
   license "MIT"
   head "https://github.com/rclone/rclone.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "957e720c43d34dab552b432aa5b7e1c1f8248fcc710636bb7d0f9ffc04865539"
-    sha256 cellar: :any_skip_relocation, big_sur:       "33790b4ad68970d136d97859a771bd12ea17eba644c70a64ac8f848e7adbefa2"
-    sha256 cellar: :any_skip_relocation, catalina:      "89eba48543a11570324e2a96e56b0962486969fd34ea07ff41fb278769dfe2f8"
-    sha256 cellar: :any_skip_relocation, mojave:        "4d4d8134ca7c9cd27cf242fafac39c1ab90fa51ac592d47d02c1a87b9e0daf26"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e53ec3ae829bd6f86f8d83d332ecdedd53e1bc16646e3b815cc85b3fc8002c5c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "dce8c496e927b38b9885bf055e06739958f297d1e24bb20b0d202cccfa5f81c2"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ec8e433706e6f01b732ec4630f5583819b2fbec2ed2553a0c6d92579aa5b4b8d"
+    sha256 cellar: :any_skip_relocation, monterey:       "cf88bbe948983de3f057fdb865bbcaa4a56b908694066f73f6caea3171003682"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b4b4384c3fc7a054202d6f4b8e1e38d58a96f77ec7b1d1d05e1087b75f22c32d"
+    sha256 cellar: :any_skip_relocation, catalina:       "9496d0c2066f3326d6a08ae11b8bc7797a1612ac520c3c271176aeea678b60c8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c935841423969eb7b495912305e81a72d8ec2fbf479ee7f163f3791c160120ad"
   end
 
   depends_on "go" => :build
@@ -23,8 +24,10 @@ class Rclone < Formula
     man1.install "rclone.1"
     system bin/"rclone", "genautocomplete", "bash", "rclone.bash"
     system bin/"rclone", "genautocomplete", "zsh", "_rclone"
+    system bin/"rclone", "genautocomplete", "fish", "rclone.fish"
     bash_completion.install "rclone.bash" => "rclone"
     zsh_completion.install "_rclone"
+    fish_completion.install "rclone.fish"
   end
 
   def caveats

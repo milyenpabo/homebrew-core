@@ -1,17 +1,18 @@
 class MongoCDriver < Formula
   desc "C driver for MongoDB"
   homepage "https://github.com/mongodb/mongo-c-driver"
-  url "https://github.com/mongodb/mongo-c-driver/releases/download/1.19.1/mongo-c-driver-1.19.1.tar.gz"
-  sha256 "1732251e3f65bc02ce05c04ce34ef2819b154479108df669f0c045486952521d"
+  url "https://github.com/mongodb/mongo-c-driver/releases/download/1.21.1/mongo-c-driver-1.21.1.tar.gz"
+  sha256 "2dd10399a31108116236ada68ae6d3f4b1bf78c03b43b1a33933d42aa0e62ed4"
   license "Apache-2.0"
-  head "https://github.com/mongodb/mongo-c-driver.git"
+  head "https://github.com/mongodb/mongo-c-driver.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "de4bbc7532fd196b9fba738e8b17edfc0aadb6bedbdbd71833a7ef1b255eec16"
-    sha256 cellar: :any,                 big_sur:       "204323f9b79875608290cd49fe8a8bb81eeda5ea1b1fde92c76a063e9f19d1d5"
-    sha256 cellar: :any,                 catalina:      "45beeed3b08061903197d2bcdf40febf951e8782b95e0a7df321fea0475f9e54"
-    sha256 cellar: :any,                 mojave:        "07ecdab24599574fb8ab343665902cf01fcff1535a584cf26c89107e2797b948"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "661526256b04bb4eb936a4699b18bfa77ab8c241f82bc35bd79ba49bf44570df"
+    sha256 cellar: :any,                 arm64_monterey: "7dac05a0ed204114472e79dbcc89be5958bba10994fbd12f1079c8ec46f8a9fc"
+    sha256 cellar: :any,                 arm64_big_sur:  "511dcf7efa510f5f9a5951c9fe3b7d8726e5b7f5a7bae09fa975c5f676505fb0"
+    sha256 cellar: :any,                 monterey:       "6b549206267ae2e93639709d3c4d0e761c5fa4ca52a27d756d4fc2fac4971051"
+    sha256 cellar: :any,                 big_sur:        "90f2abe5f4552ef98ecd4990f85d21f8b3ac9ec37da3ff0cadfe7b675e9f3bf6"
+    sha256 cellar: :any,                 catalina:       "f75eefd5ae2bfd7e1224f493e2de2d3b0962146a334af9168b66ef0d124cb086"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9baad85eab3687cdce14d244cba76f23a3aeda54880d94a6987fb12e91546255"
   end
 
   depends_on "cmake" => :build

@@ -1,8 +1,8 @@
 class Payara < Formula
   desc "Java EE application server forked from GlassFish"
   homepage "https://www.payara.fish"
-  url "https://search.maven.org/remotecontent?filepath=fish/payara/distributions/payara/5.2021.7/payara-5.2021.7.zip"
-  sha256 "13db90d934f64da2adc8ef19bea68850e45879b7587f8dc7f30fb08f078c9f75"
+  url "https://search.maven.org/remotecontent?filepath=fish/payara/distributions/payara/5.2022.2/payara-5.2022.2.zip"
+  sha256 "a956ee0084d9a857435ffa8008962242b3ec30a26335359cda9ff6b37e2e9249"
   license any_of: [
     "CDDL-1.1",
     { "GPL-2.0-only" => { with: "Classpath-exception-2.0" } },
@@ -14,9 +14,10 @@ class Payara < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "5600ce69eea35a21a58aa4a713c66b74c2f1d700dbed24b95dbe518d2a478db3"
+    sha256 cellar: :any_skip_relocation, all: "e4b43b16e9bcc67fb4f1a10b6f5c3bca870f212c78162f7b9e5c39e1b5e6dee2"
   end
 
+  depends_on :macos # The test fails on Linux.
   depends_on "openjdk@11"
 
   conflicts_with "glassfish", because: "both install the same scripts"

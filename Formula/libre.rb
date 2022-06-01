@@ -1,16 +1,17 @@
 class Libre < Formula
   desc "Toolkit library for asynchronous network I/O with protocol stacks"
-  homepage "https://github.com/creytiv/re"
-  url "https://github.com/creytiv/re/releases/download/v0.6.1/re-0.6.1.tar.gz"
-  sha256 "cd5bfc79640411803b200c7531e4ba8a230da3806746d3bd2de970da2060fe43"
+  homepage "https://github.com/baresip/re"
+  url "https://github.com/baresip/re/archive/refs/tags/v2.3.0.tar.gz"
+  sha256 "5ffcb354d09e416fe6ce12d7245d567c21b396894240c2e137a2a009a6472f83"
+  license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "48714fc735db00829b900935b7a0640a74f9f39174fc57775fa145428acd7759"
-    sha256 cellar: :any,                 big_sur:       "73bb1c1c6ebe022f294cc73e672154579e4d8e634f109883bcbb68818e1f3374"
-    sha256 cellar: :any,                 catalina:      "0ca7e76631b5f30d72b4bc4248e894d00f05cfb785c98856d82cd5cc13e591f9"
-    sha256 cellar: :any,                 mojave:        "5d43d79ef2406e40c858463189ca8a40f0b13ede8a7090b56ba0fd1ef942dabc"
-    sha256 cellar: :any,                 high_sierra:   "32787ca36540a0c7c330560076e25726bcca0f08a7b77014d3837bd9c7ca1840"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "75db7f192f53fd5e420b9eaa3c5fea8e0875f4b951751b07698682e9196d3ac2"
+    sha256 cellar: :any,                 arm64_monterey: "aa4dbc36738ce82ed6e91cd77406561830f4dae19b8e7b78e4386c0a186d7ea6"
+    sha256 cellar: :any,                 arm64_big_sur:  "d4df50164520a7e0719b4966fc9b03f56cab24eb690be348dbff997f453b34c0"
+    sha256 cellar: :any,                 monterey:       "0b125d515d560f8fea33a3c8f971ee814c1aa60016b549ba82a2f8c0a55438e1"
+    sha256 cellar: :any,                 big_sur:        "4f4f2d4306780227fa8dae00e79822db56b76cee4d8634cf29155617831f29d6"
+    sha256 cellar: :any,                 catalina:       "d32a9749b10b3cb069bf141daaed0070360bc385a14c92a228f99be3cf4b9615"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "6f3f51ef121a2c0b1116e96725e1b9daa9caa58d6109b77d896f33779c4e0758"
   end
 
   depends_on "openssl@1.1"

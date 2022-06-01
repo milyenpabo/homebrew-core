@@ -1,35 +1,36 @@
 class Latexindent < Formula
   desc "Add indentation to LaTeX files"
   homepage "https://ctan.org/pkg/latexindent"
-  url "https://github.com/cmhughes/latexindent.pl/archive/V3.12.tar.gz"
-  sha256 "040943006a24b764ca9237b629a687880cb4cbac8921f3dc60e1d2e8cd0cb114"
+  url "https://github.com/cmhughes/latexindent.pl/archive/V3.17.2.tar.gz"
+  sha256 "79283728e5bf25e494e26dddbaedde60d23e23957c6adb0c478ba56c8db2f3e0"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "ece7f238cfe2d9957904184ebe91f7deefa97e022277bca46fe497e90eec6cee"
-    sha256 cellar: :any_skip_relocation, big_sur:       "3615ae0eb52985d3dc854368ca2af70d25a3f498ae71ea694d7c292414fe0ac3"
-    sha256 cellar: :any_skip_relocation, catalina:      "2c4475bc3d54febb075d5203c63c323e702df4dfc1676d0176767486dddfa44b"
-    sha256 cellar: :any_skip_relocation, mojave:        "9022d0a59a8cf03a1bd2899fea42d0d38600e393c75338841cb00fead9545c7f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "00c259032003b498910c103268eca1b896dc7fea0e33ae4a22cdd89c66077d53"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "642b94ffa8e0478c456924b14f9711fb3c45c8f51e07a183604429a145345b7e"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "22123783cf85ff4232ea6bebb6c39454c6da78f7a7d77047e7ecdb3912c6983c"
+    sha256 cellar: :any_skip_relocation, monterey:       "d2bd7d38056c61d0c3d7f5d77067561fa64d78e1def759d20cf92a3c74fd6be3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "08025e8759b8524ac9a5c9ac57a01950b8b01a327ba525338aea80b842bdfc1c"
+    sha256 cellar: :any_skip_relocation, catalina:       "91c8283d17902adbb78b85f4e17e567879cb638c30bdb3f533eebe79e9da2afd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "06b543d3f0093669f0b77b33d5cf11adc7daad1bcd9bf817a693800e55441ae2"
   end
 
   depends_on "perl"
 
   on_macos do
     resource "Mac::SystemDirectory" do
-      url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Mac-SystemDirectory-0.13.tar.gz"
-      sha256 "8730740e4ff3ea4812139b0787dbd1b544e093a08218d908071629b70fde3684"
+      url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Mac-SystemDirectory-0.14.tar.gz"
+      sha256 "b3c336fe20850042d30e1db1e8d191d3c056cc1072a472eb4e5bd7229056dee1"
     end
   end
 
   resource "B::Hooks::EndOfScope" do
-    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/B-Hooks-EndOfScope-0.24.tar.gz"
-    sha256 "03aa3dfe5d0aa6471a96f43fe8318179d19794d4a640708f0288f9216ec7acc6"
+    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/B-Hooks-EndOfScope-0.26.tar.gz"
+    sha256 "39df2f8c007a754672075f95b90797baebe97ada6d944b197a6352709cb30671"
   end
 
   resource "Class::Data::Inheritable" do
-    url "https://cpan.metacpan.org/authors/id/T/TM/TMTM/Class-Data-Inheritable-0.08.tar.gz"
-    sha256 "9967feceea15227e442ec818723163eb6d73b8947e31f16ab806f6e2391af14a"
+    url "https://cpan.metacpan.org/authors/id/R/RS/RSHERER/Class-Data-Inheritable-0.09.tar.gz"
+    sha256 "44088d6e90712e187b8a5b050ca5b1c70efe2baa32ae123e9bd8f59f29f06e4d"
   end
 
   resource "Devel::GlobalDestruction" do
@@ -83,8 +84,8 @@ class Latexindent < Formula
   end
 
   resource "MRO::Compat" do
-    url "https://cpan.metacpan.org/authors/id/H/HA/HAARG/MRO-Compat-0.14_01.tar.gz"
-    sha256 "bc214d7964bc72f5a4015cc6b0d27376071cb64bd955280fea40c046b64d911a"
+    url "https://cpan.metacpan.org/authors/id/H/HA/HAARG/MRO-Compat-0.15.tar.gz"
+    sha256 "0d4535f88e43babd84ab604866215fc4d04398bd4db7b21852d4a31b1c15ef61"
   end
 
   resource "Module::Build" do
@@ -103,8 +104,8 @@ class Latexindent < Formula
   end
 
   resource "Package::Stash" do
-    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Package-Stash-0.39.tar.gz"
-    sha256 "9165f555112e080493ce0e9129de0886da30b2593fb353a2abd1c76b2d2621b5"
+    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Package-Stash-0.40.tar.gz"
+    sha256 "5a9722c6d9cb29ee133e5f7b08a5362762a0b5633ff5170642a5b0686e95e066"
   end
 
   resource "Package::Stash::XS" do
@@ -148,8 +149,8 @@ class Latexindent < Formula
   end
 
   resource "Try::Tiny" do
-    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Try-Tiny-0.30.tar.gz"
-    sha256 "da5bd0d5c903519bbf10bb9ba0cb7bcac0563882bcfe4503aee3fb143eddef6b"
+    url "https://cpan.metacpan.org/authors/id/E/ET/ETHER/Try-Tiny-0.31.tar.gz"
+    sha256 "3300d31d8a4075b26d8f46ce864a1d913e0e8467ceeba6655d5d2b2e206c11be"
   end
 
   resource "Unicode::LineBreak" do

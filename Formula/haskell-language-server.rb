@@ -1,10 +1,10 @@
 class HaskellLanguageServer < Formula
   desc "Integration point for ghcide and haskell-ide-engine. One IDE to rule them all"
   homepage "https://github.com/haskell/haskell-language-server"
-  url "https://github.com/haskell/haskell-language-server/archive/1.4.0.tar.gz"
-  sha256 "c5d7dbf7fae9aa3ed2c1184b49e82d8ac623ca786494ef6602cfe11735d28db0"
+  url "https://github.com/haskell/haskell-language-server/archive/1.6.1.0.tar.gz"
+  sha256 "e5c336ad2de8d021c882cdac5bbc26bf6427df8d2a5bd244c05cf18296a9bfdc"
   license "Apache-2.0"
-  head "https://github.com/haskell/haskell-language-server.git"
+  head "https://github.com/haskell/haskell-language-server.git", branch: "master"
 
   # we need :github_latest here because otherwise
   # livecheck picks up spurious non-release tags
@@ -14,10 +14,12 @@ class HaskellLanguageServer < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "5fec58d7c3ab8a84979a637f41d0aba636a7a024dfd96582ab2e5ac9374c15e9"
-    sha256 cellar: :any_skip_relocation, big_sur:       "5e3427fde42364771cbfab41b4eeb71889ac3a41737b6f54764fee1ec64c3e60"
-    sha256 cellar: :any_skip_relocation, catalina:      "ba30e3d1544596f125755302d973c5c38975253da11018ad22e51722f32b3316"
-    sha256 cellar: :any_skip_relocation, mojave:        "1eb7824102bc6234c8faf8523e50955f819403f3baf01837c72f79d4393536f1"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4a775f8124deb496ccf4e54fd369675bf6dc591c37aeee2e182ac5be9fd60601"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d6ceb7facfe09c3c0e86a343b846a8d08c3760a22b99ffcb16317e7b351ccdbc"
+    sha256 cellar: :any_skip_relocation, monterey:       "f3facd6ba2cda0a0564fc3f77d50f3710078969ea07387de723b58c429a2ddd5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "98fb38457acb2e9bb7939fcf3c6c082b47f5b35b6d845ecc1560483d8a611b80"
+    sha256 cellar: :any_skip_relocation, catalina:       "1111441e2b71d71cdc3e61e16f4382d40459f667c970816e867a305d8a8cc063"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "16316d3c14e8f44d17ac79b95071bc129be26a33622af4221f7bad7d2071b3e4"
   end
 
   depends_on "cabal-install" => [:build, :test]
@@ -27,6 +29,9 @@ class HaskellLanguageServer < Formula
     depends_on "ghc@8.6" => [:build, :test]
     depends_on "ghc@8.8" => [:build, :test]
   end
+
+  uses_from_macos "ncurses"
+  uses_from_macos "zlib"
 
   def ghcs
     deps.map(&:to_formula)
@@ -39,7 +44,10 @@ class HaskellLanguageServer < Formula
     newest_ghc = ghcs.max_by(&:version)
 
     ghcs.each do |ghc|
-      system "cabal", "v2-install", "-w", ghc.bin/"ghc", *std_cabal_v2_args
+      # for --enable-executable-dynamic flag, explained in
+      # https://haskell-language-server.readthedocs.io/en/latest/troubleshooting.html#support-for-template-haskell
+      args = ["-w", ghc.bin/"ghc", "--enable-executable-dynamic"]
+      system "cabal", "v2-install", *args, *std_cabal_v2_args
 
       hls = "haskell-language-server"
       bin.install bin/hls => "#{hls}-#{ghc.version}"

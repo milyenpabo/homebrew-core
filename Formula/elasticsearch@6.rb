@@ -1,20 +1,22 @@
 class ElasticsearchAT6 < Formula
   desc "Distributed search & analytics engine"
   homepage "https://www.elastic.co/products/elasticsearch"
-  url "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-6.8.13.tar.gz"
-  sha256 "e3a41d1a58898c18e9f80d45b1bf9f413779bdda9621027a6fe87f3a0f59ec90"
+  url "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-6.8.23.tar.gz"
+  sha256 "60e77b5ca3ce11771469bcc2e009c49c8aadb831faebd170e7abcedc16b3e36d"
   license "Apache-2.0"
-  revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "a3d5804877468dca06960f0a88f90c2962dd46804d93def238a742378f9dbd4f"
-    sha256 cellar: :any_skip_relocation, big_sur:       "91758d6c8c408f7b478d9907b4b0585413b1574df2e8a6d48b281ea38f735be4"
-    sha256 cellar: :any_skip_relocation, catalina:      "91758d6c8c408f7b478d9907b4b0585413b1574df2e8a6d48b281ea38f735be4"
-    sha256 cellar: :any_skip_relocation, mojave:        "91758d6c8c408f7b478d9907b4b0585413b1574df2e8a6d48b281ea38f735be4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "c82ecdafef4805227c40d58feff43a4faa21e0ff0b97420c315453a3c14e2117"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4db242272e294706f8cf26a6d4d33b8c68a9e47db10d7d8ca84d2a3139a39311"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4db242272e294706f8cf26a6d4d33b8c68a9e47db10d7d8ca84d2a3139a39311"
+    sha256 cellar: :any_skip_relocation, monterey:       "3d77a4b086fa69e59b3f33b344131868588bcb558035b862961e514a0c3273e4"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3d77a4b086fa69e59b3f33b344131868588bcb558035b862961e514a0c3273e4"
+    sha256 cellar: :any_skip_relocation, catalina:       "3d77a4b086fa69e59b3f33b344131868588bcb558035b862961e514a0c3273e4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ae05feeb52801460e639d2440e3a523c4d5d0ca0626cc609cfb2dd1414fa5101"
   end
 
   keg_only :versioned_formula
+
+  deprecate! date: "2022-02-10", because: :unsupported
 
   depends_on "openjdk"
 

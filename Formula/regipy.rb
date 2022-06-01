@@ -3,35 +3,36 @@ class Regipy < Formula
 
   desc "Offline registry hive parsing tool"
   homepage "https://github.com/mkorman90/regipy"
-  url "https://files.pythonhosted.org/packages/f1/d9/ebae459c0784f409b133b6206fd29e7c66c0b9e82d0469c5760d65db7fcd/regipy-2.2.0.tar.gz"
-  sha256 "d6eec6d646fdfc290296668dae1a68811b1365e3a1fca64e0b7e3290de099e8f"
+  url "https://files.pythonhosted.org/packages/86/f7/9e1f7bf74a52dbbe4691466dc99f7ef89b7e247b2fcea5f081a180ebbbc2/regipy-2.3.3.tar.gz"
+  sha256 "a382399664191f8f5d2dddaa6531e369e52251f166d6f096cc617cdd8652933e"
   license "MIT"
   head "https://github.com/mkorman90/regipy.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "d23cba8777868085dd95e650e77a2b8b7717f6d075f291f63d1b33fae311fb08"
-    sha256 cellar: :any_skip_relocation, big_sur:       "ceab82a175e88eac4affd79bcf50ec9b4ef5f4ac92471c262b86fba419d469a1"
-    sha256 cellar: :any_skip_relocation, catalina:      "7226b7e1bcc61f1b1867cf294758353e9bd5f1faf50d093562381412183f3b9d"
-    sha256 cellar: :any_skip_relocation, mojave:        "3844df02655ca71a3dd6ab4a911bfd7318c950434077e9c5791cf2601049393b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1a2abc5c213e559fac287f75d09d51e7202a9f12ac7091e9232db365075f3475"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "79ca756ab78a250e83b1a2ff88a5afb88be54ad8e2c562e3123eeab7c72c82c3"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "11a697e7e6c2073fbeed9bc9f0d22036aa4d20c203765ca1f5b83c9d223cb174"
+    sha256 cellar: :any_skip_relocation, monterey:       "f3147bf7eee73d666a2abf1784033ca8e3286434154985211fbf1d2b3414fbe8"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e17289945a77f54a7221aee86b665f3f94523c994d1065f9aa99c88d250f7ac7"
+    sha256 cellar: :any_skip_relocation, catalina:       "97b2d1f097196dddde91786bbffb237de55a67c7263d2512a3a2276dc4d96241"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "172c89e5295ed48c38e986ace62cd2f4e2524d6f8de3a191c627948feb71b2ab"
   end
 
   depends_on "python-tabulate"
   depends_on "python@3.9"
 
   resource "attrs" do
-    url "https://files.pythonhosted.org/packages/ed/d6/3ebca4ca65157c12bd08a63e20ac0bdc21ac7f3694040711f9fd073c0ffb/attrs-21.2.0.tar.gz"
-    sha256 "ef6aaac3ca6cd92904cdd0d83f629a15f18053ec84e6432106f7a4d04ae4f5fb"
+    url "https://files.pythonhosted.org/packages/d7/77/ebb15fc26d0f815839ecd897b919ed6d85c050feeb83e100e020df9153d2/attrs-21.4.0.tar.gz"
+    sha256 "626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"
   end
 
   resource "click" do
-    url "https://files.pythonhosted.org/packages/21/83/308a74ca1104fe1e3197d31693a7a2db67c2d4e668f20f43a2fca491f9f7/click-8.0.1.tar.gz"
-    sha256 "8c04c11192119b1ef78ea049e0a6f0463e4c48ef00a30160c704337586f3ad7a"
+    url "https://files.pythonhosted.org/packages/59/87/84326af34517fca8c58418d148f2403df25303e02736832403587318e9e8/click-8.1.3.tar.gz"
+    sha256 "7682dc8afb30297001674575ea00d1814d808d6a36af415a82bd481d37ba7b8e"
   end
 
   resource "construct" do
-    url "https://files.pythonhosted.org/packages/39/2b/c68eaf8294f01ea534f39b8b4ec1d7308b5195e08570c276b104bccd24ff/construct-2.10.67.tar.gz"
-    sha256 "730235fedf4f2fee5cfadda1d14b83ef1bf23790fb1cc579073e10f70a050883"
+    url "https://files.pythonhosted.org/packages/e0/b7/a4a032e94bcfdff481f2e6fecd472794d9da09f474a2185ed33b2c7cad64/construct-2.10.68.tar.gz"
+    sha256 "7b2a3fd8e5f597a5aa1d614c3bd516fa065db01704c72a1efaaeec6ef23d8b45"
   end
 
   resource "inflection" do
@@ -40,8 +41,8 @@ class Regipy < Formula
   end
 
   resource "pytz" do
-    url "https://files.pythonhosted.org/packages/b0/61/eddc6eb2c682ea6fd97a7e1018a6294be80dba08fa28e7a3570148b4612d/pytz-2021.1.tar.gz"
-    sha256 "83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da"
+    url "https://files.pythonhosted.org/packages/2f/5f/a0f653311adff905bbcaa6d3dfaf97edcf4d26138393c6ccd37a484851fb/pytz-2022.1.tar.gz"
+    sha256 "1e760e2fe6a8163bc0b3d9a19c4f84342afa0a2affebfaa84b01b978a02ecaa7"
   end
 
   resource "test_hive" do

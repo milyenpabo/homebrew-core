@@ -1,7 +1,7 @@
 class MariadbAT101 < Formula
   desc "Drop-in replacement for MySQL"
   homepage "https://mariadb.org/"
-  url "https://downloads.mariadb.org/f/mariadb-10.1.48/source/mariadb-10.1.48.tar.gz"
+  url "https://downloads.mariadb.com/MariaDB/mariadb-10.1.48/source/mariadb-10.1.48.tar.gz"
   sha256 "069d58b1e2c06bb1e6c31249eda34138f41fb8ae3dec7ecaeba8035812c87cf9"
   license "GPL-2.0-only"
 
@@ -15,7 +15,7 @@ class MariadbAT101 < Formula
   keg_only :versioned_formula
 
   # See: https://mariadb.com/kb/en/changes-improvements-in-mariadb-101/
-  deprecate! date: "2020-10-01", because: :unsupported
+  disable! date: "2022-01-01", because: :unsupported
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build

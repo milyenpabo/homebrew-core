@@ -1,16 +1,17 @@
 class Sile < Formula
   desc "Modern typesetting system inspired by TeX"
   homepage "https://sile-typesetter.org"
-  url "https://github.com/sile-typesetter/sile/releases/download/v0.12.0/sile-0.12.0.tar.xz"
-  sha256 "c983a2b32d171ba392191eb29de2c3b433452d6cb514f270b17a7b3889fb6de6"
+  url "https://github.com/sile-typesetter/sile/releases/download/v0.12.5/sile-0.12.5.tar.xz"
+  sha256 "de97ff483dd4cd5150ae3ec5b60ca11515bc47e143eb0ee980da67c5716c3c7d"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "46ab35a88b16fd67f7fbe20e6241b1d51457ec3a06f2ff32aac804b40a0f7d94"
-    sha256 cellar: :any,                 big_sur:       "577a2fb134f9d238f97e4ab479991546417bd22d644e78a02f2c6f4b4301b58b"
-    sha256 cellar: :any,                 catalina:      "c53f0f67e11a4c24c0bb6b5b27c00725ebc0497135785220dbef8971d015c5b7"
-    sha256 cellar: :any,                 mojave:        "4dd937145f1e4ff23d779b8e25bcff230fe288da76825b622de7e80a44947426"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "59653464acc2cf9ed9f230bfd962e38c144b68bf3197f0dc2a9f46cd93f0b6a8"
+    sha256 cellar: :any,                 arm64_monterey: "491f120c9c92d3e6e38b4ce82a3d972581fad3c2e66e45880c495b79cb6ef1fc"
+    sha256 cellar: :any,                 arm64_big_sur:  "e20f6a402a2d523e2932e18fcf94f0e0fa3f34fcbf894ece8928d7e8cf2d9d6a"
+    sha256 cellar: :any,                 monterey:       "8af56005fd361da02bfe68b4fcdaed37688e08f8648f7a6c3a6419b43791859d"
+    sha256 cellar: :any,                 big_sur:        "072e5c0be1814dfd6399fb25f5bccc524b25397588b5a3d4162efb0f257d43f8"
+    sha256 cellar: :any,                 catalina:       "a82c4e0e65eea5686e23d2ec3e8d5cecd328e5b8d6f44a1b34c6ab4fbc228b12"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b8c9681b50d7e4aece0c1837e484081c9d2e1e619d9502c6470e8e56b49946b9"
   end
 
   head do
@@ -31,7 +32,6 @@ class Sile < Formula
   depends_on "openssl@1.1"
 
   uses_from_macos "expat"
-  uses_from_macos "git"
   uses_from_macos "zlib"
 
   resource "stdlib" do
@@ -103,8 +103,8 @@ class Sile < Formula
   end
 
   resource "penlight" do
-    url "https://luarocks.org/manifests/tieske/penlight-1.11.0-1.src.rock"
-    sha256 "4bc3e5a5869313a326fe39f23a6d02c4e13d1780cb4559f0aed04c414b1297cf"
+    url "https://luarocks.org/manifests/tieske/penlight-1.12.0-1.src.rock"
+    sha256 "99e2d88d5539901989f785100c8d216ef8e9461e08f93a850e9ea6abc9952927"
   end
 
   # Depends on luafilesystem and penlight

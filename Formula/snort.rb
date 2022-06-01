@@ -1,22 +1,22 @@
 class Snort < Formula
   desc "Flexible Network Intrusion Detection System"
   homepage "https://www.snort.org"
-  url "https://github.com/snort3/snort3/archive/3.1.13.0.tar.gz"
-  mirror "https://fossies.org/linux/misc/snort3-3.1.13.0.tar.gz"
-  sha256 "297c9fb6598f473c8aad1c544a6a9b241a74c084074801c035fc0c5cc24680ec"
+  url "https://github.com/snort3/snort3/archive/3.1.30.0.tar.gz"
+  mirror "https://fossies.org/linux/misc/snort3-3.1.30.0.tar.gz"
+  sha256 "a565eee62ce562a1469f245209b20966040d066249462d2b51bf8a95c795c719"
   license "GPL-2.0-only"
   head "https://github.com/snort3/snort3.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "2ebe29f52d68b28fb55f7d65aea348bc5339d88d738221349cb0d00922193656"
-    sha256 cellar: :any,                 big_sur:       "8bd2dc2a016e6eb10e564723b4e52914dc2662313908b0e14ffd1681960f58a7"
-    sha256 cellar: :any,                 catalina:      "9e531dc0b5493e33390f6b043b08fc06907d40ee56a9ec65c53a2e96387cd2b6"
-    sha256 cellar: :any,                 mojave:        "1c688c1127c1a3da81e8aecfce557c4b3b3814c054637e90df41785f0d900efb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "cbdad733d3bbcdd8a897e2e920ffde92a2ac6fe106661e906e72e9b83aa22ba9"
+    sha256 cellar: :any,                 arm64_monterey: "4bae8edcc2f6de8020c102cd33abe44ad71feb8e5c98d8ac25f6a2f267070398"
+    sha256 cellar: :any,                 arm64_big_sur:  "cef0dd8571aefbf2b7463bfa1a728cf32ec6f1b92215be586d5963241d3cb4fe"
+    sha256 cellar: :any,                 monterey:       "0c01de835eadfe5ea36a859463688909d12b14116e44a46c4e20151631fb1360"
+    sha256 cellar: :any,                 big_sur:        "812c7186132e2b4fbfb35bf790e58a56b50d032c05b191a8c20200ea26f91bfc"
+    sha256 cellar: :any,                 catalina:       "894155b5770370522e48f75c1e8504640d6b0ea7240cbac04039d762fe4d2254"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3c5e1ec65d1eb4214706d5f2fecfa0d324c0ae48a6f050966547d37d14b9872c"
   end
 
   depends_on "cmake" => :build
-  depends_on "flatbuffers" => :build
   depends_on "flex" => :build # need flex>=2.6.0
   depends_on "pkg-config" => :build
   depends_on "daq"
@@ -35,6 +35,15 @@ class Snort < Formula
 
   on_linux do
     depends_on "libunwind"
+    depends_on "gcc"
+  end
+
+  fails_with gcc: "5"
+
+  # PR ref, https://github.com/snort3/snort3/pull/225
+  patch do
+    url "https://github.com/snort3/snort3/commit/704c9d2127377b74d1161f5d806afa8580bd29bf.patch?full_index=1"
+    sha256 "4a96e428bd073590aafe40463de844069a0e6bbe07ada5c63ce1746a662ac7bd"
   end
 
   def install

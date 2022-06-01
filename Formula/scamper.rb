@@ -1,8 +1,8 @@
 class Scamper < Formula
   desc "Advanced traceroute and network measurement utility"
   homepage "https://www.caida.org/catalog/software/scamper/"
-  url "https://www.caida.org/catalog/software/scamper/code/scamper-cvs-20210324.tar.gz"
-  sha256 "332dce11a707c03045dd3c3faea4daf8b9d5debb8ac122aea8257f6bd2cf4404"
+  url "https://www.caida.org/catalog/software/scamper/code/scamper-cvs-20211212.tar.gz"
+  sha256 "ae4f84aef28373701568a9e57ec44a31ec20871c33c044a5272de726acbd2d13"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,19 +11,23 @@ class Scamper < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "855e3ee08cbf5f3faf38ce9882a50726206ae937b5aaea7e05a0428ebd5a3a98"
-    sha256 cellar: :any,                 big_sur:       "09a4f52a2be595e32ca3fc36a34382c99b81b3dcd100100c2044f7a062fa26f8"
-    sha256 cellar: :any,                 catalina:      "c33b1518d8c66b25952e32d0b52ce8e44b060818056e0d09f5a594bd349fef52"
-    sha256 cellar: :any,                 mojave:        "0ad15790baa3e9045a7d82ecf4a8e40c35f50006c50bd6229ca8b4485ca35071"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "3495fd46b0aa2ad9a540d8143f3d0c4b022f3df80e1874016e4edff219099e29"
+    sha256 cellar: :any,                 arm64_monterey: "ea08ddc851dd29feedbaa0a8f20bb178c268df5c9497e2043b2c916b7434eaa5"
+    sha256 cellar: :any,                 arm64_big_sur:  "1066b95b6fe4fe29362028df661fea8f790465da53f22ac00329be16d3d25e0f"
+    sha256 cellar: :any,                 monterey:       "bb3acac54b6c08565922731332b37642b0c22d9d155e91f788261dc4f4917a92"
+    sha256 cellar: :any,                 big_sur:        "25313db0f5be0e859b56a52fb05ee1ec648ccbc46f15bc17c5bd298a1ba5362d"
+    sha256 cellar: :any,                 catalina:       "581e363f70aa19e814f94e2df445785801be56b30141574bc4a1f625c0cc8cbf"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "474e6d68861e2b138f51b8db49ab28c12cfb7e16ec9612e88074e3fcd6ad550b"
   end
 
   depends_on "pkg-config" => :build
   depends_on "openssl@1.1"
 
   def install
-    system "./configure", "--disable-debug", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}"
+    system "./configure", *std_configure_args
     system "make", "install"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/scamper -v 2>&1", 255)
   end
 end

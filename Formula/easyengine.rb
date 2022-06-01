@@ -1,15 +1,17 @@
 class Easyengine < Formula
   desc "Command-line control panel to manage WordPress sites"
   homepage "https://easyengine.io/"
-  url "https://github.com/EasyEngine/easyengine/releases/download/v4.3.1/easyengine.phar"
-  sha256 "125a80fe3f0e067cbc5add818b92e12b5208179ed0e6d493872e3a9d59b1eecc"
+  url "https://github.com/EasyEngine/easyengine/releases/download/v4.5.6/easyengine.phar"
+  sha256 "28cd198a6c66d646756e6bda7f0981d5677d935667e3c1afb9456348f5c128d5"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "6dadda808adbe3b36846613fcd9940ac087159aff9688452bf570df183eff6e7"
-    sha256 cellar: :any_skip_relocation, big_sur:       "e01550e56cc525492532558f554856f7925cd431234319715ee8a2a3caa0d32f"
-    sha256 cellar: :any_skip_relocation, catalina:      "e01550e56cc525492532558f554856f7925cd431234319715ee8a2a3caa0d32f"
-    sha256 cellar: :any_skip_relocation, mojave:        "e01550e56cc525492532558f554856f7925cd431234319715ee8a2a3caa0d32f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "7ed1d137bec2b1235657652906ebc37fff79f7f478d690a024be18e869f80620"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7ed1d137bec2b1235657652906ebc37fff79f7f478d690a024be18e869f80620"
+    sha256 cellar: :any_skip_relocation, monterey:       "7b28790b20f6b331b50017703497ebf185a2e19e2c0d25492dd374cc1646187b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "7b28790b20f6b331b50017703497ebf185a2e19e2c0d25492dd374cc1646187b"
+    sha256 cellar: :any_skip_relocation, catalina:       "7b28790b20f6b331b50017703497ebf185a2e19e2c0d25492dd374cc1646187b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7ed1d137bec2b1235657652906ebc37fff79f7f478d690a024be18e869f80620"
   end
 
   depends_on "dnsmasq"
@@ -25,11 +27,13 @@ class Easyengine < Formula
   end
 
   test do
-    system bin/"ee config set locale hi_IN"
+    return if OS.linux? # requires `sudo`
+
+    system bin/"ee", "config", "set", "locale", "hi_IN"
     output = shell_output("#{bin}/ee config get locale")
     assert_match "hi_IN", output
 
     output = shell_output("#{bin}/ee cli info")
-    assert_match "Darwin", output
+    assert_match OS.kernel_name, output
   end
 end

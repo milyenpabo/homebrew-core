@@ -1,9 +1,18 @@
 class Strongswan < Formula
   desc "VPN based on IPsec"
   homepage "https://www.strongswan.org"
-  url "https://download.strongswan.org/strongswan-5.9.3.tar.bz2"
-  sha256 "9325ab56a0a4e97e379401e1d942ce3e0d8b6372291350ab2caae0755862c6f7"
   license "GPL-2.0-or-later"
+
+  stable do
+    url "https://download.strongswan.org/strongswan-5.9.6.tar.bz2"
+    sha256 "91d0978ac448912759b85452d8ff0d578aafd4507aaf4f1c1719f9d0c7318ab7"
+
+    # Fix -flat_namespace being used on Big Sur and later.
+    patch do
+      url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+      sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
+    end
+  end
 
   livecheck do
     url "https://download.strongswan.org/"
@@ -11,10 +20,11 @@ class Strongswan < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "0f1e4ce71721da3159ae758863a23e94daf4830d3c84eb431d8edfb673b1a51c"
-    sha256 big_sur:       "210a8f1fe7469c4f660259de33605226f5fa6c02436888754a581e0f35c8f607"
-    sha256 catalina:      "bec3e5c02784130c788a861c3ac78e88b8080f825e9ac3ec9a575891a341de6d"
-    sha256 mojave:        "307035e5a5807685ba2c960a4ec68d533039d3a3157adf351108e63b7db551c2"
+    sha256 arm64_monterey: "f806dbca2666f47cbbf36260662a61af4ac4c082193ae5c24e85c930f6077ba5"
+    sha256 arm64_big_sur:  "f855baf53af34700b0da2a93f932ee8723b28183e11cf6c50fc3ba4b72d7a294"
+    sha256 monterey:       "6b19436fecbf3133f8b47a9ec72eb2582b13d4bcba2db5f9010e585f509045f1"
+    sha256 big_sur:        "4a7faa7890cd62870c3c2ab71917004fb01b6ab0d77326530b6a1b578f76f962"
+    sha256 catalina:       "d0a222d385192e0e99c45edc3285b72ad0900ef5e7ae636bdc42a24095463e20"
   end
 
   head do
@@ -48,10 +58,8 @@ class Strongswan < Formula
       --enable-ikev1
       --enable-ikev2
       --enable-kernel-pfkey
-      --enable-kernel-pfroute
       --enable-nonce
       --enable-openssl
-      --enable-osx-attr
       --enable-pem
       --enable-pgp
       --enable-pkcs1
@@ -69,6 +77,8 @@ class Strongswan < Formula
       --enable-x509
       --enable-xauth-generic
     ]
+
+    args << "--enable-kernel-pfroute" << "--enable-osx-attr" if OS.mac?
 
     system "./autogen.sh" if build.head?
     system "./configure", *args

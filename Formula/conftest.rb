@@ -1,17 +1,18 @@
 class Conftest < Formula
   desc "Test your configuration files using Open Policy Agent"
   homepage "https://www.conftest.dev/"
-  url "https://github.com/open-policy-agent/conftest/archive/v0.28.1.tar.gz"
-  sha256 "7db4d07321afe713b735c347b69a53adee193c728fe655ab2027c94439c53a5d"
+  url "https://github.com/open-policy-agent/conftest/archive/v0.32.0.tar.gz"
+  sha256 "7e2bd2ae486d72bbc55e3ba376336fb55df62f3453ad45fcbcff3dbe766f9925"
   license "Apache-2.0"
   head "https://github.com/open-policy-agent/conftest.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "14e2418aed581f427b19637dc5190ac121b8be4f69e569e6a5a26e3fd744286d"
-    sha256 cellar: :any_skip_relocation, big_sur:       "67813dba27b436619a69495e7313ed0b7bf8f292f627d13e2e446463424318c0"
-    sha256 cellar: :any_skip_relocation, catalina:      "d6d0f3239fe2e0103bcb80004ff38b8cb80dba708c6acec73ff35e6142840317"
-    sha256 cellar: :any_skip_relocation, mojave:        "3a624ac7e19423d2ee7bac2db0b41c8308b24a43ba1eab6e7e0518f263652278"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6f1990a8c26abf666a468648eb1d5ee7886a647b4129dfa46aadba5cb618b407"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a024da48b5404802cb946687ad15fbb126ae4ceb36dbb9fdd75ae4716fee42bf"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "166e6a9ea172ba122baf149eb9190b4939876b694f61351c529b319b24b930c4"
+    sha256 cellar: :any_skip_relocation, monterey:       "ce1828c5db43859fdbfe466d28793722238c8b994a17674ddbe16157d098c1a7"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4ff762f9afc866734323a0dd06e7cfd6f8fa1694fef51888c8550eaabf2b3404"
+    sha256 cellar: :any_skip_relocation, catalina:       "b81dfdba49bc4839c78b60ecf25d66b44353e5be8061e365549bfb17f10015e6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ac005e86f1bf75f880c67a4b1b2dba38c16b55b2422355ce3bce185ce48aaea5"
   end
 
   depends_on "go" => :build

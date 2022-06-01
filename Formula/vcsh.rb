@@ -1,18 +1,19 @@
 class Vcsh < Formula
   desc "Config manager based on git"
   homepage "https://github.com/RichiH/vcsh"
-  url "https://github.com/RichiH/vcsh/releases/download/v2.0.2/vcsh-2.0.2.tar.xz"
-  sha256 "3ffc0bbb43c76620c8234c98f4ae94d0a99d24bb240497aab730979a8d23ad61"
+  url "https://github.com/RichiH/vcsh/releases/download/v2.0.4/vcsh-2.0.4.tar.xz"
+  sha256 "5bf425d89f474c340fbb47a5df8987573a9ef3928658b3e9876b07cae1333cf2"
   license "GPL-2.0-or-later"
 
   bottle do
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, all: "40f77813b0e23090862c769daaa02a99ddc179ca1dae0e9834827dc02e16ce5b"
+    sha256 cellar: :any_skip_relocation, all: "a10034412763e8523978a3223825e125f85958ec4546a7b311b8a7f748d74c1e"
   end
 
   def install
     # Set GIT, SED, and GREP to prevent
-    # hardcoding shim references and absolute paths
+    # hardcoding shim references and absolute paths.
+    # We set this even where we have no shims because
+    # the hardcoded absolute path might not be portable.
     system "./configure", "--with-zsh-completion-dir=#{zsh_completion}",
                           "--with-bash-completion-dir=#{bash_completion}",
                           "GIT=git", "SED=sed", "GREP=grep",

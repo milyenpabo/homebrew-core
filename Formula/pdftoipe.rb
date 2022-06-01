@@ -4,21 +4,33 @@ class Pdftoipe < Formula
   url "https://github.com/otfried/ipe-tools/archive/v7.2.24.1.tar.gz"
   sha256 "561b18fc2a7ae45c37c5d0390443b37f4585549f09cd7765d856456be24e5dbc"
   license "GPL-2.0-or-later"
-  revision 1
+  revision 6
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "99cb899f3d5790f91a4b1de0f5731c409744df246ce79b97775aaaf00c58e2be"
-    sha256 cellar: :any, big_sur:       "24fbd7e2064200c33ba600cbd3608c4633ea962434edbabc7c44fc3459e1c4fb"
-    sha256 cellar: :any, catalina:      "420250312abd7c3cd740c8fdf1d95c1ed06d25836e2d12f4bf9cf7ea0499772f"
-    sha256 cellar: :any, mojave:        "d40bb7517d27d51127030997b04953bd47d64f916d384e3d4c842c1ee162f1fc"
+    sha256 cellar: :any,                 arm64_monterey: "71993ec5e573e4f8e3ff452dc7d0c3df9e2f08a542940f19578bb90649104830"
+    sha256 cellar: :any,                 arm64_big_sur:  "3c1e7a01a95419a7a85ddae59eca79c4f8add94e235f9b5274cfbbd86e8e27c0"
+    sha256 cellar: :any,                 monterey:       "1e468ddfe642edc7241437e2bae279813452d3502849bde0547e65a6efb44264"
+    sha256 cellar: :any,                 big_sur:        "9c4b5c435105469b2faf694db8343291624127adafc4d5e724431f63da17c6a6"
+    sha256 cellar: :any,                 catalina:       "6adbd859a82a139179843984e808ac2cdcc428f5204c67e01a2097a581e7de6c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "964eab28db09c3895efba2d1f7200e4551eb29368997f9523fd68abdfc20798a"
   end
 
   depends_on "pkg-config" => :build
   depends_on "poppler"
 
-  def install
-    ENV.cxx11
+  on_linux do
+    depends_on "gcc"
+  end
 
+  fails_with gcc: "5"
+
+  # https://github.com/otfried/ipe-tools/pull/48
+  patch do
+    url "https://github.com/otfried/ipe-tools/commit/14335180432152ad094300d0afd00d8e390469b2.patch?full_index=1"
+    sha256 "544d891bfab2c297f659895761cb296d6ed2b4aa76a888e9ca2c215d497a48e5"
+  end
+
+  def install
     cd "pdftoipe" do
       system "make"
       bin.install "pdftoipe"

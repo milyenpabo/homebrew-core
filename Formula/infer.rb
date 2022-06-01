@@ -3,7 +3,7 @@ class Infer < Formula
   homepage "https://fbinfer.com/"
   license "MIT"
   revision 1
-  head "https://github.com/facebook/infer.git", branch: "master"
+  head "https://github.com/facebook/infer.git", branch: "main"
 
   stable do
     url "https://github.com/facebook/infer/archive/v1.1.0.tar.gz"
@@ -35,6 +35,10 @@ class Infer < Formula
     sha256 cellar: :any, mojave:       "2bda6a47ff87c9d79a3f937c9cf24771798107c1bc215823e6156d6ba414f40d"
     sha256               x86_64_linux: "987d26d95d3e073a96c683710ab0298a1674d2ee6e7a2ee4cb0d8914f2b0139d"
   end
+
+  # https://github.com/Homebrew/homebrew-core/pull/87904
+  # https://github.com/facebook/infer/issues/1568
+  deprecate! date: "2021-12-20", because: :does_not_build
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
@@ -68,6 +72,10 @@ class Infer < Formula
   end
 
   def install
+    # Fixes: Uncaught Internal Error: ("unknown zone" (zone UTC0))
+    # https://github.com/facebook/infer/issues/1548
+    ENV.delete "TZ"
+
     # needed to build clang
     ENV.permit_arch_flags
 

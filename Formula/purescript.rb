@@ -1,17 +1,18 @@
 class Purescript < Formula
   desc "Strongly typed programming language that compiles to JavaScript"
   homepage "https://www.purescript.org/"
-  url "https://hackage.haskell.org/package/purescript-0.14.4/purescript-0.14.4.tar.gz"
-  sha256 "730b0ef2d479c1655f4ed7b1515629fd76bfbad57563779bf45e6ce63d48aa61"
+  url "https://hackage.haskell.org/package/purescript-0.15.2/purescript-0.15.2.tar.gz"
+  sha256 "a4d99367b98dcc25f22721b633ca2a9d339131776f8e827b35a9738b7a3cd587"
   license "BSD-3-Clause"
   head "https://github.com/purescript/purescript.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "e731bf3b7ccedffc2140340df285432f592e362c92a16108e991fa34066a274c"
-    sha256 cellar: :any_skip_relocation, big_sur:       "cd63479d4e3c3840de1d4570144323cf0c855fa04320115b48baa80f34e3a7a4"
-    sha256 cellar: :any_skip_relocation, catalina:      "24592ee5e641295e60751043239c94c29e83be369157101f8a6532621928d5ab"
-    sha256 cellar: :any_skip_relocation, mojave:        "d3206d2e8a4b865d7fa7a023d1f8e0dc2ae2f37a10aaf30ab9396c7860b280d2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "9af6b9149952cb98e0fcf394b5d8f5a7e4c1608f0d59b2065bd1b73cedf95e83"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5055caa85ea3a46015846050200dbf04907ab27351337ff5c615410c9bee2da1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "452105a11118032f9427dadcd2edd94be51a8d758a4f86da26559b2a551cbcc1"
+    sha256 cellar: :any_skip_relocation, monterey:       "00ea8f3aff0cef01080805632c9725cb5b1b32c5b81eb4f15146052596d36210"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d18e19fdc8165edbb3bb69e0c0b50099364c37653f2de7804615483e8a5c84d7"
+    sha256 cellar: :any_skip_relocation, catalina:       "3dd1a8b30aa1f48abe6cddd4be692984fb7566f7efdea872f5572b7914e1d5fe"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "498682974e6ae80326a87d34d62c42012558bcd2ebd13b9a788c00f51f055814"
   end
 
   depends_on "ghc" => :build
@@ -20,13 +21,7 @@ class Purescript < Formula
   uses_from_macos "ncurses"
   uses_from_macos "zlib"
 
-  resource "purescript-cst" do
-    url "https://hackage.haskell.org/package/purescript-cst-0.4.0.0/purescript-cst-0.4.0.0.tar.gz"
-    sha256 "0f592230f528ce471a3d3ce44d85f4b96f2a08f5d6483edfe569679a322d6e64"
-  end
-
   def install
-    (buildpath/"lib"/"purescript-cst").install resource("purescript-cst")
     system "stack", "install", "--system-ghc", "--no-install-ghc", "--skip-ghc-check", "--local-bin-path=#{bin}"
   end
 

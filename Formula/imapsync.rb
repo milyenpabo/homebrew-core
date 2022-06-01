@@ -1,11 +1,11 @@
 class Imapsync < Formula
   desc "Migrate or backup IMAP mail accounts"
   homepage "https://imapsync.lamiral.info/"
-  url "https://imapsync.lamiral.info/dist2/imapsync-2.140.tgz"
+  url "https://imapsync.lamiral.info/dist2/imapsync-2.200.tgz"
   # NOTE: The mirror will return 404 until the version becomes outdated.
-  sha256 "faebfa61bffdb33c845fe53707be09761d96d717b75706b3ca927990654e7551"
+  sha256 "115f3e3be2ec5fd5235501240292c5f15bd289d47e39f7581da861b92bca5be5"
   license "NLPL"
-  head "https://github.com/imapsync/imapsync.git"
+  head "https://github.com/imapsync/imapsync.git", branch: "master"
 
   livecheck do
     url "https://imapsync.lamiral.info/dist2/"
@@ -13,11 +13,12 @@ class Imapsync < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "f9ecf98890a33032f33265c911706a0e0cba29ad4cbc06f63bcabc31a7cbc4f6"
-    sha256 cellar: :any_skip_relocation, big_sur:       "292fd066f1f52cc748bf30395cc117b32c0e3ee62d4646e8d5aa4c9d620ba34e"
-    sha256 cellar: :any_skip_relocation, catalina:      "ec79e8b2d77dea4bcf156ae5566f7c9ec3bed6157b62fc7543b93ca276e98b94"
-    sha256 cellar: :any_skip_relocation, mojave:        "231ad4b8c618aea36959211b811e678ab9979afb483eb5f6508ffc3bd2a9f42f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "d7e11b2c0dc44b342eda66d083d19ee75460af9c17026a43989a13e9f5c39957"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "d13a9bda6f684909de20e10c65430836bac345c6bed1ea1d0d37a0f655eb258d"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "583aef334a783f9efed892bb52fc8916ba4b219843dd359557984fddcecc9bf8"
+    sha256 cellar: :any_skip_relocation, monterey:       "eeb5fb8230ad6f55a2fc61e76fc35cefc510a6bdc5d46f6c1f542c45c6a29778"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c0d4e602efe6f502e4138f718a951af32c56676a6c304bbd0b2cbb55feff8c55"
+    sha256 cellar: :any_skip_relocation, catalina:       "54546bcbf94e9bb504cb330c816d59ca087f9e8ed2825ff022574c6d5a9f0edb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f9f9b3065ad3cf7a8e4eb4000403ef859d65999cc97160c82259d130a0ae9f8d"
   end
 
   depends_on "pod2man" => :build

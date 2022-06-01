@@ -1,8 +1,8 @@
 class Ucon64 < Formula
   desc "ROM backup tool and emulator's Swiss Army knife program"
   homepage "https://ucon64.sourceforge.io/"
-  url "https://downloads.sourceforge.net/project/ucon64/ucon64/ucon64-2.2.1/ucon64-2.2.1-src.tar.gz"
-  sha256 "e814f427a59866e16fe757bf4af51004ac68be29cabd78944590878f1df73f79"
+  url "https://downloads.sourceforge.net/project/ucon64/ucon64/ucon64-2.2.2/ucon64-2.2.2-src.tar.gz"
+  sha256 "e100ad4a30f6c19abde98e361c6a0ecac4e40477f54cfb75498c5ccd21fb3a18"
   license "GPL-2.0-or-later"
   head "https://svn.code.sf.net/p/ucon64/svn/trunk/ucon64"
 
@@ -12,17 +12,18 @@ class Ucon64 < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "2f96fb8d33b2dee04afead4f3efcae1d56a34131291446de18300278e10c1df2"
-    sha256 big_sur:       "b6b2a89d3da04d4a6ff3ce5fa39f9439ca0c2068d5f66a4a32e9abb4d09be329"
-    sha256 catalina:      "a935bde7d18d023d03b38631b9fdb8229bc6b4514bd693cd832515295cc47a7b"
-    sha256 mojave:        "3652059ae186bbd01f2fc85586629ac47b2067d0b851d71858d66fb3f4080523"
-    sha256 x86_64_linux:  "5b38376946717a9baaafa0efd9fa066e9ee1a3bb383dc69c69bc872faa6358a8"
+    sha256 arm64_monterey: "516c8d6bcfbc9101c237e9ec08d13b11f9e0347d1fa5841f670cb8945a93b665"
+    sha256 arm64_big_sur:  "ca76694128cae76b0f5f177d3ab2106a7e955caf7480be607368e8507cf0ab75"
+    sha256 monterey:       "1ffac20e4aafeabe33ab750f2f40589bb894caf7ee372380a065abeb7e06655c"
+    sha256 big_sur:        "1638a10fb2622983abc00934ba023cb03a1d7b332e45d9024b717f74a0d3fee7"
+    sha256 catalina:       "3672dbe3c97e6d71f22a6666adec1cca709ffc3dea9c76baf16fbeb8f63a4782"
+    sha256 x86_64_linux:   "f2b2e0353e5bfa4e226a5182b6d36786874ced3c0ae4426866d2a2436aa0c739"
   end
 
   uses_from_macos "unzip" => [:build, :test]
   uses_from_macos "zlib"
 
-  resource "super_bat_puncher_demo" do
+  resource "homebrew-super_bat_puncher_demo" do
     url "http://morphcat.de/superbatpuncher/Super%20Bat%20Puncher%20Demo.zip"
     sha256 "d74cb3ba11a4ef5d0f8d224325958ca1203b0d8bb4a7a79867e412d987f0b846"
   end
@@ -57,7 +58,7 @@ class Ucon64 < Formula
   end
 
   test do
-    resource("super_bat_puncher_demo").stage testpath
+    resource("homebrew-super_bat_puncher_demo").stage testpath
 
     assert_match "00000000  4e 45 53 1a  08 00 11 00  00 00 00 00  00 00 00 00",
                  shell_output("#{bin}/ucon64 \"#{testpath}/Super Bat Puncher Demo.nes\"")

@@ -3,19 +3,21 @@ class Networkit < Formula
 
   desc "Performance toolkit for large-scale network analysis"
   homepage "https://networkit.github.io"
-  url "https://github.com/networkit/networkit/archive/9.0.tar.gz"
-  sha256 "c574473bc7d86934f0f4b3049c0eeb9c4444cfa873e5fecda194ee5b1930f82c"
+  url "https://github.com/networkit/networkit/archive/10.0.tar.gz"
+  sha256 "77187a96dea59e5ba1f60de7ed63d45672671310f0b844a1361557762c2063f3"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "6830b5a174f2faa428c162a31cbac98867ac91847e20c44fc0b942a054dc172c"
-    sha256 cellar: :any, big_sur:       "734ae79b47e434f3e3d1e8ddaf2ae0edef1b48b4e4a6bd2f82ba201abdb51cbe"
-    sha256 cellar: :any, catalina:      "05e4c80f053b211a5fc3bb905c93a96dfd488c2f078c926de6b6459aeb7409e4"
-    sha256 cellar: :any, mojave:        "f39d81732bf9dc5093bb3537b7f1436a23b02956fa5856fd4b46a8ac7de67a93"
+    sha256 cellar: :any, arm64_monterey: "b3709535d7981e04a3cd541ed56c2cdf44f7c2dfad82089add38847b1ec86f13"
+    sha256 cellar: :any, arm64_big_sur:  "f77a61aafe5956ec50958d41bc7460f8454752dc628dfbbb56ec13ce90146409"
+    sha256 cellar: :any, monterey:       "e7f751d0092c78fb44356e0bdd37ea004f34a1a4c7c699ffe789bf0f6b71a403"
+    sha256 cellar: :any, big_sur:        "6477dc3b577c6018f366d50ffc5414cd01bbf5d7c7de7a90e49b0e65b30b0cc8"
+    sha256 cellar: :any, catalina:       "1bf51a6b071e90a81a5cb8e19d83c4afcf0cb9e59b61185af411161888f7309b"
   end
 
   depends_on "cmake" => :build
-  depends_on "cython" => :build
+  depends_on "libcython" => :build
+  depends_on "ninja" => :build
   depends_on "tlx" => :build
 
   depends_on "libnetworkit"
@@ -28,7 +30,7 @@ class Networkit < Formula
     rpath_addons = Formula["libnetworkit"].opt_lib
 
     ENV.prepend_create_path "PYTHONPATH", libexec+"lib/python#{xy}/site-packages/"
-    ENV.append_path "PYTHONPATH", Formula["cython"].opt_libexec/"lib/python#{xy}/site-packages"
+    ENV.append_path "PYTHONPATH", Formula["libcython"].opt_libexec/"lib/python#{xy}/site-packages"
     system Formula["python@3.9"].opt_bin/"python3", "setup.py", "build_ext",
           "--networkit-external-core",
           "--external-tlx=#{Formula["tlx"].opt_prefix}",

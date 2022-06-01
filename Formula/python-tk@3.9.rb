@@ -1,9 +1,8 @@
 class PythonTkAT39 < Formula
   desc "Python interface to Tcl/Tk"
   homepage "https://www.python.org/"
-  # Keep in sync with python@3.9.
-  url "https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz"
-  sha256 "f8145616e68c00041d1a6399b76387390388f8359581abc24432bb969b5e3c57"
+  url "https://www.python.org/ftp/python/3.9.13/Python-3.9.13.tar.xz"
+  sha256 "125b0c598f1e15d2aa65406e83f792df7d171cdf38c16803b149994316a3080f"
   license "Python-2.0"
 
   livecheck do
@@ -11,11 +10,12 @@ class PythonTkAT39 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "53a29c3b706b30b0b6f507e348356dbc04140cfefd1f946ea2b1c59f2d09c24a"
-    sha256 cellar: :any, big_sur:       "03bc2e4a0a04a0ee27ac4909624c017205d4a92a32a4092a61ea8343e1db8383"
-    sha256 cellar: :any, catalina:      "d329945ff20c6fd56dea36e269fdec709a035f0520d44c06d8312c2efe0337be"
-    sha256 cellar: :any, mojave:        "4439eda13ad78f68a4ddacef195eb6c797a67c4d1f033fcf5a825e694cddaa0e"
-    sha256               x86_64_linux:  "10ad86256ecabd270a8564a4e782270043a9bd1042117c45c11abc8ffb11c750"
+    sha256 cellar: :any, arm64_monterey: "c8db074cc234c9e741340bed4f4778acc53d95ec29e41fa44628b05fbbbada1c"
+    sha256 cellar: :any, arm64_big_sur:  "f3092fdad2f1b38cbe9bcb2e6e7006a97a87dae28093170d7118a97bddb62ec1"
+    sha256 cellar: :any, monterey:       "44e117a901b6ac21405548aaee24b0cc5b9ded59ca73ffa33a631525348c6611"
+    sha256 cellar: :any, big_sur:        "09b0363a026fe863ca904dbee095505aa55ba302ff8764c5c49938ff6c15467c"
+    sha256 cellar: :any, catalina:       "4f3561d8c98d1536b6854273db9b666d0101dc889c18a021460fc20c536b3568"
+    sha256               x86_64_linux:   "3901b096d0d66fcd4655544b38bdb446bd1b285ff839a118204af51454f7799b"
   end
 
   depends_on "python@3.9"
@@ -48,10 +48,7 @@ class PythonTkAT39 < Formula
   test do
     system Formula["python@3.9"].bin/"python3", "-c", "import tkinter"
 
-    on_linux do
-      # tk does not work in headless mode
-      return if ENV["HOMEBREW_GITHUB_ACTIONS"]
-    end
+    return if OS.linux? && ENV["HOMEBREW_GITHUB_ACTIONS"]
 
     system Formula["python@3.9"].bin/"python3", "-c", "import tkinter; root = tkinter.Tk()"
   end

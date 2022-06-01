@@ -1,8 +1,8 @@
 class Teleport < Formula
   desc "Modern SSH server for teams managing distributed infrastructure"
   homepage "https://gravitational.com/teleport"
-  url "https://github.com/gravitational/teleport/archive/v7.2.0.tar.gz"
-  sha256 "ea986a7d06a9b8a2cc2bbd479d5a65614bea2ec33e89a3d5d802255bd03356e1"
+  url "https://github.com/gravitational/teleport/archive/v9.3.0.tar.gz"
+  sha256 "b38df740c8933094007f09939dd6be48eca2289a7c862de6ea2473765aa517bb"
   license "Apache-2.0"
   head "https://github.com/gravitational/teleport.git", branch: "master"
 
@@ -16,11 +16,12 @@ class Teleport < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "8dcb61429f5420c366a44f06dc93ddd9a85e32f8646e0e71c7b633adaa621b6d"
-    sha256 cellar: :any_skip_relocation, big_sur:       "7ec6b1262a62ee796874416cc20b1dec71138e45b5cfd82a1781ea58b8d148df"
-    sha256 cellar: :any_skip_relocation, catalina:      "1adf6ea9637e5ecedf5244f3699d4358ec59a79e21dfcd14b35ecc134da4a1d1"
-    sha256 cellar: :any_skip_relocation, mojave:        "a30fb99e5950dfd46ea2dd78178be7ce47110d03cad4376bcb69704e86b9cb64"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "171a240fe7cc65dc0f655673f13fbe1a8fd45571ba1cc21830e1e3b9d21d2880"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ab66ea5c3f96c33184d30a2f8cee064b5e9392f480caa0475cd6b86f941eedc9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f0066e5bcbc505ffa0e566a74ca04a30bdaeed1cf601b4e96fb92c19fb679bd9"
+    sha256 cellar: :any_skip_relocation, monterey:       "f5eb5f08b4449be163e74855ade1f0558ace859f549b1ab99620f3e9c21b353a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "2c8f030de14127e603e39f3a4ac8bd8c677fe84992c3c61fed3d3c91cf450c03"
+    sha256 cellar: :any_skip_relocation, catalina:       "8a5972841e017b470cb54a163ba55baa29b1a4257e409faa9407e5a1e06576b6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2b28593d14df2c90de3336b2be47b20ea850b6e79468f6c8f72fe9d658f530cd"
   end
 
   depends_on "go" => :build
@@ -33,8 +34,8 @@ class Teleport < Formula
 
   # Keep this in sync with https://github.com/gravitational/teleport/tree/v#{version}
   resource "webassets" do
-    url "https://github.com/gravitational/webassets/archive/07493a5e78677de448b0e35bd72bf1dc6498b5ea.tar.gz"
-    sha256 "2074ee7e50720f20ff1b4da923434c05f6e1664e13694adde9522bf9ab09e0fd"
+    url "https://github.com/gravitational/webassets/archive/a1cf8bdbf418405bdd23e6431bc281b4f7cf4e55.tar.gz"
+    sha256 "4724129da03a3801ba316c6f456cdb6a6e729831b610fdacffb1e421a440adcc"
   end
 
   def install
@@ -44,21 +45,32 @@ class Teleport < Formula
   end
 
   test do
+    curl_output = shell_output("curl \"https://api.github.com/repos/gravitational/teleport/contents/webassets?ref=v#{version}\"")
+    assert_match JSON.parse(curl_output)["sha"], resource("webassets").url
     assert_match version.to_s, shell_output("#{bin}/teleport version")
-    (testpath/"config.yml").write shell_output("#{bin}/teleport configure")
-      .gsub("0.0.0.0", "127.0.0.1")
-      .gsub("/var/lib/teleport", testpath)
-      .gsub("/var/run", testpath)
-      .gsub(/https_(.*)/, "")
+    assert_match version.to_s, shell_output("#{bin}/tsh version")
+    assert_match version.to_s, shell_output("#{bin}/tctl version")
+
+    mkdir testpath/"data"
+    (testpath/"config.yml").write <<~EOS
+      version: v2
+      teleport:
+        nodename: testhost
+        data_dir: #{testpath}/data
+        log:
+          output: stderr
+          severity: WARN
+    EOS
 
     fork do
-      exec "#{bin}/teleport start -c #{testpath}/config.yml --debug"
+      exec "#{bin}/teleport start --roles=proxy,node,auth --config=#{testpath}/config.yml"
     end
 
     sleep 10
     system "curl", "--insecure", "https://localhost:3080"
-    system "nc", "-z", "localhost", "3022"
-    system "nc", "-z", "localhost", "3023"
-    system "nc", "-z", "localhost", "3025"
+
+    status = shell_output("#{bin}/tctl --config=#{testpath}/config.yml status")
+    assert_match(/Cluster\s*testhost/, status)
+    assert_match(/Version\s*#{version}/, status)
   end
 end

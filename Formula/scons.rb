@@ -3,17 +3,17 @@ class Scons < Formula
 
   desc "Substitute for classic 'make' tool with autoconf/automake functionality"
   homepage "https://www.scons.org/"
-  url "https://files.pythonhosted.org/packages/5e/f1/82e5d9c0621f116415526181610adf3f9b07ffca419620f4edfc41ef5237/SCons-4.2.0.tar.gz"
-  sha256 "691893b63f38ad14295f5104661d55cb738ec6514421c6261323351c25432b0a"
+  url "https://files.pythonhosted.org/packages/64/a1/9dc5c5e43b3d1b1832da34c8ae7b239a8f2847c33509fa0eb011fd8bc1ad/SCons-4.3.0.tar.gz"
+  sha256 "d47081587e3675cc168f1f54f0d74a69b328a2fc90ec4feb85f728677419b879"
   license "MIT"
-  revision 1
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "e2d4ba2cf999877f61995e55235552997d2236d66d69d29d9e93059876cf7656"
-    sha256 cellar: :any_skip_relocation, big_sur:       "a5e7cc6c2d5dc05d1cd02ca3927425ccaf583cbbe2a8d97760bfa45d8479bd80"
-    sha256 cellar: :any_skip_relocation, catalina:      "a5e7cc6c2d5dc05d1cd02ca3927425ccaf583cbbe2a8d97760bfa45d8479bd80"
-    sha256 cellar: :any_skip_relocation, mojave:        "a5e7cc6c2d5dc05d1cd02ca3927425ccaf583cbbe2a8d97760bfa45d8479bd80"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "6ea01cfe768ad1e59ec0c1dc6e777c6ab36fb821ca553bf5e54d9f74dd35b07f"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ddbf863043a23a4b42331c2de6ca71bbfdd7a12979a4c43f65694106745d3cb9"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ddbf863043a23a4b42331c2de6ca71bbfdd7a12979a4c43f65694106745d3cb9"
+    sha256 cellar: :any_skip_relocation, monterey:       "a5d0c147ee550cae094922ce5e46bd0eecb978757ee1131677a233c423c9b909"
+    sha256 cellar: :any_skip_relocation, big_sur:        "a5d0c147ee550cae094922ce5e46bd0eecb978757ee1131677a233c423c9b909"
+    sha256 cellar: :any_skip_relocation, catalina:       "a5d0c147ee550cae094922ce5e46bd0eecb978757ee1131677a233c423c9b909"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1cf0cd49fe6d92410f0f77186223735b224dc6ddf82c877a02e380a9612f2898"
   end
 
   depends_on "python@3.10"

@@ -1,17 +1,18 @@
 class Croc < Formula
   desc "Securely send things from one computer to another"
   homepage "https://github.com/schollz/croc"
-  url "https://github.com/schollz/croc/archive/v9.4.2.tar.gz"
-  sha256 "73d3abb058af18329ffdea4bb77d484b5f8ede9c11010d44781f3e891aa675e0"
+  url "https://github.com/schollz/croc/archive/v9.5.6.tar.gz"
+  sha256 "c03c7b9daf2ba841d373d9c43abb68dc27ab1d7e01bbadead771918d499dea9e"
   license "MIT"
   head "https://github.com/schollz/croc.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "dbd78fa6843d765085b95e4b695a30a34759cf50873ba102a3cef4c4be2c07f8"
-    sha256 cellar: :any_skip_relocation, big_sur:       "9a24edaa5f6daceefcd0af150472c3c71d3bae049ca289b6b4e72bf19922043c"
-    sha256 cellar: :any_skip_relocation, catalina:      "d170385e81d89c53958137852931ec9bdd2b1758ea76e6577120d0f4b3c39ee2"
-    sha256 cellar: :any_skip_relocation, mojave:        "2257690325e2c1a8b40dcfa3ba6fb8e5cea6125ff0e9de1e4bdb481fdb7a5a7f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "98869182e3d54e21abe686561612e971dd54e39ffd7c41e4474c2e08dbe9fd4d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "75b525c0b2df83a55f51207e46b77e66e33afa29aa4aa811e8bdaf01fe347b8d"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5047415856a7db11ce7f30b4ff106c645bccae15c6840da60696aa33afd91582"
+    sha256 cellar: :any_skip_relocation, monterey:       "535d7d7a2c68580c50e2c3d71ce0e2d769e8bee4d385e93359ccc8609f77c4fc"
+    sha256 cellar: :any_skip_relocation, big_sur:        "74902dfa2e7cc14cfe0b7b86a7757f79c1ad63b66e63cb893b77a5be068a7794"
+    sha256 cellar: :any_skip_relocation, catalina:       "0bf7c63c3d193103c7b235824872784223b66fec877dcb1d42b158de1c4330e9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f5d4ca78fa244be415f3bc40849eb021d7c2a8a79acf352c8ef67c32e0119b6b"
   end
 
   depends_on "go" => :build
@@ -21,12 +22,18 @@ class Croc < Formula
   end
 
   test do
-    fork do
-      exec bin/"croc", "send", "--code=homebrew-test", "--text=mytext"
-    end
-    sleep 5
+    port=free_port
 
-    assert_match "mytext", pipe_output(bin/"croc --yes homebrew-test", "y\n") if OS.mac?
-    assert_match shell_output("#{bin}/croc --yes homebrew-test").chomp, "mytext" if OS.linux?
+    fork do
+      exec bin/"croc", "relay", "--ports=#{port}"
+    end
+    sleep 1
+
+    fork do
+      exec bin/"croc", "--relay=localhost:#{port}", "send", "--code=homebrew-test", "--text=mytext"
+    end
+    sleep 1
+
+    assert_match shell_output("#{bin}/croc --relay=localhost:#{port} --overwrite --yes homebrew-test").chomp, "mytext"
   end
 end

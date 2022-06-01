@@ -1,16 +1,17 @@
 class Macchina < Formula
   desc "System information fetcher, with an emphasis on performance and minimalism"
   homepage "https://github.com/Macchina-CLI/macchina"
-  url "https://github.com/Macchina-CLI/macchina/archive/v1.1.8.tar.gz"
-  sha256 "a912c9ed7b826c969012308a8a7e120a3c3af8b8bf4cf1e062927c9301ffb178"
+  url "https://github.com/Macchina-CLI/macchina/archive/v6.0.6.tar.gz"
+  sha256 "da77e1899b13e4612b5ca6a22e8e266beabc734153e7a59c7c8b82c142510435"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_big_sur: "874b2b4af3e8fdd8cc37296743a1cf08f4faccf935c8598e585cf30ac08404bc"
-    sha256 cellar: :any_skip_relocation, big_sur:       "ebe1fec3aad0174250c98f0efb1ee97643e4c4cde52960eb6cabb55f8e00e137"
-    sha256 cellar: :any_skip_relocation, catalina:      "83d2331c8cfb244e5b578d05956bd6cc409538251669406b5f97705ba69e56b2"
-    sha256 cellar: :any_skip_relocation, mojave:        "b8c9b063a003a5d20307b4b24451daeabd6dcae08d6607f8ba05c71088d0c21e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5420a4de54187c5b7e3bc316a6308b04adb2cf28fb791ced766b13cf6e0e8068"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1d5a96804eb206cf1923ac230f1258b1a1ec20f81e52a480c14ac222bf6e2d88"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "abbf52a7476dcb57e761dbb49a0f0c8766b515efd0ea83d23ff583ef411d0800"
+    sha256 cellar: :any_skip_relocation, monterey:       "a4148c587921ec6a4c63c91634034e35d0c11a8da92d79832638e0e01113e35b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f23940e164823b1993f0c975196649ae679086c6f808a1b9483a6597d054c5db"
+    sha256 cellar: :any_skip_relocation, catalina:       "97d1220355a8197af4ef37309c4d912c4b681150ed7b7b5c7d519f37aeb0b692"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ba572e1a14126edc0eafde80aab5aa1e32cfa5c806a9674fa9a582e589e6c647"
   end
 
   depends_on "rust" => :build

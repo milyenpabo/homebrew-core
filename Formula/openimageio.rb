@@ -1,8 +1,8 @@
 class Openimageio < Formula
   desc "Library for reading, processing and writing images"
   homepage "https://openimageio.org/"
-  url "https://github.com/OpenImageIO/oiio/archive/v2.3.8.0.tar.gz"
-  sha256 "0b0495e7c2c5213b1c68e9fd4e89e153355b0f61b244d77c50e7999219b07f44"
+  url "https://github.com/OpenImageIO/oiio/archive/v2.3.15.0.tar.gz"
+  sha256 "37bb0ba854d512b7b3a74e2008416a247d5cab882e750360b16c3dd4dd8d0f81"
   license "BSD-3-Clause"
   head "https://github.com/OpenImageIO/oiio.git", branch: "master"
 
@@ -13,18 +13,19 @@ class Openimageio < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "d6a030f7b529b89ddd498deb88e1e1d1406d17a563c2e7d99ff00deb76965beb"
-    sha256 cellar: :any,                 big_sur:       "6106b20a1492e4fc043db08ae8795cb89e255de8a12fe41388dddcd683430416"
-    sha256 cellar: :any,                 catalina:      "4858e7b56cf97d842a9b85ec5b7a33f1f1ea43e87165e32f9e4ec4260ba536fd"
-    sha256 cellar: :any,                 mojave:        "aebdec660f180475b714cf79dc3d973158bacd6dca29b9153b4749f72387f103"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "e992c7b746afacefa1cbe847bf7e85c0c08bb79c39718170deccadf290f90eb4"
+    sha256 cellar: :any,                 arm64_monterey: "91eb83a9081f4fdc0a90b999250df437be11a0830d433d6cc8bdbc16ca57cc33"
+    sha256 cellar: :any,                 arm64_big_sur:  "af722546f68a154bfc23be764b15dc21824ab438b95a829d4eac13c16077b8cc"
+    sha256 cellar: :any,                 monterey:       "63673fcd06de79f9323f1d6af7c7874409e0758b3fb760a98c8236b6038fbaa2"
+    sha256 cellar: :any,                 big_sur:        "9ed3f3f09d3e3eb6a8494aaa90dcad0e7dd33ebacc22f8b72fa8eee3cc065249"
+    sha256 cellar: :any,                 catalina:       "b9ba47638cd5a46f4655854d9552fdf161ca079ec092b8af4317c8998e2f7cd9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e798be73b3577e75c4f8956a495b23c3e752ee89af77110fc93d8faa5e71abea"
   end
 
   depends_on "cmake" => :build
   depends_on "pkg-config" => :build
   depends_on "boost"
   depends_on "boost-python3"
-  depends_on "ffmpeg"
+  depends_on "ffmpeg@4"
   depends_on "freetype"
   depends_on "giflib"
   depends_on "imath"
@@ -38,6 +39,8 @@ class Openimageio < Formula
   depends_on "pybind11"
   depends_on "python@3.9"
   depends_on "webp"
+
+  fails_with gcc: "5" # ffmpeg is compiled with GCC
 
   def install
     args = std_cmake_args + %w[
@@ -63,9 +66,10 @@ class Openimageio < Formula
 
     ENV["PYTHONPATH"] = lib/"python#{py3ver}/site-packages"
 
-    args << "-DPYTHON_EXECUTABLE=#{py3prefix}/bin/python3"
+    args << "-DPython_EXECUTABLE=#{py3prefix}/bin/python3"
     args << "-DPYTHON_LIBRARY=#{py3prefix}/lib/#{shared_library("libpython#{py3ver}")}"
     args << "-DPYTHON_INCLUDE_DIR=#{py3prefix}/include/python#{py3ver}"
+    args << "-DPYTHON_VERSION=#{py3ver}"
 
     mkdir "build" do
       system "cmake", "..", *args

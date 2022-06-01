@@ -1,16 +1,24 @@
 class Polyml < Formula
   desc "Standard ML implementation"
   homepage "https://www.polyml.org/"
-  url "https://github.com/polyml/polyml/archive/v5.8.2.tar.gz"
-  sha256 "310b0ba748a50f38e99de7f65ba990bc4b4f4b0123ad76aba4c44d7cd1ed9277"
-  license "LGPL-2.1"
+  url "https://github.com/polyml/polyml/archive/v5.9.tar.gz"
+  sha256 "5aa452a49f2ac0278668772af4ea0b9bf30c93457e60ff7f264c5aec2023c83e"
+  license "LGPL-2.1-or-later"
   head "https://github.com/polyml/polyml.git", branch: "master"
 
   bottle do
-    sha256 big_sur:      "4b68c9e84f40360b1b65444949637bb1f5749f532ad198a44f3bb570854b9900"
-    sha256 catalina:     "1517e342bf9c4569b986d1139c063e14a999cacb29597e53e438040090e93424"
-    sha256 mojave:       "fccbd2fc3c3570178c8578475035fbee24ab9280a3366a82b797c1fb7627c588"
-    sha256 x86_64_linux: "d356087174d4a1031bbacaac76dfcb1735d613a55510ff8b0207ea6d53994038"
+    sha256 arm64_monterey: "100f3fb2f2b4afd32f89f55b319742e80513df3b7b46e1824f8cfb5ad458f4c7"
+    sha256 arm64_big_sur:  "74ffeccfd43af75e74239336480a4bd9d93ded28e874738b2417bd7c421cdb7d"
+    sha256 monterey:       "6cf8429f83e6664dd0c38937b7cba90cc7135a19c5fcdb1a87405edb582aeb4c"
+    sha256 big_sur:        "076f53e47fd75365984bcdf860eb21101683f86789651c41266e855a333a0192"
+    sha256 catalina:       "36c5f2c6052f27e89cdaeec09d1e7e38603894e3d3a13aa0bddec6ef287085c3"
+    sha256 x86_64_linux:   "5ad3750111376bc7bb887cd30ecbb8ae368cf1e06176c8b4293e6a976d6f4590"
+  end
+
+  # Fix -flat_namespace being used on Big Sur and later.
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/03cf8088210822aa2c1ab544ed58ea04c897d9c4/libtool/configure-big_sur.diff"
+    sha256 "35acd6aebc19843f1a2b3a63e880baceb0f5278ab1ace661e57a502d9d78c93c"
   end
 
   def install

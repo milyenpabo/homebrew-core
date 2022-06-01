@@ -1,18 +1,20 @@
 class Gmt < Formula
   desc "Tools for manipulating and plotting geographic and Cartesian data"
   homepage "https://www.generic-mapping-tools.org/"
-  url "https://github.com/GenericMappingTools/gmt/releases/download/6.2.0/gmt-6.2.0-src.tar.xz"
-  mirror "https://mirrors.ustc.edu.cn/gmt/gmt-6.2.0-src.tar.xz"
-  sha256 "a01f0a14d48bbc0b14855670f366df3cb8238f0ccdfa26fe744968b4f1c14d54"
+  url "https://github.com/GenericMappingTools/gmt/releases/download/6.3.0/gmt-6.3.0-src.tar.xz"
+  mirror "https://mirrors.ustc.edu.cn/gmt/gmt-6.3.0-src.tar.xz"
+  sha256 "69e29b62ee802a3a64260d6a1e023f1350e3bf4070221aa1307bf8a9e56c1ee5"
   license "LGPL-3.0-or-later"
-  revision 1
-  head "https://github.com/GenericMappingTools/gmt.git"
+  revision 6
+  head "https://github.com/GenericMappingTools/gmt.git", branch: "master"
 
   bottle do
-    sha256 arm64_big_sur: "c15fb077782eab44e3d1f83a83f9c3c5298f667f1f7abee15375ab620250ba97"
-    sha256 big_sur:       "efed3cc448f128f1e6d76fca71bc143c5fb4f31fa208944046393efa1e10e992"
-    sha256 catalina:      "19a9960e390ee80e9cf56ff48a808bdf0826696a44b7c023ed7cb042914d48cb"
-    sha256 mojave:        "d50f231a9920f5a5930a0d00148113bb6c5ddfc72e21fc848ea05c48576467a0"
+    sha256 arm64_monterey: "5c658710473031aea41358224dd1edc63c0cb4d132250799e1d2d7e29b9b58a8"
+    sha256 arm64_big_sur:  "bd8607e39dcdb247ab19205c84977221b7ac1da2adf6e3ecfb35b58881d96149"
+    sha256 monterey:       "a0909d673d2e955157ba2d2ebfb737524332f41512792917af53cb799bb0ec10"
+    sha256 big_sur:        "795f9d9826eb340ebc444ad8c37f3842a5d20cf8a5e28e2e6d56cadac4bca9fb"
+    sha256 catalina:       "0d389b69d53e34b28176c050edfea6be24ecfef830c01dd2f44382ebd6a4987a"
+    sha256 x86_64_linux:   "b265759e9d1fd83aea674c0fc084409094bdc38f07358e4accd2293779d9d85a"
   end
 
   depends_on "cmake" => :build
@@ -28,9 +30,9 @@ class Gmt < Formula
   end
 
   resource "dcw" do
-    url "https://github.com/GenericMappingTools/dcw-gmt/releases/download/2.0.0/dcw-gmt-2.0.0.tar.gz"
-    mirror "https://mirrors.ustc.edu.cn/gmt/dcw-gmt-2.0.0.tar.gz"
-    sha256 "d71d209c837a805fed0773c03fadbb26e8c90eb6b68e496ac4a1298c3246cc7a"
+    url "https://github.com/GenericMappingTools/dcw-gmt/releases/download/2.1.1/dcw-gmt-2.1.1.tar.gz"
+    mirror "https://mirrors.ustc.edu.cn/gmt/dcw-gmt-2.1.1.tar.gz"
+    sha256 "d4e208dca88fbf42cba1bb440fbd96ea2f932185c86001f327ed0c7b65d27af1"
   end
 
   def install

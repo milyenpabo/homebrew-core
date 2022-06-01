@@ -1,9 +1,10 @@
 class Pianod < Formula
   desc "Pandora client with multiple control interfaces"
   homepage "https://deviousfish.com/pianod/"
-  url "https://deviousfish.com/Downloads/pianod2/pianod2-376.tar.gz"
-  sha256 "ac00655c1e3c7507ff89f283d8c339510f50e9ddd5a44cb1df7ebcb2e147e6d1"
+  url "https://deviousfish.com/Downloads/pianod2/pianod2-388.tar.gz"
+  sha256 "a677a86f0cbc9ada0cf320873b3f52b466d401a25a3492ead459500f49cdcd99"
   license "MIT"
+  revision 1
 
   livecheck do
     url "https://deviousfish.com/Downloads/pianod2/"
@@ -11,11 +12,12 @@ class Pianod < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "56ab9d2c636cf273f208ffe8fb75d9b125361e445fa755920f9f582ec32e1afa"
-    sha256 big_sur:       "3aaed35adde0c5e286691e0cec46cf841d21e8990449fe8ce44a1b19206fac81"
-    sha256 catalina:      "1eb5a5505c87c7e3507c56770567bfedfd778322989416d028ba964c5177ef06"
-    sha256 mojave:        "416d3972a515b932768d6e6ee1412c266e640f9b5bc734f00974a1b35bd40b80"
-    sha256 x86_64_linux:  "639af5a5c17e693c8ae599f20e76f5a58fafb804df91cccf69a7dfc2fd831d3c"
+    sha256 arm64_monterey: "dd206cf35e1a07f0f68400cf16ac18086c3afa7d7e8acfc40e2e7a963031b6c3"
+    sha256 arm64_big_sur:  "3174a7fa46e88cab7f8b059a9b4644085a440b783041e7a80b764c5131113c92"
+    sha256 monterey:       "83dcf7863e64c0eea4b753b405ed444798b23be7c4ab0fdd4899f3139781520c"
+    sha256 big_sur:        "8458fbc6e9701e6db6242654fffe197e08cb1053b3adab5d1952fd9ab507905d"
+    sha256 catalina:       "1e2b9ea9d68f670875cd8359ee56d21a7f670c3286bcfd4dcef70f58bb6a0923"
+    sha256 x86_64_linux:   "a5e3c64179f2a2508bb8176c3522f463b7e7753376789824f9526fdf857233fb"
   end
 
   depends_on "pkg-config" => :build
@@ -29,7 +31,7 @@ class Pianod < Formula
 
   on_linux do
     # pianod uses avfoundation on macOS, ffmpeg on Linux
-    depends_on "ffmpeg"
+    depends_on "ffmpeg@4"
     depends_on "gcc"
     depends_on "gnutls"
     depends_on "libbsd"

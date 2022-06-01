@@ -1,9 +1,9 @@
 class Blast < Formula
   desc "Basic Local Alignment Search Tool"
   homepage "https://blast.ncbi.nlm.nih.gov/"
-  url "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.12.0/ncbi-blast-2.12.0+-src.tar.gz"
-  version "2.12.0"
-  sha256 "fda3c9c9d488cad6c1880a98a236d842bcf3610e3e702af61f7a48cf0a714b88"
+  url "https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.13.0/ncbi-blast-2.13.0+-src.tar.gz"
+  version "2.13.0"
+  sha256 "89553714d133daf28c477f83d333794b3c62e4148408c072a1b4620e5ec4feb2"
   license :public_domain
 
   livecheck do
@@ -12,15 +12,16 @@ class Blast < Formula
   end
 
   bottle do
-    sha256 arm64_big_sur: "e216b2d4b0c1950faedfe6a32dfcedecc524be9f237cdf09450e9fac7414f1e1"
-    sha256 big_sur:       "4e12ddaa5006c50497f9ad77f18f1b971db88c8b7e2de15f229661611a0a8772"
-    sha256 catalina:      "81cf9bbb6066d31f5018f3697b9872f051efd99b4de5379924997eee7a2becb2"
-    sha256 mojave:        "f4f05cdbb102aa7597865c2dd42372181577f00a7aaac7be9f2f315714d5f352"
-    sha256 x86_64_linux:  "a3284452baea3a3a9d7b078f642e267eb2bd0f1612502313994ac7a8f44aa303"
+    sha256 arm64_big_sur: "2bf18560fdbeeba904b1c064de2d7485f5f478ed8608124ba034889b8372518a"
+    sha256 monterey:      "8b52442d8fccc8f099cf06b3f5c047eedbb3823326d0ea1a4e61cae535231295"
+    sha256 big_sur:       "ee3a1af3ae297a89e2c9faadbf0e9f677d06540777fefa72503fe7d9cde69d56"
+    sha256 catalina:      "2a649294c81ba2449ed122c981359b05273bfd51d200c0cd56a0819458808b1f"
+    sha256 x86_64_linux:  "5ed46b12d1329eac692b299b62d19b1785154ea56df348da9592840f73da8880"
   end
 
   depends_on "lmdb"
 
+  uses_from_macos "cpio" => :build
   uses_from_macos "bzip2"
   uses_from_macos "zlib"
 
@@ -29,17 +30,27 @@ class Blast < Formula
   end
 
   on_linux do
-    depends_on "libarchive" => :build
+    depends_on "gcc"
   end
 
   conflicts_with "proj", because: "both install a `libproj.a` library"
 
+  fails_with gcc: "5" # C++17
+
   def install
     cd "c++" do
       # Boost is only used for unit tests.
-      args = %W[--prefix=#{prefix}
-                --without-debug
-                --without-boost]
+      args = %W[
+        --prefix=#{prefix}
+        --with-bin-release
+        --with-mt
+        --with-strip
+        --with-experimental=Int8GI
+        --without-debug
+        --without-boost
+      ]
+      # Allow SSE4.2 on some platforms. The --with-bin-release sets --without-sse42
+      args << "--with-sse42" if Hardware::CPU.intel? && MacOS.version.requires_sse42?
 
       if OS.mac?
         args += ["OPENMP_FLAGS=-Xpreprocessor -fopenmp",

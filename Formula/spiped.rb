@@ -1,8 +1,8 @@
 class Spiped < Formula
   desc "Secure pipe daemon"
   homepage "https://www.tarsnap.com/spiped.html"
-  url "https://www.tarsnap.com/spiped/spiped-1.6.1.tgz"
-  sha256 "8d7089979db79a531a0ecc507b113ac6f2cf5f19305571eff1d3413e0ab33713"
+  url "https://www.tarsnap.com/spiped/spiped-1.6.2.tgz"
+  sha256 "05d4687d12d11d7f9888d43f3d80c541b7721c987038d085f71c91bb06204567"
 
   livecheck do
     url :homepage
@@ -10,19 +10,24 @@ class Spiped < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_big_sur: "74e0d5955ee9754f9a88798d8d0c5a2b425756d3359378c312874ccb3959421d"
-    sha256 cellar: :any, big_sur:       "c245e8cf440207b8a2d229b8f8644ebe25da6999b52f2b8b16835c55b7f04b6e"
-    sha256 cellar: :any, catalina:      "efe2a93770708c9a8c1474651b7b0b221d263b7fbb7dc75e014ff21caf084510"
-    sha256 cellar: :any, mojave:        "44c1509c5faf96f0be69fd905525e2070cf25445afddfaf45584bd9c4a1d702c"
-    sha256 cellar: :any, high_sierra:   "b5615b6afbc743c7b8b2776c3537ec42a4f1519f1f2f3e12bd06ae4e96ce5f14"
+    sha256 cellar: :any,                 arm64_monterey: "63451c713c91962ed596254ff1924de72d6adc4bb7d950082d420cafa70596a0"
+    sha256 cellar: :any,                 arm64_big_sur:  "3df7565403ad24361e05d3661242f8724bde49bdee1124bcc07aa234dbdcecf2"
+    sha256 cellar: :any,                 monterey:       "b343cf4da6e41a3c30d76ea2e25bf18c1e63d0479e7ceb13e8764232a035b727"
+    sha256 cellar: :any,                 big_sur:        "4e78ef161701b82728993c1107fbb155bb9a17cea82df586c9a1df520ec8d656"
+    sha256 cellar: :any,                 catalina:       "f3edfef25280658dbeaee09e50d2b284a5d9768ffb2632502b3bfc050590e073"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5688ae1fdf0012b91c336d8a802358a3a248d83ff97fa882ec5319454e1f8823"
   end
 
-  depends_on "bsdmake" => :build
   depends_on "openssl@1.1"
+
+  on_macos do
+    depends_on "bsdmake" => :build
+  end
 
   def install
     man1.mkpath
-    system "bsdmake", "BINDIR_DEFAULT=#{bin}", "MAN1DIR=#{man1}", "install"
+    make = OS.mac? ? "bsdmake" : "make"
+    system make, "BINDIR_DEFAULT=#{bin}", "MAN1DIR=#{man1}", "install"
   end
 
   test do
