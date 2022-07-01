@@ -1,8 +1,8 @@
 class Solana < Formula
   desc "Web-Scale Blockchain for decentralized apps and marketplaces"
   homepage "https://solana.com"
-  url "https://github.com/solana-labs/solana/archive/v1.9.25.tar.gz"
-  sha256 "ebed35ae8ccdb8abfe12b865e175fafc15ab05715fb14081be3fa7fe764e6b9a"
+  url "https://github.com/solana-labs/solana/archive/v1.10.28.tar.gz"
+  sha256 "3c2c8e1a4cc8cdb4ef626c3d1cd6775588ab3a4fe9c5f25b7ed21fb29176fe5f"
   license "Apache-2.0"
 
   # This formula tracks the stable channel but the "latest" release on GitHub
@@ -15,12 +15,12 @@ class Solana < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "a7f6179c458520b720dd6fd461e75b0d055ace7440219b77ff0e2acdd1e7b3f4"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9661639a87ab70426b666df30424068d93d123a7a0ea5f0dda5fb5d5e67f52fc"
-    sha256 cellar: :any_skip_relocation, monterey:       "a59209517d1f3bfe7f3a7661f1a3c9f97fd00cbaf0b429625ba04c1e9cf2064c"
-    sha256 cellar: :any_skip_relocation, big_sur:        "ad3ad3fd59944d016c2860898fdfd425ae16c1c552c44abd3f1d11ac9a92bc8d"
-    sha256 cellar: :any_skip_relocation, catalina:       "796dce1296b08dd5d3ee6c1b818a01a372e4ebf0669df0eb83272a6c9881d96f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "089c7073a5e9faeff8cfc3ed10906c277cd1bf13040785e678b9c795225db014"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "47a62afaea8faea4d72b912321ef4b19eed9749b454b13827dd354970c9e83ab"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "fbdcf6b7824d47a7e46ce90f0bf3a9bf405e4b0222a99b422a0fb0884d4cb03f"
+    sha256 cellar: :any_skip_relocation, monterey:       "9b1808e8e9b36e61e31df4a7af78b21445016a7321118548c89e87728917c4af"
+    sha256 cellar: :any_skip_relocation, big_sur:        "33b41757c0bc181ac73fec597b59d1f2cf9cd92c656fe7e90d8751352c8e04b2"
+    sha256 cellar: :any_skip_relocation, catalina:       "3c5f94cd630593c9b51fdb0c8116b12afa8f61c44d008b8e0e80fe9d3c87f133"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9b6fdac117ba30502973b9cf27381068056de70a94fcb075e9e6377889040691"
   end
 
   depends_on "protobuf" => :build
@@ -30,12 +30,16 @@ class Solana < Formula
 
   on_linux do
     depends_on "pkg-config" => :build
-
     depends_on "openssl@1.1"
     depends_on "systemd"
   end
 
   def install
+    # Fix for error: cannot find derive macro `Deserialize` in this scope. Already fixed on 1.11.x.
+    # Can remove if backported to 1.10.x or when 1.11.x has a stable release.
+    # Ref: https://github.com/solana-labs/solana/commit/12e24a90a009d7b8ab1ed5bb5bd42e36a4927deb
+    inreplace "net-shaper/Cargo.toml", /^serde = ("[\d.]+")$/, "serde = { version = \\1, features = [\"derive\"] }"
+
     %w[
       cli
       bench-streamer
@@ -48,9 +52,7 @@ class Solana < Formula
       tokens
       watchtower
     ].each do |bin|
-      cd bin do
-        system "cargo", "install", "--no-default-features", *std_cargo_args
-      end
+      system "cargo", "install", "--no-default-features", *std_cargo_args(path: bin)
     end
   end
 

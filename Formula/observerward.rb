@@ -1,17 +1,17 @@
 class Observerward < Formula
   desc "Cross platform community web fingerprint identification tool"
   homepage "https://0x727.github.io/ObserverWard/"
-  url "https://github.com/0x727/ObserverWard/archive/refs/tags/v2022.6.1.tar.gz"
-  sha256 "61f615c77799c6681d0f37ea963d833ff586c81978f4f62d723967216942f91f"
+  url "https://github.com/0x727/ObserverWard/archive/refs/tags/v2022.6.29.tar.gz"
+  sha256 "2198abd74bd728510f386957faf9dc2154c8748abcd8c27e25298ecabb0b98f8"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "0712de48f9d1b4d60ba629eba7b8a5ceb625e9b9e73dd8e2996aea24b997c0a5"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "6978bb997351d2074eab3b999b49fe3aeeeb4680f9273d96e1d2b7414bc4f0e4"
-    sha256 cellar: :any_skip_relocation, monterey:       "e130693ae1c04fa5fa1ec107132907218897a4077b0b476b200f7381907e29db"
-    sha256 cellar: :any_skip_relocation, big_sur:        "fc5c728268f9a9075ff94222b99d66677749b4df3ab590ea36dd352107828850"
-    sha256 cellar: :any_skip_relocation, catalina:       "b48ac48ef5bf24e326524a67ad0530ac19c334f932df59f8b7b6c1760c50dae3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9521d4e42843410a121940577b0a1035d8ada02899c925e6e18edaf74328d1f3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "93d1204dcc67fac7ff6e89d56a3b2c89ba5c6d899c17aac7605da976549fb748"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "32a9096b970e2eba76f428f5da73dec5a04b34ade90f9d04a546719a4ebb0c81"
+    sha256 cellar: :any_skip_relocation, monterey:       "793afbad41b552a0b65aa9bfe9d9bd03ab895abb396d334f3713634a4eb975c3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3e0d50c595d9e09e3d18aee18b69198af440c0112604fcfbf94a2e45546bb169"
+    sha256 cellar: :any_skip_relocation, catalina:       "8caedf71f5b47f390857b8f3afc15e43dae9b103ff6cdd28ddc9b2a613a108d6"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "13859ffc74604c3fc628759db24ff26816a18df15cc7d26aa3470625f7278536"
   end
 
   depends_on "rust" => :build

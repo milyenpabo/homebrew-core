@@ -1,18 +1,18 @@
 class Ki < Formula
   desc "Kotlin Language Interactive Shell"
   homepage "https://github.com/Kotlin/kotlin-interactive-shell"
-  url "https://github.com/Kotlin/kotlin-interactive-shell/archive/refs/tags/v0.4.5.tar.gz"
-  sha256 "b5e38918ac64216713c64170fd12f7b2c7c00124ba8d8b10ae7e53b386cb4bab"
+  url "https://github.com/Kotlin/kotlin-interactive-shell/archive/refs/tags/v0.5.1.tar.gz"
+  sha256 "eb7be2a459b89b62b125a285595377a73827a021c112d7faa41ca4759d457565"
   license "Apache-2.0"
   head "https://github.com/Kotlin/kotlin-interactive-shell.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "d9bd8431d24f78714d40f396b2b74429d1838e79a2ac5ddb4a2597c706d8d189"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a42197b199084ff668ac35a7c3628b2c5e7572156197a3999361cb9ef3af9d3a"
-    sha256 cellar: :any_skip_relocation, monterey:       "646c60b8c6f270e1cd2960a4a406609da30b82220a834d4ea9e5add38541e621"
-    sha256 cellar: :any_skip_relocation, big_sur:        "7b0a4d34508bf3a0770222f95d7cddb14f1011e609bc57ef8cb6262c6ae21985"
-    sha256 cellar: :any_skip_relocation, catalina:       "e0801112af6e580c97ebf5691bb750e73279b8763fd4d636bce0eb6ffa9cf57b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e92fae01e885dbbc60e15c2bd7a032a2f296199abe37155e9be6007da3bb30d3"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f371b1ec3e25cd932a0e00d3a7516657404fcdb9fc21889c87ed5fb50631864c"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "291d7304de8ee426058e81e8bebccbb01be6e425619fe19498b24adffd679043"
+    sha256 cellar: :any_skip_relocation, monterey:       "1a6b75b713f70f8cbadc26189d4ebd3f7343cefe4c2d5291caaa6469398af614"
+    sha256 cellar: :any_skip_relocation, big_sur:        "53be472cdfa52204313a02b8e5f05b25130439bf163cd9b15f0b1548159f6249"
+    sha256 cellar: :any_skip_relocation, catalina:       "bc7f30f306e1bb6a883a6ad2906370102d81ce3eb4abcf5f80f576c2d8fc2d54"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fc9db457c857b9c2cf459ab3982a32e3140f9675fd91d6fdf0a56ea6d48f2bfa"
   end
 
   depends_on "maven" => :build

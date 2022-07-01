@@ -1,8 +1,8 @@
 class Prometheus < Formula
   desc "Service monitoring system and time series database"
   homepage "https://prometheus.io/"
-  url "https://github.com/prometheus/prometheus/archive/v2.35.0.tar.gz"
-  sha256 "5264a7b59f5b9e28d3c47bf694a1062e6d3745c3797d28585c2b44eb9d72da1f"
+  url "https://github.com/prometheus/prometheus/archive/v2.36.2.tar.gz"
+  sha256 "68386d347b61806565c448b48c78ff349893f26f63c0abd04a786da743dd15db"
   license "Apache-2.0"
 
   livecheck do
@@ -11,20 +11,22 @@ class Prometheus < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "69e2230385d9f26cff0d0d3f62d78114928d40dd8296b1f3af7b389f5063c2b9"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "01c9cc609d6d820731bbe47565f19e1e354645d82f8c2a14a84909c59efd6833"
-    sha256 cellar: :any_skip_relocation, monterey:       "7dcd1088a3bd046961f1d66c002d8717febaff45a9b7b196025dd432b3a625a5"
-    sha256 cellar: :any_skip_relocation, big_sur:        "3dda9fb7d82c90b65a51e30f22a51a52f05ef913d875a58bf5b05a100da4ee04"
-    sha256 cellar: :any_skip_relocation, catalina:       "54e46b68de6d17751d015f55d202ac4d1f47629013d328848d83f9308d150b90"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f20741dd19460f66fbf3999418ac08969a2080e6cb6af6b87b0fed0df1ec6844"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "29d492c8f85c880a96996aafad9a7750d65aff4d5bf79666b8ae90599794063f"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7b115a9bf71a5710d8e1a9e387f8e2c437a018472259e311c6b07d19e73b8d5b"
+    sha256 cellar: :any_skip_relocation, monterey:       "00378fb38c58df307e3fc69db5e190cd2cc4b2fb452a838fc40ace744751d17f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b9ae86cc377846b1af06f18c624906d265cc719bb0f8c980d893b182873385fc"
+    sha256 cellar: :any_skip_relocation, catalina:       "746b6de48a8894b0920a5380117e9a37eee6475630173cfb8c7cc88aadfca45d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "77b36bde911d04b01ef5a5884a55e2bdb07a6aa4429b43757e00e4970b358aac"
   end
 
+  depends_on "gnu-tar" => :build
   depends_on "go" => :build
   depends_on "node" => :build
   depends_on "yarn" => :build
 
   def install
     ENV.deparallelize
+    ENV.prepend_path "PATH", Formula["gnu-tar"].opt_libexec/"gnubin"
     ENV.prepend_path "PATH", Formula["node"].opt_libexec/"bin"
     mkdir_p buildpath/"src/github.com/prometheus"
     ln_sf buildpath, buildpath/"src/github.com/prometheus/prometheus"

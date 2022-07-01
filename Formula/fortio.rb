@@ -2,8 +2,8 @@ class Fortio < Formula
   desc "HTTP and gRPC load testing and visualization tool and server"
   homepage "https://fortio.org/"
   url "https://github.com/fortio/fortio.git",
-      tag:      "v1.32.2",
-      revision: "6b4e2d4870971679f0b586ad1082ad0b9fb4b162"
+      tag:      "v1.34.1",
+      revision: "a5d0f122705cc0981419fee4eec51aa18b69a9c1"
   license "Apache-2.0"
 
   livecheck do
@@ -12,12 +12,12 @@ class Fortio < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "60a353378dd626f689ed1dc862cec982145198fd2cc1851fbad3717867acf039"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ecf74d934c77afa37143a4c90f6e6fb8c2117efe28c883c9bec03a7212891b55"
-    sha256 cellar: :any_skip_relocation, monterey:       "b67219de640b7a8cbc8ef40cb03a72e511d8885118cf0d1910bb22651e145a20"
-    sha256 cellar: :any_skip_relocation, big_sur:        "3e03212a0ce4d401cbe0a7745a677d47466aab43a2b3f8187a8e00bdcd6a740d"
-    sha256 cellar: :any_skip_relocation, catalina:       "a6206ae9f90e5a9e2114f4f467d927fff173d04069ae277d7ef8e466e4f0f0bd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "77ec9e8fb747627059e45825c6db5f1396d112f7b8ea67e8dd5fc2fd8740cd7e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2995bb2d6d7400aaa6072fdb1211950ee19f27ccf139ea48505dc4002f8c27eb"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "eda69d3be01460732e0887398b3997849c521f54b4b0298fddbe0153c0dd9e53"
+    sha256 cellar: :any_skip_relocation, monterey:       "f683d1533dda796ffdfbfa32c59d3ab4381a2d99ead37a6005539dc50b222b38"
+    sha256 cellar: :any_skip_relocation, big_sur:        "cfe4a6e03de26e1b8d6a9d0467e297ccb8b6a3b2d03039c3c8bf6fc3723f4a92"
+    sha256 cellar: :any_skip_relocation, catalina:       "c3df5024993f75a3f80164943820d570e2c85f1651fab09be6540113a917aea8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8aa10f3f1ff5fc075df577c338bcd4f492cf50e865a0a6ed02f936e09adcdcf4"
   end
 
   depends_on "go" => :build

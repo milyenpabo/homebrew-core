@@ -1,27 +1,27 @@
 class Root < Formula
   desc "Object oriented framework for large scale data analysis"
   homepage "https://root.cern.ch/"
+  url "https://root.cern.ch/download/root_v6.26.04.source.tar.gz"
+  sha256 "a271cf82782d6ed2c87ea5eef6681803f2e69e17b3036df9d863636e9358421e"
   license "LGPL-2.1-or-later"
-  revision 2
+  revision 1
   head "https://github.com/root-project/root.git", branch: "master"
 
-  stable do
-    url "https://root.cern.ch/download/root_v6.26.02.source.tar.gz"
-    sha256 "7ba96772271a726079506c5bf629c3ceb21bf0682567ed6145be30606d7cd9bb"
-  end
-
   livecheck do
-    url "https://root.cern.ch/download/"
-    regex(/href=.*?root[._-]v?(\d+(?:\.\d*[02468])+)\.source\.t/i)
+    url "https://root.cern/install/all_releases/"
+    regex(%r{Release\s+v?(\d+(?:[./]\d*[02468])+)[ >]}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).map { |match| match[0].tr("/", ".") }
+    end
   end
 
   bottle do
-    sha256 arm64_monterey: "e542a62cadf1238ebcb1b79db1a8a334e5b5428d8eb996d3df722a361544dd84"
-    sha256 arm64_big_sur:  "0ffef80a59d73f66116c813294baede66b86aef85fc683f97492f45fd60477f1"
-    sha256 monterey:       "b8c395ff6b6b9ce498fb48c8ea2becf6082e9861f7b90a54860d5cc3895c0207"
-    sha256 big_sur:        "282c187d0d9952aabdd6029373aaf981dca525a6366cdc23c2ef1a4240430877"
-    sha256 catalina:       "b47db28271eba2de2f12c439219dcf71874370582ecd267315d1c4964036b1ff"
-    sha256 x86_64_linux:   "10bf7de8c0377aef1e2edf4a6792b51e56a959caa8a99ad18c52e5cfb4550912"
+    sha256 arm64_monterey: "40053cf5847fb77b9fa736d251c8e5c6b74941e924fe841f682533af9f3d391a"
+    sha256 arm64_big_sur:  "4a95cafcf0b6d231cee3a2a4c112d5e8d2818aff9a53cebbbdce929dcae57927"
+    sha256 monterey:       "22a22ca374e01af8d7dfc6d93915c031fcab047c831781a5326bff086b49e3ca"
+    sha256 big_sur:        "9f5d469b5c386d02d43b7fb5a1c544c1fd6939b9c022930025cb1c6835002069"
+    sha256 catalina:       "6de35167500657e1a193088a9ace296be68a639e17b046dedc929acf75e556cd"
+    sha256 x86_64_linux:   "ca415127a13260d08df53206780a66758d217aa6e2aafda84ec80d8c0fa8fdbe"
   end
 
   depends_on "cmake" => :build

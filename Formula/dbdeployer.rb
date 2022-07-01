@@ -1,18 +1,18 @@
 class Dbdeployer < Formula
   desc "Tool to deploy sandboxed MySQL database servers"
   homepage "https://github.com/datacharmer/dbdeployer"
-  url "https://github.com/datacharmer/dbdeployer/archive/v1.64.0.tar.gz"
-  sha256 "8065d2700f870d10e58af7b2764ffa0838254402f874294dbc39845356d6f069"
+  url "https://github.com/datacharmer/dbdeployer/archive/v1.65.2.tar.gz"
+  sha256 "535813d304d3715737bedea8c7cf88b9b3ea565a303d70554218a11d6dd9717a"
   license "Apache-2.0"
   head "https://github.com/datacharmer/dbdeployer.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "5baa794aac6beb7bbd6483e0c3fab95d0f206f48fa1d787fa7432f2fccc0f759"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8cd8ed8106fafc4e33011ed80782a48a2f11adbdffefe682688f8360bbb614ab"
-    sha256 cellar: :any_skip_relocation, monterey:       "a5c34e304a761c7960db63d2822abb6574539cd52d04abdb4b475ff75bd256dc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "471b15dfc7d8fde1b0d444713f36e0d4a498f13395c9d6c21469ee0173736a86"
-    sha256 cellar: :any_skip_relocation, catalina:       "42bcc1fbcb2e907492b74e4289f25843e86c581aa6fe4f7f4e7d3066c61ee1d5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a75725cf0528b9ee61cc0a9882f4b14fe12fc3bf19040e9178da5a568360a93e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "51d2f0763b851de370dfccb534428f83b0e539a848af4ee470bfd76ee09fcf06"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ff26b8bd946333ea5d2438aaa3ba90271225da70c575f0cf749ea0b2f711efa4"
+    sha256 cellar: :any_skip_relocation, monterey:       "73432001294e8025539d880bf83b1b8591a78bd6c588353b4b00e05d87fff7ce"
+    sha256 cellar: :any_skip_relocation, big_sur:        "c5ba277e6a9a5585ff2407b47df31f2e8c241c28c7cb1bc8e59068b329287657"
+    sha256 cellar: :any_skip_relocation, catalina:       "800d44799f85b1c5a256db78cc12f9edf9118276c90a46eb3b30c04719bcd388"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "51f813908fb2133caa58b6b39d644d93355789e90b7c55df2907596a87d33790"
   end
 
   depends_on "go" => :build

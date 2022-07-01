@@ -4,6 +4,7 @@ class Dovecot < Formula
   url "https://dovecot.org/releases/2.3/dovecot-2.3.19.tar.gz"
   sha256 "0173f693d441b6248b8a62aa5fd690021a1f04a12902653e0bf2e5b012fe437b"
   license all_of: ["BSD-3-Clause", "LGPL-2.1-or-later", "MIT", "Unicode-DFS-2016", :public_domain]
+  revision 1
 
   livecheck do
     url "https://www.dovecot.org/download/"
@@ -11,17 +12,18 @@ class Dovecot < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "e1fe310c79f92ac46b37f6fa86219481033ffb7e85f11eaee245f25e10ddf2a9"
-    sha256 arm64_big_sur:  "5b7de5b7bed4b85454a6b7c0901ac776c6434c980407c5f862970fa80ee4ea5c"
-    sha256 monterey:       "97bbd285e1a42737873eac96ae95e1cce8ba2becc018e53c02939ab37e4ad397"
-    sha256 big_sur:        "a4cafec6ee1342d5a7340b3b509dc7b18b1af0ca00f6b3b36e514dc4f627e62c"
-    sha256 catalina:       "3a3691fd3c9743a10d74711de0ccf6d411298cac7f4fd3fc5254ffd82d0e1dc0"
-    sha256 x86_64_linux:   "3171d46395f36d4f71865e8248727b7322c63612a57757817bc86d4fe4f3de82"
+    sha256 arm64_monterey: "4e6965e44ff277016d883d1f838d68eb5075c0a5aa24552ee9f2a2c8f16cb3f4"
+    sha256 arm64_big_sur:  "7744466128fb64d901faf422bfa95b5641bef60535c96f9a2081cfbfb74a1a26"
+    sha256 monterey:       "6eac5a2166b8b7a8ef98752c3defd05b80cc52c4bb444293a530fcfe996798b6"
+    sha256 big_sur:        "62584be2a0ed06a36d110459aac4a563df3ace40a634a7f637eece51069bbaac"
+    sha256 catalina:       "985473635ba7fdf753f8d00b1aad724827c933376f52974e97216d21f4413483"
+    sha256 x86_64_linux:   "92c6f17d69ad305ff36a588b9362c55b74be48fbef4d4e9e760f5f3721fd093f"
   end
 
   depends_on "openssl@1.1"
 
   uses_from_macos "bzip2"
+  uses_from_macos "libxcrypt"
   uses_from_macos "sqlite"
 
   on_linux do

@@ -2,8 +2,8 @@ class V8 < Formula
   desc "Google's JavaScript engine"
   homepage "https://github.com/v8/v8/wiki"
   # Track V8 version from Chrome stable: https://omahaproxy.appspot.com
-  url "https://github.com/v8/v8/archive/10.1.124.12.tar.gz"
-  sha256 "8f4c640721123af612106cd1939d42191a69a4633a889f384e551b36763cf11f"
+  url "https://github.com/v8/v8/archive/10.2.154.4.tar.gz"
+  sha256 "6f4865ffe499f51da3e422cf7e4d85d3dab1b0a99b2d5bf204910ce423505597"
   license "BSD-3-Clause"
 
   livecheck do
@@ -12,12 +12,12 @@ class V8 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "ab098b01ca0f7028aa20ea91d7fbf4090ffc9ceef4fea5229a597f07d97492c7"
-    sha256 cellar: :any,                 arm64_big_sur:  "4c743bd18d7a5c1fc7e684d5609fc1d5272e52d03e7795920444818839277c53"
-    sha256 cellar: :any,                 monterey:       "60aa549146e6ecf549aa42ca5e0d874405e70172cf4bbf6637ee11df166ef7dd"
-    sha256 cellar: :any,                 big_sur:        "fc65959dc4ce3b5c4bdbb6ee4bbf47314b5c9fdbd1f368288154057d438a1f3e"
-    sha256 cellar: :any,                 catalina:       "c336581df25bd214e5cc5f469ce9cd0bca5f22dfad9893f7490be4a02e835636"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b712ad634f71f3e1756d379e2c3c82880b2e2b3a747d8ce35edde55adc831645"
+    sha256 cellar: :any,                 arm64_monterey: "9356133c624b366d4fe95ba96b299ef86aab4d34f4b2be7415bf8622c5a40ed7"
+    sha256 cellar: :any,                 arm64_big_sur:  "8a2841b43c1fb89fcf218eb6bb340012c782502cabc2bfaadbab6f83ae561cbe"
+    sha256 cellar: :any,                 monterey:       "4930cb3d2541294f93a44daf8d70c66511bf6d81e3d94f6691c25dcc355f1ab7"
+    sha256 cellar: :any,                 big_sur:        "3ba40273b83236ba5aa28d9b6276d2ba431ff421f5f95f09007e05d7b23c79ab"
+    sha256 cellar: :any,                 catalina:       "9c6e7386475164af409437e86abb7d8ed8f5d4d0611c41348a0d4754382df38d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d605b343d54a84ee5af95f801518950540eaa678abeea32e6dfda9618c22d89d"
   end
 
   depends_on "ninja" => :build
@@ -37,13 +37,13 @@ class V8 < Formula
   fails_with gcc: "5"
 
   # Look up the correct resource revisions in the DEP file of the specific releases tag
-  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.1.124.12/DEPS#43
+  # e.g. for CIPD dependency gn: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.2.154.4/DEPS#43
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
-        revision: "bd99dbf98cbdefe18a4128189665c5761263bcfb"
+        revision: "ae110f8b525009255ba1f9ae96982176d3bfad3d"
   end
 
-  # e.g.: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.1.124.12/DEPS#84
+  # e.g.: https://chromium.googlesource.com/v8/v8.git/+/refs/tags/10.2.154.4/DEPS#84
   resource "v8/base/trace_event/common" do
     url "https://chromium.googlesource.com/chromium/src/base/trace_event/common.git",
         revision: "d115b033c4e53666b535cbd1985ffe60badad082"
@@ -51,17 +51,17 @@ class V8 < Formula
 
   resource "v8/build" do
     url "https://chromium.googlesource.com/chromium/src/build.git",
-        revision: "3d9590754d5d23e62d15472c5baf6777ca59df20"
+        revision: "b37c340767cf9e7777d4ca5a588c34c5744df9b2"
   end
 
   resource "v8/third_party/googletest/src" do
     url "https://chromium.googlesource.com/external/github.com/google/googletest.git",
-        revision: "ae5e06dd35c6137d335331b0815cf1f60fd7e3c5"
+        revision: "af29db7ec28d6df1c7f0f745186884091e602e07"
   end
 
   resource "v8/third_party/icu" do
     url "https://chromium.googlesource.com/chromium/deps/icu.git",
-        revision: "8a5b728e4f43b0eabdb9ea450f956d67cfb22719"
+        revision: "1fd0dbea04448c3f73fe5cb7599f9472f0f107f1"
   end
 
   resource "v8/third_party/jinja2" do
@@ -76,7 +76,7 @@ class V8 < Formula
 
   resource "v8/third_party/zlib" do
     url "https://chromium.googlesource.com/chromium/src/third_party/zlib.git",
-        revision: "b0676a1f52484bf53a1a49d0e48ff8abc430fafe"
+        revision: "a6d209ab932df0f1c9d5b7dc67cfa74e8a3272c0"
   end
 
   # Apply patch to fix v8 build with glibc < 2.27. See here for details:

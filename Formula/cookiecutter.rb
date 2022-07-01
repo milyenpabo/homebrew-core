@@ -3,18 +3,18 @@ class Cookiecutter < Formula
 
   desc "Utility that creates projects from templates"
   homepage "https://github.com/cookiecutter/cookiecutter"
-  url "https://files.pythonhosted.org/packages/eb/d4/71191a5c76da517a965517fe6d4edcc41208f758b6a7fc7df6004faf421b/cookiecutter-2.1.0.tar.gz"
-  sha256 "eca3133ebd0d138f226616c38dc456caafae7da45d6d33a3eeb83bf7f56f9c64"
+  url "https://files.pythonhosted.org/packages/96/43/65a3dad94dceaaaa12807ce4d4eff1064db6e91a8c6fb6945e3e61e63552/cookiecutter-2.1.1.tar.gz"
+  sha256 "f3982be8d9c53dac1261864013fdec7f83afd2e42ede6f6dd069c5e149c540d5"
   license "BSD-3-Clause"
   head "https://github.com/cookiecutter/cookiecutter.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "19e8cf9b0c99190bfceff30b7c0161333c002f6d884657e72d3e82cadef9a2ac"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "c37f314419ec3ab7800d5420d96b824403de7af89ec99e60dc7ec3bba958b309"
-    sha256 cellar: :any_skip_relocation, monterey:       "95814f6befd4b03c43c8b897f0eba1febda14ef5ff9956525c663fbc64f0d017"
-    sha256 cellar: :any_skip_relocation, big_sur:        "caa09da078dccf0f1357f1c0b0db47f770b02c6957de354bbc6888464c54c3ae"
-    sha256 cellar: :any_skip_relocation, catalina:       "422e9df6a4f9e311563c6ee4d342aaabf80c92eae81ac49630c2f0a510f9455b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1dff4d4a4e5fc11df1a3737e92ba8ba0c28bdce60991f96202bf61f2849f787b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4101c9acacc29d30afca5f5d61082ab044971defa94472c811d54d5b91958cea"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a3d81a69df0b8b4de452500dcfa8e46d1172a9bf0c5e3cfadaa085b48dad8fe9"
+    sha256 cellar: :any_skip_relocation, monterey:       "a937a1f8887fc2b7a691816a8b7282d55a29bae8dde2bf856160f60ee52710a6"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e172ba36c2faf9b7b2b33110b3b95321657342ca3cfc320e325a0741439e3564"
+    sha256 cellar: :any_skip_relocation, catalina:       "dba8823ef56fcfc709de636f51ceecef18e2fe8d329c41a54fdb004d81e5bf4b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5a98c25502094ee37748ea2dae64f36e3d7de16c6e4521e1e60a042b4154df5b"
   end
 
   depends_on "python@3.10"

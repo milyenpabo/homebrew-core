@@ -3,17 +3,17 @@ require "language/node"
 class VercelCli < Formula
   desc "Command-line interface for Vercel"
   homepage "https://vercel.com/home"
-  url "https://registry.npmjs.org/vercel/-/vercel-24.2.5.tgz"
-  sha256 "6b86f9b063fe02f0aa97c53ee63793f3424c4a0793356ec767989df8710a1a7f"
+  url "https://registry.npmjs.org/vercel/-/vercel-25.2.3.tgz"
+  sha256 "2c397c901428d4d61621dd720a20669a676954ce3888fb420519fdbf250ec697"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "88441d4e0c4bdd7bd06eec0d256568c10780c4a920fa0d844e57bcaa5b45bfbf"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "88441d4e0c4bdd7bd06eec0d256568c10780c4a920fa0d844e57bcaa5b45bfbf"
-    sha256 cellar: :any_skip_relocation, monterey:       "c07206c5a042d57eb126b43ad08bbecd8a27801633272826c7ce1b3610a06d07"
-    sha256 cellar: :any_skip_relocation, big_sur:        "f5c7d881456b980ee8c54f028dc6350811f311d8e1a6850e442a8aa9bfdb7b80"
-    sha256 cellar: :any_skip_relocation, catalina:       "59b2c250ea3caa4c3f4ab1f5b74247f8cbc193d6d04aba0a4dee6208923a056c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cb0c87c057abc6fe494fd4339e5bc3614485bf6f4b801039752cb46e5d5c09ab"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8f8caf13d8f825bffbbd91e4cce7d9c2f81468fa6eb20b270bdb79bebab59b51"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8f8caf13d8f825bffbbd91e4cce7d9c2f81468fa6eb20b270bdb79bebab59b51"
+    sha256 cellar: :any_skip_relocation, monterey:       "be272399a27f38565296537e3222108507e1d2c2145dbfdefc4347afa52298a3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d2802fca54d3c0c70fe73924e15b42456ebbaf0482933a42644d56c968cbe24a"
+    sha256 cellar: :any_skip_relocation, catalina:       "d2802fca54d3c0c70fe73924e15b42456ebbaf0482933a42644d56c968cbe24a"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "37f47ecbe7292791c728d57c0e72f85b285d9bf39cb954382d1b7635ee974613"
   end
 
   depends_on "node"
@@ -29,17 +29,11 @@ class VercelCli < Formula
     system "npm", "install", *Language::Node.std_npm_install_args(libexec)
     bin.install_symlink Dir["#{libexec}/bin/*"]
 
-    term_size_vendor_dir = libexec/"lib/node_modules/vercel/node_modules/term-size/vendor"
-    term_size_vendor_dir.rmtree # remove pre-built binaries
-
     dist_dir = libexec/"lib/node_modules/vercel/dist"
     rm_rf dist_dir/"term-size"
 
     if OS.mac?
-      macos_dir = term_size_vendor_dir/"macos"
-      macos_dir.mkpath
       # Replace the vendored pre-built term-size with one we build ourselves
-      ln_sf (Formula["macos-term-size"].opt_bin/"term-size").relative_path_from(macos_dir), macos_dir
       ln_sf (Formula["macos-term-size"].opt_bin/"term-size").relative_path_from(dist_dir), dist_dir
     end
   end

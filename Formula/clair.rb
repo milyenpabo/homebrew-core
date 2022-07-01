@@ -1,8 +1,8 @@
 class Clair < Formula
   desc "Vulnerability Static Analysis for Containers"
   homepage "https://github.com/quay/clair"
-  url "https://github.com/quay/clair/archive/v4.4.2.tar.gz"
-  sha256 "78843ccb2b2de390082fc6d06ae9e82036a4b615a33a5fe5cf57b294def2b771"
+  url "https://github.com/quay/clair/archive/v4.4.4.tar.gz"
+  sha256 "7895442b6c5fb016513b859c4372826008d908ef85d2f506eaf1da301f9f13bc"
   license "Apache-2.0"
 
   livecheck do
@@ -11,12 +11,12 @@ class Clair < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "359a22f8bad5d10c6d9a595d67934f3f89d0ee2927b449617dd8665500972af7"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4c66866639d4022a0eb52b09121cebc6f6752f1c787e1aacab1ace40a65f075b"
-    sha256 cellar: :any_skip_relocation, monterey:       "891064a148b33dd5f12e79ad5a7813ffcc4883be715bf6d56efdda2776828af1"
-    sha256 cellar: :any_skip_relocation, big_sur:        "bc792a4f0b8d041e660b2b59115f67c3a9a6f69eefc8b35b7a8a5b72c3549ea9"
-    sha256 cellar: :any_skip_relocation, catalina:       "381b7c11875b3a6079a0b738f8571b7150489c48d01f493720f0b4a6c38d44b5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d7d71fc71a60f55d9b4485e18dd790b562572df83f04cf9aed09ca1c97214be8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "36353c524900ebcca7fb3324e14d01ab662a40d1cc0a47bdbb69cd226d3185bb"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e2d06c88e2b9e21888cded7b3d4e2e2ccbdd43ae02b38655d071dfe929572cbe"
+    sha256 cellar: :any_skip_relocation, monterey:       "d29b85094de70d4b034081f32b5edf893fa1e950663b2b31a3e84584316a6798"
+    sha256 cellar: :any_skip_relocation, big_sur:        "fae5f403b4459e45e5e50edcb1e270f82dbdf18c5b445d52a2aa37b58085d3a4"
+    sha256 cellar: :any_skip_relocation, catalina:       "551e4703b1b444b141e9b9a9745c4b49554ce9482162e1253a175c75f8ad5ce7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "02ecbeaa9fefbd0cb3a9dd8b52da6cf9aaede27ba530d3da808bdf9ca3ef48d3"
   end
 
   depends_on "go" => :build

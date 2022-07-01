@@ -1,17 +1,17 @@
 class Opendht < Formula
   desc "C++17 Distributed Hash Table implementation"
   homepage "https://github.com/savoirfairelinux/opendht"
-  url "https://github.com/savoirfairelinux/opendht/archive/refs/tags/2.4.5.tar.gz"
-  sha256 "4442bd20309f90f26579cff1b23eef1162851834b1d264995a44df0079ad57cb"
+  url "https://github.com/savoirfairelinux/opendht/archive/refs/tags/2.4.7.2.tar.gz"
+  sha256 "3e8eb91622ac73ca080159e6ec04192ec0c948fcea493db3dd84cda1443c2577"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "4628ea643ebd50eacf4db643578ef268caf6d36cb22997e03a3e7ba3e62352e9"
-    sha256 cellar: :any,                 arm64_big_sur:  "45f1759b57ce56111a0f838b68e3b6f02a45356eab2b30c98e82a7a0157c8ffd"
-    sha256 cellar: :any,                 monterey:       "60be4832eab64de7ec7e1722c4cb73d310895aea76eb4cc3cdc4d5ab0cee3112"
-    sha256 cellar: :any,                 big_sur:        "451cc6185b2968814802c8dfa5d9a6e35310c169121e6a7619c75d54e46fe730"
-    sha256 cellar: :any,                 catalina:       "301759e290756606623970326c3923064a99802d46e506d8d17ce3810e9bb804"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7b372a85ac9444f5aed8ff25813d76c5d6f06f733821ce556b11fb972670d13d"
+    sha256 cellar: :any,                 arm64_monterey: "efc6aaca20d3fc647851acf02dd77a586acf59310371d3eb78c21d6d980608a8"
+    sha256 cellar: :any,                 arm64_big_sur:  "5c8823d4e847fc0b236030fb9e8e5205cdbaf738e2b01da34ea253828628c124"
+    sha256 cellar: :any,                 monterey:       "610c8f025f559fd42cf2b41d0011b3c7774079facf6a0964d2105b1d5f7f1516"
+    sha256 cellar: :any,                 big_sur:        "13b1ab14eef399d44d28c352379bdf3514031428ceb28a683d0af67736bc68f1"
+    sha256 cellar: :any,                 catalina:       "76229aa202a91b4f808c208e6ff01df1059977d21cee45dbdb65ce19029499a7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fd0438e39a5ca91b5d052b6b2ed530b51696bb32cfe6199c146931c2bbcf7e52"
   end
 
   depends_on "cmake" => :build

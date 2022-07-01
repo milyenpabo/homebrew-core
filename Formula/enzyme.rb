@@ -1,18 +1,19 @@
 class Enzyme < Formula
   desc "High-performance automatic differentiation of LLVM"
   homepage "https://enzyme.mit.edu"
-  url "https://github.com/EnzymeAD/Enzyme/archive/v0.0.31.tar.gz", using: :homebrew_curl
-  sha256 "d8c0fd05c1c83c38d01b82b760e6b44c09cdcfb26feabc7893ec825aab40d9f3"
+  url "https://github.com/EnzymeAD/Enzyme/archive/v0.0.33.tar.gz", using: :homebrew_curl
+  sha256 "49375521e48daa09c03e2bfabb18ca35f7e142abdc35bc5d0144c72aef513efb"
   license "Apache-2.0" => { with: "LLVM-exception" }
+  revision 1
   head "https://github.com/EnzymeAD/Enzyme.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "04e47cfda3485c4df271162b649275f58c7ed781823fb917f3dbd60214124000"
-    sha256 cellar: :any,                 arm64_big_sur:  "9d6d5f0d76f69362ba9500fae44594de4d4e759aeb1b51aab7e2384ec169b331"
-    sha256 cellar: :any,                 monterey:       "12d753a32f9489c475838570d0460f2e844da14290198f9cd88c283680acb41d"
-    sha256 cellar: :any,                 big_sur:        "2307c4c8134a5a0ff874fae794239809857ac0e4c3a2356a8957bec7a6fef64c"
-    sha256 cellar: :any,                 catalina:       "fdf1711a192400521cd69bb5ef1b449bbab529f5d30f1f053bcc1ba7328df687"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "57695c072bc9b6049d6a7bb251173c190ddc1f76152f6ffc13cfc431f3e9ce5c"
+    sha256 cellar: :any,                 arm64_monterey: "746de5336fc3c2c7f2e401a1f87e7807b68319a014e097c1371c6999202ee195"
+    sha256 cellar: :any,                 arm64_big_sur:  "580151279a789ff27f5dd2aa6c3c3798675c4abb3c96e4200953a9e765da40d6"
+    sha256 cellar: :any,                 monterey:       "05bcb2c85066e5bfbfb251bb29997fdf271546cd4a2f5db9ffb5c5f2ec0d0a57"
+    sha256 cellar: :any,                 big_sur:        "9c2bf0d877d336b86b3992185aa4f497ddfa511b37888aaaedde8f176dfb26f4"
+    sha256 cellar: :any,                 catalina:       "6bda1ce4a4cc6e9d0511123af46f84fc08f6986549acf42d04ba1cafa796e3e3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fd429ecd1bbec172f8b09d53e6986c8d90dc2e8fa54a1ab9c98b63b9178eea88"
   end
 
   depends_on "cmake" => :build

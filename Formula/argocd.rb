@@ -2,21 +2,21 @@ class Argocd < Formula
   desc "GitOps Continuous Delivery for Kubernetes"
   homepage "https://argoproj.github.io/cd"
   url "https://github.com/argoproj/argo-cd.git",
-      tag:      "v2.3.4",
-      revision: "ac8b7df9467ffcc0920b826c62c4b603a7bfed24"
+      tag:      "v2.4.3",
+      revision: "471685feae063c1c2e36a5ff268c4da87c697b85"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "f4a2061b0992a97ee689bafad95f72371e47b452a6f7593a5742dba5d2531f86"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "9b8502d708ebe6fb67e73e63784841376b1168cd774a8c365e5fa4a7c4e690f3"
-    sha256 cellar: :any_skip_relocation, monterey:       "e09bf950cc49530751a50bcd391b7f24d583e7cc36d0419945d7483577d12ee5"
-    sha256 cellar: :any_skip_relocation, big_sur:        "726f692157ee5020354f31d641a4c1bed9fdda9b7e8f9d5f3cc2dad9aa9d0c6b"
-    sha256 cellar: :any_skip_relocation, catalina:       "a2c9d4e53a5a05695ee1394e5ef5c8cdcb3bbf699ea677729ba751b9dc3a13d0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3eb9f713e6dd4e6343f7b2c1c5749797b1e1ac840d9d997c77e274fb31dcc37c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0fbbbc740ede47b1a8d445ff0ec9cae5694083b19d3e0c4ef300f6d7268d1341"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8ee63491845c5bc33507ee7251cb6bf708a1539a5a3045a5397690fac66590ec"
+    sha256 cellar: :any_skip_relocation, monterey:       "1daa69e018194aa8e7e52fc151b6aa8efa88670cccfeee30a3e95cfcbf482687"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3716dbc398d8893e7b80be439e5acf048bcc879e7572ab5ab1d75d01ed7d7fb9"
+    sha256 cellar: :any_skip_relocation, catalina:       "70d43996d18e0fab9fdd9b6a056a85d0be8d391bd06857a145f5275dd2ce6fe0"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ff5a69086d0244cc4e60fc070a4c8076d14877b0020ba519eb71124831cebdb0"
   end
 
   depends_on "go" => :build
-  depends_on "node@14" => :build
+  depends_on "node" => :build
   depends_on "yarn" => :build
 
   def install
@@ -42,6 +42,7 @@ class Argocd < Formula
 
     # Providing argocd with an empty config file returns the contexts table header
     touch testpath/"argocd-config"
+    (testpath/"argocd-config").chmod 0600
     assert_match "CURRENT  NAME  SERVER\n",
       shell_output("#{bin}/argocd context --config ./argocd-config")
   end

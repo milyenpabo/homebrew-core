@@ -3,23 +3,24 @@ class Esphome < Formula
 
   desc "Make creating custom firmwares for ESP32/ESP8266 super easy"
   homepage "https://github.com/esphome/esphome"
-  url "https://files.pythonhosted.org/packages/00/04/0dd40df2b8e7a4dccfcbc7f3e7789f9050cf0f0d15ec0b67c8548f3e8d9c/esphome-2022.5.1.tar.gz"
-  sha256 "31fec427c29ff5967e54afaeec79e96e37544bfb1166862ee6255c5651af1442"
+  url "https://files.pythonhosted.org/packages/1c/02/8a1409bba74e502136a7026aec9e3350d7c09544e77c1aa55c3bc88bbf81/esphome-2022.6.2.tar.gz"
+  sha256 "ae3bcfa25668ee63d3b83e16e9f6747d837141ae911b8fa84472182d4e25d2f2"
   license "MIT"
+  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "cc7ff6864c61265f6837b144bc58e965e2eb9c5f4fd95a55aadef7f1dfcc74c2"
-    sha256 cellar: :any,                 arm64_big_sur:  "72bcfc8651c339b057bd1d31c0a33e7fb439e2532da36b328a93562a5d66ac5e"
-    sha256 cellar: :any,                 monterey:       "ce64712422b2f3c21e07ab64da12ee11c743617c1707145ceb1807083a040211"
-    sha256 cellar: :any,                 big_sur:        "d9e684fc7e6cb575ad9c0e66ca0c7c9e49e2dc78a7e48b4da13d2e55f44e1e0f"
-    sha256 cellar: :any,                 catalina:       "83a9e9bd9bdac061b64b76c556365f759526fd8bd23d482ba0d2e43ccaf5b4af"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "65ee055f7062dcfaf37978c818364f3ea358fe7a118bcedb915e724fb15cd0b8"
+    sha256 cellar: :any,                 arm64_monterey: "aa4134f498ad43e314986102e5dc307891a770ad0a43be12ed14e65bfca2e953"
+    sha256 cellar: :any,                 arm64_big_sur:  "57d647c3bf96db390d1c1036aeac24f1481696ee4a2837e8d798b0aa1f3f9d8d"
+    sha256 cellar: :any,                 monterey:       "1559fbdab40f7fa19b2b0dedb8456f719f6b2736e52f9f1d6187836d186ffb73"
+    sha256 cellar: :any,                 big_sur:        "75339c097df6bb1d67001137a269432f00d5acaf927bc27f252a361ce06874b3"
+    sha256 cellar: :any,                 catalina:       "f05de2500f96a0da3c7f33e266a41f63050d4805d378206628bdda51d763258f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "aed97fbf902c2a5b96e1dac3987a8fdf32374f1e42f7cffcc555b8131d38817e"
   end
 
   depends_on "rust" => :build # for cryptography
+  depends_on "libpython-tabulate"
   depends_on "protobuf"
-  depends_on "python-tabulate"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "six"
 
   resource "aioesphomeapi" do
@@ -53,13 +54,13 @@ class Esphome < Formula
   end
 
   resource "bottle" do
-    url "https://files.pythonhosted.org/packages/ea/80/3d2dca1562ffa1929017c74635b4cb3645a352588de89e90d0bb53af3317/bottle-0.12.19.tar.gz"
-    sha256 "a9d73ffcbc6a1345ca2d7949638db46349f5b2b77dac65d6494d45c23628da2c"
+    url "https://files.pythonhosted.org/packages/95/e3/5749d7657b6fb38d65afb3c0b345514a783de7a9feb4fab594fa0bacc2a0/bottle-0.12.21.tar.gz"
+    sha256 "787c61b6cc02b9c229bf2663011fac53dd8fc197f7f8ad2eeede29d888d7887e"
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/07/10/75277f313d13a2b74fc56e29239d5c840c2bf09f17bf25c02b35558812c6/certifi-2022.5.18.1.tar.gz"
-    sha256 "9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"
+    url "https://files.pythonhosted.org/packages/cc/85/319a8a684e8ac6d87a1193090e06b6bbb302717496380e225ee10487c888/certifi-2022.6.15.tar.gz"
+    sha256 "84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"
   end
 
   resource "cffi" do
@@ -83,8 +84,8 @@ class Esphome < Formula
   end
 
   resource "cryptography" do
-    url "https://files.pythonhosted.org/packages/51/05/bb2b681f6a77276fc423d04187c39dafdb65b799c8d87b62ca82659f9ead/cryptography-37.0.2.tar.gz"
-    sha256 "f224ad253cc9cea7568f49077007d2263efa57396a2f2f78114066fd54b5c68e"
+    url "https://files.pythonhosted.org/packages/67/82/9dd8ef695c7f928b25927e8956f73bdba09a752a51871678f320c498c535/cryptography-37.0.3.tar.gz"
+    sha256 "ae430d51c67ac638dfbb42edf56c669ca9c74744f4d225ad11c6f3d355858187"
   end
 
   resource "ecdsa" do
@@ -98,8 +99,8 @@ class Esphome < Formula
   end
 
   resource "esptool" do
-    url "https://files.pythonhosted.org/packages/63/85/1a7f65d3f89c112c721c6ec013ecd948112df17640e453ddeb1921b05aab/esptool-3.3.tar.gz"
-    sha256 "39b92e1848e352183188f149f3e876cde4b8a1c095551e7e545a28e5c11eea13"
+    url "https://files.pythonhosted.org/packages/de/57/08750ca0d19114237ff5e2da6a945deed888e3774c95acb577387ed11bec/esptool-3.3.1.tar.gz"
+    sha256 "f9ade989a7f5f19bfc60e11925c45f470b8155c7ecf1a37bc8c31380d5dd07b8"
   end
 
   resource "h11" do
@@ -113,8 +114,8 @@ class Esphome < Formula
   end
 
   resource "ifaddr" do
-    url "https://files.pythonhosted.org/packages/3d/fc/4ce147e3997cd0ea470ad27112087545cf83bf85015ddb3054673cb471bb/ifaddr-0.1.7.tar.gz"
-    sha256 "1f9e8a6ca6f16db5a37d3356f07b6e52344f6f9f7e806d618537731669eb1a94"
+    url "https://files.pythonhosted.org/packages/e8/ac/fb4c578f4a3256561548cd825646680edcadb9440f3f68add95ade1eb791/ifaddr-0.2.0.tar.gz"
+    sha256 "cc0cbfcaabf765d44595825fb96a99bb12c79716b73b44330ea38ee2b0c4aed4"
   end
 
   resource "kconfiglib" do
@@ -123,8 +124,8 @@ class Esphome < Formula
   end
 
   resource "marshmallow" do
-    url "https://files.pythonhosted.org/packages/ef/d1/3c7c7d0ed4470c49c971cb5db4c5becdc37bd3969946bba434216c56c08c/marshmallow-3.15.0.tar.gz"
-    sha256 "2aaaab4f01ef4f5a011a21319af9fce17ab13bf28a026d1252adab0e035648d5"
+    url "https://files.pythonhosted.org/packages/a7/c9/59fe5693b3973861f3c9aa6ea6d616a6922d076d53a09359611034782840/marshmallow-3.16.0.tar.gz"
+    sha256 "a762c1d8b2bcb0e5c8e964850d03f9f3bffd6a12b626f3c14b9d6b1841999af5"
   end
 
   resource "noiseprotocol" do
@@ -183,8 +184,8 @@ class Esphome < Formula
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/60/f3/26ff3767f099b73e0efa138a9998da67890793bfa475d8278f84a30fec77/requests-2.27.1.tar.gz"
-    sha256 "68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"
+    url "https://files.pythonhosted.org/packages/e9/23/384d9953bb968731212dc37af87cb75a885dc48e0615bd6a303577c4dc4b/requests-2.28.0.tar.gz"
+    sha256 "d568723a7ebd25875d8d1eaf5dfa068cd2fc8194b2e483d7b1f7c81918dbec6b"
   end
 
   resource "semantic-version" do

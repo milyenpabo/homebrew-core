@@ -3,17 +3,17 @@ class SvtplayDl < Formula
 
   desc "Download videos from https://www.svtplay.se/"
   homepage "https://svtplay-dl.se/"
-  url "https://files.pythonhosted.org/packages/08/6b/8d9bb9b08e33653fed2508eceeea7039621deac9ecf66c252f0f4fa6a523/svtplay-dl-4.12.tar.gz"
-  sha256 "0ca0907f0848c8263fabcf556a5f5f16b05ddd16d8c9cc117a432004336a31a3"
+  url "https://files.pythonhosted.org/packages/40/c0/7363733395c0a88af79ac1097ee2e5fc3d8f984eec2f04e6e539ffb68dff/svtplay-dl-4.13.tar.gz"
+  sha256 "4c0279aefed6d95048e7d01d23bea1c3e97986672ebd5330c061c52c94d1a95d"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "d9b3158dc3d709c8fba8b333da70b4810b456738772ae4fb289fea78ef921819"
-    sha256 cellar: :any,                 arm64_big_sur:  "0a71c81dac15abbf434efe0a7c239925e13ff177a519db2ddbeb6aca6eed9ecd"
-    sha256 cellar: :any,                 monterey:       "42431212ea7eb62b8aa863ecd6e7435e1df9ec11f6189ff1aa4d005471cfdd2e"
-    sha256 cellar: :any,                 big_sur:        "ca51c7d01d2de3b50a8eee569694ac0ad674e5179e5c4183e833cfc971e049e3"
-    sha256 cellar: :any,                 catalina:       "12f7cd91c361c92bc4f91d46788a9d032a2fcd707e4e70f3ce9257d0e71de0e5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f3a2ccf5eb45dab06c86eb4970449c7ca13c16931425db6552adf55f500d6dad"
+    sha256 cellar: :any,                 arm64_monterey: "95256ef752c1a33ac6e0c6f6e21aaf8196f7e579ec5ea2ed707e4f9415671083"
+    sha256 cellar: :any,                 arm64_big_sur:  "a3335792655315cfc429e998da664e4c7ca6a8585f58f9edaf511704ee768bcc"
+    sha256 cellar: :any,                 monterey:       "74828fa81d98e0c48892041b6d790847a457d9e956716de7265655a0f3ff45cc"
+    sha256 cellar: :any,                 big_sur:        "9ea1c324d9a662f0569be90900ea6a0b709d5460a3a1b67da0fc50a0457c4b71"
+    sha256 cellar: :any,                 catalina:       "9b6551ae99affebdfe9edf7548989b193b1d31057785781be37ecd5babd316fd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ca61af5e859ed520885094ca0257694b0bc5c545f6397efc4ca5d2b1b9c2c693"
   end
 
   depends_on "rust" => :build
@@ -21,8 +21,8 @@ class SvtplayDl < Formula
   depends_on "python@3.10"
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/6c/ae/d26450834f0acc9e3d1f74508da6df1551ceab6c2ce0766a593362d6d57f/certifi-2021.10.8.tar.gz"
-    sha256 "78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"
+    url "https://files.pythonhosted.org/packages/07/10/75277f313d13a2b74fc56e29239d5c840c2bf09f17bf25c02b35558812c6/certifi-2022.5.18.1.tar.gz"
+    sha256 "9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"
   end
 
   resource "cffi" do

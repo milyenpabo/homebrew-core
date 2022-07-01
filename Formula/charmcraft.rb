@@ -3,24 +3,25 @@ class Charmcraft < Formula
 
   desc "Tool to build charms and publish them on Charmhub"
   homepage "https://charmhub.io"
-  url "https://files.pythonhosted.org/packages/64/76/b675d66ff32f0577fd76487ef64b83cbf5106950dbd4719f2a386aaea0ea/charmcraft-1.7.0.tar.gz"
-  sha256 "7bd958d5c8847d5a60d2f3471a10081ea5e7b3bc5c68a0b52ca3e9db9b14b6ec"
+  url "https://files.pythonhosted.org/packages/1c/b1/950a8646e6fb58775f10aac2ac56abefc0511ce0bfa8ac76ffe3c62e6037/charmcraft-1.7.1.tar.gz"
+  sha256 "1b9f61bd752495c23156b595a2df1c0cc5440a55aeee5f1feb1e1e1d56768049"
   license "Apache-2.0"
+  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "c89c731caa074de6a2d08ef40516839c8c7f118c12791d05147119849be8cea1"
-    sha256 cellar: :any,                 arm64_big_sur:  "39408a0b3c5b437d2395b449f702daf7b7e21c465326bdb09313e0683ba08380"
-    sha256 cellar: :any,                 monterey:       "1014e753bf2cc4e79e4a680f8581011e8b5d71ae4abe15e2dad9f611946f6d2f"
-    sha256 cellar: :any,                 big_sur:        "b5b7605539a47066267312b711eb187610dd020c425cc49b66c2ff65a0ef57de"
-    sha256 cellar: :any,                 catalina:       "f097573555e29f21d3e756d58afe5268f7f8b53667c31bca840fc0b4cdebb5ba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e350a59182f8ca1ff1b43d4b0690f7580ccbd70bc87713e158a7897204a56c79"
+    sha256 cellar: :any,                 arm64_monterey: "47c35f7d9fd31b92496edc008cc39703a8bb69f3bb3c01677a4a64cb1cdafdf2"
+    sha256 cellar: :any,                 arm64_big_sur:  "cd9eaddd3002b2cf1aa9aafe86c6fbc32fbcb2ee92d3d9d84b2cc8d2bc587930"
+    sha256 cellar: :any,                 monterey:       "5b827e5964aad75e23edf93f2865ef02686a50f72919fe2d0d6e1459399efdbc"
+    sha256 cellar: :any,                 big_sur:        "f206d1fa953147242bcb0b3630ee2f1fc2320451baec55ccc81922816b75ab95"
+    sha256 cellar: :any,                 catalina:       "54d24d22dead8c4f18e9c6400527e0d568e88953acc18b2c0c0f322e603b2190"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "544c0488ea683baa36a5af2acb9d7653d2d89410bf7532f3983de458a3c19e37"
   end
 
   depends_on "rust" => :build
+  depends_on "libpython-tabulate"
   depends_on "libsodium"
   depends_on "libyaml"
-  depends_on "python-tabulate"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "six"
 
   resource "attrs" do
@@ -94,13 +95,13 @@ class Charmcraft < Formula
   end
 
   resource "jsonschema" do
-    url "https://files.pythonhosted.org/packages/9e/62/93a54db0e44c4de57868a7d638d7a8abce113c8bc43a20b10b1109b2a517/jsonschema-4.5.1.tar.gz"
-    sha256 "7c6d882619340c3347a1bf7315e147e6d3dae439033ae6383d6acb908c101dfc"
+    url "https://files.pythonhosted.org/packages/b5/a0/dd13abb5f371f980037d271fd09461df18c85188216008a1e3a9c3f8bd0c/jsonschema-4.6.0.tar.gz"
+    sha256 "9d6397ba4a6c0bf0300736057f649e3e12ecbc07d3e81a0dacb72de4e9801957"
   end
 
   resource "keyring" do
-    url "https://files.pythonhosted.org/packages/0b/c6/87aaea22b32a85c1eb786ee77844f826103e65e9c0a0c4df1f95ec23d3be/keyring-23.5.1.tar.gz"
-    sha256 "dee502cdf18a98211bef428eea11456a33c00718b2f08524fd5727c7f424bffd"
+    url "https://files.pythonhosted.org/packages/a4/9e/9d9eb6a6dc4f347bae8200a2e1dd65a7b96ae99e29ef8f7452ccc4ef9eea/keyring-23.6.0.tar.gz"
+    sha256 "3ac00c26e4c93739e19103091a9986a9f79665a78cf15a4df1dba7ea9ac8da2f"
   end
 
   resource "macaroonbakery" do
@@ -144,8 +145,8 @@ class Charmcraft < Formula
   end
 
   resource "pydantic-yaml" do
-    url "https://files.pythonhosted.org/packages/6f/3b/402549a950b2f94f426e8a0a7e1cfcd9af6770444c1bf879679096d8e77a/pydantic_yaml-0.6.3.tar.gz"
-    sha256 "8bec8b6eee9889073b5461075d8b85efb00ba43bd34d5fb331fa394ec5a3b46f"
+    url "https://files.pythonhosted.org/packages/d2/9a/02253196b315b1f12e46732c6b1009f629dbb178c6ce26f8e1606fc53ba6/pydantic_yaml-0.7.0.tar.gz"
+    sha256 "7533cbc428bb3ef0942b56a2f7a2582df7ea73ae6172220c82429f9935b3c212"
   end
 
   resource "pymacaroons" do
@@ -184,8 +185,8 @@ class Charmcraft < Formula
   end
 
   resource "pyxdg" do
-    url "https://files.pythonhosted.org/packages/6f/2e/2251b5ae2f003d865beef79c8fcd517e907ed6a69f58c32403cec3eba9b2/pyxdg-0.27.tar.gz"
-    sha256 "80bd93aae5ed82435f20462ea0208fb198d8eec262e831ee06ce9ddb6b91c5a5"
+    url "https://files.pythonhosted.org/packages/b0/25/7998cd2dec731acbd438fbf91bc619603fc5188de0a9a17699a781840452/pyxdg-0.28.tar.gz"
+    sha256 "3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4"
   end
 
   resource "PyYAML" do

@@ -1,8 +1,8 @@
 class Micronaut < Formula
   desc "Modern JVM-based framework for building modular microservices"
   homepage "https://micronaut.io/"
-  url "https://github.com/micronaut-projects/micronaut-starter/archive/v3.5.0.tar.gz"
-  sha256 "6c564dc07b9e33a2dd8cf9c52beb0f8774b981ac7867ade929548fdb4a83a4bf"
+  url "https://github.com/micronaut-projects/micronaut-starter/archive/v3.5.2.tar.gz"
+  sha256 "e424a51b84cbdaf9f41238204a4604beffc8ec97a02b87bc121aa4c846596812"
   license "Apache-2.0"
 
   livecheck do
@@ -11,12 +11,12 @@ class Micronaut < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "992481f5cc9797cf8bdd170615d4789db6f0ed68e13c8029f2f584bce5122210"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7613bbd9445cd7be15bb116602a5427b6ff6bd4be20d237ab2b16e27ae1ab32e"
-    sha256 cellar: :any_skip_relocation, monterey:       "b6b8f81802c82716b03cca832b7c58338e430288c014fbb0886aae944f16c5e3"
-    sha256 cellar: :any_skip_relocation, big_sur:        "549b9d2908db1b295a7f8d0efeb13bd7ac695ed452f06b8600136747dbc420ad"
-    sha256 cellar: :any_skip_relocation, catalina:       "fbd4906719a791913b626d78bc9bad98dfbd433d3f79a0249b23a43465f2c54a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "55463def635cbac71b106dd07efb119744e7d8837ecfa52481987a8823fd9e5d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "6d4caf45170745a204332774dfb55f1bdc8da1ad3603b1d6d96dbe39a6da3243"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5125884d35c242642c1473ce73309222efa2be42c343cbe4451c8e1970b7ed30"
+    sha256 cellar: :any_skip_relocation, monterey:       "ca7a4d1f7b645c586ca51d75bd8ad342ca9c45381149d5a7775938b9c3007fdf"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4df21c601a665c22ecf4c893f70c547e07b36132c002d59b7583ca7e96ff0819"
+    sha256 cellar: :any_skip_relocation, catalina:       "7521e1cb167ce99b45124962f3b279535b09a2a60481309a6c5580b397bb4193"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "23b58dba2905cb18772a94111ea78340f6e37ada1b8ac136b5b086a910414333"
   end
 
   # Uses a hardcoded list of supported JDKs. Try switching to `openjdk` on update.

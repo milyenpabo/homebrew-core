@@ -4,9 +4,10 @@ class Mavsdk < Formula
   desc "API and library for MAVLink compatible systems written in C++17"
   homepage "https://mavsdk.mavlink.io"
   url "https://github.com/mavlink/MAVSDK.git",
-      tag:      "v1.4.2",
-      revision: "b1b0d698baea3fc4c77a7244a3cae1fd3d2981d9"
+      tag:      "v1.4.3",
+      revision: "2d2d85c60123c7d071b1bf50354fc6c06c12115b"
   license "BSD-3-Clause"
+  revision 1
 
   livecheck do
     url :stable
@@ -14,12 +15,12 @@ class Mavsdk < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "2cc518433a8dc26ce95bf0b246d4436babeabc8eea02e25a60efc41c7a3630dc"
-    sha256 cellar: :any,                 arm64_big_sur:  "c9576a2ffe30c98d093f926b1c0b04f8b52b0b1c90a27ced30474c87356ecc79"
-    sha256 cellar: :any,                 monterey:       "2d6c558a8cd427a112c2125bbdedd2bd2c26bec96cdc60d4be4c1d8f3f5864f9"
-    sha256 cellar: :any,                 big_sur:        "b78db9bb87e64220357db43341c63b5aa2056dd290b123dc92254d5c02de648e"
-    sha256 cellar: :any,                 catalina:       "59981f99f0ff1898aeb04bdef0759b38a9cafb62bf38898a0f38fbea78177a71"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a45ec6fa9b70fa0a50bcfd2544b79dab8e6b907786af0bdfd2ec550ddf2bc686"
+    sha256 cellar: :any,                 arm64_monterey: "0af6b95cbcdb86572fa39c5f5c2c4f4bf97ad2189c218e0ef706d13796ba13f8"
+    sha256 cellar: :any,                 arm64_big_sur:  "85945afd4d8fd569b2d5b493e2095b15379fd94fc5d0b475f0bd0716a670051e"
+    sha256 cellar: :any,                 monterey:       "533c8c7eeb042ab1b78696b9e034d31062a319e9cd8363c2a782b28c76f42277"
+    sha256 cellar: :any,                 big_sur:        "e26e1fdce5c73e9b64c145808069932406f32402f12e239de3386d39a90ad20a"
+    sha256 cellar: :any,                 catalina:       "4dc8552a887f73f69789eb4d97bcee296962026268500e67bef58ddd23abe67b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0e7f934d1bad357c35775f999af3d59ad42dfe290652c4c03267a24c619a38b3"
   end
 
   depends_on "cmake" => :build

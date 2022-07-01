@@ -1,9 +1,9 @@
 class GccAT10 < Formula
   desc "GNU compiler collection"
   homepage "https://gcc.gnu.org/"
-  url "https://ftp.gnu.org/gnu/gcc/gcc-10.3.0/gcc-10.3.0.tar.xz"
-  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.3.0/gcc-10.3.0.tar.xz"
-  sha256 "64f404c1a650f27fc33da242e1f2df54952e3963a49e06e73f6940f3223ac344"
+  url "https://ftp.gnu.org/gnu/gcc/gcc-10.4.0/gcc-10.4.0.tar.xz"
+  mirror "https://ftpmirror.gnu.org/gcc/gcc-10.4.0/gcc-10.4.0.tar.xz"
+  sha256 "c9297d5bcd7cb43f3dfc2fed5389e948c9312fd962ef6a4ce455cff963ebe4f1"
   license "GPL-3.0-or-later" => { with: "GCC-exception-3.1" }
 
   livecheck do
@@ -12,10 +12,10 @@ class GccAT10 < Formula
   end
 
   bottle do
-    rebuild 1
-    sha256                               big_sur:      "2019894f79b30194e5c421420c2cba889b5f61aa5e201959b4972132061def43"
-    sha256                               catalina:     "a137ed65a0204be52edb0aad758c13770d9e397caf9186807094d5249b0e9cd9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "a85b5761d027d3d0146aed37e11afbe0581d774d704c6828c0beab50da75c842"
+    sha256                               monterey:     "734de3e434643524e973bc752c45de86d2de98b39c709e3a8735b875b5db08f2"
+    sha256                               big_sur:      "5cae922429ade324a434b01882825092166fe56b5f74597c0d8f0d3376f19b9a"
+    sha256                               catalina:     "baf8f3867cf211c64c6d747dca662323301824955b6aa4d0b201fc90b329217b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "bf5eb012ec771025b9512fd551984635e4a6b956849d6b9a3f5744e51ae603a0"
   end
 
   # The bottles are built on systems with the CLT installed, and do not work
@@ -86,10 +86,6 @@ class GccAT10 < Formula
         args << "--with-native-system-header-dir=/usr/include"
         args << "--with-sysroot=#{sdk}"
       end
-
-      # Ensure correct install names when linking against libgcc_s;
-      # see discussion in https://github.com/Homebrew/legacy-homebrew/pull/34303
-      inreplace "libgcc/config/t-slibgcc-darwin", "@shlib_slibdir@", "#{HOMEBREW_PREFIX}/lib/gcc/#{version_suffix}"
     else
       # Fix cc1: error while loading shared libraries: libisl.so.15
       args << "--with-boot-ldflags=-static-libstdc++ -static-libgcc #{ENV["LDFLAGS"]}"

@@ -1,8 +1,8 @@
 class Juliaup < Formula
   desc "Julia installer and version multiplexer"
   homepage "https://github.com/JuliaLang/juliaup"
-  url "https://github.com/JuliaLang/juliaup/archive/v1.6.2.tar.gz"
-  sha256 "42cd3b55e3c366c8a74a7ad75b1adab7a3397fbf843d16baf71f7abda27b2177"
+  url "https://github.com/JuliaLang/juliaup/archive/v1.6.4.tar.gz"
+  sha256 "9dd289e9a5d932adb6d18fdf9f3758d88eea96d2faaaf0bc86e8583bde0e9eb6"
   license "MIT"
   head "https://github.com/JuliaLang/juliaup.git", branch: "master"
 
@@ -12,12 +12,12 @@ class Juliaup < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "a5a28296af403db846425833505e38d3cbc5f200a89ea8160d6c45e972d49dcd"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5b85e3399d930bb56094fab02ce8c302a358cf6d4c04dff8a82aac42352fdecb"
-    sha256 cellar: :any_skip_relocation, monterey:       "69b2619cd71895235da692531de63010ebddee77961a6545eaa7d8cc476459ba"
-    sha256 cellar: :any_skip_relocation, big_sur:        "28d7a5258814c20dfdb9215f7dad7aa91422bba23d5a23e068efaaa518e8c3cf"
-    sha256 cellar: :any_skip_relocation, catalina:       "4333f27bf8ecab74a1220dbd3865f5f61dfb904865da60815c93c2185ade68de"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ab3a8169fd0aa38c65cf572a3f5779883dd60b5ecca4d3d405e29b76ba8b965b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "efc65a6008da03a269d4e59c58a73474850c78f71bfb2efdc095737f9c7c5851"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0ccf273b71cfdbb92fc72a17f96996c1db77146feed171645c606cbc3b2b62c3"
+    sha256 cellar: :any_skip_relocation, monterey:       "a4c710c4133fb06d174228f1babab2a17d2cc7001c42beb6c7e2cb37ab3f1593"
+    sha256 cellar: :any_skip_relocation, big_sur:        "4b6f31784f25f8a6c684bc8de51a1a458455b0c915272d19c41735204ef263f6"
+    sha256 cellar: :any_skip_relocation, catalina:       "284cb3ab15193f954feadfdb3b8f607ba694c440e43272b3f1cf90c663853808"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ef1187d9d314a56742c8edab413386365d0dc70e1515b2caebeaa1e3f6f9df19"
   end
 
   depends_on "rust" => :build

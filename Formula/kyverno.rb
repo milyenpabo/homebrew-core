@@ -2,8 +2,8 @@ class Kyverno < Formula
   desc "Kubernetes Native Policy Management"
   homepage "https://kyverno.io/"
   url "https://github.com/kyverno/kyverno.git",
-      tag:      "v1.6.2",
-      revision: "4b2bf039f6f04cc02cf89dae7e15f8bc17b2ad78"
+      tag:      "v1.7.1",
+      revision: "060b12d2a281720a29c0de99ea860a6db1c95c6a"
   license "Apache-2.0"
   head "https://github.com/kyverno/kyverno.git", branch: "main"
 
@@ -15,12 +15,12 @@ class Kyverno < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "7a953939ea3e2acf00eb86a5f5d6fd3206153841ee852fe3eacc23cb4f665c73"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1a323fa4a327e5182210838a052f30526bb96abb9bf0b3849bb63ec58baf58c6"
-    sha256 cellar: :any_skip_relocation, monterey:       "a07e5820c7e48bd57f90db20f1d897c0c2b81539727ba9dcf90448032a1fb2f3"
-    sha256 cellar: :any_skip_relocation, big_sur:        "befe3eeab69707e4b9348f8f853e4fd6c9be2e9f3763e45fcbb81eeb64ffe6f9"
-    sha256 cellar: :any_skip_relocation, catalina:       "64e3185bd439913aa21eaa4d1ecf67fba6972bd0fc1fa347b9bf08f26137cacd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "daa67de4a7686a106f55e6fadd0b78108521209e1298db93d83a6d6036c0a0c4"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "504db0e3380ca6862354cdf00b712c1c129060d1436aa503706273eca7ca83cd"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b97caa9853810b49d8c413e4f49e88d442d714bf62634864bb1f4ea289f2af15"
+    sha256 cellar: :any_skip_relocation, monterey:       "12022ef909ffef9ac367306f21dbdf7095df28c62fab584073900ee92a235eda"
+    sha256 cellar: :any_skip_relocation, big_sur:        "eb20754cb89bd96b53a5288112b7bac295151457637ace18d2a48ac4d2d8c912"
+    sha256 cellar: :any_skip_relocation, catalina:       "828d3875757555b12ead6ea11f787e28dd33ab249505d7999c49f97e7db66428"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c121eb811bc56a14800955ed7c82bad8eda9b7feb3e859278eade11c8f4b831b"
   end
 
   depends_on "go" => :build
@@ -41,8 +41,7 @@ class Kyverno < Formula
   end
 
   test do
-    manifest = "https://raw.githubusercontent.com/kyverno/kyverno/1af9e48b0dffe405c8a52938c78c710cf9ed6721/test/cli/test/variables/image-example.yaml"
-    assert_match "Policy images is valid.", shell_output("#{bin}/kyverno validate #{manifest}")
+    assert_match "Test Summary: 0 tests passed and 0 tests failed", shell_output("#{bin}/kyverno test .")
 
     assert_match version.to_s, "#{bin}/kyverno version"
   end

@@ -3,18 +3,18 @@ class Pocsuite3 < Formula
 
   desc "Open-sourced remote vulnerability testing framework"
   homepage "https://pocsuite.org/"
-  url "https://files.pythonhosted.org/packages/bc/27/c16b76c111e5e69175484c3f9fef1c72efc0a506392af1acafe8e0602d35/pocsuite3-1.9.3.tar.gz"
-  sha256 "58e1b3d3567bf5f7d9e9ff7e88118280c82991858b0a7df9001030ac6dfbe399"
+  url "https://files.pythonhosted.org/packages/23/3b/5a06bc7d66cfaca98394315d71086749ea5eaf7bfe9d87c7e4627772d11e/pocsuite3-1.9.5.tar.gz"
+  sha256 "5d42fe4b07bf2c8a1d7557f4c509817e027d9a01ef480ce5768f967b06405783"
   license "GPL-2.0-only"
   head "https://github.com/knownsec/pocsuite3.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "ce633f7653aac52381bde3eefdee5c5b25a8b181c32f37f0dae65042ae525e9e"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b39e3cb77ca6a44fea07deed020dcb3ed13fbdfcf21429ea0af79be076c281b5"
-    sha256 cellar: :any_skip_relocation, monterey:       "9e8752d86258a1128e96344e37d8587449bcd95186bf5914e4d26021cb94e9e3"
-    sha256 cellar: :any_skip_relocation, big_sur:        "141d7915c21fc2e0eb6dbac0a1734d5211693be2319ea420aa3d1a450fd23893"
-    sha256 cellar: :any_skip_relocation, catalina:       "27a30a8c7e4217f5186f846deef222c9e0a6a5460183b973831eb623f49c4ff5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "089c2ae86cd95bab76a5df0aadb103fe9c4423b049fb22c8dfa743561c1682ed"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "82c68e459c11b2a62bd40824a4194dd953ef92b7548ee7606a3182581c46f8d1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2a1a35926d87eb4c19d2dc7ab38b21fb018561a4f2c6165dcfa454be7b9ad719"
+    sha256 cellar: :any_skip_relocation, monterey:       "6bf890909a8cbc003871e16f9b4d3d8e542dc265b6a7e23f635451ce4fb4413f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3df546a8fb3082c790f8ac549345030ba2f68f5789cf7cebcc4a4d44233a4719"
+    sha256 cellar: :any_skip_relocation, catalina:       "4859bbb493d51d30d58e1b1337ec5503f722ba2807cb8654ce9e854c3591fc82"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d322e30590473c9ccc9b278067d7f334e6280ce66996bfd1f980ee47faa9f266"
   end
 
   depends_on "python@3.10"
@@ -27,8 +27,8 @@ class Pocsuite3 < Formula
   end
 
   resource "certifi" do
-    url "https://files.pythonhosted.org/packages/07/10/75277f313d13a2b74fc56e29239d5c840c2bf09f17bf25c02b35558812c6/certifi-2022.5.18.1.tar.gz"
-    sha256 "9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"
+    url "https://files.pythonhosted.org/packages/cc/85/319a8a684e8ac6d87a1193090e06b6bbb302717496380e225ee10487c888/certifi-2022.6.15.tar.gz"
+    sha256 "84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"
   end
 
   resource "chardet" do
@@ -42,8 +42,8 @@ class Pocsuite3 < Formula
   end
 
   resource "colorama" do
-    url "https://files.pythonhosted.org/packages/1f/bb/5d3246097ab77fa083a61bd8d3d527b7ae063c7d8e8671b1cf8c4ec10cbe/colorama-0.4.4.tar.gz"
-    sha256 "5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"
+    url "https://files.pythonhosted.org/packages/2b/65/24d033a9325ce42ccbfa3ca2d0866c7e89cc68e5b9d92ecaba9feef631df/colorama-0.4.5.tar.gz"
+    sha256 "e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"
   end
 
   resource "colorlog" do
@@ -52,8 +52,8 @@ class Pocsuite3 < Formula
   end
 
   resource "Faker" do
-    url "https://files.pythonhosted.org/packages/5f/83/17b69d1fb2104be9f11624e29d53c084932c0c88a6a87a81d534916eb11c/Faker-13.11.1.tar.gz"
-    sha256 "cad1f69d72a68878cd67855140b6fe3e44c11628971cd838595d289c98bc45de"
+    url "https://files.pythonhosted.org/packages/6d/cc/a6f8e71577a744d172bdcd994d41914d595d32e451f4a82498613910dc01/Faker-13.14.0.tar.gz"
+    sha256 "b9f93ec97a70da79d43f497aa7b2b7d2bcd5d0c6d3ab7c102dde4193d0a38351"
   end
 
   resource "idna" do
@@ -82,8 +82,8 @@ class Pocsuite3 < Formula
   end
 
   resource "requests" do
-    url "https://files.pythonhosted.org/packages/60/f3/26ff3767f099b73e0efa138a9998da67890793bfa475d8278f84a30fec77/requests-2.27.1.tar.gz"
-    sha256 "68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"
+    url "https://files.pythonhosted.org/packages/e9/23/384d9953bb968731212dc37af87cb75a885dc48e0615bd6a303577c4dc4b/requests-2.28.0.tar.gz"
+    sha256 "d568723a7ebd25875d8d1eaf5dfa068cd2fc8194b2e483d7b1f7c81918dbec6b"
   end
 
   resource "requests-toolbelt" do

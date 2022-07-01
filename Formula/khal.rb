@@ -3,19 +3,18 @@ class Khal < Formula
 
   desc "CLI calendar application"
   homepage "https://lostpackets.de/khal/"
-  url "https://files.pythonhosted.org/packages/7a/d8/9718385de260ebc07ff48c838e22fde6b05d143f1f8ab81ff1c8718d7102/khal-0.10.4.tar.gz"
-  sha256 "3fdb980a9a61c0206d7a82b16f77b408a4f341a2b866b9c9fcf6a641850d129f"
+  url "https://files.pythonhosted.org/packages/d8/99/6ef24e33472b343800ffb7300e9702faa715ccd986a0a0706f01e44d8cb6/khal-0.10.5.tar.gz"
+  sha256 "4eefb7ac302a26d8606db392817587a4ed94c27a15bf2ea211614a464fcf0c76"
   license "MIT"
-  revision 2
   head "https://github.com/pimutils/khal.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "1ba6c898010dc380bc7e46af247f97a1d36d24ef424a59c11a6cb0989d4778e9"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "dca58b32e4a94ed3fe138291b4d4c7bd331afb98efa32502fe017f863f639133"
-    sha256 cellar: :any_skip_relocation, monterey:       "a3240e224f90f402c25e5618118e7b81ed697651a3d45b6d50b4d50a84121379"
-    sha256 cellar: :any_skip_relocation, big_sur:        "f89fa72f9d9f05905808539f0f3942e714898f3286ddee7fbacfcd0a0d0ad410"
-    sha256 cellar: :any_skip_relocation, catalina:       "fc7b2c5f1acc16f1d12902d7323a61f2c0a2969a6aec985bc1495ae0cb946e47"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "bb0de9dfbdbbf80435b3a32da5467cba1d438d44f27a6d737c0bd7897a439c46"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "77d6a327f39cfa557a621aa467b135f6629100721c3191c6cf18771fc1b52040"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "ad91482178eb29cbaa6d538e33515c52ace893ff737dfcc454febc03f4de2c11"
+    sha256 cellar: :any_skip_relocation, monterey:       "39f6c186244d57bd4f1fe562e6dee1e43f69d856890d988ffb5acea86e5bdf8a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "561b01e34107fb1773b0cc8f07cf35141b2713d9e638ecdb0657bfac78cd37bd"
+    sha256 cellar: :any_skip_relocation, catalina:       "ad9571f51651e1641dd21e5d94ecd5072a7cef9d9553cc40e25d46ae549140dc"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b90fd45e297f62065662bd026022af552d421d242b14efe0286b1184ce03a371"
   end
 
   depends_on "python@3.10"
@@ -62,8 +61,8 @@ class Khal < Formula
   end
 
   resource "pyxdg" do
-    url "https://files.pythonhosted.org/packages/6f/2e/2251b5ae2f003d865beef79c8fcd517e907ed6a69f58c32403cec3eba9b2/pyxdg-0.27.tar.gz"
-    sha256 "80bd93aae5ed82435f20462ea0208fb198d8eec262e831ee06ce9ddb6b91c5a5"
+    url "https://files.pythonhosted.org/packages/b0/25/7998cd2dec731acbd438fbf91bc619603fc5188de0a9a17699a781840452/pyxdg-0.28.tar.gz"
+    sha256 "3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4"
   end
 
   resource "tzdata" do

@@ -1,8 +1,8 @@
 class Duck < Formula
   desc "Command-line interface for Cyberduck (a multi-protocol file transfer tool)"
   homepage "https://duck.sh/"
-  url "https://dist.duck.sh/duck-src-8.3.3.37544.tar.gz"
-  sha256 "32d7b3e966e4faf6572b30bd145b3512e651346ead93ada0c2eab25583e4ed8b"
+  url "https://dist.duck.sh/duck-src-8.4.1.38006.tar.gz"
+  sha256 "db2b638b7f32f7adbe8b2e9035f45614b6c44ea1f9147e1ae11280328e61465f"
   license "GPL-3.0-only"
   head "https://github.com/iterate-ch/cyberduck.git", branch: "master"
 
@@ -12,12 +12,12 @@ class Duck < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_monterey: "9a1e7518db63c20d091e3683fd920d344bbf94219817dfa55d89b21e3aaf9c1f"
-    sha256 cellar: :any, arm64_big_sur:  "77eea3daebae6527e0233f37b173d77365ac1cedab793f70d7593d46757262d5"
-    sha256 cellar: :any, monterey:       "76c0fb3281c6b5489f896805fcd321d79eb8b9d376aa9f252a967c6bc98e5538"
-    sha256 cellar: :any, big_sur:        "c7d955410dd8f949fe630bb3ffeffdfb04a91d65ad1943f92daf0747d12c6f32"
-    sha256 cellar: :any, catalina:       "094737c11314b75b5363518ad6b30400d3de64a501d0981829d4c980f0bb001c"
-    sha256               x86_64_linux:   "81f56532a64c7e6e3ea50be4d9e7263f3951fde2e09c6268f816a1b21bb2786c"
+    sha256 cellar: :any, arm64_monterey: "0f3a394f1924397af4f00af2e6ac77b57beb751bbe9855c0941431a2b25cc274"
+    sha256 cellar: :any, arm64_big_sur:  "5c0b61c99253e5f6f7aec2f08e792fc6ddc3a0c13516694ba71b7d476f5c6e53"
+    sha256 cellar: :any, monterey:       "6376bfa6f4b0d52feed924425cabd9b75670a7e20c1312facf99dd51b25145a3"
+    sha256 cellar: :any, big_sur:        "87a5dfb1f1ecd90fbe26ca937aa8069496b542a4a167bc26be2114202263922a"
+    sha256 cellar: :any, catalina:       "6ec9e01387e068b87fb034fd40aa4163de5662758b729f19a6b5a5c23ac702a0"
+    sha256               x86_64_linux:   "4d8e9b4ee18526087549e8eaf05fec53d46997c07b001ce2c42092b1098eae6c"
   end
 
   depends_on "ant" => :build
@@ -43,8 +43,8 @@ class Duck < Formula
   end
 
   resource "jna" do
-    url "https://github.com/java-native-access/jna/archive/refs/tags/5.10.0.tar.gz"
-    sha256 "6ef63cbf6ff7c8eea7d72331958e79c9fd3635c987ce419c9f296db6c4fd66a4"
+    url "https://github.com/java-native-access/jna/archive/refs/tags/5.11.0.tar.gz"
+    sha256 "219086c61f804300871c2ec2ee220b6aac0fb8b6cbcc72dc53d4f35dc7f61fb6"
   end
 
   resource "rococoa" do

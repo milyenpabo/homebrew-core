@@ -1,20 +1,20 @@
 class Liqoctl < Formula
   desc "Is a CLI tool to install and manage Liqo-enabled clusters"
   homepage "https://liqo.io"
-  url "https://github.com/liqotech/liqo/archive/refs/tags/v0.4.0.tar.gz"
-  sha256 "2e91ff96e1edc2d11dc76d7f869d7ec82d9e9f9c43be4cb9a7c1bd08aae62a08"
+  url "https://github.com/liqotech/liqo/archive/refs/tags/v0.5.0.tar.gz"
+  sha256 "6834cf5888f8f1d28da27f0284bd1b31ca01bddcdb13bb9697aa24043f5a1cec"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "4cfa4ac6a79eb5a877fe4819868e6f473384c9070e0c1fbfa134dec03c612a5e"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4cfa4ac6a79eb5a877fe4819868e6f473384c9070e0c1fbfa134dec03c612a5e"
-    sha256 cellar: :any_skip_relocation, monterey:       "be2cd231858a7ce57e8fb5535a6a61fbd25c6b136f01c3ff4453e4ae2382ae1c"
-    sha256 cellar: :any_skip_relocation, big_sur:        "be2cd231858a7ce57e8fb5535a6a61fbd25c6b136f01c3ff4453e4ae2382ae1c"
-    sha256 cellar: :any_skip_relocation, catalina:       "be2cd231858a7ce57e8fb5535a6a61fbd25c6b136f01c3ff4453e4ae2382ae1c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "51623471fabc6d8a2e11ec8a57bf2bd163db170a2e8feeeb666e1ad150951128"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "8d5ba2ec39f27f2c4f47d0fe48c0be431d9a0ca70ab594e96521db829ad45927"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8d5ba2ec39f27f2c4f47d0fe48c0be431d9a0ca70ab594e96521db829ad45927"
+    sha256 cellar: :any_skip_relocation, monterey:       "39a39ce3e2297dd5db6d528ae42e5821d58be76e1a644c43008b130dbf22b2ef"
+    sha256 cellar: :any_skip_relocation, big_sur:        "39a39ce3e2297dd5db6d528ae42e5821d58be76e1a644c43008b130dbf22b2ef"
+    sha256 cellar: :any_skip_relocation, catalina:       "39a39ce3e2297dd5db6d528ae42e5821d58be76e1a644c43008b130dbf22b2ef"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "14b1421b9ed7e36dc8c29090b76206434e3f154f28ce41bf37fc09e4eda0e3a5"
   end
 
-  depends_on "go@1.17" => :build
+  depends_on "go" => :build
 
   def install
     ENV["CGO_ENABLED"] = "0"
@@ -36,7 +36,7 @@ class Liqoctl < Formula
 
   test do
     run_output = shell_output("#{bin}/liqoctl 2>&1")
-    assert_match "liqoctl is a CLI tool to install and manage Liqo-enabled clusters.", run_output
-    assert_match version.to_s, shell_output("#{bin}/liqoctl version")
+    assert_match "liqoctl is a CLI tool to install and manage Liqo.", run_output
+    assert_match version.to_s, shell_output("#{bin}/liqoctl version --client")
   end
 end

@@ -11,10 +11,12 @@ class GhcAT9 < Formula
   end
 
   bottle do
-    sha256                               monterey:     "aa86fcfbce23f51967c7e92a6743eb88078dc207bd833803fa02a755d1de3dd2"
-    sha256                               big_sur:      "f1964952d6f405cb1723dcc717e9771f7f5d8f13c7b0ab7a5ac6a508510cdd6f"
-    sha256                               catalina:     "ffeb2f809633faa330b6ff84f72bf06f9be5af3029f8f94f2df5a38788c54142"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "9e8d684c4138d0738328bf3e8ec6d89a17f0cdeb5ddd9b44ef60011548522562"
+    sha256 cellar: :any,                 arm64_monterey: "c6adc3e7957ccb7f0716f0fe67a0695b71feb61c1bb92217183612da38a0b66f"
+    sha256 cellar: :any,                 arm64_big_sur:  "4c9d84f35c931c60c9f2951905fd1f39839b0cd168a46ac1ca313ae2ea5c85ce"
+    sha256                               monterey:       "aa86fcfbce23f51967c7e92a6743eb88078dc207bd833803fa02a755d1de3dd2"
+    sha256                               big_sur:        "f1964952d6f405cb1723dcc717e9771f7f5d8f13c7b0ab7a5ac6a508510cdd6f"
+    sha256                               catalina:       "ffeb2f809633faa330b6ff84f72bf06f9be5af3029f8f94f2df5a38788c54142"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9e8d684c4138d0738328bf3e8ec6d89a17f0cdeb5ddd9b44ef60011548522562"
   end
 
   keg_only :versioned_formula
@@ -25,6 +27,7 @@ class GhcAT9 < Formula
   depends_on "libtool" => :build
   depends_on "python@3.10" => :build
   depends_on "sphinx-doc" => :build
+  depends_on "llvm@12" if Hardware::CPU.arm?
 
   uses_from_macos "m4" => :build
   uses_from_macos "ncurses"
@@ -34,8 +37,13 @@ class GhcAT9 < Formula
   # A binary of ghc is needed to bootstrap ghc
   resource "binary" do
     on_macos do
-      url "https://downloads.haskell.org/~ghc/9.0.2/ghc-9.0.2-x86_64-apple-darwin.tar.xz"
-      sha256 "e1fe990eb987f5c4b03e0396f9c228a10da71769c8a2bc8fadbc1d3b10a0f53a"
+      if Hardware::CPU.intel?
+        url "https://downloads.haskell.org/~ghc/9.0.2/ghc-9.0.2-x86_64-apple-darwin.tar.xz"
+        sha256 "e1fe990eb987f5c4b03e0396f9c228a10da71769c8a2bc8fadbc1d3b10a0f53a"
+      else
+        url "https://downloads.haskell.org/~ghc/9.0.2/ghc-9.0.2-aarch64-apple-darwin.tar.xz"
+        sha256 "b1fcab17fe48326d2ff302d70c12bc4cf4d570dfbbce68ab57c719cfec882b05"
+      end
     end
 
     on_linux do
@@ -48,6 +56,10 @@ class GhcAT9 < Formula
     ENV["CC"] = ENV.cc
     ENV["LD"] = "ld"
     ENV["PYTHON"] = Formula["python@3.10"].opt_bin/"python3"
+    # Work around build failure: fatal error: 'ffitarget_arm64.h' file not found
+    # Issue ref: https://gitlab.haskell.org/ghc/ghc/-/issues/20592
+    # TODO: remove once bootstrap ghc is 9.2.3 or later.
+    ENV.append_path "C_INCLUDE_PATH", "#{MacOS.sdk_path_if_needed}/usr/include/ffi" if OS.mac? && Hardware::CPU.arm?
 
     resource("binary").stage do
       binary = buildpath/"binary"
@@ -66,6 +78,8 @@ class GhcAT9 < Formula
     ENV.deparallelize { system "make", "install" }
     Dir.glob(lib/"*/package.conf.d/package.cache") { |f| rm f }
     Dir.glob(lib/"*/package.conf.d/package.cache.lock") { |f| rm f }
+
+    bin.env_script_all_files libexec, PATH: "$PATH:#{Formula["llvm@12"].opt_bin}" if Hardware::CPU.arm?
   end
 
   def post_install

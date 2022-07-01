@@ -1,20 +1,19 @@
 class Gmt < Formula
   desc "Tools for manipulating and plotting geographic and Cartesian data"
   homepage "https://www.generic-mapping-tools.org/"
-  url "https://github.com/GenericMappingTools/gmt/releases/download/6.3.0/gmt-6.3.0-src.tar.xz"
-  mirror "https://mirrors.ustc.edu.cn/gmt/gmt-6.3.0-src.tar.xz"
-  sha256 "69e29b62ee802a3a64260d6a1e023f1350e3bf4070221aa1307bf8a9e56c1ee5"
+  url "https://github.com/GenericMappingTools/gmt/releases/download/6.4.0/gmt-6.4.0-src.tar.xz"
+  mirror "https://mirrors.ustc.edu.cn/gmt/gmt-6.4.0-src.tar.xz"
+  sha256 "b46effe59cf96f50c6ef6b031863310d819e63b2ed1aa873f94d70c619490672"
   license "LGPL-3.0-or-later"
-  revision 6
   head "https://github.com/GenericMappingTools/gmt.git", branch: "master"
 
   bottle do
-    sha256 arm64_monterey: "5c658710473031aea41358224dd1edc63c0cb4d132250799e1d2d7e29b9b58a8"
-    sha256 arm64_big_sur:  "bd8607e39dcdb247ab19205c84977221b7ac1da2adf6e3ecfb35b58881d96149"
-    sha256 monterey:       "a0909d673d2e955157ba2d2ebfb737524332f41512792917af53cb799bb0ec10"
-    sha256 big_sur:        "795f9d9826eb340ebc444ad8c37f3842a5d20cf8a5e28e2e6d56cadac4bca9fb"
-    sha256 catalina:       "0d389b69d53e34b28176c050edfea6be24ecfef830c01dd2f44382ebd6a4987a"
-    sha256 x86_64_linux:   "b265759e9d1fd83aea674c0fc084409094bdc38f07358e4accd2293779d9d85a"
+    sha256 arm64_monterey: "049f3bbd857920614205a7680206e97fe757e2d3ee3f69e3a84c833abc7b6a7a"
+    sha256 arm64_big_sur:  "4034c75ff52c4b2c539339a2e2129f80a4b841aa65169831d24b6de81747272e"
+    sha256 monterey:       "fcd2a33c09b6c4f30b208f658ec5edf9036f54c7dc7ef5fb0ea9d68610930660"
+    sha256 big_sur:        "b0187d3a3888c19665c0747a1e2d0dc3fafdc3600ac5a0b5b82d3e57c5907821"
+    sha256 catalina:       "49b528a8402984592297ba31dbbf3c6c2a2fb214d18f67cfbb464aee5a963025"
+    sha256 x86_64_linux:   "1dedbccfceb6e6e01a68f9725360cb5cd0d368ae02759ee06392e26991f1980b"
   end
 
   depends_on "cmake" => :build

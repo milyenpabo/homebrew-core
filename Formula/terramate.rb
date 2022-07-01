@@ -1,18 +1,18 @@
 class Terramate < Formula
   desc "Managing Terraform stacks with change detections and code generations"
   homepage "https://github.com/mineiros-io/terramate"
-  url "https://github.com/mineiros-io/terramate/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "af229ca68c8f62f4534286d6e58b3d4b165a68ad04ec2bf48b55f9fd011964bf"
+  url "https://github.com/mineiros-io/terramate/archive/refs/tags/v0.1.10.tar.gz"
+  sha256 "4c8e1582c9f6847244f16bf2f248fabdf9c6dd98a88d82976157c29e672331d6"
   license "Apache-2.0"
   head "https://github.com/mineiros-io/terramate.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "18c7d31f436a663229209c5b9cda16c332bc385606d3bf00af8b1112cfa1b52e"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d2146ef69d2406ab1b3c2f84385e31cde6ea7481d53a5f45aca0fd9b07cda7ee"
-    sha256 cellar: :any_skip_relocation, monterey:       "2d83ad9bef21ab1b3ce797fbfa9d4bcf37e49fb390eb3d20b467e83d9660c7fc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "0ea28fd1faf6cf415c2ab8a613dcc5ac6068ca7e0805d9893cfed8ae9f985ecd"
-    sha256 cellar: :any_skip_relocation, catalina:       "d8f8c9fd6401b1e3897c080eb0f8fabd6536086e5b10ed0cfc7dde0bf569755a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5ad42c43a5a3dbc4a5cc631d5a2a59b5720219877589769e01bbd8b162f7ef35"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f058504e939a6ef8df768ddf46deaa53814e68f4e0d859a55a774c7af1d302b4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e75f9ae465a6aed2342f07940a955f6b82403cb261fded4a4c2a23f542806b3c"
+    sha256 cellar: :any_skip_relocation, monterey:       "8d4a895f031ed274f9fff96f82d0fa2fe7c873fb0a8994d245165c8bf0e01134"
+    sha256 cellar: :any_skip_relocation, big_sur:        "7199ce905eb2571b2f61728cfb4fc10e2b1f78aab4029b01a7521f31f8cb4932"
+    sha256 cellar: :any_skip_relocation, catalina:       "59232819dbd09a13018c3408c83362efe7fb95b0ddb730fc88fc46485dc851ba"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "45dc299696d0d61b381ff45f1872cd6fe03a7ca706135bf6ba008df470ffbf9b"
   end
 
   depends_on "go" => :build

@@ -1,17 +1,17 @@
 class Driftctl < Formula
   desc "Detect, track and alert on infrastructure drift"
   homepage "https://driftctl.com"
-  url "https://github.com/snyk/driftctl/archive/v0.31.1.tar.gz"
-  sha256 "7c555e182b020690aaa7a26e5a400b05c01503f417462dff28423173a887a9ac"
+  url "https://github.com/snyk/driftctl/archive/v0.34.1.tar.gz"
+  sha256 "ce1d38464ba9c4fd7173baaf276601f37fac51a798725aa4880eafe8321805dc"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "2f9cb483758fcf60b3435e556f0512454397eb51365f88cc31ea988fe2ad9f4e"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2f9cb483758fcf60b3435e556f0512454397eb51365f88cc31ea988fe2ad9f4e"
-    sha256 cellar: :any_skip_relocation, monterey:       "93203ceb509ea125661246661550e097b04671baf5c4d4ddaf1ee3e8384f6e26"
-    sha256 cellar: :any_skip_relocation, big_sur:        "93203ceb509ea125661246661550e097b04671baf5c4d4ddaf1ee3e8384f6e26"
-    sha256 cellar: :any_skip_relocation, catalina:       "93203ceb509ea125661246661550e097b04671baf5c4d4ddaf1ee3e8384f6e26"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a1291b0a06616f09b6a6b3d09c564df2cca3a200739183ad0b5cef77970683d8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0f4d99ac685a1f936b6ee40015f400f9956c56b599342ac0430d4a48635e572a"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0f4d99ac685a1f936b6ee40015f400f9956c56b599342ac0430d4a48635e572a"
+    sha256 cellar: :any_skip_relocation, monterey:       "ab3ff056af629a743d8572db8396d7313beb74865084fff05e8637b9d1c53923"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ab3ff056af629a743d8572db8396d7313beb74865084fff05e8637b9d1c53923"
+    sha256 cellar: :any_skip_relocation, catalina:       "ab3ff056af629a743d8572db8396d7313beb74865084fff05e8637b9d1c53923"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f7967c1d718aa5b55f29c4d89020334ef976195d37604717940871b088132fa9"
   end
 
   depends_on "go" => :build
@@ -39,7 +39,7 @@ class Driftctl < Formula
 
   test do
     assert_match "v#{version}", shell_output("#{bin}/driftctl version")
-    assert_match "Downloading terraform provider: aws",
+    assert_match "Could not find a way to authenticate on AWS!",
       shell_output("#{bin}/driftctl --no-version-check scan 2>&1", 2)
   end
 end

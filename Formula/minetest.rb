@@ -2,14 +2,31 @@ class Minetest < Formula
   desc "Free, open source voxel game engine and game"
   homepage "https://www.minetest.net/"
   license "LGPL-2.1-or-later"
+  revision 2
 
   stable do
     url "https://github.com/minetest/minetest/archive/5.5.1.tar.gz"
     sha256 "dc0ae5188ef351db85c38b27f38f8549b133ed82aa46daea6deee148aa3454f4"
 
+    # This patch fixes https://github.com/minetest/minetest/issues/12172
+    # It has been merged upstream, and so should not be necessary for the next
+    # minetest release (5.5.2)
+    patch do
+      url "https://github.com/minetest/minetest/commit/951604e29ff9d4b796003264574e06031c014a3f.patch?full_index=1"
+      sha256 "46ca51997cadba9ec714de1988097ae37dec013def1cc4ae560d8de6b0f1d0bc"
+    end
+
     resource "irrlichtmt" do
       url "https://github.com/minetest/irrlicht/archive/1.9.0mt4.tar.gz"
       sha256 "a0e2e5239ebca804adf54400ccaacaf228ec09223cfb2e1daddc9bf2694176e6"
+
+      # This patch fixes https://github.com/minetest/minetest/issues/11541
+      # It has been merged upstream, and so should not be necessary for the
+      # next irrlicht release (1.9.0mt7)
+      patch do
+        url "https://github.com/minetest/irrlicht/commit/392df9bae3de8a71bf1d119a58dc2d9f1388751d.patch?full_index=1"
+        sha256 "127b6ec571e6d6b2617bf9ece98b756da651dc1a9842fbf0e5a53f982fef1d6d"
+      end
     end
 
     resource "minetest_game" do
@@ -24,16 +41,16 @@ class Minetest < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_monterey: "d0c1097956b717f56544865134f04bb95028aa31b517749414d5370c9085977d"
-    sha256 cellar: :any, arm64_big_sur:  "1c53d428c75053c524f66d441eb969185826e4d6b85b2f5315a219f9a805c7da"
-    sha256 cellar: :any, monterey:       "323b69f263666c94f7f1d663da71a1fd43ab67c1f4ac24928c809cf2a17fd3ca"
-    sha256 cellar: :any, big_sur:        "503c1267f5ec15cbea9f0d0b4b3f2f51e610c86f5ff4aafd97eb2ef492294b27"
-    sha256 cellar: :any, catalina:       "71c7c50c24d662d3fbb6972c9d4b45e3adb35a0af91bc6ac9b20ba2a4a511e80"
-    sha256               x86_64_linux:   "a65f247b5013345444d48341afbb9b410a42adcddb60663891c786768e81592c"
+    sha256 cellar: :any, arm64_monterey: "fe56419d18e25c0f7b0d198d0f1d44ee1e418b18bcbe34b458b181747fa0793d"
+    sha256 cellar: :any, arm64_big_sur:  "4609f23fc7e9c1ed432645cb87f0279c5c1ec33039ee1b397c7107bc77def44b"
+    sha256 cellar: :any, monterey:       "d922d848edf2c1547891ee81034537867bb9c6847322faeb52ab6a6598acc426"
+    sha256 cellar: :any, big_sur:        "98495a6cc6b22b5ab3c83a89b1a5d03398f838dc09fcff114b1d135cec5e419b"
+    sha256 cellar: :any, catalina:       "408d8a9b6b98e59dd1b4a2ea026f3af15a65d538f9f02a0d57f1fe45238ece25"
+    sha256               x86_64_linux:   "7f71477eee5745c98fc7236d65aded9fb830b3b1be1b7d85a793bd951062c721"
   end
 
   head do
-    url "https://github.com/minetest/minetest.git"
+    url "https://github.com/minetest/minetest.git", branch: "master"
 
     resource "irrlichtmt" do
       url "https://github.com/minetest/irrlicht.git", branch: "master"
@@ -48,7 +65,7 @@ class Minetest < Formula
   depends_on "gettext" => :build
   depends_on "freetype"
   depends_on "gmp"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "jsoncpp"
   depends_on "libogg"
   depends_on "libpng"
@@ -105,8 +122,8 @@ class Minetest < Formula
       "~/Library/Application Support/minetest/", respectively (you may have
       to create those folders first).
 
-      If you would like to start the Minetest server from a terminal, run
-      "#{prefix}/minetest.app/Contents/MacOS/minetest --server".
+      To start minetest, from a terminal run
+      "#{prefix}/minetest.app/Contents/MacOS/minetest".
     EOS
   end
 

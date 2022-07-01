@@ -1,8 +1,8 @@
 class Datree < Formula
   desc "CLI tool to run policies against Kubernetes manifests YAML files or Helm charts"
   homepage "https://www.datree.io/"
-  url "https://github.com/datreeio/datree/archive/1.4.37.tar.gz"
-  sha256 "c6cfc3a128b73dc40191c34b573981eaf506ff2a7123152d1562182b6e1d6d26"
+  url "https://github.com/datreeio/datree/archive/1.5.20.tar.gz"
+  sha256 "6c8b860fae29049f80f0bf1ad9a7c055b0f475e4ada268748963d04a4285cbff"
   license "Apache-2.0"
   head "https://github.com/datreeio/datree.git", branch: "main"
 
@@ -12,12 +12,12 @@ class Datree < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "972a2d99108a5bfcfbaa3e20297f6e063172bcfa7960fa4010eb2446fab7682b"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "be796e48ada760663d2c9e2ff6d25f8ff4da57c86949297cd1692e936db6bb80"
-    sha256 cellar: :any_skip_relocation, monterey:       "c7edf3bbce4bf010e29f86581a712dba208848fa45039ea2ebf515c55d3c0c14"
-    sha256 cellar: :any_skip_relocation, big_sur:        "7a85a17b824b73cc25611fd93323a1c1403d26bb9c31b9a8f0871f25d1175b79"
-    sha256 cellar: :any_skip_relocation, catalina:       "e591056fc03ffa45fed804aa7f48e04eb238b16b14091ba6e8743fbafc3ea31e"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c70bde36ee033593d544f38d897409298914d89e2acb8d6b513858d6b333ea16"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "fedb73c5d0d2eaf1a84cf54793c5ee1f6f6ecd98370ec70870779c3ac4d2b13b"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "67a44ea1b066cfd7dacc0ed0b0d395fdedd8b90b07ec013070947d021e2e6ca0"
+    sha256 cellar: :any_skip_relocation, monterey:       "589c6b5beaa574c24785642fc349680d24d52157d2725d8a0506462ce6a57f67"
+    sha256 cellar: :any_skip_relocation, big_sur:        "f689febd68b7e4f3e908ca44833857980acb67551b8419f58995036256084b01"
+    sha256 cellar: :any_skip_relocation, catalina:       "a25d4a796fcf1cab3b2ad0c19078b459593896f6d24b3d642a39ba062bafe4df"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "30ca5f2a03cb4a2b218df179ab7caea1d3b57641f5eb0a06321ac52f1c2d7176"
   end
 
   depends_on "go" => :build

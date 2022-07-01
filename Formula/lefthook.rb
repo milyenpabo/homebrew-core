@@ -1,19 +1,18 @@
 class Lefthook < Formula
   desc "Fast and powerful Git hooks manager for any type of projects"
   homepage "https://github.com/evilmartians/lefthook"
-  url "https://github.com/evilmartians/lefthook/archive/refs/tags/v0.7.7.tar.gz"
-  sha256 "4653b79a1d5cc4675da579f885726b4b6b6379777744723f84f45296d5e04c14"
+  url "https://github.com/evilmartians/lefthook/archive/refs/tags/v1.0.4.tar.gz"
+  sha256 "a824e1e3a2426fffb50c6ad49b3761262df8dabdc371e8ca414af1b2b115bba7"
   license "MIT"
   head "https://github.com/evilmartians/lefthook.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "e42fb05f1b860f97770c2581005206fffca820936e7c1db66e875138eea0de24"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "0ac5d609e3817a923cfc70295a399a024af4dacdbe340c49619f01a5f4b896bd"
-    sha256 cellar: :any_skip_relocation, monterey:       "33b3efa300067a3317adecd2a32b0819aa50a893b228d8156dc242d9e60031cc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "dce9b5d997e2543c0226e2855cced2778fea34a0454a86ba13e38bf27a0482bd"
-    sha256 cellar: :any_skip_relocation, catalina:       "026c220ab4f8e98fc27be92035a170d004711e66e3e1335f6268fb3a659ac811"
-    sha256 cellar: :any_skip_relocation, mojave:         "163adf2c067d85e44cce71682ce2f94421af706017bf8601cf4c88d262a67e41"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f5d01af7de4480e289f5d132d0103610aa4c787e3bdf17ed892d2b860362dd4b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "973faa1ea3c0a69abcaf8a15f095bcfd3bce9b057b6f4c3ee5e8d55dd0f981b0"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f3ebc1cd8c8d296568ba15f3e8fd6978bac6e06dc4c971ffa206cf28dc6e9050"
+    sha256 cellar: :any_skip_relocation, monterey:       "2b84b2c8b49ec898d677b6e71e8f8eee985f86aa4607591fc931e5a68244e4e6"
+    sha256 cellar: :any_skip_relocation, big_sur:        "8f956cfbfc7bc37a1dc6c48fb62bd90927a6ebc694f17b4e0983c6408c3cbe48"
+    sha256 cellar: :any_skip_relocation, catalina:       "fbd174620b3c8107bbb0c2afcfd5692875344f71368205e5f81b6dfb60d159c3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2887a9f988a9ea35ff6f12245afb99f79e5a56f19629a921fc7a9676bba53d91"
   end
 
   # Bump to 1.18 on the next release, if possible.

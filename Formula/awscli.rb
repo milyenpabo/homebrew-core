@@ -3,23 +3,23 @@ class Awscli < Formula
 
   desc "Official Amazon AWS command-line interface"
   homepage "https://aws.amazon.com/cli/"
-  url "https://github.com/aws/aws-cli/archive/2.7.4.tar.gz"
-  sha256 "1e6c5a0c181056d0b501d8772ce280af817b5c2b6ab7f33f0b2aaf4ec297c7bf"
+  url "https://github.com/aws/aws-cli/archive/2.7.12.tar.gz"
+  sha256 "a0c0c580ba8ba2b44cfd130fe0092c1aceedf54143855f23e61bfd58987c2394"
   license "Apache-2.0"
   head "https://github.com/aws/aws-cli.git", branch: "v2"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "d3b0d0b961036e102e72ac98ee700d9855e08ca9e62b1591062eadcd8c668c34"
-    sha256 cellar: :any,                 arm64_big_sur:  "1207ad728c3cc83ebfec3d7cd826979d72583729d2648aeee3022e7d87d00533"
-    sha256 cellar: :any,                 monterey:       "a599c5eb3aad86d769f4d41d9b0fca9b125442702982991fb19c0b341937ff1a"
-    sha256 cellar: :any,                 big_sur:        "d50928a9ea960f86e79d602e3d7a696656a654d7bf0935360a6964d2b43b0e02"
-    sha256 cellar: :any,                 catalina:       "3133733732dc07903b186e76049fe75fab92919b9e01905bf93e18dad6bfe896"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "48f01f468adda5653b5a87bd430b4b0d4c196d4369c2f5d52eb0c66146e84543"
+    sha256 cellar: :any,                 arm64_monterey: "72db409545a914175ef24f558052196b4f827d21c8c19e93a8d4fb5b9f6dc778"
+    sha256 cellar: :any,                 arm64_big_sur:  "76215d8739f9c4d19e3e2b9f865da0214430c1fae660428088bd1059bf9556d1"
+    sha256 cellar: :any,                 monterey:       "e0a336efe4b7d06fefc372a9508dc69bbe0bfa3215871d00b5bc88c3d91fcdfa"
+    sha256 cellar: :any,                 big_sur:        "2acf59909ae765ce63acfd439763922278c534aa221cae615641984bcd7e8f7d"
+    sha256 cellar: :any,                 catalina:       "088349b36e4a1d4ac300a686ccb475bef3cee60629ef5d29c52afdd06fa021f3"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "289753e81a0b19d49ad4ab908c436499d64d2af0c82c8960d4973f040839587e"
   end
 
   depends_on "cmake" => :build
   depends_on "rust" => :build # for cryptography
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "six"
 
   uses_from_macos "groff"
@@ -29,8 +29,8 @@ class Awscli < Formula
   # 2. Ignore `six`. Update all other PyPI packages
 
   resource "awscrt" do
-    url "https://files.pythonhosted.org/packages/56/3f/4ab8b2d37abc367983a4cbd0d4fc00053af0b725698d8e936672b9cdf881/awscrt-0.13.5.tar.gz"
-    sha256 "7543658cc2ac6e5e9e072844622bd681125ccd3070dcdd51565f2bddef3df268"
+    url "https://files.pythonhosted.org/packages/69/f6/f09b1035951a9dff428d9606aa361a78437fbb2572d22059c7adfff576f1/awscrt-0.13.11.tar.gz"
+    sha256 "631dc8dd10f9ecdc7a0af9b89a8739ce631b76c1de6223208437db414a2bdfc1"
   end
 
   resource "cffi" do
@@ -78,9 +78,14 @@ class Awscli < Formula
     sha256 "0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"
   end
 
+  resource "ruamel-yaml-clib" do
+    url "https://files.pythonhosted.org/packages/8b/25/08e5ad2431a028d0723ca5540b3af6a32f58f25e83c6dda4d0fcef7288a3/ruamel.yaml.clib-0.2.6.tar.gz"
+    sha256 "4ff604ce439abb20794f05613c374759ce10e3595d1867764dd1ae675b85acbd"
+  end
+
   resource "ruamel-yaml" do
-    url "https://files.pythonhosted.org/packages/9a/ee/55cd64bbff971c181e2d9e1c13aba9a27fd4cd2bee545dbe90c44427c757/ruamel.yaml-0.15.100.tar.gz"
-    sha256 "8e42f3067a59e819935a2926e247170ed93c8f0b2ab64526f888e026854db2e4"
+    url "https://files.pythonhosted.org/packages/46/a9/6ed24832095b692a8cecc323230ce2ec3480015fbfa4b79941bd41b23a3c/ruamel.yaml-0.17.21.tar.gz"
+    sha256 "8b7ce697a2f212752a35c1ac414471dc16c424c9573be4926b56ff3f5d23b7af"
   end
 
   resource "urllib3" do
@@ -100,8 +105,9 @@ class Awscli < Formula
     # ImportError: _awscrt.cpython-39-x86_64-linux-gnu.so: undefined symbol: EVP_CIPHER_CTX_init
     # As workaround, add relative path to local libcrypto.a before openssl's so it gets picked.
     if OS.linux?
-      ENV.prepend "CFLAGS", "-I./build/deps/install/include"
-      ENV.prepend "LDFLAGS", "-L./build/deps/install/lib"
+      python_version = Language::Python.major_minor_version Formula["python@3.10"].opt_bin/"python3"
+      ENV.prepend "CFLAGS", "-I./build/temp.linux-x86_64-#{python_version}/deps/install/include"
+      ENV.prepend "LDFLAGS", "-L./build/temp.linux-x86_64-#{python_version}/deps/install/lib"
     end
 
     # setuptools>=60 prefers its own bundled distutils, which is incompatabile with docutils~=0.15
@@ -134,7 +140,7 @@ class Awscli < Formula
 
   test do
     assert_match "topics", shell_output("#{bin}/aws help")
-    assert_includes Dir[libexec/"lib/python3.9/site-packages/awscli/data/*"],
-                    "#{libexec}/lib/python3.9/site-packages/awscli/data/ac.index"
+    site_packages = libexec/Language::Python.site_packages(Formula["python@3.10"].opt_bin/"python3")
+    assert_includes Dir[site_packages/"awscli/data/*"], "#{site_packages}/awscli/data/ac.index"
   end
 end

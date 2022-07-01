@@ -5,16 +5,16 @@ class ApacheArrow < Formula
   mirror "https://archive.apache.org/dist/arrow/arrow-8.0.0/apache-arrow-8.0.0.tar.gz"
   sha256 "ad9a05705117c989c116bae9ac70492fe015050e1b80fb0e38fde4b5d863aaa3"
   license "Apache-2.0"
-  revision 1
+  revision 3
   head "https://github.com/apache/arrow.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "3319b8ee2eb5046def32b4e52896b1f876495d9d7bda6f2fd06b7101893b4a97"
-    sha256 cellar: :any,                 arm64_big_sur:  "ff7d1efad9d635fc2b58e8b00da49f8f151117be023b3e3f700d8e072bb0e786"
-    sha256 cellar: :any,                 monterey:       "68d8d93c2d8c5b268217fe5987a91dc7877a64c529654bcabf5889b1b9bfe0e3"
-    sha256 cellar: :any,                 big_sur:        "0efbc480db467c0491e63b1d1ef80af7362f0203153846c3edadb8557ebdd138"
-    sha256 cellar: :any,                 catalina:       "d96cb2577f76adc8685297f06136d94ee6759491a0517208f66b37a74bc9f052"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9dd3aa5bdc76774d783d11f5126c3595fa52d1d9b0e4e47aab1e283180f06048"
+    sha256 cellar: :any,                 arm64_monterey: "9b6f48035bbe6ea33fdc75d0a91f517a8ed65fdbc7d4e34bd6a585f0d2d31c72"
+    sha256 cellar: :any,                 arm64_big_sur:  "4d08e93b0d09f4d9e5889cb87b3d88fdca6d81afbf065d1cffb2f8fd9001487f"
+    sha256 cellar: :any,                 monterey:       "b5b697f4e1993670349eeaaa385c69163cac41a2d302ad6751d238cd08973b64"
+    sha256 cellar: :any,                 big_sur:        "12e0ab680da45e6d020ffdac13ec7fdefbd37f06df4e27475c283ab219d6b87e"
+    sha256 cellar: :any,                 catalina:       "be7683ffe24c4f507cedc658119d91a473be321df61e3d9551c0b3ac2f3a39ce"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7682fb3cebe993572640b8a20af4c00d654688859a91d2d6ca9cb4b2544160d1"
   end
 
   depends_on "boost" => :build
@@ -28,7 +28,7 @@ class ApacheArrow < Formula
   depends_on "numpy"
   depends_on "openssl@1.1"
   depends_on "protobuf"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "rapidjson"
   depends_on "re2"
   depends_on "snappy"
@@ -72,7 +72,7 @@ class ApacheArrow < Formula
       -DARROW_WITH_BROTLI=ON
       -DARROW_WITH_UTF8PROC=ON
       -DARROW_INSTALL_NAME_RPATH=OFF
-      -DPython3_EXECUTABLE=#{Formula["python@3.9"].bin/"python3"}
+      -DPython3_EXECUTABLE=#{which("python3")}
     ]
 
     args << "-DARROW_MIMALLOC=ON" unless Hardware::CPU.arm?

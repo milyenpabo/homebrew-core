@@ -1,10 +1,11 @@
 class OpensslAT3 < Formula
   desc "Cryptography and SSL/TLS Toolkit"
   homepage "https://openssl.org/"
-  url "https://www.openssl.org/source/openssl-3.0.3.tar.gz"
-  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-3.0.3.tar.gz"
-  sha256 "ee0078adcef1de5f003c62c80cc96527721609c6f3bb42b7795df31f8b558c0b"
+  url "https://www.openssl.org/source/openssl-3.0.4.tar.gz"
+  mirror "https://www.mirrorservice.org/sites/ftp.openssl.org/source/openssl-3.0.4.tar.gz"
+  sha256 "2831843e9a668a0ab478e7020ad63d2d65e51f72977472dc73efcefbafc0c00f"
   license "Apache-2.0"
+  revision 1
 
   livecheck do
     url "https://www.openssl.org/source/"
@@ -12,12 +13,12 @@ class OpensslAT3 < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "6a4508b120c14a1ca4e6c804db30f2da5100df94a3198e768d124dd7afd9e707"
-    sha256 arm64_big_sur:  "825d9a0d62dae77432b0391c2792e166be6cd4716b1efea40a65e9eb0fdf54c9"
-    sha256 monterey:       "044032dcdffb16c0bf7949fdf847f5f957e727bef1f982d8a7f156f727c81ad5"
-    sha256 big_sur:        "b2e06913edb52a31b6f8aab8513304875f377bf71381d9f9430e11974254f1eb"
-    sha256 catalina:       "89f1e75541cef8e314f2b4fc134a457dbc6d0bebb6e6906dbccd527144d54917"
-    sha256 x86_64_linux:   "34131de7d88d04d881351f8631dfcc1468d800ed85ae1361c6b4fb88b7ee83fd"
+    sha256 arm64_monterey: "828b7127e7ef0c457e3261d4e13bf1aba531f253471abb80c0c6e8881a54b48b"
+    sha256 arm64_big_sur:  "52ef8f2a57e306ec21e39f28001065cde898aa7d7f8b74a5b6c7c6bd7f4aa95c"
+    sha256 monterey:       "f8c44f089db2921088039e7a300807e6d4e2a8e8a9847163179804154d849dc4"
+    sha256 big_sur:        "17f86bcfbd7e14a4c0d77a1f0b30e6bf51945fccbf7c0227800af4fa972660db"
+    sha256 catalina:       "ca25c3dd16dd3f9fe3ddeffd12f1d9b2a40863330366833618315923e9f63982"
+    sha256 x86_64_linux:   "7928d4e8b208346844f7ebff716aa22af313f645c6aa0800ce6e28c8b69906c5"
   end
 
   keg_only :shadowed_by_macos, "macOS provides LibreSSL"
@@ -62,6 +63,15 @@ class OpensslAT3 < Formula
       args += (ENV.ldflags || "").split
     end
     args
+  end
+
+  # Fix AVX512-specific heap buffer overflow
+  # See https://github.com/openssl/openssl/pull/18626
+  #
+  # Remove in the next release
+  patch do
+    url "https://github.com/openssl/openssl/commit/71ad6a8da3e39bd4caf5c6c767287ddd9bce8bae.patch?full_index=1"
+    sha256 "ab26fe6240a1d3b9d7214fa3937fe36f22d69acf6a6819903e8ebf2884711f26"
   end
 
   def install

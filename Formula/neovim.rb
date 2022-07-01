@@ -1,10 +1,17 @@
 class Neovim < Formula
   desc "Ambitious Vim-fork focused on extensibility and agility"
   homepage "https://neovim.io/"
-  url "https://github.com/neovim/neovim/archive/v0.7.0.tar.gz"
-  sha256 "792a9c55d5d5f4a5148d475847267df309d65fb20f05523f21c1319ea8a6c7df"
   license "Apache-2.0"
   head "https://github.com/neovim/neovim.git", branch: "master"
+
+  # Remove `stable` block when `gperf` is no longer needed.
+  stable do
+    url "https://github.com/neovim/neovim/archive/v0.7.2.tar.gz"
+    sha256 "ccab8ca02a0c292de9ea14b39f84f90b635a69282de38a6b4ccc8565bc65d096"
+    # GPerf was removed in https://github.com/neovim/neovim/pull/18544.
+    # Remove dependency when relevant commits are in a stable release.
+    uses_from_macos "gperf" => :build
+  end
 
   livecheck do
     url :stable
@@ -12,12 +19,12 @@ class Neovim < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "21da7566b9dc34a1a99a82e7a36e446b9dc17dad9bdf107d5fc46aeaea83879b"
-    sha256 arm64_big_sur:  "81bddcbf646911e46bcf4853ec29c2eae48776a72c29e2b0f4d1ff36959be025"
-    sha256 monterey:       "451c1643c6a01779c6443794c12ed41bc5629ab35059bea98ad54ea2459b4d48"
-    sha256 big_sur:        "d234249fbe80c3a75cb563ff88d841cb9c1df9bbcc99b0a2e0981eb5acf26eca"
-    sha256 catalina:       "137e5229d2322ad0f0662915db67cbb21e0581e3767b4648f6c7cbde51f8b54f"
-    sha256 x86_64_linux:   "0676404738239fdb2d03a2af7c5c381240ad7beaa7b42038d8e2b11519357163"
+    sha256 arm64_monterey: "79fe53bbb01379802a2bf2dd15f04d79df027eb80f36d3d74fe3b303991f8757"
+    sha256 arm64_big_sur:  "72e6341775e5f432080544d936069a714f524f732ac2e0b7b991ec4435e8ab99"
+    sha256 monterey:       "a0139b38424c3c66bd02efc8f9d1991e8cf673e50431a162ce371ebd49c6f7c0"
+    sha256 big_sur:        "746d5aff8a6c5dec3c9b3c371b521cca0ec074786bf23198c757593c078c8106"
+    sha256 catalina:       "e83723c66c2120a15f27617fb2a430395a23163a37e78b4d37e721076120f517"
+    sha256 x86_64_linux:   "d452f8a4bbb7af290826bc2eae010d7b99190e4f1be6215fe8e3161708e2c365"
   end
 
   depends_on "cmake" => :build
@@ -35,7 +42,6 @@ class Neovim < Formula
   depends_on "tree-sitter"
   depends_on "unibilium"
 
-  uses_from_macos "gperf" => :build
   uses_from_macos "unzip" => :build
 
   on_linux do
@@ -102,7 +108,10 @@ class Neovim < Formula
                     *std_cmake_args
 
     # Patch out references to Homebrew shims
-    inreplace "build/config/auto/versiondef.h", Superenv.shims_path/ENV.cc, ENV.cc
+    # TODO: Remove conditional when the following PR is included in a release.
+    # https://github.com/neovim/neovim/pull/19120
+    config_dir_prefix = build.head? ? "cmake." : ""
+    inreplace "build/#{config_dir_prefix}config/auto/versiondef.h", Superenv.shims_path/ENV.cc, ENV.cc
 
     system "cmake", "--build", "build"
     system "cmake", "--install", "build"
