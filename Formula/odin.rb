@@ -2,19 +2,18 @@ class Odin < Formula
   desc "Programming language with focus on simplicity, performance and modern systems"
   homepage "https://odin-lang.org/"
   url "https://github.com/odin-lang/Odin.git",
-      tag:      "dev-2022-06",
-      revision: "ba5f7c4e2af5c82c220b7e1796fde2f026ce4208"
-  version "2022-06"
+      tag:      "dev-2022-08",
+      revision: "73beed0477936ee5b64b9b02f8fa7e399c623c8b"
+  version "2022-08"
   license "BSD-3-Clause"
-  revision 1
   head "https://github.com/odin-lang/Odin.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "99d3f356276eb775996a0b694c329c22b00c2a1b54f6f9c2df634f210579b4b6"
-    sha256 cellar: :any,                 arm64_big_sur:  "3479376b9b9fecbcfba35b71e367e84d92a6c1e10a93c605ecdf3f21c64ea8b9"
-    sha256 cellar: :any,                 monterey:       "4dffaa801df406990c17d3ae92b9896a5e689ae226dcd9aa4293b0c4c105bfcc"
-    sha256 cellar: :any,                 big_sur:        "fc1a6ba86fa16ccb06cd0cf444bf074abb618c56a78dc481544117e606fca9e7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "30244b3c4d3033db671c62a6521578bd2e11a5401458e75eac99fc849d36dbaf"
+    sha256 cellar: :any,                 arm64_monterey: "05ecd553e5ee0bd46862767c710c1e3a1d86ea2f779d017a6b313df44065326c"
+    sha256 cellar: :any,                 arm64_big_sur:  "e04e6af571209fc7ad4ce0742d566cd05429ece4854bdd948f9e6501238ef3aa"
+    sha256 cellar: :any,                 monterey:       "2c25e6a641ca1dc958efc9b7fd38a691a23dce445d149bcef733f8fa9a807736"
+    sha256 cellar: :any,                 big_sur:        "94b4944a4efa7b65fa14323380056a44e9f8cfb8b601ed0a86ed2c6ec810b491"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9b4b160be6f48d88ce3dd283e3059ca95bf1786d339652b3a872e8508e513395"
   end
 
   depends_on "llvm"

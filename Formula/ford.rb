@@ -3,22 +3,22 @@ class Ford < Formula
 
   desc "Automatic documentation generator for modern Fortran programs"
   homepage "https://github.com/Fortran-FOSS-Programmers/ford"
-  url "https://files.pythonhosted.org/packages/24/ed/67f46d25dccd7beb92135bdc6762574ac6d03110cefea2a1d6fbe9931765/FORD-6.1.12.tar.gz"
-  sha256 "101191e1aa33cfe780ea5b2d66d02c7281b9b314e82bb138d76809a49c08506a"
+  url "https://files.pythonhosted.org/packages/30/49/683008b43febe29317da753a9509f6233e76c6bdef5ef9783f79d5dab4f2/FORD-6.1.15.tar.gz"
+  sha256 "d90000f528878738fc55f0f28aa34f36c5cb7f4819d851d10977f8499bf0cae6"
   license "GPL-3.0-or-later"
   head "https://github.com/Fortran-FOSS-Programmers/ford.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "00dd0469ec5fc5f91f6960243b1a0243c3233cbcdbb367000b1d40a9bfc6aac1"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4529952366ced1a4c37cf58fd78f28579d00bc828146c6f1a6e6d53cf0e6f76e"
-    sha256 cellar: :any_skip_relocation, monterey:       "dd7053ce6770c6a2ffc67115ba2d0e251141bc29442666cc2c7faee37ada17ac"
-    sha256 cellar: :any_skip_relocation, big_sur:        "ea9b8ae898442dc19303cafc5b52fd6c4a0d6e373b55b6c834cd4d4150851a7b"
-    sha256 cellar: :any_skip_relocation, catalina:       "f345ef2e6c0733fdd393f5708b3391d3c15ad41ae52dc48e7b528b670244aeef"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "19bf920c8f32a9c83be36ca857328a1cba55e6980ac2b8ffcb0535b0a4c6a870"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "ee520fddf80cbbe7a022d5d6abb7f1b727639353e498f704e8a830185c22067e"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a048133d405c19af64a6c88a0404b5a5e3996c63bab7e7aa07731c570d853815"
+    sha256 cellar: :any_skip_relocation, monterey:       "1d25115cedb3d8da14651279118e13a65eb1e605d2a5ad729b35af4a13cccba0"
+    sha256 cellar: :any_skip_relocation, big_sur:        "51ebe44f105580423c9365bda73785072dfbc4c7fde90087aa8c4836a629d79a"
+    sha256 cellar: :any_skip_relocation, catalina:       "bd9872a48e0c6b5b873b2fac23a0186d50d8abe164fca87abad4ff893c579676"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7c618b7add70927e991acda3294d604f4db4c59b0a90339e2a78ae2f4b82bb3f"
   end
 
   depends_on "graphviz"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   uses_from_macos "libxml2"
   uses_from_macos "libxslt"
@@ -29,13 +29,8 @@ class Ford < Formula
   end
 
   resource "graphviz" do
-    url "https://files.pythonhosted.org/packages/43/ae/a0ee0dbddc06dbecfaece65c45c8c4729c394b5eb62e04e711e6495cdf64/graphviz-0.20.zip"
-    sha256 "76bdfb73f42e72564ffe9c7299482f9d72f8e6cb8d54bce7b48ab323755e9ba5"
-  end
-
-  resource "importlib-metadata" do
-    url "https://files.pythonhosted.org/packages/3e/1d/964b27278cfa369fbe9041f604ab09c6e99556f8b7910781b4584b428c2f/importlib_metadata-4.11.3.tar.gz"
-    sha256 "ea4c597ebf37142f827b8f39299579e31685c31d3a438b59f469406afd0f2539"
+    url "https://files.pythonhosted.org/packages/a5/90/fb047ce95c1eadde6ae78b3fca6a598b4c307277d4f8175d12b18b8f7321/graphviz-0.20.1.zip"
+    sha256 "8c58f14adaa3b947daf26c19bc1e98c4e0702cdc31cf99153e6f06904d492bf8"
   end
 
   resource "Jinja2" do
@@ -81,11 +76,6 @@ class Ford < Formula
   resource "tqdm" do
     url "https://files.pythonhosted.org/packages/98/2a/838de32e09bd511cf69fe4ae13ffc748ac143449bfc24bb3fd172d53a84f/tqdm-4.64.0.tar.gz"
     sha256 "40be55d30e200777a307a7585aee69e4eabb46b4ec6a4b4a5f2d9f11e7d5408d"
-  end
-
-  resource "zipp" do
-    url "https://files.pythonhosted.org/packages/cc/3c/3e8c69cd493297003da83f26ccf1faea5dd7da7892a0a7c965ac3bcba7bf/zipp-3.8.0.tar.gz"
-    sha256 "56bf8aadb83c24db6c4b577e13de374ccfb67da2078beba1d037c17980bf43ad"
   end
 
   def install
@@ -161,7 +151,7 @@ class Ford < Formula
         end program
       EOS
     end
-    system "#{bin}/ford", testpath/"test-project.md"
+    system bin/"ford", testpath/"test-project.md"
     assert_predicate testpath/"doc"/"index.html", :exist?
   end
 end

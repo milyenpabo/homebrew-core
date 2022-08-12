@@ -1,17 +1,17 @@
 class Difftastic < Formula
   desc "Diff that understands syntax"
   homepage "https://github.com/Wilfred/difftastic"
-  url "https://github.com/Wilfred/difftastic/archive/refs/tags/0.29.1.tar.gz"
-  sha256 "d5db9a1af0abd2c836ed2e61752935fea4dbd2e2ef7cf988217a410fe6cfae3f"
+  url "https://github.com/Wilfred/difftastic/archive/refs/tags/0.32.0.tar.gz"
+  sha256 "58048d43ee61e16c0e2a2ab6efbb7453d6c8195557fb22cd8c62e19412713487"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "70f081f034d3a120e617d8a2d43432e048172a7f3e2ae93e9e2e4e308247c0c9"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1b0a7cb4784c7c26c86dbdb3678160e5e8a63bad29fbe72c3d1301255a620807"
-    sha256 cellar: :any_skip_relocation, monterey:       "3d7811db2a3b41e721f3ac39532491948603ae3a02d529f5d118b65990e2cd29"
-    sha256 cellar: :any_skip_relocation, big_sur:        "b4acfd2376e098ec752973bb75eb19e0edd9c25ec45e8f2984998ba2cf69b027"
-    sha256 cellar: :any_skip_relocation, catalina:       "eb5c88349668d63f7afbb593b403de64ae8f42626bd5d77e4e8f87a550716d0b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ee74de401379880f4ac520cd9c82af472026e9ea8f3902b71170e01b1ab91448"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "3482a0e78b9842998584866f9e579989c72f9479727f78e533cd117ae38b0aac"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "345871ab11b60003470e4bb61efcff2a6ba013fd8efbea84e81745be76c3a0f5"
+    sha256 cellar: :any_skip_relocation, monterey:       "2a90ed5b424513757c1d4a814c961e9330d6cc34d48052b1f6610c37b181c087"
+    sha256 cellar: :any_skip_relocation, big_sur:        "189bdcc1df975141a0f15f18a70ddc7e691f77995a2c8519d817f09933d8e4cb"
+    sha256 cellar: :any_skip_relocation, catalina:       "c07c284a10375c45335b3be051c32dadbd28954ca4596d9773d609b47efa31ae"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "cbc21b5607686995d2887604a57f4131c2cd23917df4aeb28e527fc54c2e5290"
   end
 
   depends_on "rust" => :build
@@ -30,8 +30,8 @@ class Difftastic < Formula
     (testpath/"a.py").write("print(42)\n")
     (testpath/"b.py").write("print(43)\n")
     expected = <<~EOS
-      b.py --- Python
-      1 print(42)                             1 print(43)\n
+      a.py --- Python
+      1 print(42) 1 print(43)\n
     EOS
     assert_equal expected, shell_output("#{bin}/difft --color never --width 80 a.py b.py")
   end

@@ -2,8 +2,8 @@ class Flyctl < Formula
   desc "Command-line tools for fly.io services"
   homepage "https://fly.io"
   url "https://github.com/superfly/flyctl.git",
-      tag:      "v0.0.346",
-      revision: "e547d87efe617f5012ba5e4e6f2212ab73f4e3f2"
+      tag:      "v0.0.370",
+      revision: "1e6c3ed57ac23ee1a6299d18bef83b960c18b529"
   license "Apache-2.0"
   head "https://github.com/superfly/flyctl.git", branch: "master"
 
@@ -13,15 +13,17 @@ class Flyctl < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "b1fb244a53151295b5a897ad9a008e517289c5f9999ee645917153cdd706f35c"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b1fb244a53151295b5a897ad9a008e517289c5f9999ee645917153cdd706f35c"
-    sha256 cellar: :any_skip_relocation, monterey:       "dd394964ed5b51b0f2e9c0076e286f3b1d7fe405dc1310d4633b7e3c3c7d9b83"
-    sha256 cellar: :any_skip_relocation, big_sur:        "dd394964ed5b51b0f2e9c0076e286f3b1d7fe405dc1310d4633b7e3c3c7d9b83"
-    sha256 cellar: :any_skip_relocation, catalina:       "dd394964ed5b51b0f2e9c0076e286f3b1d7fe405dc1310d4633b7e3c3c7d9b83"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "05c6564e03b498e0fa4eb0b38b86704e1ddcffb586fec9c07eb6971be52c643c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1dce6c4379999fbe036ba9075d9f58b49867bdffc6e5092927115359dbae7655"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1dce6c4379999fbe036ba9075d9f58b49867bdffc6e5092927115359dbae7655"
+    sha256 cellar: :any_skip_relocation, monterey:       "ea9567b2245a5468b063dd3f42ee1824044cfa0050458e6d645152a3b318eb8d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ea9567b2245a5468b063dd3f42ee1824044cfa0050458e6d645152a3b318eb8d"
+    sha256 cellar: :any_skip_relocation, catalina:       "ea9567b2245a5468b063dd3f42ee1824044cfa0050458e6d645152a3b318eb8d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "660d744fa02b2dbf02e229ae5b60e77d08d1e10a5f2460bf8fb835650145e339"
   end
 
-  depends_on "go" => :build
+  # Required latest gvisor.dev/gvisor/pkg/gohacks
+  # Try to switch to the latest go on the next release
+  depends_on "go@1.18" => :build
 
   def install
     ENV["CGO_ENABLED"] = "0"

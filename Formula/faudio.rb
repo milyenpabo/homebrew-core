@@ -1,18 +1,18 @@
 class Faudio < Formula
   desc "Accuracy-focused XAudio reimplementation for open platforms"
   homepage "https://fna-xna.github.io/"
-  url "https://github.com/FNA-XNA/FAudio/archive/22.06.tar.gz"
-  sha256 "6cc2480a191ecfd6a2b6c57af3c21307ffb8a4d4af95769386590e9a33ea1750"
+  url "https://github.com/FNA-XNA/FAudio/archive/22.08.tar.gz"
+  sha256 "7160a77e95bae460c4afcc8d6723fa46a1a634c4a6611916e44f0e2ab394b36f"
   license "Zlib"
   head "https://github.com/FNA-XNA/FAudio.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "338a5f7d301c9d1ccbd7beee0a51df9ba34ea3bc040cfd36b1be93dd0b24b386"
-    sha256 cellar: :any,                 arm64_big_sur:  "03e1815e54b90a235dfb2fea5f092b69755fbd4635375726f96581ab0f6ac161"
-    sha256 cellar: :any,                 monterey:       "3c933f20583b33439d5141c349b1d69b8c9ba3389fd7cd0a19e1e74880b1f0c9"
-    sha256 cellar: :any,                 big_sur:        "94f97b67c2e4abcaec6b50d461ab11420f4fb75d67e02d58126932c05cb5c84b"
-    sha256 cellar: :any,                 catalina:       "342a3d4bf4ea456b7ebb0fbbf2b87f97f7f519fe513ca9e412c6e117548a59e7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fa8644a9c43ba875d316632c0da6d9ebaf880ac76761cb3fe40609f235561ac3"
+    sha256 cellar: :any,                 arm64_monterey: "bc2485eb6817714643f190d77ba28e6802a7cbf8ad67ee075a539b66ea40e10d"
+    sha256 cellar: :any,                 arm64_big_sur:  "2302caff4ae43f356ae8faf95b30035e9e251cbff58b612cbf48ae29b942c910"
+    sha256 cellar: :any,                 monterey:       "729994576918cd9fed78c4945c931b39f5d9241bb4297d5a2c5d5d2242dec50b"
+    sha256 cellar: :any,                 big_sur:        "9d399223ecbbed1eb75f8d51b9b2efcbb792101d8424d4c700897cbfdd3f31a2"
+    sha256 cellar: :any,                 catalina:       "ade36ad5c0a21e79e4d890e2ff623aa87cb006cc70554effcc4194a921b3bc71"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1e03dc7c8e8094e84cb19af58dcb479d008261e7464fcce48003198877a3541c"
   end
 
   depends_on "cmake" => :build

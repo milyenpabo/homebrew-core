@@ -1,22 +1,24 @@
 class Traefik < Formula
   desc "Modern reverse proxy"
   homepage "https://traefik.io/"
-  url "https://github.com/traefik/traefik/releases/download/v2.8.0/traefik-v2.8.0.src.tar.gz"
-  sha256 "c45e2418bdf69c396c1ad3d87cb7a8fb5bf9f27f18e1bcd7b7914cfdf2af963e"
+  url "https://github.com/traefik/traefik/releases/download/v2.8.2/traefik-v2.8.2.src.tar.gz"
+  sha256 "1c587601a7564e48e1915c3942ae71ce3a024e80b4f6726e8d6fa75191ac56b2"
   license "MIT"
   head "https://github.com/traefik/traefik.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "f412c9919062b5036b608dca6dddc8724b355fda9402edffb29271a1242cb3b9"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "fef71945c1bde2c194b26f17122b0bde01c15c8c838170475527b47af4970663"
-    sha256 cellar: :any_skip_relocation, monterey:       "b5f024a97f9225933b05f10bff9a52290d9136ee1168ae523af9b70157b4ea2f"
-    sha256 cellar: :any_skip_relocation, big_sur:        "3931c79c0a8f8fdfda9c3eb683f9d4778d357da138e14029ac8b1caed9c0d9c2"
-    sha256 cellar: :any_skip_relocation, catalina:       "a09068091a01639437d79610bca679877604c2a93c9a59d68fa1a462081772e0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ebeb443b8351cc3782d73f7bf7a83db0510da3d9a677759703fb34c644a223d8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "58d110195fe309754d4dbc6c652614ca1f8ffe824f3a7cd424e55e0aa7a4d551"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e930f271d1fbf4c47c97f646208fa538f01affd549b244ebc138052edecc9eb4"
+    sha256 cellar: :any_skip_relocation, monterey:       "e739622e0da28e30a2d02e6b8d43da19636f71237c632f2f27ed48844c0e6f00"
+    sha256 cellar: :any_skip_relocation, big_sur:        "90bddd9a634355970e851353330fcc719160ddd927aac63ee742e349c3e33f5a"
+    sha256 cellar: :any_skip_relocation, catalina:       "13a002f957498d7392b2f078fe08e30547f99f6ee82a9bcfb924e51cd168e384"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a0b13af2314be85a5bb11be4ea68427edf273e5650aa2787a1bb3c7a2e8bdcbe"
   end
 
-  depends_on "go" => :build
   depends_on "go-bindata" => :build
+  # Required lucas-clemente/quic-go >= 0.28
+  # Try to switch to the latest go on the next release
+  depends_on "go@1.18" => :build
 
   def install
     ldflags = %W[

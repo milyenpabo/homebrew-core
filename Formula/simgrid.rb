@@ -5,6 +5,7 @@ class Simgrid < Formula
   homepage "https://simgrid.org/"
   url "https://framagit.org/simgrid/simgrid/uploads/caf09286c8e698d977f11e8f8451ba46/simgrid-3.31.tar.gz"
   sha256 "4b44f77ad40c01cf4e3013957c9cbe39f33dec9304ff0c9c3d9056372ed4c61d"
+  revision 2
 
   livecheck do
     url :homepage
@@ -12,19 +13,19 @@ class Simgrid < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "4bedc5fea3d5dbb520cee22cbcc036cfe584421e440a26331b87f4d386584afa"
-    sha256 arm64_big_sur:  "93fb5658df73c7e7d2d21d35f0e85842a7238b76a877ddf1d8bad857967e4ead"
-    sha256 monterey:       "74f01fd95afbc1fe3fbea4c6a197e0a51be1537208eb8631fa53b4e5bdb0e6bb"
-    sha256 big_sur:        "13d9028619e89e1fe01bd05de0e14099f4ceea53db2c0bd08d6448783214e930"
-    sha256 catalina:       "9102007d57a733f701515d48ec4eeee8f11220006391b2bd980d08087201a14f"
-    sha256 x86_64_linux:   "3cf6c46a933707e71f29be19d5b735b360482fdfdeb6feed76c7c529b9d6f4b5"
+    sha256 arm64_monterey: "7d401bd8da31281321f48a805f556ec8778433a4a44a510e2d1904601f535b06"
+    sha256 arm64_big_sur:  "3c4d9143dc7c913da3742a53230240e23444b97ad6792152dd4c642500d05e8f"
+    sha256 monterey:       "acf61dd03560d053bff2695ef37a44a45b351b383fa491d93c4190d181df9114"
+    sha256 big_sur:        "c1ce395fdbe152df01e411e1e45f964afbe9f295ecd77153e60309f8285c202f"
+    sha256 catalina:       "715af6c891c7c666c5a8b5782ac236af14225a26c9f7fbd8ed1715ebf8528a3b"
+    sha256 x86_64_linux:   "3e773f8d6297a17a270351489406aa94b0ca0a5ead23159d6bd09239e6c4f6fd"
   end
 
   depends_on "cmake" => :build
   depends_on "doxygen" => :build
   depends_on "boost"
   depends_on "graphviz"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   on_linux do
     depends_on "gcc"

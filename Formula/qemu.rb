@@ -1,19 +1,29 @@
 class Qemu < Formula
   desc "Emulator for x86 and PowerPC"
   homepage "https://www.qemu.org/"
-  url "https://download.qemu.org/qemu-7.0.0.tar.xz"
-  sha256 "f6b375c7951f728402798b0baabb2d86478ca53d44cedbefabbe1c46bf46f839"
   license "GPL-2.0-only"
-  revision 1
+  revision 2
   head "https://git.qemu.org/git/qemu.git", branch: "master"
 
+  stable do
+    url "https://download.qemu.org/qemu-7.0.0.tar.xz"
+    sha256 "f6b375c7951f728402798b0baabb2d86478ca53d44cedbefabbe1c46bf46f839"
+
+    # Fixes RDTSCP not being exposed to hosts
+    # See https://gitlab.com/qemu-project/qemu/-/issues/1011
+    patch do
+      url "https://gitlab.com/qemu-project/qemu/-/commit/d8cf2c29cc1077cd8f8ab0580b285bff92f09d1c.diff"
+      sha256 "b7c0db81e136fb3b9692e56f4c95abbcbd196dc0b7feb517241dda20d9ec3166"
+    end
+  end
+
   bottle do
-    sha256 arm64_monterey: "d0640f2fa4be667c881a9364a5eabe40626b5cc887a6ade53d0b5701aaae3054"
-    sha256 arm64_big_sur:  "cd0ea798d387018e571253f99084d8f976e73c4c696830af57c365426638f054"
-    sha256 monterey:       "545187ab2b386fc4ce48735ab4247c17783bd420a56ddb4800565c4868da141a"
-    sha256 big_sur:        "68cedd112c5442d88767b8ebf1da68f0915ba4a7b2441d54453c098889b87d5a"
-    sha256 catalina:       "50d9981998568aa2c724aa41b9c7c1be34af187667f53235469938a5cad464c1"
-    sha256 x86_64_linux:   "7e606b9abfc143d599f567ae3391ece34da5929fc9304ce6ffd4b558d9c3bbd6"
+    sha256 arm64_monterey: "bf9391d255ad137ddef0d1c27a1e8617736ce92a67564f2e1bb005737a5665ef"
+    sha256 arm64_big_sur:  "9c50ffc363dac4b232051be9fa264e89b9c0a1914a508b125c4d73dda4a72aef"
+    sha256 monterey:       "278eed235e3bfc5e52c505ac8da6956c32c5c2e98bb8ad3ad5e14b2b64b63610"
+    sha256 big_sur:        "07dac521ceb5f83ae24d0c3d94928ab0433b2bedec31b0272f31e67c496c034b"
+    sha256 catalina:       "c13348847d51bdfd9a2704c1f4485aa3c076b6cf828ad5c7761b76035495e340"
+    sha256 x86_64_linux:   "83034c38dff93a45b8dd004556a2d6b9479b88d952d4bcea4dff217d0794b7e9"
   end
 
   depends_on "libtool" => :build
@@ -23,7 +33,7 @@ class Qemu < Formula
 
   depends_on "glib"
   depends_on "gnutls"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libslirp"
   depends_on "libssh"
@@ -80,9 +90,11 @@ class Qemu < Formula
     # Samba installations from external taps.
     args << "--smbd=#{HOMEBREW_PREFIX}/sbin/samba-dot-org-smbd"
 
-    args << "--disable-gtk" if OS.mac?
-    args << "--enable-cocoa" if OS.mac?
-    args << "--enable-gtk" if OS.linux?
+    args += if OS.mac?
+      ["--disable-gtk", "--enable-cocoa"]
+    else
+      ["--enable-gtk"]
+    end
 
     system "./configure", *args
     system "make", "V=1", "install"

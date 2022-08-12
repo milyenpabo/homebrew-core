@@ -1,8 +1,8 @@
 class Werf < Formula
   desc "Consistent delivery tool for Kubernetes"
   homepage "https://werf.io/"
-  url "https://github.com/werf/werf/archive/refs/tags/v1.2.118.tar.gz"
-  sha256 "a4f23a67b61bd2733a8f504faff2e9b5b8c1fc7e4cf28b776e89c47a866d5380"
+  url "https://github.com/werf/werf/archive/refs/tags/v1.2.152.tar.gz"
+  sha256 "c115dd07d32e4d83fca3820e5c39580bb1207bbba3df26580d7b9793153c87cb"
   license "Apache-2.0"
   head "https://github.com/werf/werf.git", branch: "main"
 
@@ -15,11 +15,11 @@ class Werf < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "3bd82a741b31d93c8e94ca22fa43a73626caf94838e0f3093b59c1bc246c5d4a"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "7d1a811cce34d9d34fcbb9cab022e389b9c2e52213c0ce6a9c205473bc3abf2b"
-    sha256 cellar: :any_skip_relocation, monterey:       "d7a2af214d7665e8636b9837f1fca809d0f9c030f85e08fad4d2707fe5eb775c"
-    sha256 cellar: :any_skip_relocation, big_sur:        "c972f4b682302626c939c780cc7c22840950b5d471376852089f0b8b5e164db3"
-    sha256 cellar: :any_skip_relocation, catalina:       "32b2cd172eb23726616d2fea26944b0223fa100c7c597770c7a823e51ef68eda"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "4337b9f97e9f0b08b3f1e6a8accbb513d184e2d25937b16b77eda5b2af8435fc"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f9e9e2a9ef5411623690b882cfaeeb6487e8a991a355616e222761e568c56563"
+    sha256 cellar: :any_skip_relocation, monterey:       "1bf768daadcd6842e2983d1a9f0f910ee099fb607c40c51fb35599cd9d07720d"
+    sha256 cellar: :any_skip_relocation, big_sur:        "391a4a064882435b9e0a78e744e072942d8ea5e8f26da932008b83c0ed4e12e1"
+    sha256 cellar: :any_skip_relocation, catalina:       "df72ea04fec88f3ab79f721b7046399a9dbd35f633c6918b43a8c2cfa4a270bf"
   end
 
   depends_on "go" => :build

@@ -1,8 +1,8 @@
 class Mysql < Formula
   desc "Open source relational database management system"
   homepage "https://dev.mysql.com/doc/refman/8.0/en/"
-  url "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.29.tar.gz"
-  sha256 "fd34a84c65fc7b15609d55b1f5d128c4d5543a6b95fa638569c3277c5c7bb048"
+  url "https://cdn.mysql.com/Downloads/MySQL-8.0/mysql-boost-8.0.30.tar.gz"
+  sha256 "c331ac7a68099a2116097acbb14fd331423d486fe47ce0e346925111b44df69c"
   license "GPL-2.0-only" => { with: "Universal-FOSS-exception-1.0" }
 
   livecheck do
@@ -11,12 +11,12 @@ class Mysql < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "462d849e91bcaed0ea7faf967e50cb13166c9d1f1e7ee72849cd14fde1b41392"
-    sha256 arm64_big_sur:  "041bae356a31fb942e57827c7bcacd327dafaf9ae30f2654c65758d8053c282b"
-    sha256 monterey:       "b152c47fb301c2200ea6ccc525307910b903879ed8ba2f0912e09934da9a864d"
-    sha256 big_sur:        "39704edeac2cb2fac5494b0f5f313fb40f0336fc425f1a78af29a5ded340525d"
-    sha256 catalina:       "c5ff449dce2bcb26adbf2ec725821df32f4b7e23be1d1d315a5abc94e39bbc01"
-    sha256 x86_64_linux:   "0bef9bedc6ffcec182258d8d2e471821fcecd82058e6a74d96ed5282d00a4001"
+    sha256 arm64_monterey: "078d86da54cb87712d2d941c5faa7d7be29ae8c22bdbd92743425d872f2f198b"
+    sha256 arm64_big_sur:  "4ab222921e74b31f81310e981ac6b63e164f7a71df561e7ea802409b189d202a"
+    sha256 monterey:       "07e7117de00eb24eace602baeeea768b3579b2c2d10649cb7c32b82ff7ab22fd"
+    sha256 big_sur:        "884bc510cd10e0fd1b3dcd5500d4bc56a3dc81d6bb9d92b741789e393ca839db"
+    sha256 catalina:       "a85e24ef0836ad46de2d3ee755b7612cffb92d09056987c94b6fc7c780c69374"
+    sha256 x86_64_linux:   "30dd16248eb9744fad51a591d30b7e09f241e2dedeae972de7d29d5f06287942"
   end
 
   depends_on "cmake" => :build
@@ -27,12 +27,12 @@ class Mysql < Formula
   depends_on "lz4"
   depends_on "openssl@1.1"
   depends_on "protobuf"
+  depends_on "zlib" # Zlib 1.2.12+
   depends_on "zstd"
 
   uses_from_macos "curl"
   uses_from_macos "cyrus-sasl"
   uses_from_macos "libedit"
-  uses_from_macos "zlib"
 
   on_linux do
     depends_on "patchelf" => :build

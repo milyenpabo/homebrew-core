@@ -3,17 +3,17 @@ class Pipgrip < Formula
 
   desc "Lightweight pip dependency resolver"
   homepage "https://github.com/ddelange/pipgrip"
-  url "https://files.pythonhosted.org/packages/6b/0e/fb6db73fa6fe581f2f2e66fc747c88754f7bf36ae87f092c75c3b7b24d6d/pipgrip-0.8.2.tar.gz"
-  sha256 "e8ae2009fca122dc4410b28b31505eb447dffc600b74347e75d911543eb65e88"
+  url "https://files.pythonhosted.org/packages/13/44/f222edfce27d958976ceb52b6002925bfd4cc8ef2ef1ae2a71394446f413/pipgrip-0.8.5.tar.gz"
+  sha256 "172a204b6b613c7e2b25ea03ed2639971b1e0c9963453a6acc0b569344b04f0a"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "a996381ca0b954b97e90869fd22edd611d91c9c531d4d0bbb8f69971fab698a8"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a59ece0ec362a568adbe0c22424d7df9dae748a7a86934dea2760fee02b4da3f"
-    sha256 cellar: :any_skip_relocation, monterey:       "8f60a9b05de092c0bec6bf0536b7045ee074c1327b9e24042cd19340b40c71c5"
-    sha256 cellar: :any_skip_relocation, big_sur:        "e82b7cefe4345acf2af5ab0d0409add516715a7af9f99753d0a0ccdba91d2cb7"
-    sha256 cellar: :any_skip_relocation, catalina:       "5b3a27aa3b79e8a22fe14732dfc210093f399e0e0f5a397b487a8d1e8923f0c5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0f149e7e2c9e915fb1ca305c567959f4a03ddc2b495673cf5209f3ca8d3cf8c4"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0a229c3452418ffb8bf1002f2a3e368e27e7fcb6f6654f2d2ecd6ec759d70bea"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "52fb34b30658ef0ceaf4266efc58ec8e9c1ba81056170d84baf5c7f9fc0c83c3"
+    sha256 cellar: :any_skip_relocation, monterey:       "717237fce8b8571127f8324b873beaa9004c6e120f46a8439b9e99b94ce1cfcb"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e74baa9bd1753d0f4e3389001f1a9f0432e9fb9427842d69ff1ce18d9bb06e59"
+    sha256 cellar: :any_skip_relocation, catalina:       "a0ba77526487b6cfec8346a0972d1ba0ccf26905012493c9675bb29710f0ed71"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a4e36ccb3e89797f99b9abdd7def9a072874937f7bd49d0f78172c9503f6bcd6"
   end
 
   depends_on "python@3.10"

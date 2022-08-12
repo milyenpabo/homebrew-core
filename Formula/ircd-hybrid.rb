@@ -1,8 +1,8 @@
 class IrcdHybrid < Formula
   desc "High-performance secure IRC server"
   homepage "https://www.ircd-hybrid.org/"
-  url "https://downloads.sourceforge.net/project/ircd-hybrid/ircd-hybrid/ircd-hybrid-8.2.39/ircd-hybrid-8.2.39.tgz"
-  sha256 "035d271f6b0dd451157f80146d189bc1c9b84cc9ba1b7ad06fd72ee5108e6e4d"
+  url "https://downloads.sourceforge.net/project/ircd-hybrid/ircd-hybrid/ircd-hybrid-8.2.41/ircd-hybrid-8.2.41.tgz"
+  sha256 "ce0ea69654601047bd86423ddc0023c0795570249990011eaa6c41d6372b0454"
   license "GPL-2.0-or-later"
 
   livecheck do
@@ -11,16 +11,17 @@ class IrcdHybrid < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "3a92eb47b04dddeb6b626f232d859c6cfb1828c331438b1ccaedb99ff92c494e"
-    sha256 arm64_big_sur:  "b31fc7ba489af06e2decf331466810c4477774e3c7af42fcbba77882e535c97a"
-    sha256 monterey:       "429c423e85d054b705c31c68d98f32259820f9893ee1b5975d1e47d2fc2552bf"
-    sha256 big_sur:        "c0b51453c0d7c82c6fe504fcb3d7de3aaf181774621ecdfb1a298bc21bebe6ee"
-    sha256 catalina:       "c918bce271461b22e1eb2632db3c55ea82ba8b3e3822b1acf6e0dc09a804cda4"
-    sha256 mojave:         "53db2d5110d8a486bbb7ed75858f5920838abc4c263e8e732814a87d0015575a"
-    sha256 x86_64_linux:   "fc31f26e809d59c021617055aa26a5f318ba101ce8311c18afbb08233c959627"
+    sha256 arm64_monterey: "268075f11e23a5d819d75d7dd98881c4c0441bbd44fa3ae8b3f799155206073a"
+    sha256 arm64_big_sur:  "a6d6a0a26185264577aa3f794fd2a90d215f0a2b63fa84f45b58a74955ca1156"
+    sha256 monterey:       "fc209d6f30c7a7ba30a7c856e4893ebe6be74d3c74eecb22e61b87b8606cc58f"
+    sha256 big_sur:        "e0de415a58502410f642497c3d857b0f9ccff5400457de66a07214836daf0229"
+    sha256 catalina:       "59a906eb2f528eb84ccbc18193ddfab0c47dedd3ca94f4c2b73cdaaa7d4453bb"
+    sha256 x86_64_linux:   "5c45e00bfae1c00c4909144592b46ce21755d20eb7287f179b69d0147b159ed5"
   end
 
   depends_on "openssl@1.1"
+
+  uses_from_macos "libxcrypt"
 
   conflicts_with "expect", because: "both install an `mkpasswd` binary"
   conflicts_with "ircd-irc2", because: "both install an `ircd` binary"

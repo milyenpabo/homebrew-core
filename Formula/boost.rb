@@ -1,8 +1,8 @@
 class Boost < Formula
   desc "Collection of portable C++ source libraries"
   homepage "https://www.boost.org/"
-  url "https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2"
-  sha256 "8681f175d4bdb26c52222665793eef08490d7758529330f98d3b29dd0735bccc"
+  url "https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2"
+  sha256 "475d589d51a7f8b3ba2ba4eda022b170e562ca3b760ee922c146b6c65856ef39"
   license "BSL-1.0"
   revision 1
   head "https://github.com/boostorg/boost.git", branch: "master"
@@ -16,25 +16,20 @@ class Boost < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "8962db038baeee22886c3fccf32a73dbc117bf0098e1d576e3265e5b6d3b0545"
-    sha256 cellar: :any,                 arm64_big_sur:  "31006195d59197469fef527827c8e0dfe75118c01b1c67d268c51052c060ac6a"
-    sha256 cellar: :any,                 monterey:       "d49eb4eb19d29f26499db581585e9bd3a291dbf5804cf4295f3ef5a5beb33979"
-    sha256 cellar: :any,                 big_sur:        "16e54dc0a542bb5ef74e0b7ec6429b59cba202230e37456a623163d9c188cae3"
-    sha256 cellar: :any,                 catalina:       "6793e4c55780b05aaa766a094d1a5ac1d75cb9f4c790724552d454a44b973260"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d5eb8064aa8d4e70e5a36120c0c8959871ace04e478529ec40260b1e69e0767e"
+    sha256 cellar: :any,                 arm64_monterey: "9005c4f4da1a41353a1069797311dd9da6f007cfd9726508d6d7f6d10cc507c5"
+    sha256 cellar: :any,                 arm64_big_sur:  "f6e5027a8f65b955bfdd0ea181aca098cef286f08f5b5c2d532f9ace5fc984b8"
+    sha256 cellar: :any,                 monterey:       "032ce4d7839013bdb1c75de46f07e023f51f65814c79b7eb2c67ee795171ce26"
+    sha256 cellar: :any,                 big_sur:        "a6d93188e8fe85a659fe0fed0f9afbbd22a049f022825e98ea30acc9b9c2dc40"
+    sha256 cellar: :any,                 catalina:       "90bf24b4c813df7af152cb9de6f8b390093a2582aa403472cbb2beeecb05c7d4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9f79b77d14b09ee25c73a2b13fae6c583d748f8abd5f19f3b2043eddf52cd8c9"
   end
 
   depends_on "icu4c"
+  depends_on "xz"
+  depends_on "zstd"
 
   uses_from_macos "bzip2"
   uses_from_macos "zlib"
-
-  # Fix some library installations being skipped in some cases.
-  # Remove with the next release.
-  patch do
-    url "https://www.boost.org/patches/1_78_0/0001-b2-fix-install.patch"
-    sha256 "71e5b96e72e534670043e0fa7743fd34671715e21c3ddb41908a3da284a8920a"
-  end
 
   def install
     # Force boost to compile with the desired compiler
@@ -71,8 +66,6 @@ class Boost < Formula
       -j#{ENV.make_jobs}
       --layout=tagged-1.66
       --user-config=user-config.jam
-      -sNO_LZMA=1
-      -sNO_ZSTD=1
       install
       threading=multi,single
       link=shared,static
@@ -91,10 +84,19 @@ class Boost < Formula
   test do
     (testpath/"test.cpp").write <<~EOS
       #include <boost/algorithm/string.hpp>
+      #include <boost/iostreams/device/array.hpp>
+      #include <boost/iostreams/device/back_inserter.hpp>
+      #include <boost/iostreams/filter/zstd.hpp>
+      #include <boost/iostreams/filtering_stream.hpp>
+      #include <boost/iostreams/stream.hpp>
+
       #include <string>
+      #include <iostream>
       #include <vector>
       #include <assert.h>
+
       using namespace boost::algorithm;
+      using namespace boost::iostreams;
       using namespace std;
 
       int main()
@@ -105,10 +107,30 @@ class Boost < Formula
         assert(strVec.size()==2);
         assert(strVec[0]=="a");
         assert(strVec[1]=="b");
+
+        // Test boost::iostreams::zstd_compressor() linking
+        std::vector<char> v;
+        back_insert_device<std::vector<char>> snk{v};
+        filtering_ostream os;
+        os.push(zstd_compressor());
+        os.push(snk);
+        os << "Boost" << std::flush;
+        os.pop();
+
+        array_source src{v.data(), v.size()};
+        filtering_istream is;
+        is.push(zstd_decompressor());
+        is.push(src);
+        std::string s;
+        is >> s;
+
+        assert(s == "Boost");
+
         return 0;
       }
     EOS
-    system ENV.cxx, "test.cpp", "-std=c++14", "-o", "test"
+    system ENV.cxx, "test.cpp", "-std=c++14", "-o", "test", "-L#{lib}", "-lboost_iostreams",
+                    "-L#{Formula["zstd"].opt_lib}", "-lzstd"
     system "./test"
   end
 end

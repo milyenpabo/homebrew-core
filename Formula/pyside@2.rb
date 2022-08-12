@@ -4,14 +4,15 @@ class PysideAT2 < Formula
   url "https://download.qt.io/official_releases/QtForPython/pyside2/PySide2-5.15.5-src/pyside-setup-opensource-src-5.15.5.tar.xz"
   sha256 "3920a4fb353300260c9bc46ff70f1fb975c5e7efa22e9d51222588928ce19b33"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-3.0-only"]
+  revision 2
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "9981b3c216053460da40f7e9e05410159ddde34eb1f98a8387cae76e89020d8a"
-    sha256 cellar: :any,                 arm64_big_sur:  "ee5a173573f466856605fa20407f90d1865a09941d791f9562acc630792dcbf9"
-    sha256 cellar: :any,                 monterey:       "b635a0bd7b231c92eb1523e05945c6eb9fa03433a6245d81626bd12ccf89c78f"
-    sha256 cellar: :any,                 big_sur:        "945f792656265d19ed410ea57be8484190794f0b44cae51efd82261dd2bbf9c1"
-    sha256 cellar: :any,                 catalina:       "0dffb5bc45842350e82847d56e06c95d8d9b5b85b5e00bd2dae626589207cade"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "de4b9c0b559acfe32afb5fe7f51cdd7ba50a5811dba69d235c12a21dd2d05ccf"
+    sha256 cellar: :any,                 arm64_monterey: "bb63893e4d24dd37ef7a89670c453594655be3cc317a64ddcd3566af00225ff0"
+    sha256 cellar: :any,                 arm64_big_sur:  "c82d355cae1bdbdb0fecb4dc7f3f3d84106f7c408397c10111c96c1676562f42"
+    sha256 cellar: :any,                 monterey:       "d917186f4b00f32829bfe91021a62df99210babc71d1bd7044fe547e393dfcb5"
+    sha256 cellar: :any,                 big_sur:        "2fad23020fb67a16912d8d736c56531eab4ec04bad2018ae8f93b750af8e84c5"
+    sha256 cellar: :any,                 catalina:       "a9b8e595d66326276456bc19f577b3e431accdea286f8d3363cc9e4fbd1f7cd4"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c6ffe08b20ee437a8f6c229595eaf44d472a96eaa7ede50348f7a07f2cbafb9e"
   end
 
   keg_only :versioned_formula
@@ -38,20 +39,26 @@ class PysideAT2 < Formula
   end
 
   def install
-    # upstream issue: https://bugreports.qt.io/browse/PYSIDE-1684
-    unless OS.mac?
+    rpaths = if OS.mac?
+      site_packages = Language::Python.site_packages("python3")
+      prefix_relative_path = prefix.relative_path_from(prefix/site_packages/"PySide2")
+      [rpath, "@loader_path/#{prefix_relative_path}/lib"]
+    else
+      # Add missing include dirs on Linux.
+      # upstream issue: https://bugreports.qt.io/browse/PYSIDE-1684
       extra_include_dirs = [Formula["mesa"].opt_include, Formula["libxcb"].opt_include]
-
       inreplace "sources/pyside2/cmake/Macros/PySideModules.cmake",
                 "--include-paths=${shiboken_include_dirs}",
                 "--include-paths=${shiboken_include_dirs}:#{extra_include_dirs.join(":")}"
+      # Add rpath to qt@5 because it is keg-only.
+      [lib, Formula["qt@5"].opt_lib]
     end
 
     args = std_cmake_args + %W[
       -DCMAKE_CXX_COMPILER=#{ENV.cxx}
       -DCMAKE_PREFIX_PATH=#{Formula["qt@5"].opt_lib}
       -DPYTHON_EXECUTABLE=#{Formula["python@3.10"].opt_bin}/python3
-      -DCMAKE_INSTALL_RPATH=#{lib}
+      -DCMAKE_INSTALL_RPATH=#{rpaths.join(";")}
       -DFORCE_LIMITED_API=yes
     ]
 

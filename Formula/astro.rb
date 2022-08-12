@@ -1,17 +1,23 @@
 class Astro < Formula
   desc "To build and run Airflow DAGs locally and interact with the Astronomer API"
   homepage "https://www.astronomer.io/"
-  url "https://github.com/astronomer/astro-cli/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "7d5faf13c69e5699a87c9ada2d39dd25aa2b5693b4f6d06a02d2e6430bea23a1"
+  url "https://github.com/astronomer/astro-cli/archive/refs/tags/v1.3.0.tar.gz"
+  sha256 "349d1411950d323de0e5af166444c0abdab77ba22bf5c7a3749cc277ab4791d9"
   license "Apache-2.0"
+  revision 1
+
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "a3f7407131ce8b82fe8bfd53c9d422d01166cd38a35f37fb11fab0efb9a5cb82"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a3f7407131ce8b82fe8bfd53c9d422d01166cd38a35f37fb11fab0efb9a5cb82"
-    sha256 cellar: :any_skip_relocation, monterey:       "0da2d1a5a69eb348f7c6a2d35290c0726e6091d72b32c4b2aeb135a037a30e85"
-    sha256 cellar: :any_skip_relocation, big_sur:        "0da2d1a5a69eb348f7c6a2d35290c0726e6091d72b32c4b2aeb135a037a30e85"
-    sha256 cellar: :any_skip_relocation, catalina:       "0da2d1a5a69eb348f7c6a2d35290c0726e6091d72b32c4b2aeb135a037a30e85"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0fd2b1312ba4e8805689b81d96813e6cc70cba710f86ac3cea3bf39da31af10e"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "74ec9fbecb9bbf6996b889ca7f89ef1b3bac2dd6e5d8245d34cef6a979608f90"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "74ec9fbecb9bbf6996b889ca7f89ef1b3bac2dd6e5d8245d34cef6a979608f90"
+    sha256 cellar: :any_skip_relocation, monterey:       "300cae06021b8612c5dcac17a5d8be75c5bd05883f10e98a8bed113be9714d2f"
+    sha256 cellar: :any_skip_relocation, big_sur:        "300cae06021b8612c5dcac17a5d8be75c5bd05883f10e98a8bed113be9714d2f"
+    sha256 cellar: :any_skip_relocation, catalina:       "300cae06021b8612c5dcac17a5d8be75c5bd05883f10e98a8bed113be9714d2f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2d333e64d37ceb27c459ccfccc4fb3644a96d07e4b29c7114036e27b440750ac"
   end
 
   depends_on "go" => :build

@@ -1,20 +1,20 @@
 class ApacheArrow < Formula
   desc "Columnar in-memory analytics layer designed to accelerate big data"
   homepage "https://arrow.apache.org/"
-  url "https://www.apache.org/dyn/closer.lua?path=arrow/arrow-8.0.0/apache-arrow-8.0.0.tar.gz"
-  mirror "https://archive.apache.org/dist/arrow/arrow-8.0.0/apache-arrow-8.0.0.tar.gz"
-  sha256 "ad9a05705117c989c116bae9ac70492fe015050e1b80fb0e38fde4b5d863aaa3"
+  url "https://www.apache.org/dyn/closer.lua?path=arrow/arrow-9.0.0/apache-arrow-9.0.0.tar.gz"
+  mirror "https://archive.apache.org/dist/arrow/arrow-9.0.0/apache-arrow-9.0.0.tar.gz"
+  sha256 "a9a033f0a3490289998f458680d19579cf07911717ba65afde6cb80070f7a9b5"
   license "Apache-2.0"
-  revision 3
+  revision 1
   head "https://github.com/apache/arrow.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "9b6f48035bbe6ea33fdc75d0a91f517a8ed65fdbc7d4e34bd6a585f0d2d31c72"
-    sha256 cellar: :any,                 arm64_big_sur:  "4d08e93b0d09f4d9e5889cb87b3d88fdca6d81afbf065d1cffb2f8fd9001487f"
-    sha256 cellar: :any,                 monterey:       "b5b697f4e1993670349eeaaa385c69163cac41a2d302ad6751d238cd08973b64"
-    sha256 cellar: :any,                 big_sur:        "12e0ab680da45e6d020ffdac13ec7fdefbd37f06df4e27475c283ab219d6b87e"
-    sha256 cellar: :any,                 catalina:       "be7683ffe24c4f507cedc658119d91a473be321df61e3d9551c0b3ac2f3a39ce"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7682fb3cebe993572640b8a20af4c00d654688859a91d2d6ca9cb4b2544160d1"
+    sha256 cellar: :any,                 arm64_monterey: "675bdb42b4308c62dd1056d91001ac65f067e113af1d28710690e3e83ec627b1"
+    sha256 cellar: :any,                 arm64_big_sur:  "b945b8f87968cd0de97bcf0cc580e44d811d154f4233433d9222bbe0bfb161c2"
+    sha256 cellar: :any,                 monterey:       "dc5e96f97bb3b302a2093681d97d15a9fb6a72634dc14de65b14843767508d62"
+    sha256 cellar: :any,                 big_sur:        "d585365986b70606cbd7ecb73645b3e1e657bad8b7f0a7a8e0397f82e1ba2125"
+    sha256 cellar: :any,                 catalina:       "e8c85a7367051336338f220c9c1a9f07f391b88c3cc8ec7ce6dd46692c860d09"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3e9c1cf39650817b1ccb51c2af9de7c57f6ad4bebccb85d8e6afb9a7e08eedff"
   end
 
   depends_on "boost" => :build
@@ -77,11 +77,9 @@ class ApacheArrow < Formula
 
     args << "-DARROW_MIMALLOC=ON" unless Hardware::CPU.arm?
 
-    mkdir "build" do
-      system "cmake", "../cpp", *std_cmake_args, *args
-      system "make"
-      system "make", "install"
-    end
+    system "cmake", "-S", "cpp", "-B", "build", *std_cmake_args, *args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do

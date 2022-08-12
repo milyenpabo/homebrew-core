@@ -1,17 +1,17 @@
 class Nghttp2 < Formula
   desc "HTTP/2 C Library"
   homepage "https://nghttp2.org/"
-  url "https://github.com/nghttp2/nghttp2/releases/download/v1.47.0/nghttp2-1.47.0.tar.gz"
-  sha256 "62f50f0e9fc479e48b34e1526df8dd2e94136de4c426b7680048181606832b7c"
+  url "https://github.com/nghttp2/nghttp2/releases/download/v1.48.0/nghttp2-1.48.0.tar.gz"
+  sha256 "66d4036f9197bbe3caba9c2626c4565b92662b3375583be28ef136d62b092998"
   license "MIT"
 
   bottle do
-    sha256 arm64_monterey: "abe5c740388c37a7157150056054a84658de7d822e8686463a8f47716232417c"
-    sha256 arm64_big_sur:  "99d7e332e396d9b3058c18d8a94c854864ef64201ff9748dad0a4051356f3c17"
-    sha256 monterey:       "b99ff44001abfa58b109928627cb4a2214a11a2415d2ca0c49a0601e4d346664"
-    sha256 big_sur:        "4a5aa98db8472b7aaf97d0646f7a3550bf12ae28aaf45c9c1c1470b9a49c0528"
-    sha256 catalina:       "132ba73b92472714c358b650ef668039b3219df92fd574e93753a23a6b93ccb9"
-    sha256 x86_64_linux:   "a74b684df8a7ad4d908e65d63013a606832c0d20a1793bc6b25d97b8cdaff00d"
+    sha256 arm64_monterey: "8cb8572b8604fb7853e326d101d2c3b73edb39848283b5eb395b464e0ecb2682"
+    sha256 arm64_big_sur:  "d88fb101954a241441f10d8bf3070d56bb1bf93c0cf13e8a3ffefa5d5ba3d737"
+    sha256 monterey:       "5c7085f6873d423bdadf6cf67b41d10d9fd4e247b2746a65625380956305c1fa"
+    sha256 big_sur:        "ccbeaa80fb930a4818f192f22d886b99933d5f638246696d9c7d54d3990e97d8"
+    sha256 catalina:       "f7ab5fca18a41864eed3d5e4b0aec5d91e4cb7b44bbcda96d257055d2bfc8ba3"
+    sha256 x86_64_linux:   "4109b31cf9fa99a29fa49f4ae2208b6853eac48d4c2a269f38ca468d563466bf"
   end
 
   head do
@@ -32,11 +32,11 @@ class Nghttp2 < Formula
   uses_from_macos "libxml2"
   uses_from_macos "zlib"
 
-  on_linux do
-    # Fix: shrpx_api_downstream_connection.cc:57:3: error:
-    # array must be initialized with a brace-enclosed initializer
-    # https://github.com/nghttp2/nghttp2/pull/1269
-    patch do
+  # Fix: shrpx_api_downstream_connection.cc:57:3: error:
+  # array must be initialized with a brace-enclosed initializer
+  # https://github.com/nghttp2/nghttp2/pull/1269
+  patch do
+    on_linux do
       url "https://github.com/nghttp2/nghttp2/commit/829258e7038fe7eff849677f1ccaeca3e704eb67.patch?full_index=1"
       sha256 "c4bcf5cf73d5305fc479206676027533bb06d4ff2840eb672f6265ba3239031e"
     end

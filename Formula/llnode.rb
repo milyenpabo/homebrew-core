@@ -18,12 +18,11 @@ class Llnode < Formula
   end
 
   depends_on "node" => :build
-  depends_on "python@3.9" => :build
 
   uses_from_macos "llvm"
 
-  on_macos do
-    resource "lldb" do
+  resource "lldb" do
+    on_macos do
       if DevelopmentTools.clang_build_version >= 1000
         # lldb release_60 branch tip of tree commit from 10 Apr 2018
         url "https://github.com/llvm-mirror/lldb.git",
@@ -49,8 +48,8 @@ class Llnode < Formula
     end
   end
 
-  on_linux do
-    resource "lldb" do
+  resource "lldb" do
+    on_linux do
       # lldb release_60 branch tip of tree commit from 10 Apr 2018
       url "https://github.com/llvm-mirror/lldb.git",
           revision: "b6df24ff1b258b18041161b8f32ac316a3b5d8d9"
@@ -58,7 +57,7 @@ class Llnode < Formula
   end
 
   def install
-    ENV.append_path "PATH", "#{Formula["node"].libexec}/lib/node_modules/npm/node_modules/node-gyp/bin"
+    ENV.append_path "PATH", Formula["node"].libexec/"lib/node_modules/npm/node_modules/node-gyp/bin"
     inreplace "Makefile", "node-gyp", "node-gyp.js"
 
     # Make sure the buildsystem doesn't try to download its own copy

@@ -1,18 +1,18 @@
 class Livekit < Formula
   desc "Scalable, high-performance WebRTC server"
   homepage "https://livekit.io"
-  url "https://github.com/livekit/livekit/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "acc55775cca1648940706842ace7d453dd71d301689c4f368bf8467ee1460507"
+  url "https://github.com/livekit/livekit/archive/refs/tags/v1.1.2.tar.gz"
+  sha256 "56da723907287d8cf93d39f70c2ca0de7f70d74658eb8d2d6fe0c56ae54e30fd"
   license "Apache-2.0"
   head "https://github.com/livekit/livekit.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "5feb30eaef0369127df6d002636da9db721402c90eb32dc36d0b4b5569bd80fa"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "15ebddc4cc04f7fed63d3b2520bf7d07b60b08be7a8b04756f4cbd52d07cde28"
-    sha256 cellar: :any_skip_relocation, monterey:       "42b1c1ed92d592954ddf46c6d223ce2a204e2aa0c2168d68bd8106c5347c3c3a"
-    sha256 cellar: :any_skip_relocation, big_sur:        "5bb450978ba3093659f72bcf9dc42caf337e9aee02626dc56bbc44c5c4efb079"
-    sha256 cellar: :any_skip_relocation, catalina:       "50606d2485d670a2aac91651e4c61272da918f86628ad2775c3b0fca3f689dd2"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "26b693bff394c1f3526b18a59755d14ea720ae758539ea96f002bd7108682807"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5d6964f136b42a0be292f52038bd5a489e5aaa7f77840ddff658827a7a6bef26"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "108935eaf2a965f36ca25747a0a664dff5ad6bcd601511a88c572e48091cb597"
+    sha256 cellar: :any_skip_relocation, monterey:       "ee37ae1da861d2cc921d2783aa9fb0db699f349011d2beefdbdadc5687131774"
+    sha256 cellar: :any_skip_relocation, big_sur:        "3df1ed2c4b285d8d8422432f0bf9f15031dcdca07c34c0cb2a1ba0ef02a7fc4a"
+    sha256 cellar: :any_skip_relocation, catalina:       "8628675d413ed5339f6cb9437208aa1de1c00e46d0e5ef00c1f959f9be34b7e2"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ebbd3ce822fac187232cdf7fd99f9ef5d1e16323f54ca9e00a079fc2d065029a"
   end
 
   depends_on "go" => :build

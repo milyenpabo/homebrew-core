@@ -1,18 +1,18 @@
 class Fzf < Formula
   desc "Command-line fuzzy finder written in Go"
   homepage "https://github.com/junegunn/fzf"
-  url "https://github.com/junegunn/fzf/archive/0.30.0.tar.gz"
-  sha256 "a3428f510b7136e39104a002f19b2e563090496cb5205fa2e4c5967d34a20124"
+  url "https://github.com/junegunn/fzf/archive/0.32.1.tar.gz"
+  sha256 "c7afef61553b3b3e4e02819c5d560fa4acf33ecb39829aeba392c2e05457ca6a"
   license "MIT"
   head "https://github.com/junegunn/fzf.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "cacbafa676ef1fea2fe91bad2e3ae6d2c05be3955a50ae58e5e30f57f131be97"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "cacbafa676ef1fea2fe91bad2e3ae6d2c05be3955a50ae58e5e30f57f131be97"
-    sha256 cellar: :any_skip_relocation, monterey:       "08b9ea78a577ffcc3f5d136014f3e15ade8d3e25097252d52edfe0ff61c887cc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "08b9ea78a577ffcc3f5d136014f3e15ade8d3e25097252d52edfe0ff61c887cc"
-    sha256 cellar: :any_skip_relocation, catalina:       "08b9ea78a577ffcc3f5d136014f3e15ade8d3e25097252d52edfe0ff61c887cc"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "52f6a4d95f0dcd3707ab2327bf405a8e50be9e974a21e645bead11dc1cb7bd2c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "475d6e470c916d77c2e41d5a6684e2d8152b541a992eeb9b7a979a28d71b86c4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "475d6e470c916d77c2e41d5a6684e2d8152b541a992eeb9b7a979a28d71b86c4"
+    sha256 cellar: :any_skip_relocation, monterey:       "1159c0ae09118f29f568c854a654ac6004456bf747c19a7df8062ed4a41229e7"
+    sha256 cellar: :any_skip_relocation, big_sur:        "1159c0ae09118f29f568c854a654ac6004456bf747c19a7df8062ed4a41229e7"
+    sha256 cellar: :any_skip_relocation, catalina:       "1159c0ae09118f29f568c854a654ac6004456bf747c19a7df8062ed4a41229e7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4c8ae9c530d8f4e44061f13886be6249b0a2b4bbb399ebab12b126ba4a76e3c0"
   end
 
   depends_on "go" => :build

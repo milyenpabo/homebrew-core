@@ -4,8 +4,8 @@ class Mavsdk < Formula
   desc "API and library for MAVLink compatible systems written in C++17"
   homepage "https://mavsdk.mavlink.io"
   url "https://github.com/mavlink/MAVSDK.git",
-      tag:      "v1.4.3",
-      revision: "2d2d85c60123c7d071b1bf50354fc6c06c12115b"
+      tag:      "v1.4.4",
+      revision: "8b974d8df8fe3cec60ec14c5d9380c8984b6813e"
   license "BSD-3-Clause"
   revision 1
 
@@ -15,16 +15,16 @@ class Mavsdk < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "0af6b95cbcdb86572fa39c5f5c2c4f4bf97ad2189c218e0ef706d13796ba13f8"
-    sha256 cellar: :any,                 arm64_big_sur:  "85945afd4d8fd569b2d5b493e2095b15379fd94fc5d0b475f0bd0716a670051e"
-    sha256 cellar: :any,                 monterey:       "533c8c7eeb042ab1b78696b9e034d31062a319e9cd8363c2a782b28c76f42277"
-    sha256 cellar: :any,                 big_sur:        "e26e1fdce5c73e9b64c145808069932406f32402f12e239de3386d39a90ad20a"
-    sha256 cellar: :any,                 catalina:       "4dc8552a887f73f69789eb4d97bcee296962026268500e67bef58ddd23abe67b"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0e7f934d1bad357c35775f999af3d59ad42dfe290652c4c03267a24c619a38b3"
+    sha256 cellar: :any,                 arm64_monterey: "143931f0fe09f1a01aa66ac3746e0406e0a74337898900f8dcffc8d6db23b987"
+    sha256 cellar: :any,                 arm64_big_sur:  "8097490b2a8a01c4cafd13c5b343b0915daf032e4c004f74e519f94da2e3ef1c"
+    sha256 cellar: :any,                 monterey:       "3e70dea3dd62977959c892c59918a3536e74a6e22380d3f9e2aaabff199b3264"
+    sha256 cellar: :any,                 big_sur:        "330b7571af830f525d75b7a113a50402a40bb914a0d5eb1224e1df65ad17345f"
+    sha256 cellar: :any,                 catalina:       "1c1bb11989aa12df7fda06e3ce2120c875cb116f1a3b39e8eb215ff4a0e23b91"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4f9b6c397af30c42f8c8148d25d7f58ce9fc2219caa4f5ae67e2debc31b5d5b1"
   end
 
   depends_on "cmake" => :build
-  depends_on "python@3.9" => :build
+  depends_on "python@3.10" => :build
   depends_on "six" => :build
   depends_on "abseil"
   depends_on "c-ares"

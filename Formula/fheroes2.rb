@@ -1,8 +1,8 @@
 class Fheroes2 < Formula
   desc "Free Heroes of Might and Magic II is a recreation of HoMM2 game engine"
   homepage "https://ihhub.github.io/fheroes2/"
-  url "https://github.com/ihhub/fheroes2/archive/0.9.16.tar.gz"
-  sha256 "43288a2b5714d5b5704704ca22d7fd32391271316d217d49e235dee202042cc3"
+  url "https://github.com/ihhub/fheroes2/archive/0.9.18.tar.gz"
+  sha256 "bcd9afce7b869630f97cfdb713668f0f7dccf69fc6b31db1ca74ac2f63524a8d"
   license "GPL-2.0-or-later"
   head "https://github.com/ihhub/fheroes2.git", branch: "master"
 
@@ -12,12 +12,12 @@ class Fheroes2 < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "b28fa3abd45ce66e15c65dc74effc24243ea5daa722b2b976e3fb490d96cc1dd"
-    sha256 arm64_big_sur:  "8adfa7329fdc1ee334c26f43ac0b6b98d56e5d26970683a3c257e84123f9ff7c"
-    sha256 monterey:       "de56917b8a156dc35d9d851feed7294e1c73b5fc0e8df13c9384b867b4435fac"
-    sha256 big_sur:        "a4d09914a168010dde809b858714596ed596a0e2b24b169ee7f0c93945f57e17"
-    sha256 catalina:       "7d58b867efd381b1cf953202b2727771802e2452c696892cb47f6c92e6c3d297"
-    sha256 x86_64_linux:   "b700110290beb1fd28eaa38c7aee4cab1bf121769b823d540d494553828bd599"
+    sha256 arm64_monterey: "69c9a533f239193b06146dfe4b0b008626a6388bff4b31347b2ebc31360a7962"
+    sha256 arm64_big_sur:  "f0f7fcb57b6f09209431a7dfc8ee92c184a39a22e9e8f99a7d4ce92222b725b0"
+    sha256 monterey:       "9a8ceb085dfdcf9b469dfd04df2c8e6ea7ed6f2083606495bc20dc898cf39c54"
+    sha256 big_sur:        "85edf07788903707cb4fe5f8573c02018342c799371b4d5469b0f314c35d1578"
+    sha256 catalina:       "fdc9cab4c43d028d34e1339812c9803d4db3629c1950460e79215c97d6fbe568"
+    sha256 x86_64_linux:   "c28595b79336768b8bbc419b4161fb732263ae416f4c827c4f31797f36db8917"
   end
 
   depends_on "cmake" => :build

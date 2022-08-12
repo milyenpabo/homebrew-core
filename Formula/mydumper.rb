@@ -1,17 +1,17 @@
 class Mydumper < Formula
   desc "How MySQL DBA & support engineer would imagine 'mysqldump' ;-)"
   homepage "https://launchpad.net/mydumper"
-  url "https://github.com/mydumper/mydumper/archive/v0.12.3-3.tar.gz"
-  sha256 "8c7e3b44f5f4840188b1c32d50e82cdba6c8c735076930b02d1e33581e8447d9"
+  url "https://github.com/mydumper/mydumper/archive/v0.12.5-3.tar.gz"
+  sha256 "2fc5af9643a27eaca0a2ab37ba11ccac4d82f20bd8a9c14c886961453aafdf24"
   license "GPL-3.0-or-later"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "0c0d9517cb9f8655dbbf52a5f4edf6962a57f2d242137f195cc98b7f091e0efd"
-    sha256 cellar: :any,                 arm64_big_sur:  "edfb911145782465dd34b447623f24ec77e71050bced091d19fc8adf410cf374"
-    sha256 cellar: :any,                 monterey:       "c1c7583669ec8ccb5989c1dd4e06ebe36cf5d561b50e89b27a3a9defd930d28a"
-    sha256 cellar: :any,                 big_sur:        "f7b9bb7fa6bb9c5f19df1d4d627344da487725bbfff59d8e6cd56b3be3c01b17"
-    sha256 cellar: :any,                 catalina:       "7272a11e00cb105f0a0851e3108885f8e0aca661d8150f2806755c9d6f59967f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4266b7209ccb1255c72ffc20f7b0f8ed20921cf921dd1a9c9e80669c2c9963f1"
+    sha256 cellar: :any,                 arm64_monterey: "e5599dca1e1ab5f7f591c8f6e3e286561065925c8413df446c1a497c34e3fa31"
+    sha256 cellar: :any,                 arm64_big_sur:  "02678d600f5e9f5b61c97f86257b17bd4ffeb16036b1f7018fbb14a09d506aee"
+    sha256 cellar: :any,                 monterey:       "5abc3e7f947d591430d659bf00126e37e6ab10865e25102dc3e64d71814eaa5a"
+    sha256 cellar: :any,                 big_sur:        "38c194f3ee2c16d038ad3f8d0201941d88ad31aa17b9003623b9e4a652fbcab3"
+    sha256 cellar: :any,                 catalina:       "d596ebed1de4da2c66302bf26edfbafae0154bfd911b5909d142e12469f80eb5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f348f0a1ab90a7579da2ae42482b2013bdee1e859d7e690283216a7809ac62b7"
   end
 
   depends_on "cmake" => :build

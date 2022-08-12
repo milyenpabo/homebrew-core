@@ -1,18 +1,18 @@
 class Deno < Formula
   desc "Secure runtime for JavaScript and TypeScript"
   homepage "https://deno.land/"
-  url "https://github.com/denoland/deno/releases/download/v1.23.1/deno_src.tar.gz"
-  sha256 "619169f952f1730870a7d1039bf3d65f030f520f5a7d2f50673fd1899ceeace7"
+  url "https://github.com/denoland/deno/releases/download/v1.24.3/deno_src.tar.gz"
+  sha256 "92d8e03dc3a76d13cc3f4853e82d68e3d96f6b9c877616cbdf8edd429be95821"
   license "MIT"
   head "https://github.com/denoland/deno.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "1126e201002ebabee1769a4e98986d23eda4d842a463a22568fdfe9f4c92b738"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "135c10c4b90153ec0a89a77c67dae8e56fd8a7b7500b4bbcbbe4e22ff61c2562"
-    sha256 cellar: :any_skip_relocation, monterey:       "e47f4c471212d0ff02454491d6b801d58fc5a4274a5c178d4282db201c6db1e7"
-    sha256 cellar: :any_skip_relocation, big_sur:        "093139cbc459d4bd438942e280a272eea5ae59678314eece7ad4f51a2b4e9b6f"
-    sha256 cellar: :any_skip_relocation, catalina:       "069ec0823a4de7fdbf664330cec38dac40adf2a2681f0b079b037f7151e49cad"
-    sha256                               x86_64_linux:   "4cfe1c3b06e6b6e1c5911eb6f0d7550d388bcd98eae5a08d83fa55d5298acff6"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "746720025d43c2c7a7f5ed52886d69b1e37159029afc8a96a270bfc934fe47b1"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b09001abe126d75b69575adb20e820c0b863d51b8f1607c4b6d023dbb061bd63"
+    sha256 cellar: :any_skip_relocation, monterey:       "f6b5dff6bf37a6df659aed68d90b207d18a2c9f1b6167effb52fe83420c5794b"
+    sha256 cellar: :any_skip_relocation, big_sur:        "45d7017bf5276d0547b4e2907a940a81f63509233dd49bbfd0622bb9f8fc81d6"
+    sha256 cellar: :any_skip_relocation, catalina:       "021ceff6a4d81ac969d9712da8697c3b9198bd1c15a3717ab41ae42b25c9eab0"
+    sha256                               x86_64_linux:   "c1921216c746d104b55fec0187c2090e649e86c399f7c8ae56d9d82aa56b4a41"
   end
 
   depends_on "llvm" => :build
@@ -34,10 +34,10 @@ class Deno < Formula
     # Temporary v8 resource to work around build failure due to missing MFD_CLOEXEC in Homebrew's glibc.
     # We use the crate as GitHub tarball lacks submodules and this allows us to avoid git overhead.
     # TODO: Remove when deno's v8 is on 10.5.x, a backport/patch is added, or Homebrew uses a newer glibc.
-    # Ref: https://chromium.googlesource.com/v8/v8.git/+/8fdb91cdb80ae0dd0223c0d065f724e480c5e0db
+    # Ref: https://chromium.googlesource.com/v8/v8.git/+/3d67ad243ce92b9fb162cc85da1dc1a0ebe4c78b
     resource "v8" do
-      url "https://static.crates.io/crates/v8/v8-0.44.2.crate"
-      sha256 "5ee18f5327bc32aeacce7027886683f4f9bd06ee2a17db17860bf0ab008a4013"
+      url "https://static.crates.io/crates/v8/v8-0.47.1.crate"
+      sha256 "be156dece7a023d5959a72dc0d398d6c95100ec601a2cea10d868da143e85166"
     end
   end
 
@@ -51,6 +51,13 @@ class Deno < Formula
   resource "gn" do
     url "https://gn.googlesource.com/gn.git",
         revision: "bf4e17dc67b2a2007475415e3f9e1d1cf32f6e35"
+  end
+
+  # To find the version of tinycc used, check the commit hash referenced from
+  # https://github.com/denoland/deno/tree/v#{version}/ext/ffi
+  resource "tinycc" do
+    url "https://github.com/TinyCC/tinycc.git",
+        revision: "afc136262e93ae85fb3643005b36dbfc30d99c42"
   end
 
   def install
@@ -72,7 +79,7 @@ class Deno < Formula
         EOS
       end
       inreplace %w[core/Cargo.toml serde_v8/Cargo.toml],
-                /^v8 = ("[\d.]+")$/,
+                /^v8 = { version = ("[\d.]+"),.*}$/,
                 "v8 = { version = \\1, path = \"../v8\" }"
     end
 
@@ -97,6 +104,15 @@ class Deno < Formula
       system "python3", "build/gen.py"
       system "ninja", "-C", "out"
     end
+
+    resource("tinycc").stage buildpath/"tinycc"
+    cd "tinycc" do
+      ENV.append_to_cflags "-fPIE" if OS.linux?
+      system "./configure", "--cc=#{ENV.cc}"
+      system "make"
+    end
+
+    ENV["TCC_PATH"] = buildpath/"tinycc"
 
     # cargo seems to build rusty_v8 twice in parallel, which causes problems,
     # hence the need for -j1

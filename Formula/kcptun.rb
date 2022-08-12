@@ -1,29 +1,26 @@
 class Kcptun < Formula
   desc "Stable & Secure Tunnel based on KCP with N:M multiplexing and FEC"
   homepage "https://github.com/xtaci/kcptun"
-  url "https://github.com/xtaci/kcptun/archive/v20210922.tar.gz"
-  sha256 "f6a08f0fe75fa85d15f9c0c28182c69a5ad909229b4c230a8cbe38f91ba2d038"
+  url "https://github.com/xtaci/kcptun/archive/refs/tags/v20220628.tar.gz"
+  sha256 "6a63facc902594b4ca5f0456e58196cf7b2a2451594fe2f69b55ac712ceb85e8"
   license "MIT"
   head "https://github.com/xtaci/kcptun.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "cd7100a62dee2ca46b25ebd4fccf13d4db334720447d4c9258b8ba5df97ae8c0"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "c97a883e2048b359e651f507f30253737d2321e4fc1a395d974cc77393e0fe6e"
-    sha256 cellar: :any_skip_relocation, monterey:       "6e452d0353373527bc2f8e3d775dc334d08e378526c78bf5ffdef76de296f953"
-    sha256 cellar: :any_skip_relocation, big_sur:        "1ad1270e0bba0a7dc12310895df5d16387fe419368e6cfc6a374d818f9c1678b"
-    sha256 cellar: :any_skip_relocation, catalina:       "445130c0d80589759e05859e2e999335eed7a00a845709c659432c54773d3a35"
-    sha256 cellar: :any_skip_relocation, mojave:         "d2b5d0001b6afed4dcf1804930bc47a8b3df26e75717e18319e38c2b9ebba890"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d5d892ce0ccf516f9252e9f09eaa56896021a12ea4d14003d69dabc7559a4467"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "0a269ec094e338840116353641cee0e37c93ec85b40da65135247a5027d01107"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2b82b98e079b22abdc95a39e91cc2787dbea777f0a36100e5e857f5744a6b67b"
+    sha256 cellar: :any_skip_relocation, monterey:       "063b0a831a47d7533c7a95871d1f781e729c2cd265dafe165f433885792b5b91"
+    sha256 cellar: :any_skip_relocation, big_sur:        "35d3cd1de73a1bfd7289601b12cf06accdc49ec7cd63411a12a07fb2cc6d4e86"
+    sha256 cellar: :any_skip_relocation, catalina:       "0dd883fec021d754ec826779102e8117ecf9410cbb9c0bc0c3ea32e09c348030"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "60646454dc1e3e4e52dbceebe760e730597715742bfc6d9858d9465e3a3e7756"
   end
 
-  # Bump to 1.18 on the next release, if possible.
-  depends_on "go@1.17" => :build
+  depends_on "go" => :build
 
   def install
-    system "go", "build", "-ldflags", "-X main.VERSION=#{version} -s -w",
-      "-o", bin/"kcptun_client", "github.com/xtaci/kcptun/client"
-    system "go", "build", "-ldflags", "-X main.VERSION=#{version} -s -w",
-      "-o", bin/"kcptun_server", "github.com/xtaci/kcptun/server"
+    ldflags = "-s -w -X main.VERSION=#{version}"
+    system "go", "build", *std_go_args(ldflags: ldflags, output: bin/"kcptun_client"), "./client"
+    system "go", "build", *std_go_args(ldflags: ldflags, output: bin/"kcptun_server"), "./server"
 
     etc.install "examples/local.json" => "kcptun_client.json"
   end

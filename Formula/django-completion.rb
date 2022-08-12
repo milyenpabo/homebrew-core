@@ -1,8 +1,8 @@
 class DjangoCompletion < Formula
   desc "Bash completion for Django"
   homepage "https://www.djangoproject.com/"
-  url "https://github.com/django/django/archive/4.0.5.tar.gz"
-  sha256 "e57159ff9c21be795947ad1892b81b983ed7b21be6c5841d0ccc3b8ac1e9824b"
+  url "https://github.com/django/django/archive/4.1.tar.gz"
+  sha256 "438269e4a1021bcb67d71345d60c1b56163651a3b00f90dbdbb5d62f4819b87c"
   license "BSD-3-Clause"
   head "https://github.com/django/django.git", branch: "main"
 
@@ -12,7 +12,7 @@ class DjangoCompletion < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "b597e6b0347ac17ab4b7ae1bf73f433324f86585d8f435c41511762fe02f81ee"
+    sha256 cellar: :any_skip_relocation, all: "1b7d5b336b9b358902e030d26d4052fdabd87b1ba0041a1d8fc1bfb64ce53f64"
   end
 
   def install

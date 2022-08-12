@@ -1,18 +1,19 @@
 class Numpy < Formula
   desc "Package for scientific computing with Python"
   homepage "https://www.numpy.org/"
-  url "https://files.pythonhosted.org/packages/03/c6/14a17e10813b8db20d1e800ff9a3a898e65d25f2b0e9d6a94616f1e3362c/numpy-1.23.0.tar.gz"
-  sha256 "bd3fa4fe2e38533d5336e1272fc4e765cabbbde144309ccee8675509d5cd7b05"
+  url "https://files.pythonhosted.org/packages/13/b1/0c22aa7ca1deda4915cdec9562f839546bb252eecf6ad596eaec0592bd35/numpy-1.23.1.tar.gz"
+  sha256 "d748ef349bfef2e1194b59da37ed5a29c19ea8d7e6342019921ba2ba4fd8b624"
   license "BSD-3-Clause"
+  revision 1
   head "https://github.com/numpy/numpy.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any, arm64_monterey: "cf51179a9152c39d2036ea6e2a9c33944a0b9e1a55a09c8999a6bd94bcfed325"
-    sha256 cellar: :any, arm64_big_sur:  "d10b0ebafde43e574c09aa377894e15b3066cce4f8cf1e9a2d7ea122c4b58b01"
-    sha256 cellar: :any, monterey:       "abeabecda36dd3e21eec469dd11baa33fec2427def0faa2d1ea54e95bf3179cb"
-    sha256 cellar: :any, big_sur:        "82485cee2333f0a058edb9a21d0d34da0cb0c05248804154a6c0c174b5227cc5"
-    sha256 cellar: :any, catalina:       "2d14cb676b8fae55b1ae99e7771bc9a357bf2ad9fa841d531070909abfec0966"
-    sha256               x86_64_linux:   "04afd4efc8ba957e6bad7dfb1f56015460d4a7b6188aa196d652679e629c346b"
+    sha256 cellar: :any, arm64_monterey: "786270c62f9b186f40b113a86b812f9e324b79f18662dc4d6f63c8f43114bc35"
+    sha256 cellar: :any, arm64_big_sur:  "8ccb46daa9c60ae684e2a7f3cb94cb4614a1dcbdddb290b8b83e5d4d4ea1105a"
+    sha256 cellar: :any, monterey:       "28b59d14ba8278f274ac7c2728f763e8b97baff751eb64d941b1b2c2e597fccc"
+    sha256 cellar: :any, big_sur:        "ee6ba26e160a73ecb28775b83c21164b0d4f149b1dc89349672b5e4ce191b257"
+    sha256 cellar: :any, catalina:       "11a97f6a647a06a8091cc7dcd23907aa965870fe12506246555fb61c9abf164c"
+    sha256               x86_64_linux:   "b2eaa057ade9bbd53cec9995da0237116dbb6a5a8c9703fb4df954881ca74ff3"
   end
 
   depends_on "gcc" => :build # for gfortran
@@ -25,33 +26,32 @@ class Numpy < Formula
 
   def pythons
     deps.map(&:to_formula)
-        .select { |f| f.name.match?(/python@\d\.\d+/) }
-        .map(&:opt_bin)
-        .map { |bin| bin/"python3" }
+        .select { |f| f.name.match?(/^python@\d\.\d+$/) }
+        .sort_by(&:version) # so that `bin/f2py` and `bin/f2py3` use python3.10
+        .map { |f| f.opt_libexec/"bin/python" }
   end
 
   def install
-    openblas = Formula["openblas"].opt_prefix
+    openblas = Formula["openblas"]
     ENV["ATLAS"] = "None" # avoid linking against Accelerate.framework
-    ENV["BLAS"] = ENV["LAPACK"] = "#{openblas}/lib/#{shared_library("libopenblas")}"
+    ENV["BLAS"] = ENV["LAPACK"] = openblas.opt_lib/shared_library("libopenblas")
 
     config = <<~EOS
       [openblas]
       libraries = openblas
-      library_dirs = #{openblas}/lib
-      include_dirs = #{openblas}/include
+      library_dirs = #{openblas.opt_lib}
+      include_dirs = #{openblas.opt_include}
     EOS
 
     Pathname("site.cfg").write config
 
     pythons.each do |python|
-      xy = Language::Python.major_minor_version python
-      ENV.prepend_create_path "PYTHONPATH", Formula["libcython"].opt_libexec/"lib/python#{xy}/site-packages"
+      site_packages = Language::Python.site_packages(python)
+      ENV.prepend_path "PYTHONPATH", Formula["libcython"].opt_libexec/site_packages
 
-      system python, "setup.py", "build",
-             "--fcompiler=#{Formula["gcc"].opt_bin}/gfortran", "--parallel=#{ENV.make_jobs}"
-      system python, *Language::Python.setup_install_args(prefix),
-                     "--install-lib=#{prefix/Language::Python.site_packages(python)}"
+      system python, "setup.py", "build", "--fcompiler=#{Formula["gcc"].opt_bin}/gfortran",
+                                          "--parallel=#{ENV.make_jobs}"
+      system python, *Language::Python.setup_install_args(prefix, python)
     end
   end
 

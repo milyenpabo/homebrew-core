@@ -1,18 +1,18 @@
 class Broot < Formula
   desc "New way to see and navigate directory trees"
   homepage "https://dystroy.org/broot/"
-  url "https://github.com/Canop/broot/archive/v1.13.3.tar.gz"
-  sha256 "a7f9e98ff1371eff065a8dabbe9e31ef42d264b7d93c18f920d6a5399016da33"
+  url "https://github.com/Canop/broot/archive/v1.14.2.tar.gz"
+  sha256 "992e3b5c2b73a25366bf67ccc8d99a51be9c07c75ec6ea413883dd8a8857c2e4"
   license "MIT"
   head "https://github.com/Canop/broot.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "fd4f0372154e765494f3bef5366ea2ee88c2c77db65d7176fd2d4093eaab685d"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "39170b43706bb7f77791c12e1d90861f266d9bcfeba4676323d72a6665694743"
-    sha256 cellar: :any_skip_relocation, monterey:       "a57a31314f2b3dd0cad112eed17482c36b5016e949c5491ef3f44223293de3e5"
-    sha256 cellar: :any_skip_relocation, big_sur:        "ac048591937849d7a909da9c2c5ee1431864180503520c6d41a11e8abd7080bd"
-    sha256 cellar: :any_skip_relocation, catalina:       "380d2bcc152407341e4733f3885fb0aab0983c5db6c89bb126f16d3ea83f1a15"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dc671fb4e153e05f39b747eead78e8a0f3464663f22b41f50d47c0ca7746256b"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "cd9551fbe5d06f4d8135ab14da388f0ab1b1563f87c0c7664f1daea3a497a1b4"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "64bb766c75a3ec4aef4af35f86fb2889ef8b6e8ffdb7844adb7a99fc051a3298"
+    sha256 cellar: :any_skip_relocation, monterey:       "0a0d2ca68b19d6db4a0ff4d3ef83f3f3b862297401f416c9254053db068b9f3e"
+    sha256 cellar: :any_skip_relocation, big_sur:        "723d031140ee91feabd754ecbdd565e6a80b86174b52aaee0dd84f4a41d9ec09"
+    sha256 cellar: :any_skip_relocation, catalina:       "eeea92683b58ae57ebb6619ac54af620699f23afee6742e7a0569c7050740482"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "12877ce201e9f4fb97e659e44c5cd3c473d5ab65e10f7b7c69dfe2205a02dab0"
   end
 
   depends_on "rust" => :build
@@ -53,7 +53,7 @@ class Broot < Formula
                 err: :out) do |r, w, pid|
       r.winsize = [20, 80] # broot dependency terminal requires width > 2
       w.write "n\r"
-      assert_match "New Configuration file written in", r.read
+      assert_match "New Configuration files written in", r.read
       Process.wait(pid)
     end
     assert_equal 0, $CHILD_STATUS.exitstatus

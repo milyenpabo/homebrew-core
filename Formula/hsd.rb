@@ -3,8 +3,8 @@ require "language/node"
 class Hsd < Formula
   desc "Handshake Daemon & Full Node"
   homepage "https://handshake.org"
-  url "https://github.com/handshake-org/hsd/archive/v4.0.0.tar.gz"
-  sha256 "a5de4a14f99097b97ebaae1b88ac0d222e9455d4e882ab1386f53e36eecb026c"
+  url "https://github.com/handshake-org/hsd/archive/v4.0.2.tar.gz"
+  sha256 "ee58d681491bee90299ea2fa18656ac26fc6aef2bf3e363cb996be5015b06feb"
   license "MIT"
 
   livecheck do
@@ -13,12 +13,12 @@ class Hsd < Formula
   end
 
   bottle do
-    sha256                               arm64_monterey: "14cd2a1cbfef894da9c6dc09a90d4223b0a0da77c6f2b6f93fe3f89a11f550a3"
-    sha256                               arm64_big_sur:  "840be4bd77ad3f70ba6e0d6ebb3522f7379868735c86d05aae6d4be9bc764f9e"
-    sha256                               monterey:       "921e97b08e25de8bc1f253a2f72b96be2e7ba36a0cd0fb23b2f4e1307c6627b7"
-    sha256                               big_sur:        "5a376648781176d3e4f59baae1428345e27839cae03464d391e14c67a662919f"
-    sha256                               catalina:       "3c6a69ba29c654ba062afb73105ea97106c16ca7206883f9a04b4e95b0a3774f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "af72ad309229f1a167eb2ec09fe17d73613f9f93b9c105a0610fad0ebff264c6"
+    sha256                               arm64_monterey: "322295b784df6ecc6d4ed5cae4957589fba6f59662a38467cd7a16465161a7c4"
+    sha256                               arm64_big_sur:  "92a27b35ba52bcd1aab836d70720cc8e0a343ef2c05a035dd038e95948bf9e88"
+    sha256                               monterey:       "333dda4bf02aed146bf4ae7c1458ac31dcd1ff9bdf0a5f7d25bdeeb88a711b64"
+    sha256                               big_sur:        "5ff1b677c57757866eb2acd527f62a7582160fe2af6cf9f1334f298a93c7455d"
+    sha256                               catalina:       "d13d7d46267337411111f127468ee825be178a80d3135bd68756589f54856641"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7eceddba39715d8c8d2a44add1bff762f2dd580786911bd9f44d258da0184227"
   end
 
   depends_on "python@3.10" => :build

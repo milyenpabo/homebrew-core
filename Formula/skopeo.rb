@@ -1,17 +1,17 @@
 class Skopeo < Formula
   desc "Work with remote images registries"
   homepage "https://github.com/containers/skopeo"
-  url "https://github.com/containers/skopeo/archive/v1.8.0.tar.gz"
-  sha256 "287cd989aba76691bf028b4eb3fccd012abc0cab7556a7d11aebac62c4d01342"
+  url "https://github.com/containers/skopeo/archive/v1.9.2.tar.gz"
+  sha256 "9a321ba75f213e5c46cba7f92073c2437137a56d3140c9ab6e723fb92890f9d0"
   license "Apache-2.0"
 
   bottle do
-    sha256 arm64_monterey: "c71c157090f9d45b441920b4c82839eb2db70db546d2e46c29808306d2e5467f"
-    sha256 arm64_big_sur:  "f1b1b22a30874f2f7f733a34cc6daca67a6e70d2f59ca059b3c558078aa545ae"
-    sha256 monterey:       "e64d6e03d2fd39d2238a2565a1e4c645c588fb6f56fc99418a52d13c08e04715"
-    sha256 big_sur:        "3180d507c7587131156a2a358de04ae062e0a4ce13923e35d7f6999ed9638690"
-    sha256 catalina:       "26207c8814a7740eb080a9da484ec316d24b37032003e333dd94cd53913eec37"
-    sha256 x86_64_linux:   "87c925b150e9c974c706b20c4c31fc983a76fc00051537b056d8d4b229d9924e"
+    sha256 arm64_monterey: "93dcc0802f161c189d9f0ba007de04e38ddbb38c4429ae9aa109a4dde1b0f802"
+    sha256 arm64_big_sur:  "1b3728dec3a4cb328b05d75709753ecd03d5f72f0b47610971df1b4a420623cf"
+    sha256 monterey:       "94633cddfeb2723a259a9790a19a9ea597f60dc4726d77317e309595492d5ad3"
+    sha256 big_sur:        "f09721ad0c8f8581c7f8cec0a8217ee738ee3ab9c168f2ce0d7d3a11ddfdbf98"
+    sha256 catalina:       "acc6648e9999d45070753a9dbbb0d5a6ac66681cf80524c864ba7343f9f3615c"
+    sha256 x86_64_linux:   "5adb9b435126f9d423702213e4da167b1bcf4ed53a29c0c4287b50c938e4854d"
   end
 
   depends_on "go" => :build
@@ -48,7 +48,12 @@ class Skopeo < Formula
     (etc/"containers").install "default-policy.json" => "policy.json"
     (etc/"containers/registries.d").install "default.yaml"
 
-    bash_completion.install "completions/bash/skopeo"
+    bash_output = Utils.safe_popen_read(bin/"skopeo", "completion", "bash")
+    (bash_completion/"skopeo").write bash_output
+    zsh_output = Utils.safe_popen_read(bin/"skopeo", "completion", "zsh")
+    (zsh_completion/"_skopeo").write zsh_output
+    fish_output = Utils.safe_popen_read(bin/"skopeo", "completion", "fish")
+    (fish_completion/"skopeo.fish").write fish_output
   end
 
   test do

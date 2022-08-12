@@ -1,18 +1,31 @@
 class Btop < Formula
   desc "Resource monitor. C++ version and continuation of bashtop and bpytop"
   homepage "https://github.com/aristocratos/btop"
-  url "https://github.com/aristocratos/btop/archive/refs/tags/v1.2.7.tar.gz"
-  sha256 "60075824ca4e14c1ca920b76ffb101fc2340c5342f3ba600b5c280389b69bbbf"
   license "Apache-2.0"
+  revision 2
   head "https://github.com/aristocratos/btop.git", branch: "main"
 
+  # Remove stable block when patch is no longer needed.
+  stable do
+    url "https://github.com/aristocratos/btop/archive/refs/tags/v1.2.8.tar.gz"
+    sha256 "7944b06e3181cc1080064adf1e9eb4f466af0b84a127df6697430736756a89ac"
+
+    # Fix finding themes on ARM
+    # https://github.com/aristocratos/btop/issues/344
+    # https://github.com/Homebrew/homebrew-core/issues/105708
+    patch do
+      url "https://github.com/aristocratos/btop/commit/a84a7e6a5c3fe16b5e1d1a9824422638aca2f975.patch?full_index=1"
+      sha256 "f7dd836f5fcb06fe4497e9d7f2c0706bbe91a1b8a1d9b95187762527372fb38c"
+    end
+  end
+
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "483f07d9774dc34f252a4ada0df375ea271be13ff0bccc5452d0a061c0109f42"
-    sha256 cellar: :any,                 arm64_big_sur:  "ca8acbf95eb9729a4a7b97a8ebd8e766e8b12a4f17b749b1254edb6e3d4df2c4"
-    sha256 cellar: :any,                 monterey:       "bc0a49cbc0e79fb37e22dbac644d78b130f916958d1959fa3b75687c812aac1e"
-    sha256 cellar: :any,                 big_sur:        "624be0c9d476645e1ceef4c797c20de08879ea1a8bc3465bc18675b1ddf75571"
-    sha256 cellar: :any,                 catalina:       "3caa152e8eaaebb17919e96e8b4f654c4927e2032b390e7d19fd0087957a7ef9"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "993f81d8e30d1dcd9dceac77433da31c9733856f40ee36daa66b59aaa861c7a8"
+    sha256 cellar: :any,                 arm64_monterey: "f84048ddc55ba0f2374aa1d971b0bfdff25ac79c15a7ecf89e9c0092fbe3e246"
+    sha256 cellar: :any,                 arm64_big_sur:  "a6fd303e21613880e2a57c4d7e41e4a35f45fa61467006f98ed5927924c7224f"
+    sha256 cellar: :any,                 monterey:       "5fd7676fdaf5d223fd27b717e6ed97ab6e2e8a69146951c84acd8a4948673b53"
+    sha256 cellar: :any,                 big_sur:        "4e35cd0a9b6393019b75d8f8a7147571901f0960c31e299566df1e674979c126"
+    sha256 cellar: :any,                 catalina:       "fedfbe0d6852d582eb39c6351978f867753b5ba50f0d18a1e18b4e371c2eb439"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7c5427ca6a651a32eafcb677b31133c8f46761effb92ed825818cfebab5ae73c"
   end
 
   depends_on "coreutils" => :build

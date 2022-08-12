@@ -1,9 +1,9 @@
 class Sqldiff < Formula
   desc "Displays the differences between SQLite databases"
   homepage "https://www.sqlite.org/sqldiff.html"
-  url "https://sqlite.org/2022/sqlite-src-3380500.zip"
-  version "3.38.5"
-  sha256 "6503bb59e39ec8663083696940ec818cd5555196e6ca543d4029440cca7b00d9"
+  url "https://sqlite.org/2022/sqlite-src-3390200.zip"
+  version "3.39.2"
+  sha256 "e933d77000f45f3fbc8605f0050586a3013505a8de9b44032bd00ed72f1586f0"
   license "blessing"
 
   livecheck do
@@ -11,12 +11,12 @@ class Sqldiff < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "40b8a840e794ada0a839e010963adc2f4e7f832990c2c732db7c54e98a16e905"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8000ec3de9f3f050a4a59fbd8daa126cd277af02e67718cf0671fee0bec451b8"
-    sha256 cellar: :any_skip_relocation, monterey:       "90155427dcdc7aca2dfe7e31e38ac0a9fbe4f7421e73c197be2b8dd1e3a6d3e5"
-    sha256 cellar: :any_skip_relocation, big_sur:        "55f3fc4a4dab67414b0d4b4cd5e14907aedaa4585b8997181097e5fb86e80906"
-    sha256 cellar: :any_skip_relocation, catalina:       "6f13d158ccec4800233032be8d8b3a46ad022a7e8bf8f33fd336897677e11109"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "07c6a5a85ee4730d15693d8b821f8a2f0089b10f6d134b7573d80b0b57f76420"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "525e79cca706de5abc44d646674ac5ef411e7d2a1101e9dffb41fe22cb72f8c7"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "820b505255c69f689a7146a34224ed32f72745f9eba8233bf54723f2fe135cc4"
+    sha256 cellar: :any_skip_relocation, monterey:       "895599ff0d986652d0585765fac774ef333df5efb23496909b30cbdc14c1883a"
+    sha256 cellar: :any_skip_relocation, big_sur:        "0a09f4c125c5f04873f0d6b567c1f842d4f1194bc4df006aea2079c4485b0716"
+    sha256 cellar: :any_skip_relocation, catalina:       "2b6de574b23d4dfe91675a7a43d6ae90e5fc2df0c7c62805f12fc7cbd3172558"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e4b90738d733e34b6406f8e187b2787da91ed460fd4ed7e472cb6463dddfc887"
   end
 
   uses_from_macos "tcl-tk" => :build

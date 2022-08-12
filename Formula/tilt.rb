@@ -2,18 +2,18 @@ class Tilt < Formula
   desc "Define your dev environment as code. For microservice apps on Kubernetes"
   homepage "https://tilt.dev/"
   url "https://github.com/tilt-dev/tilt.git",
-    tag:      "v0.30.4",
-    revision: "50984c5164a16906458154333265da78a6284986"
+    tag:      "v0.30.6",
+    revision: "cf684e2890d199aad3812ade8daf4f2cad83eef1"
   license "Apache-2.0"
   head "https://github.com/tilt-dev/tilt.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "a5acac8aa7df79ac20e3cc8abe6da7bfa336c02be39a132cb84f9aad4cd79403"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d652977660f412104948972770821b1c1f4faee8cbf0861530b926cab97cc403"
-    sha256 cellar: :any_skip_relocation, monterey:       "499a17db531888aef4e68ca2d5af180da9ba60fc6dbaf82ddd4e8e7ece0de09a"
-    sha256 cellar: :any_skip_relocation, big_sur:        "5445097d8944ad424643b205df94d5f6e142aa89002b226701b329ddaad69a53"
-    sha256 cellar: :any_skip_relocation, catalina:       "91ff4b949b12659df81317b005ea86f1a780935dcb512428cc35a67fdddcf17a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "d5f8ea1350ed50843b86d10fea6b9f20f332f6bf8f15a8532ce2524d1ac65e14"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5340849afdd7c560e0b0ea35035e2a30b923d03d69ab488a8c7bde91bf8c0d6b"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b72bca256d65aaa20e968ddccc0c3c34e1d0213639a80314aec72df910613d36"
+    sha256 cellar: :any_skip_relocation, monterey:       "6aa8abcf769697509d48afc7e85e89bb483310f7784779d88e057eeef32be20e"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6ace33a09e0f1692409a053bac17b8c94473056385b2cf98c10b0f3e4ff8b2ec"
+    sha256 cellar: :any_skip_relocation, catalina:       "63be918c335c266c8bbac7659fab278058fe7d93d4ede21416bb8fd14cf6463b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b5806a94291f17fc2f5761a16ef19a6496d6adaeabdca57a0fd456b9cd0a6266"
   end
 
   depends_on "go" => :build

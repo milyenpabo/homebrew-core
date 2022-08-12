@@ -1,18 +1,18 @@
 class Murex < Formula
   desc "Bash-like shell designed for greater command-line productivity and safer scripts"
   homepage "https://murex.rocks"
-  url "https://github.com/lmorg/murex/archive/v2.8.2100.tar.gz"
-  sha256 "ba3fd505aaa8e8289f1baf0375d319b4f7fa9cda2ba4e6299d63705154f70406"
+  url "https://github.com/lmorg/murex/archive/v2.10.2400.tar.gz"
+  sha256 "4503e20d144cdadf60e01b97d420bc3ab7d35b3c079712fd3e37477bdeac67b3"
   license "GPL-2.0-only"
   head "https://github.com/lmorg/murex.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "4648d48c028a86b0ceec046044b0521ce18d942d45c92efa3f268b6e1cc5c552"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "bc8a6b74aa9f84a92c037120a58eda2d26a8abceaa6ed6828998792149ca35ff"
-    sha256 cellar: :any_skip_relocation, monterey:       "6a20f5e97bb0c70b329c19ee538587f21d2e3c1285108906f5df9f0d1a794bbc"
-    sha256 cellar: :any_skip_relocation, big_sur:        "d5a8e99d1c253c6cd5ee653e9e9a0892a105910a0f4ee8e200fe936d0c3d7dd1"
-    sha256 cellar: :any_skip_relocation, catalina:       "3c2218829bb98676fe88040db7133f1e033b1a548aa588f857baa5da20407b63"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0b975083e678808c20dd26c3531ff5490cd3e8a43e4c30b71dd0c85dec12d4db"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "606b27e31018c88e2d2b05c0ef965659b1ef822fa9b6cc5662497410c6891b03"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2e791103ce8e98dabf8bbac76e575aeffd5f14575043d56fa046b136b2b34f70"
+    sha256 cellar: :any_skip_relocation, monterey:       "5b330498fa90ae47b030a3d72d7f3a05b7df1e69bf960ca7f9a253cbb55d6729"
+    sha256 cellar: :any_skip_relocation, big_sur:        "14468806cfb389d7b03923d5a867839f26f2098d3066a80ef52a49854d4c2190"
+    sha256 cellar: :any_skip_relocation, catalina:       "5136b8a85748b4d2f76b26249a298dc9d2c24a771b802c4b84cc0221291d2dd7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9bac520f0dedc1247c9f34ee30dea5f54581c67f4ad9a1bd37abab14fde32f2c"
   end
 
   depends_on "go" => :build

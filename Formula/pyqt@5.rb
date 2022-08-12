@@ -4,19 +4,21 @@ class PyqtAT5 < Formula
   url "https://files.pythonhosted.org/packages/e1/57/2023316578646e1adab903caab714708422f83a57f97eb34a5d13510f4e1/PyQt5-5.15.7.tar.gz"
   sha256 "755121a52b3a08cb07275c10ebb96576d36e320e572591db16cfdbc558101594"
   license "GPL-3.0-only"
+  revision 1
 
   bottle do
-    sha256 cellar: :any, arm64_monterey: "1f1378660ae41e740dced0b0505c1511b54100605f68763013a23246d4bf1f4f"
-    sha256 cellar: :any, arm64_big_sur:  "df921fcf52f746280f7e8f266270f7882faa724778932a6ba8f1ff45a8369417"
-    sha256 cellar: :any, monterey:       "313efa11ed36a1f5a6c637e47fbd69420a0ad94c2ac649848d70c4c4570166d9"
-    sha256 cellar: :any, big_sur:        "559d639d7db9c1cd3d74ccc4aa68494ac49035fbf670728ab4fdbea4b7d295b5"
-    sha256 cellar: :any, catalina:       "339df8c70064d87833e5685138c76c19e35308417eef9d5bd218ddd0ad522d57"
-    sha256               x86_64_linux:   "c70187720d7eb0a4580fba05397f7bd21e92633c5c994fd2edb8a898f9178e31"
+    sha256 cellar: :any, arm64_monterey: "b17357e06eb2b5cdcd2ac6c7ef70e00fd751cf1a89c9320b5596f516cfc3305b"
+    sha256 cellar: :any, arm64_big_sur:  "69ed7c314b24f5719162dfbe9cb32d990b7f924ba324f17c0f6336b26792a5d6"
+    sha256 cellar: :any, monterey:       "d91ce7c5a6f64c1aa0ba62e74a84f1f041e4c56845829fea1d64d1a3d8303421"
+    sha256 cellar: :any, big_sur:        "ab6ca11c1dd3bc5b3f970e4a80f372553de9a51e88246aa1429a84b6e8f00108"
+    sha256 cellar: :any, catalina:       "cb12129b7d88ea103ab8599d68b6d117f08fc9afc22d6e72906092b30718e901"
+    sha256               x86_64_linux:   "20b7e67ac9b5781ce3720c1c1f7bff8d3f22f09924387b29c253214b8f87dc25"
   end
 
   depends_on "pyqt-builder" => :build
+  depends_on "python@3.10"  => [:build, :test]
+  depends_on "python@3.9"   => [:build, :test]
   depends_on "sip"          => :build
-  depends_on "python@3.9"
   depends_on "qt@5"
 
   on_linux do
@@ -61,37 +63,50 @@ class PyqtAT5 < Formula
     sha256 "8bb1df553ba6a615f8ec3d9b9c5270db3e15e831a6161773dabfdc1a7afe4834"
   end
 
+  def pythons
+    deps.map(&:to_formula)
+        .select { |f| f.name.match?(/^python@\d\.\d+$/) }
+        .map { |f| f.opt_libexec/"bin/python" }
+  end
+
   def install
-    site_packages = prefix/Language::Python.site_packages("python3")
-    args = %W[
-      --target-dir #{site_packages}
-      --scripts-dir #{bin}
-      --confirm-license
-      --no-designer-plugin
-      --no-qml-plugin
-    ]
-    system "sip-install", *args
-
-    resource("PyQt5-sip").stage do
-      system "python3", *Language::Python.setup_install_args(prefix)
-    end
-
     components = %w[3d chart datavis networkauth purchasing webengine]
-    components.each do |p|
-      resource(p).stage do
-        inreplace "pyproject.toml", "[tool.sip.project]",
-          "[tool.sip.project]\nsip-include-dirs = [\"#{site_packages}/PyQt#{version.major}/bindings\"]\n"
-        system "sip-install", "--target-dir", site_packages
+
+    pythons.each do |python|
+      site_packages = prefix/Language::Python.site_packages(python)
+      args = [
+        "--target-dir", site_packages,
+        "--scripts-dir", bin,
+        "--confirm-license",
+        "--no-designer-plugin",
+        "--no-qml-plugin"
+      ]
+      system "sip-install", *args
+
+      resource("PyQt5-sip").stage do
+        system python, *Language::Python.setup_install_args(prefix, python)
+      end
+
+      components.each do |p|
+        resource(p).stage do
+          inreplace "pyproject.toml", "[tool.sip.project]", <<~EOS
+            [tool.sip.project]
+            sip-include-dirs = ["#{site_packages}/PyQt#{version.major}/bindings"]
+          EOS
+          system "sip-install", "--target-dir", site_packages
+        end
       end
     end
+
+    # Replace hardcoded reference to Python version used with sip/pyqt-builder with generic python3.
+    bin.children.each { |script| inreplace script, Formula["python@3.10"].opt_bin/"python3.10", "python3" }
   end
 
   test do
     system bin/"pyuic#{version.major}", "--version"
     system bin/"pylupdate#{version.major}", "-version"
 
-    system Formula["python@3.9"].opt_bin/"python3", "-c", "import PyQt#{version.major}"
-    %w[
+    components = %w[
       Gui
       Location
       Multimedia
@@ -101,6 +116,11 @@ class PyqtAT5 < Formula
       WebEngineWidgets
       Widgets
       Xml
-    ].each { |mod| system Formula["python@3.9"].opt_bin/"python3", "-c", "import PyQt5.Qt#{mod}" }
+    ]
+
+    pythons.each do |python|
+      system python, "-c", "import PyQt#{version.major}"
+      components.each { |mod| system python, "-c", "import PyQt5.Qt#{mod}" }
+    end
   end
 end

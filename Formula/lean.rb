@@ -1,8 +1,8 @@
 class Lean < Formula
   desc "Theorem prover"
   homepage "https://leanprover-community.github.io/"
-  url "https://github.com/leanprover-community/lean/archive/v3.44.1.tar.gz"
-  sha256 "ec2ec2156b8dcfd287b6cc6d9ea75d8c8e9da2ba223e83d834c2b1fb46528bed"
+  url "https://github.com/leanprover-community/lean/archive/v3.45.0.tar.gz"
+  sha256 "92d2676e46447a62103dd17b7a5cb17ab7054dc2878be345a846fb03d8e6bcf5"
   license "Apache-2.0"
   head "https://github.com/leanprover-community/lean.git", branch: "master"
 
@@ -20,12 +20,9 @@ class Lean < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "a68f8a10beb4a5837a1af236cdc1a255930f1e0dd21577c53844f56ce32d346f"
-    sha256 cellar: :any,                 arm64_big_sur:  "84f8ec687078df3e217828ecb980561dd70376a54c509c94f95affeedc85fe4f"
-    sha256 cellar: :any,                 monterey:       "d50fa87749b75e86a442239cbbafa1ac699d501db55dde20230382d9874a2a6b"
-    sha256 cellar: :any,                 big_sur:        "aa3790e8080f83e3492d74361dbe7a98108ffb4614e0972ebe1d13281819b5de"
-    sha256 cellar: :any,                 catalina:       "cf568542137cc15aeb9befa036f2201426c325fc442cba8b673d3b5a348237df"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "525728c588f57e835c94d3530df5d46ef0daaf3f46539ee18922e4c55d30b283"
+    sha256 cellar: :any,                 arm64_monterey: "9caf0f417f32915d8434f6e863549c0472b395797daa93c54b214fea0aff4d47"
+    sha256 cellar: :any,                 arm64_big_sur:  "299dcc46b2a7f4c87cc1c321a15af9a95a5eee099ddc69860ccb255600ad61f1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "563b5e018c7c5e36bc47a404b249b0eb985f7bbaa54bf40b9b156c702a82be89"
   end
 
   depends_on "cmake" => :build

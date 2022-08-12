@@ -3,18 +3,18 @@ require "language/node"
 class Serverless < Formula
   desc "Build applications with serverless architectures"
   homepage "https://www.serverless.com/"
-  url "https://github.com/serverless/serverless/archive/v3.19.0.tar.gz"
-  sha256 "3cb4402135903864b93a7dea105873f7523febfb8b622352fa4bbcdd6fc67678"
+  url "https://github.com/serverless/serverless/archive/v3.21.0.tar.gz"
+  sha256 "b8b7d873998c746c15f8e0fadaa70a51845be71b6156304bf83d46ea65447437"
   license "MIT"
   head "https://github.com/serverless/serverless.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "6eae57c601164de257c3b3d6aeaaa0288bfb9c57e09ff32e25c1ae8e80e581af"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "6eae57c601164de257c3b3d6aeaaa0288bfb9c57e09ff32e25c1ae8e80e581af"
-    sha256 cellar: :any_skip_relocation, monterey:       "8a26ec3e8dc17fb2ee1232b0297c361cd16ab3fdce9f6811147473126568668d"
-    sha256 cellar: :any_skip_relocation, big_sur:        "8a26ec3e8dc17fb2ee1232b0297c361cd16ab3fdce9f6811147473126568668d"
-    sha256 cellar: :any_skip_relocation, catalina:       "8a26ec3e8dc17fb2ee1232b0297c361cd16ab3fdce9f6811147473126568668d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "19d6d9c508591de44a93fbf48c037f1848481ef5494a55777216ee26856a208d"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "bbd2953055332c0a596e53d102e8f80f1c47f5b9c3d1566ef743c8cce4ac9871"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "bbd2953055332c0a596e53d102e8f80f1c47f5b9c3d1566ef743c8cce4ac9871"
+    sha256 cellar: :any_skip_relocation, monterey:       "1e7a2e2409fb564f0596edc002e897e326737c9e868e3212466baffbc8b42895"
+    sha256 cellar: :any_skip_relocation, big_sur:        "1e7a2e2409fb564f0596edc002e897e326737c9e868e3212466baffbc8b42895"
+    sha256 cellar: :any_skip_relocation, catalina:       "1e7a2e2409fb564f0596edc002e897e326737c9e868e3212466baffbc8b42895"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "82efe8bad35c6f421da6d2aa201219fee02ac195584913f93a2dd37ad1fe8d74"
   end
 
   depends_on "node"

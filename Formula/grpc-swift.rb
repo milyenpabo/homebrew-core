@@ -1,8 +1,8 @@
 class GrpcSwift < Formula
   desc "Swift language implementation of gRPC"
   homepage "https://github.com/grpc/grpc-swift"
-  url "https://github.com/grpc/grpc-swift/archive/1.8.0.tar.gz"
-  sha256 "994da474a5614333c2e3fa52f2bf69871c037fcc85f5b95bdaa62a42d240d8d3"
+  url "https://github.com/grpc/grpc-swift/archive/1.9.0.tar.gz"
+  sha256 "81b03f5233102df9f0adee75a79d84b798c9eb38eabe1ab5fd1c912d2c690b10"
   license "Apache-2.0"
   head "https://github.com/grpc/grpc-swift.git", branch: "main"
 
@@ -12,11 +12,11 @@ class GrpcSwift < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "af9cd0b58e952134a619e005ae4250642f14e58b559345b96b679b9b6e9c18bf"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "93727dc42b034dd738c07a15e3572a60cf0bace7341056ab9fbfbdcc66c310fc"
-    sha256 cellar: :any_skip_relocation, monterey:       "1ea6945f30f3acabb248051ad093f79cf1e07559c8e91693614ad124e8cf532e"
-    sha256 cellar: :any_skip_relocation, big_sur:        "b0ecf3dc75ae992d47d9def252e6d28db84d9f877e92a1c188011a8911cf41af"
-    sha256                               x86_64_linux:   "07f634b53766c383139812b4be2e703a9a3c07f35a44abc76b7c5ceb63d9e084"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "f8707f495f9f3de586b757c60f922f3089b1847452735434e6f29686bffe9303"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "a43fb0a0c1d7d15b6e6f62307ebcc6d4e46fc08abdc246adc1d69b012e7fe670"
+    sha256 cellar: :any_skip_relocation, monterey:       "4f895d50b86e197acd7e75be2c1405082676b0ea8dd5d0081e8716e1a28e8c99"
+    sha256 cellar: :any_skip_relocation, big_sur:        "81c12794d2242d498830b3fdc9e6e67115d700544cb320d15e1401f02d970dff"
+    sha256                               x86_64_linux:   "73ce26fb7c594bcb688ed16dbc58485cf7c4405063b9c2c0398d2e0dc3cc95da"
   end
 
   depends_on xcode: ["12.5", :build]

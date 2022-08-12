@@ -1,14 +1,14 @@
 class Ipfs < Formula
   desc "Peer-to-peer hypermedia protocol"
-  homepage "https://ipfs.io/"
-  url "https://github.com/ipfs/go-ipfs.git",
-      tag:      "v0.13.0",
-      revision: "c9d51bbe0133968858aa9991b7f69ec269126599"
+  homepage "https://ipfs.tech/"
+  url "https://github.com/ipfs/kubo.git",
+      tag:      "v0.14.0",
+      revision: "e0fabd6dbf69624a259dd735065465e09ebb0a61"
   license all_of: [
     "MIT",
     any_of: ["MIT", "Apache-2.0"],
   ]
-  head "https://github.com/ipfs/go-ipfs.git", branch: "master"
+  head "https://github.com/ipfs/kubo.git", branch: "master"
 
   livecheck do
     url :stable
@@ -16,15 +16,17 @@ class Ipfs < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "bb349ff0435eaadd3f4e8c1c0839500e365b8c905e2f548b05ad2866d0181107"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "049d30ffda8146ff4f3bdbe222e11053465267f30cf766d1804b6aa79fabab40"
-    sha256 cellar: :any_skip_relocation, monterey:       "04432091e72611f00b4c7608c793d722401c743e4e32ef05b998908e0ab185ec"
-    sha256 cellar: :any_skip_relocation, big_sur:        "1f860b4632e87e8f763e53b7077d1f245d2467b6cd4556bcfcd8e68149ff7efc"
-    sha256 cellar: :any_skip_relocation, catalina:       "603de813a4eecd91d616966f5fab469fc3125344d1d87078ee5774a322750069"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8f2a47d461bef41ce50bf271a5ffae00d7cf809f9a4425b308828a491cfdb72c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "dadc0f2a713eff0b5e09f4f04e1a4d9df52424a7e68486da0d7c6e04a3eb9de7"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "04533ec754fcd594d81ad6cb4f043931a79b1f7cc9b45446b82f007553bd4552"
+    sha256 cellar: :any_skip_relocation, monterey:       "a140c058546116405b4a3fe332d8ca6bb5b144151076e4014f74b460a6df7853"
+    sha256 cellar: :any_skip_relocation, big_sur:        "d1d1c69322bb5e2e97295af169f84761343f2b4d0d9122f9094514af8768288e"
+    sha256 cellar: :any_skip_relocation, catalina:       "da67e5f83d11678f8c4583ba1ac64bfc210994dfe9c6c8a5b191e5aff4b5596f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "edebe83ebb656162416c90f41ef5e5fb7152409f58610b0b8b654990f6bb165c"
   end
 
-  depends_on "go" => :build
+  # Required lucas-clemente/quic-go >= 0.28
+  # Try to switch to the latest go on the next release
+  depends_on "go@1.18" => :build
 
   def install
     system "make", "build"

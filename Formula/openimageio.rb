@@ -1,9 +1,10 @@
 class Openimageio < Formula
   desc "Library for reading, processing and writing images"
   homepage "https://openimageio.org/"
-  url "https://github.com/OpenImageIO/oiio/archive/v2.3.16.0.tar.gz"
-  sha256 "e25e773005e8684edb30aab759d22f671d3163bcba67c4fc191f5a5535b3d392"
+  url "https://github.com/OpenImageIO/oiio/archive/v2.3.17.0.tar.gz"
+  sha256 "22d38347b40659d218fcafcadc9258d3f6eda0be02029b11969361c9a6fa9f5c"
   license "BSD-3-Clause"
+  revision 1
   head "https://github.com/OpenImageIO/oiio.git", branch: "master"
 
   livecheck do
@@ -13,12 +14,12 @@ class Openimageio < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "0974783a2af72d0f3f336a8b585f241366228e97ac901213bcbc353f8e8578fd"
-    sha256 cellar: :any,                 arm64_big_sur:  "ba2e0f3992c1db3488f81ce720a7578fa78b7128c646d32dca60c0bdccbb609f"
-    sha256 cellar: :any,                 monterey:       "51ef567ed5e6bfcf27b8517e576b8f4c63455f83c8b5363a80c7467f81c57939"
-    sha256 cellar: :any,                 big_sur:        "27ee7a5162e2820dba7bacb7e83fff4203c96924d3ea6722e7759e60de3112c5"
-    sha256 cellar: :any,                 catalina:       "1c9ea3f3f13c234b22aba1127cdcb6cbe329aa3e5028914725f9acfe597f5426"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "507b64a5f0061c3a166b94fee101973c98aa93ba619ba4a7e5f686da1c0b1421"
+    sha256 cellar: :any,                 arm64_monterey: "f14e3f2e421c8b2616744fe57beca11a7fc67036c6102ab6b81da8cf582f0ded"
+    sha256 cellar: :any,                 arm64_big_sur:  "f0c6b95e886fa7c742449413a69baba3236bc82eb44769ba3d40d8f8219816fa"
+    sha256 cellar: :any,                 monterey:       "c3bbfb8bce713e400f06077c4b89311948c8639d21dadc1dbc91640f214ad7be"
+    sha256 cellar: :any,                 big_sur:        "4ede7ddcd60c8375f09dea34f0508bfa7e2b3f19f97d7b797c7a1949a684962f"
+    sha256 cellar: :any,                 catalina:       "afd67dcac37f305e74183aadd820873312b9c19aefd85bb01316d519165ae246"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0d8c1e85eac50a68df9eda734363197bedee174dff2744b10f61f9c3138fa5f2"
   end
 
   depends_on "cmake" => :build
@@ -37,13 +38,18 @@ class Openimageio < Formula
   depends_on "opencolorio"
   depends_on "openexr"
   depends_on "pybind11"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "webp"
 
   fails_with gcc: "5" # ffmpeg is compiled with GCC
 
+  def python
+    deps.map(&:to_formula)
+        .find { |f| f.name.match?(/^python@\d\.\d+$/) }
+  end
+
   def install
-    args = std_cmake_args + %w[
+    args = %w[
       -DCCACHE_FOUND=
       -DEMBEDPLUGINS=ON
       -DUSE_FIELD3D=OFF
@@ -57,24 +63,24 @@ class Openimageio < Formula
     ]
 
     # CMake picks up the system's python shared library, even if we have a brewed one.
-    py3ver = Language::Python.major_minor_version Formula["python@3.9"].opt_bin/"python3"
+    python3 = python.opt_bin/"python3"
+    py3ver = Language::Python.major_minor_version(python3)
     py3prefix = if OS.mac?
-      Formula["python@3.9"].opt_frameworks/"Python.framework/Versions/#{py3ver}"
+      python.opt_frameworks/"Python.framework/Versions"/py3ver
     else
-      Formula["python@3.9"].opt_prefix
+      python.opt_prefix
     end
 
-    ENV["PYTHONPATH"] = lib/"python#{py3ver}/site-packages"
+    ENV["PYTHONPATH"] = prefix/Language::Python.site_packages(python3)
 
-    args << "-DPython_EXECUTABLE=#{py3prefix}/bin/python3"
+    args << "-DPython_EXECUTABLE=#{python3}"
     args << "-DPYTHON_LIBRARY=#{py3prefix}/lib/#{shared_library("libpython#{py3ver}")}"
     args << "-DPYTHON_INCLUDE_DIR=#{py3prefix}/include/python#{py3ver}"
     args << "-DPYTHON_VERSION=#{py3ver}"
 
-    mkdir "build" do
-      system "cmake", "..", *args
-      system "make", "install"
-    end
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do
@@ -87,6 +93,6 @@ class Openimageio < Formula
       import OpenImageIO
       print(OpenImageIO.VERSION_STRING)
     EOS
-    assert_match version.major_minor_patch.to_s, pipe_output(Formula["python@3.9"].opt_bin/"python3", output, 0)
+    assert_match version.major_minor_patch.to_s, pipe_output(python.opt_bin/"python3", output, 0)
   end
 end

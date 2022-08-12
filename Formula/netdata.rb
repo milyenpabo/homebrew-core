@@ -1,8 +1,8 @@
 class Netdata < Formula
   desc "Diagnose infrastructure problems with metrics, visualizations & alarms"
   homepage "https://netdata.cloud/"
-  url "https://github.com/netdata/netdata/releases/download/v1.35.1/netdata-v1.35.1.tar.gz"
-  sha256 "587f6cce421015f8e0a527e3964a4de8cc17085c354498150bc3ade21606bbf9"
+  url "https://github.com/netdata/netdata/releases/download/v1.36.0/netdata-v1.36.0.tar.gz"
+  sha256 "051fce594901b4b77607c97676e91e1645cf37940bccda45ba4bf15e30edc4af"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,12 +11,12 @@ class Netdata < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "b453a9a214be03bd782fd5e5e405e4bb1cb33fbe45d1ed5b665717c74ad287c1"
-    sha256 arm64_big_sur:  "9e3ccea3115802299c8fec5742acb89a893f52369265eaf331586789c9c5b6d8"
-    sha256 monterey:       "b8bcea223e3e6d3d38e5308ab7a7046abe494ab4b2ea994a0cf86431d2b7f147"
-    sha256 big_sur:        "32dbfce916b9214d3f269b7a90ac1c346d4c0162b3902552e1d3f9a3489918c0"
-    sha256 catalina:       "e79b608cda465dc40823cbbf3b12256c4fa54e82ac51116909dde86d82980748"
-    sha256 x86_64_linux:   "6cc6cb7ae6e33c338d07877b12008bd88d34dca6b8e3c96fd7bc2969cd29c283"
+    sha256 arm64_monterey: "360a2283366d1300ada2133aa6fb462ec974b16a0122f0f00a41f5bae969331b"
+    sha256 arm64_big_sur:  "dbff9ffdea7fe63c0b4995fc17a1780f7d38d66c0106157a0189bff6d76b14c6"
+    sha256 monterey:       "1a384be40a4839788061bcaf822b3a31431f4a09859a9d949a0dbca9f983aba0"
+    sha256 big_sur:        "581cb500d071d1aad2b54ca274e52237e5622ae7b4832d5f8dd9bc3f68fe00f2"
+    sha256 catalina:       "1ad61a922acf8cf7e90dd31565be05e0a379eec193d521a8def9c7c3ff0f0db6"
+    sha256 x86_64_linux:   "2fbed27f7372718eff068cc0105cae42bcdad0e0c81dfe0f9cdf133e12727cd3"
   end
 
   depends_on "autoconf" => :build
@@ -25,7 +25,7 @@ class Netdata < Formula
   depends_on "json-c"
   depends_on "libuv"
   depends_on "lz4"
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
   depends_on "protobuf-c"
 
   uses_from_macos "zlib"
@@ -40,6 +40,9 @@ class Netdata < Formula
   end
 
   def install
+    # https://github.com/protocolbuffers/protobuf/issues/9947
+    ENV.append_to_cflags "-DNDEBUG"
+
     # We build judy as static library, so we don't need to install it
     # into the real prefix
     judyprefix = "#{buildpath}/resources/judy"

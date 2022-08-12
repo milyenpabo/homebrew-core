@@ -1,9 +1,9 @@
 class RomTools < Formula
   desc "Tools for Multiple Arcade Machine Emulator"
   homepage "https://mamedev.org/"
-  url "https://github.com/mamedev/mame/archive/mame0244.tar.gz"
-  version "0.244"
-  sha256 "843c917edc46008a27b439a1fc66fc12a27c84e55e08753b963789e5614cebf7"
+  url "https://github.com/mamedev/mame/archive/mame0246.tar.gz"
+  version "0.246"
+  sha256 "293c8f4b550694e0f6aa21165d7f7be9aa3a5284d957265c4e7469159a71b5d5"
   license "GPL-2.0-or-later"
   head "https://github.com/mamedev/mame.git", branch: "master"
 
@@ -12,12 +12,12 @@ class RomTools < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "c33c36bdd50d0c702649744288c8092c8d54fe34094c97d3b96f8330045eea93"
-    sha256 cellar: :any,                 arm64_big_sur:  "5423074607783bff487b21145ce2138e811f65a4c40663b29766076044f31195"
-    sha256 cellar: :any,                 monterey:       "d28ba0fbfab5bee7821f4ec52168a66079636810ef9d9cd6b7341bd3ba37f916"
-    sha256 cellar: :any,                 big_sur:        "4f2e3be64de463a86dd4d5fd39948b4092cbd517665aecf09aefd8b100d2d90e"
-    sha256 cellar: :any,                 catalina:       "e5901bfd7bcf47eeca07809a13b29e66f2442fdc6c064f0c2c93b246ccd3bec0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "0abfa92c8f6896a3d1c3df4fbd18df1e45cbf9ed3d45dd94f7e967482664c971"
+    sha256 cellar: :any,                 arm64_monterey: "fa66fa29a9f5e38f9473413473bd7a381fdbf0682de041563ae2ab4795ae630a"
+    sha256 cellar: :any,                 arm64_big_sur:  "ec5477d859844cb43acbfd792910771b631c80866f07d83b5167b603bd55d83b"
+    sha256 cellar: :any,                 monterey:       "f2a7c724171efb6ea123d9834b0ed41109211e851ac2839041468263613416d3"
+    sha256 cellar: :any,                 big_sur:        "3e9698a10688924b8dabf122db66bd81267525eace4cce2d9083ea1a3975d818"
+    sha256 cellar: :any,                 catalina:       "95483124bb5c84cc2677e9e6678157dde3fd82227a9d8c35e8e14fffda641c04"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1938a249ba7ac2de636e2577a938e4d9e99cec63891ce961f0f4bd1ae36bd35d"
   end
 
   depends_on "pkg-config" => :build
@@ -42,13 +42,6 @@ class RomTools < Formula
 
   fails_with gcc: "5"
   fails_with gcc: "6"
-
-  # Apply upstream commit to fix build with newer GCC.
-  # Remove with next release.
-  patch do
-    url "https://github.com/mamedev/mame/commit/034e0d2c87a16e90783f742f39850dc7d85def1f.patch?full_index=1"
-    sha256 "cc7da44c9ca8caca26756175340644e1284a6d3692a1aa7320e85167a31e85c8"
-  end
 
   def install
     # Cut sdl2-config's invalid option.

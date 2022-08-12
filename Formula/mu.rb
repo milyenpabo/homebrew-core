@@ -4,9 +4,10 @@
 class Mu < Formula
   desc "Tool for searching e-mail messages stored in the maildir-format"
   homepage "https://www.djcbsoftware.nl/code/mu/"
-  url "https://github.com/djcb/mu/releases/download/1.6.11/mu-1.6.11.tar.xz"
-  sha256 "60eab240dc108f2a419f47d6a75c16841078dcd193f2c0bb02dcdb9ff484ec8d"
+  url "https://github.com/djcb/mu/releases/download/v1.8.8/mu-1.8.8.tar.xz"
+  sha256 "ac79eaa6cd2e01af7efe7d1f30a29a3e46f6d36abebc64f96d01c431cf38602e"
   license "GPL-3.0-or-later"
+  head "https://github.com/djcb/mu.git", branch: "master"
 
   # We restrict matching to versions with an even-numbered minor version number,
   # as an odd-numbered minor version number indicates a development version:
@@ -17,25 +18,19 @@ class Mu < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "7edb61edd1af87451d7941bb235700aad715a0dbbf061ce18d9e9e4844e92542"
-    sha256 cellar: :any,                 arm64_big_sur:  "45da6c4f3bce329a2641bb3c6b3b6a9cbef601e5b9e4503accc782eaa0b1508b"
-    sha256 cellar: :any,                 monterey:       "096301ead4a8c21e59c2c269ddb8be215c49063b3516a6f7ba2e4358265becdd"
-    sha256 cellar: :any,                 big_sur:        "2c020b682a99846007952aebeecfac7823f594dd43c792391d75ac76dfb81bc5"
-    sha256 cellar: :any,                 catalina:       "dd1c95032c2d9096bf367e1f3662fd79c9fe843e6e142159089f895f4c19a362"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1e07e0304efd1a083886e0489696d2d408ea7854155a6f07b044494f630a06fa"
-  end
-
-  head do
-    url "https://github.com/djcb/mu.git"
-
-    depends_on "autoconf" => :build
-    depends_on "autoconf-archive" => :build
-    depends_on "automake" => :build
+    sha256 arm64_monterey: "1ca8baf1b5a2e3dc4380abfc5423cc7ff40a76efa7e0e9bd0aa88996984c2637"
+    sha256 arm64_big_sur:  "e4288eff0f4b559cbf8f4d4e8e401130ab46e4eecff7a1f2af81350ced5e5424"
+    sha256 monterey:       "1eea1563ee44744f7c618c1fac5b9e49f9bf4576f176c631b7808102e520f651"
+    sha256 big_sur:        "8a25b2bb7030bcdb32931fcfa435a257b1c2c6248071122479458e9f24bf49cc"
+    sha256 catalina:       "e098d4eb13bf09c0eaf2b039b18804a010579bf30b61d4d76827b27d5205624d"
+    sha256 x86_64_linux:   "55f75a51b6e4be1d2a709a7b3e60b3a8c172835b0ace6380327955fe96092290"
   end
 
   depends_on "emacs" => :build
   depends_on "libgpg-error" => :build
   depends_on "libtool" => :build
+  depends_on "meson" => :build
+  depends_on "ninja" => :build
   depends_on "pkg-config" => :build
   depends_on "gettext"
   depends_on "glib"
@@ -53,13 +48,11 @@ class Mu < Formula
   fails_with gcc: "5"
 
   def install
-    system "autoreconf", "-ivf" if build.head?
-    system "./configure", "--disable-dependency-tracking",
-                          "--disable-guile",
-                          "--prefix=#{prefix}",
-                          "--with-lispdir=#{elisp}"
-    system "make"
-    system "make", "install"
+    mkdir "build" do
+      system "meson", *std_meson_args, "-Dlispdir=#{elisp}", ".."
+      system "ninja", "-v"
+      system "ninja", "install", "-v"
+    end
   end
 
   # Regression test for:

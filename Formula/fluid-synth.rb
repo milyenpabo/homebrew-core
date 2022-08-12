@@ -1,18 +1,19 @@
 class FluidSynth < Formula
   desc "Real-time software synthesizer based on the SoundFont 2 specs"
   homepage "https://www.fluidsynth.org"
-  url "https://github.com/FluidSynth/fluidsynth/archive/v2.2.7.tar.gz"
-  sha256 "460d86d8d687f567dc4780890b72538c7ff6b2082080ef2f9359d41670a309cf"
+  url "https://github.com/FluidSynth/fluidsynth/archive/v2.2.8.tar.gz"
+  sha256 "7c29a5cb7a2755c8012d941d1335da7bda957bbb0a86b7c59215d26773bb51fe"
   license "LGPL-2.1-or-later"
+  revision 1
   head "https://github.com/FluidSynth/fluidsynth.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "23526c8b54833babced5175acf047e1e0da4d4a488085e5867b499b4f9db9093"
-    sha256 cellar: :any,                 arm64_big_sur:  "9dbbff6586fe7aba8af9635e7eaa232a72003f7184b184779b4dbe362e9af84a"
-    sha256 cellar: :any,                 monterey:       "19ac15d032be1590d3ed9a7f0f560340c9c28b3e5aa94e1c31df925509892d9e"
-    sha256 cellar: :any,                 big_sur:        "d0f2842b70fe5325c57a4c21aca4308285749da5a0c53d7c33cd5a8e6ad445f6"
-    sha256 cellar: :any,                 catalina:       "bcdca41f4d49b87d87481188f11542191bba347085767c0a5b78797935e74a04"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "749ad0826b928f51ee9a5d4c11385f754d0cb1b0715400d41b68ade0ddbdf6c6"
+    sha256 cellar: :any,                 arm64_monterey: "00e9eac56d931890252b28a0c4421b0c6b4b731c1f921577a5083608e1344387"
+    sha256 cellar: :any,                 arm64_big_sur:  "ad718bb31c5af86e83cec2466d1825213397a6a1361e7531c7799927156e15e1"
+    sha256 cellar: :any,                 monterey:       "cfa39d4f53ef81598e13aaa7d19bec99b708786a5864c737fb9649c664ab312d"
+    sha256 cellar: :any,                 big_sur:        "82f5848299654d3e7b68d30151cdd2809e4df40cf8172d644b24b038b06eec66"
+    sha256 cellar: :any,                 catalina:       "53c67e8e7cc89034727026edb6ccfe20b7ffda7b0be2c57d17d16eeb2eb5e8f1"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "54423fb18b53e19da90cef6b436eed457aefe3f822b329d3c656468d72020979"
   end
 
   depends_on "cmake" => :build
@@ -20,6 +21,7 @@ class FluidSynth < Formula
   depends_on "glib"
   depends_on "libsndfile"
   depends_on "portaudio"
+  depends_on "readline"
 
   resource "homebrew-test" do
     url "https://upload.wikimedia.org/wikipedia/commons/6/61/Drum_sample.mid"

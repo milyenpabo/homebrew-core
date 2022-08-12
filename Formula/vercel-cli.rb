@@ -3,17 +3,17 @@ require "language/node"
 class VercelCli < Formula
   desc "Command-line interface for Vercel"
   homepage "https://vercel.com/home"
-  url "https://registry.npmjs.org/vercel/-/vercel-25.2.3.tgz"
-  sha256 "2c397c901428d4d61621dd720a20669a676954ce3888fb420519fdbf250ec697"
+  url "https://registry.npmjs.org/vercel/-/vercel-27.4.0.tgz"
+  sha256 "9b59a83a5b47c285d0baab4e076f60104debc4a5e9ce328379a13a0a374ce5ec"
   license "Apache-2.0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "8f8caf13d8f825bffbbd91e4cce7d9c2f81468fa6eb20b270bdb79bebab59b51"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8f8caf13d8f825bffbbd91e4cce7d9c2f81468fa6eb20b270bdb79bebab59b51"
-    sha256 cellar: :any_skip_relocation, monterey:       "be272399a27f38565296537e3222108507e1d2c2145dbfdefc4347afa52298a3"
-    sha256 cellar: :any_skip_relocation, big_sur:        "d2802fca54d3c0c70fe73924e15b42456ebbaf0482933a42644d56c968cbe24a"
-    sha256 cellar: :any_skip_relocation, catalina:       "d2802fca54d3c0c70fe73924e15b42456ebbaf0482933a42644d56c968cbe24a"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "37f47ecbe7292791c728d57c0e72f85b285d9bf39cb954382d1b7635ee974613"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "5475f81b62ad48cfee8eabc522a9ccf20ef52cfceb8d97d7fbf38fa907477649"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5475f81b62ad48cfee8eabc522a9ccf20ef52cfceb8d97d7fbf38fa907477649"
+    sha256 cellar: :any_skip_relocation, monterey:       "8e9b4c68a600647c1c322ce2e3ccf2d4b916af4bda580a986c12dfe2486f84b3"
+    sha256 cellar: :any_skip_relocation, big_sur:        "70a54fa44bd59c6cb74a5546a5324e6dd772fc5341b702c4d5ac2ef16b14b119"
+    sha256 cellar: :any_skip_relocation, catalina:       "70a54fa44bd59c6cb74a5546a5324e6dd772fc5341b702c4d5ac2ef16b14b119"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "317c3a6035655c4b244a002ce13136fdf3541a88b79c9b1aab9c2b5023328b49"
   end
 
   depends_on "node"
@@ -24,8 +24,8 @@ class VercelCli < Formula
 
   def install
     rm Dir["dist/{*.exe,xsel}"]
-    inreplace "dist/index.js", "exports.default = getUpdateCommand",
-                               "exports.default = async()=>'brew upgrade vercel-cli'"
+    inreplace "dist/index.js", "= getUpdateCommand",
+                               "= async()=>'brew upgrade vercel-cli'"
     system "npm", "install", *Language::Node.std_npm_install_args(libexec)
     bin.install_symlink Dir["#{libexec}/bin/*"]
 

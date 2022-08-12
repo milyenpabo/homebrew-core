@@ -1,18 +1,18 @@
 class Tfschema < Formula
   desc "Schema inspector for Terraform providers"
   homepage "https://github.com/minamijoyo/tfschema"
-  url "https://github.com/minamijoyo/tfschema/archive/v0.7.2.tar.gz"
-  sha256 "6954fbb10dbc0d730d2ee1fba4ff59f74d0961bc6ff9f1de2e04e81eb24dc493"
+  url "https://github.com/minamijoyo/tfschema/archive/v0.7.4.tar.gz"
+  sha256 "cfbe9b9ddf84c4a923af4a4fb56e4c4445fbeec244e808b9a365b369cce644d1"
   license "MIT"
   head "https://github.com/minamijoyo/tfschema.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "eab942aa977bc2759216c2962df77001ea87c333e45c0128f1dffb80ee417cf8"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "cb4b686fa0fbe684e0a85db4227f6bc65b8109ce12f32931faabc95c22e65d02"
-    sha256 cellar: :any_skip_relocation, monterey:       "d8f4dda6d1b45caed55bcc4275b0205b90591baabed13932254df7bbfdc6131d"
-    sha256 cellar: :any_skip_relocation, big_sur:        "20de1692f2b62be283e15c59cb73969d0e84736949ba5aa02000a5934c37f09d"
-    sha256 cellar: :any_skip_relocation, catalina:       "ddf3a5a98a16911320c7c7b48b29b4d15c23b3cf5d666ac9fe55f54330190bc0"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "650cf107f261ae4343d968e6f6569618a21b448b359c223a3ee5e8a8febb6654"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "34bc7541423b20c907504005dd7cacead7e28700f96ecb75ed94eebdad9e1fb6"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "d6676c102aa7391dd1f512a64ab64a8b8ddc190aa5ebfd0ef0be480a86cd8488"
+    sha256 cellar: :any_skip_relocation, monterey:       "6185117edc1c8c4e26525dc6af6783a2790dc0dab12e750334d44a4981a9e174"
+    sha256 cellar: :any_skip_relocation, big_sur:        "6cfa21e5b07ca35458512c8290b756c5fe4631b26d9329648efd45d40c2b8121"
+    sha256 cellar: :any_skip_relocation, catalina:       "f680e7861c2bd8795722597e7cb252eb2c202cddbadca1c5e4775413d696fb39"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "e100da387b08ad06a1ebddf5f5fd6d3bad35bdfab7155e14f45c2e3cce557a5d"
   end
 
   # Bump to 1.18 on the next release, if possible.

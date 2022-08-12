@@ -1,18 +1,18 @@
 class Gjs < Formula
   desc "JavaScript Bindings for GNOME"
   homepage "https://gitlab.gnome.org/GNOME/gjs/wikis/Home"
-  url "https://download.gnome.org/sources/gjs/1.72/gjs-1.72.0.tar.xz"
-  sha256 "3ef0caf716e3920dd61f7748f6d56e476cc0fc18351ad0548e7df1a0ab9bdcad"
+  url "https://download.gnome.org/sources/gjs/1.72/gjs-1.72.2.tar.xz"
+  sha256 "ddee379bdc5a7d303a5d894be2b281beb8ac54508604e7d3f20781a869da3977"
   license all_of: ["LGPL-2.0-or-later", "MIT"]
   head "https://gitlab.gnome.org/GNOME/gjs.git", branch: "master"
 
   bottle do
-    sha256 arm64_monterey: "5be9066d306e9dbd1796dd774b165cb92d210bdb85fb9a351dfb9dddad5c92d4"
-    sha256 arm64_big_sur:  "6caabfb5e97099f72ac8df0d0754ac7aed0c0de0030dfc02345c4516361468e6"
-    sha256 monterey:       "557ffe778d84c49b76e90d9d9d4a6fbb0cc620529cd49ce75b965d411a2e6b95"
-    sha256 big_sur:        "6f35338389f3313ac4146069d26d9a6e7639c8094d15287b8ab4ac83b991b3f3"
-    sha256 catalina:       "26b264865727dcdc99aac87b347d4b6d109a43d7f79027baa7754db4c37625aa"
-    sha256 x86_64_linux:   "60224ecb303a7d6a4ba31253dfdc779ce7418eb7c5711717a453f0eab634ea4b"
+    sha256 arm64_monterey: "b39d6b4d433635754d4ff6788db44a46dee4b68c618c01b34495799fed2a57a4"
+    sha256 arm64_big_sur:  "1e0fc8102b5c9dee82491b4a08a12b0bc289f758eb5ede150cd1f322b915ba96"
+    sha256 monterey:       "75a81c1f81a8a7cd68b4a00de221bce017dbae1b5853ef8ba5e52bfccb6a7c5f"
+    sha256 big_sur:        "53d7e2a36eee56da9548a730450be047fb5e62c7d960bc4a5a7d367000753199"
+    sha256 catalina:       "43b1f44d78bea7bc563d70e0702cc18743edbdea9674a31f49a5e30a72bfff2c"
+    sha256 x86_64_linux:   "4db14cedaffd84d55ff7da4a64984c5f7b46746d045d1320fbfe0abbf28f1c82"
   end
 
   depends_on "meson" => :build

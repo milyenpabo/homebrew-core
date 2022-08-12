@@ -1,25 +1,25 @@
 class Sdl2Image < Formula
   desc "Library for loading images as SDL surfaces and textures"
-  homepage "https://www.libsdl.org/projects/SDL_image/"
-  url "https://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.5.tar.gz"
-  sha256 "bdd5f6e026682f7d7e1be0b6051b209da2f402a2dd8bd1c4bd9c25ad263108d0"
+  homepage "https://github.com/libsdl-org/SDL_image"
+  url "https://github.com/libsdl-org/SDL_image/releases/download/release-2.6.0/SDL2_image-2.6.0.tar.gz"
+  sha256 "611c862f40de3b883393aabaa8d6df350aa3ae4814d65030972e402edae85aaa"
   license "Zlib"
+  revision 1
 
+  # This formula uses a file from a GitHub release, so we check the latest
+  # release version instead of Git tags.
   livecheck do
-    url :homepage
-    regex(/href=.*?SDL2_image[._-]v?(\d+(?:\.\d+)+)\.t/i)
+    url :stable
+    strategy :github_latest
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "180b64296c90fe9587a88efa1a607d939bb4dbb127f31a38193d894c5da9bfeb"
-    sha256 cellar: :any,                 arm64_big_sur:  "2a4cd10f3598553180559df330435f359703eaa02a77c12bf9667d953fa2b5a3"
-    sha256 cellar: :any,                 monterey:       "76025ad6b76597ef5f1f9bafa729ab8a88f94cab607a9114353be2eddf36bb34"
-    sha256 cellar: :any,                 big_sur:        "d106f96771895c1b6faa9864e3605d301cdbe658672900108605c521616a8bf6"
-    sha256 cellar: :any,                 catalina:       "691d5407fef2bc374ac3b7c2fafbe46a6bc0f9ed609f98812b24fec33ab9bd27"
-    sha256 cellar: :any,                 mojave:         "1b3a464579d9ef25b3bdd9276119efffd0134fda5c5dc27051a35f1b21c00cfd"
-    sha256 cellar: :any,                 high_sierra:    "55c1f996fb523c2727d2b103f0a5ecfd7a073f55ff9a7230bb609d22bbf5a576"
-    sha256 cellar: :any,                 sierra:         "e3c9cf45d97099e818c667d23af8352e6d1bba0e3b609cdddee654f2a9da80cf"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "862dee72c17699cb5d0014116b98ae4de3998eead5bed93063d84b2b430147a5"
+    sha256 cellar: :any,                 arm64_monterey: "bf747bd43cbd3cacc593b5ba80db92d163369e94ed7d026d6c5e6ea3026d961c"
+    sha256 cellar: :any,                 arm64_big_sur:  "42d1afab7256736c0d8388226d392942f54c97532f23731a04341eca7241374b"
+    sha256 cellar: :any,                 monterey:       "cf375ec6014ed15cad4e3e3f25fd9796781ba42662a1fc4272c7fa94c7b73242"
+    sha256 cellar: :any,                 big_sur:        "04993039224965866d9c28ffe73bd477557e24b0462f30ae07b410306fd86a6b"
+    sha256 cellar: :any,                 catalina:       "538e45e7c2e6ae8a4e00cc18802fa9f22f73504365e1b095c43783e0ffbfabcb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a24ee1889e1ead85e6f9b3a46898875154c4a84c870c2e70eaabb5572cfbbe3c"
   end
 
   head do
@@ -31,7 +31,7 @@ class Sdl2Image < Formula
   end
 
   depends_on "pkg-config" => :build
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "libtiff"
   depends_on "sdl2"
@@ -42,11 +42,11 @@ class Sdl2Image < Formula
 
     system "./autogen.sh" if build.head?
 
-    system "./configure", "--disable-dependency-tracking",
-                          "--prefix=#{prefix}",
+    system "./configure", *std_configure_args,
                           "--disable-imageio",
                           "--disable-jpg-shared",
                           "--disable-png-shared",
+                          "--disable-stb-image",
                           "--disable-tif-shared",
                           "--disable-webp-shared"
     system "make", "install"

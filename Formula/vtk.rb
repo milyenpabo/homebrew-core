@@ -4,16 +4,16 @@ class Vtk < Formula
   url "https://www.vtk.org/files/release/9.1/VTK-9.1.0.tar.gz"
   sha256 "8fed42f4f8f1eb8083107b68eaa9ad71da07110161a3116ad807f43e5ca5ce96"
   license "BSD-3-Clause"
-  revision 4
+  revision 5
   head "https://github.com/Kitware/VTK.git", branch: "master"
 
   bottle do
-    sha256                               arm64_monterey: "235a62257e18547893acd654ab41187e3f8389744b8d291897661c314a35933f"
-    sha256                               arm64_big_sur:  "31e54d21af04cafe66a614ad8e76e490109e4fb49e0fdaf4a3973786b0768862"
-    sha256                               monterey:       "58ba5d2739518e799603193899e9205d10cca25e074d968c95869fb90b735af5"
-    sha256                               big_sur:        "77c0746012492581c64d845aac3557bedb8111c32353b2157fe7992ac39910ce"
-    sha256                               catalina:       "438508b242067e11fb241204b4d0fa09478654f0406344edc864197d39a71c07"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "398378770eb7afc3c2c4c9fd01ada2ce9b938e82d7b3e7c16398ab36ec3a147a"
+    sha256                               arm64_monterey: "0eba3f3335584a0074ff5b706d433d64441651f8d8052a9c6845b987dcdf8ba3"
+    sha256                               arm64_big_sur:  "a1a28d835398af1c8eddbf19eb4fd006194d7ec7636d577fce786293991adba7"
+    sha256                               monterey:       "c71a7c7f8d718d1181679285cfcfb1e7d4049b673c4b3baf9eb93e5719091f36"
+    sha256                               big_sur:        "e3ca973fa395bc2ef419fcfe78b7bf1e9d231d96bf6a82452f2efd94bed171a2"
+    sha256                               catalina:       "2bbb0a91140f79cc3c74a5930554ae1f77391daa36a3ba8416660804c0c27b4f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ef1778a653d8b624dd649add1661bb424d1c79ff74f32c842ac8d4fded65e283"
   end
 
   depends_on "cmake" => [:build, :test]
@@ -119,6 +119,10 @@ class Vtk < Formula
     # Force use of Apple Clang on macOS that needs LLVM to build
     ENV.clang if DevelopmentTools.clang_build_version == 1316 && Hardware::CPU.arm?
 
+    vtk_dir = lib/"cmake/vtk-#{version.major_minor}"
+    vtk_cmake_module = vtk_dir/"VTK-vtk-module-find-packages.cmake"
+    assert_match Formula["boost"].version.to_s, vtk_cmake_module.read, "VTK needs to be rebuilt against Boost!"
+
     (testpath/"CMakeLists.txt").write <<~EOS
       cmake_minimum_required(VERSION 3.3 FATAL_ERROR)
       project(Distance2BetweenPoints LANGUAGES CXX)
@@ -138,9 +142,7 @@ class Vtk < Formula
       }
     EOS
 
-    vtk_dir = Dir[opt_lib/"cmake/vtk-*"].first
-    system "cmake", "-DCMAKE_BUILD_TYPE=Debug", "-DCMAKE_VERBOSE_MAKEFILE=ON",
-      "-DVTK_DIR=#{vtk_dir}", "."
+    system "cmake", "-DCMAKE_BUILD_TYPE=Debug", "-DCMAKE_VERBOSE_MAKEFILE=ON", "-DVTK_DIR=#{vtk_dir}", "."
     system "make"
     system "./Distance2BetweenPoints"
 

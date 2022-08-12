@@ -1,8 +1,8 @@
 class Redis < Formula
   desc "Persistent key-value database, with built-in net interface"
   homepage "https://redis.io/"
-  url "https://download.redis.io/releases/redis-7.0.2.tar.gz"
-  sha256 "5e57eafe7d4ac5ecb6a7d64d6b61db775616dbf903293b3fcc660716dbda5eeb"
+  url "https://download.redis.io/releases/redis-7.0.4.tar.gz"
+  sha256 "f0e65fda74c44a3dd4fa9d512d4d4d833dd0939c934e946a5c622a630d057f2f"
   license "BSD-3-Clause"
   head "https://github.com/redis/redis.git", branch: "unstable"
 
@@ -12,12 +12,12 @@ class Redis < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "526deec472da0768a5fe8d2f0617495f3c43befee02ae57ca723c01dae30be31"
-    sha256 cellar: :any,                 arm64_big_sur:  "8e46ce2ed889f499c7c49823cb9b97a949047c4e2ee7876eb6404415221d0390"
-    sha256 cellar: :any,                 monterey:       "ae3e94acbf74e76afbf42a7627bc91864191f8530e0a04b6b11c187b0340bb4a"
-    sha256 cellar: :any,                 big_sur:        "d477311ecd22f1cb31ce1207daf6ec22a6bd995bed85d65ffe0fad1077dbf275"
-    sha256 cellar: :any,                 catalina:       "ed3cd661095c0cf85988ce93d2f32123b984c6b523708065808a6d2fc6f615a1"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9a60623e87e59fa76b87a32f036430e1379a5c19fe4c48151b42a2d5aa3c0032"
+    sha256 cellar: :any,                 arm64_monterey: "5fd4a4cdd769fdebc82dc5ea1b06edb2464039b38c09355f29e8e70804eb8477"
+    sha256 cellar: :any,                 arm64_big_sur:  "203cea84c495237fad2c5b1e172603da5b9f5655a063972d996b45ff83155f10"
+    sha256 cellar: :any,                 monterey:       "58f58d9fe07000a83e54581dd7fbe22747701d84ba78def762ae94b341f41259"
+    sha256 cellar: :any,                 big_sur:        "a6aaf522bca22031de5bcaeb39ff41f5f1af977967e94a0dac507d2ed8fe769f"
+    sha256 cellar: :any,                 catalina:       "38c669f105a76cccf7567b4ee32dba6972c63daaf7b4c178e1f79988f846684b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "dc16cc18a0e19a14fdc2e47bf6244690455795d89af8445abdf7df01542e1581"
   end
 
   depends_on "openssl@1.1"

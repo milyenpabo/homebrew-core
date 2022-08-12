@@ -1,17 +1,18 @@
 class Tio < Formula
   desc "Simple TTY terminal I/O application"
   homepage "https://tio.github.io"
-  url "https://github.com/tio/tio/releases/download/v1.40/tio-1.40.tar.xz"
-  sha256 "beafc4763552ff7cf3a368e8af36258018ef85fac32133c4635051d7615ab527"
+  url "https://github.com/tio/tio/releases/download/v1.47/tio-1.47.tar.xz"
+  sha256 "6f39ac582de747feb9a64c14e6b378c61cb0c3bfa6639e62050022c1b7f5c544"
   license "GPL-2.0-or-later"
+  head "https://github.com/tio/tio.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "6db8b849e260c8aaf4277fd9c953f7b53d94b14455c84eeb47316e75cc97f6a4"
-    sha256 cellar: :any,                 arm64_big_sur:  "aad6e24a0bcc292168bf02805924d68f3636c072b4f82f1175b8ad424c305b09"
-    sha256 cellar: :any,                 monterey:       "67867c2b1f0460c89804037c3a36e75acb4f1b5de5bc95cbbd390807862f1d2f"
-    sha256 cellar: :any,                 big_sur:        "e6a586eb7df30ac97d13196c2ea1ce6bc0d5df7529b232100ff01c2c47e769e1"
-    sha256 cellar: :any,                 catalina:       "9158c3b4e216aa37637d9216c56f8cccd21aea0dde67c6fcae19061c381d4796"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "612e100468b4fa7235328c4ec199ac84d59f8e433992d0df95ea5e192628f0de"
+    sha256 cellar: :any,                 arm64_monterey: "d05b8ebc37c31cf477ceabadb2758f038fb87b31d990b7885b44d365cec8177c"
+    sha256 cellar: :any,                 arm64_big_sur:  "d1843f83445ab49ccf0b56d18dc7cd4b1e6966d7e0d3d75afcb38274a5a902ab"
+    sha256 cellar: :any,                 monterey:       "2606c527fb96558e73a29563708894be3b8f1b9c4f3d3552f7c693c606f9aff4"
+    sha256 cellar: :any,                 big_sur:        "b193fba509ff0dfec5935cec23db9330186ac92710f246f0700d79e3b33708f2"
+    sha256 cellar: :any,                 catalina:       "64bba6db50daeb09aef1266cd9af94b14839f92428aa5f3c0912154f77765f5e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5b4b8fedd35fca7dc5906d18c9f3e5543911e222ecdc3bf248b5e20a65532509"
   end
 
   depends_on "meson" => :build

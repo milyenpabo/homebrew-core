@@ -2,9 +2,9 @@ class PhpAT80 < Formula
   desc "General-purpose scripting language"
   homepage "https://www.php.net/"
   # Should only be updated if the new version is announced on the homepage, https://www.php.net/
-  url "https://www.php.net/distributions/php-8.0.20.tar.xz"
-  mirror "https://fossies.org/linux/www/php-8.0.20.tar.xz"
-  sha256 "973fec765336ee01f47536a5db1c2eee98df9d34a41522b7b6c760159bf0a77b"
+  url "https://www.php.net/distributions/php-8.0.22.tar.xz"
+  mirror "https://fossies.org/linux/www/php-8.0.22.tar.xz"
+  sha256 "130937c0fa3050cd33d6c415402f6ccbf0682ae83eb8d39c91164224ddfe57f1"
   license "PHP-3.01"
 
   livecheck do
@@ -13,12 +13,12 @@ class PhpAT80 < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "8b614e3ba1345a44220b70a18dd148294df9aae4ac9d1d11b30c4f737cf91daa"
-    sha256 arm64_big_sur:  "399f4b3cee87d33840f78b53ed287dd27496ba8c116317ae1d611ebb839243ea"
-    sha256 monterey:       "4986b7b2adb3751d3c9e3248ee182033b90111b395b692994775e8c5806eba74"
-    sha256 big_sur:        "f591a91be82458b7ce13288db2fe100d46b29ae7cbcc7288effbfd28a4a4d664"
-    sha256 catalina:       "da5f38835d9adb4dbccdb12c17e9bc78c50fcaf7750d56a9efd91d4e9bee69cd"
-    sha256 x86_64_linux:   "b6daf1de143401c0ac520f18fccf6fa31a8c00030e2ddbaca6a747ac2096d53c"
+    sha256 arm64_monterey: "f10886da0c26dc1ae425cb331713a1da08f17a262889cfce60b8516c19e11584"
+    sha256 arm64_big_sur:  "d681a6f4df99ef42dc78d02606afa5a2c975bd60918e278fda00d6306820f34a"
+    sha256 monterey:       "66ec787d18cfa0f99646114f8b75cf0372dbfcd064e6a9af0c1c2f5878f63d3c"
+    sha256 big_sur:        "9bb5b1b06034e3d3d78d1a3840e9c46c914cf5f99a95c820db6aff729127f1a7"
+    sha256 catalina:       "f57a09c82477b607b1d060c1fdedef5f07f353f44d041287e9dd94b8375d17f6"
+    sha256 x86_64_linux:   "f5d9bf53f7ea5ca1e45062562e538e9e1d0862afa68f0d0829ee43b7d9b8a77c"
   end
 
   keg_only :versioned_formula

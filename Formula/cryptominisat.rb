@@ -6,7 +6,7 @@ class Cryptominisat < Formula
   # Everything that's needed to run/build/install/link the system is MIT licensed. This allows
   # easy distribution and running of the system everywhere.
   license "MIT"
-  revision 2
+  revision 4
 
   livecheck do
     url :stable
@@ -14,17 +14,17 @@ class Cryptominisat < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "97285ce6d4de3cd1ddbae653a5361b2aca7692ac116e2bb0ad7c3026c3147132"
-    sha256 cellar: :any,                 arm64_big_sur:  "8416efd9860f11189aadfb69cac1c211f8773fa058177955082faa9981334941"
-    sha256 cellar: :any,                 monterey:       "c4de01735f86feefd2234bdd1c178f3c2d68a568ad8aa1f9bc8620e5dff9c023"
-    sha256 cellar: :any,                 big_sur:        "291f5080fe3f1af3b219fd3fc2bdaa7ce66ea05f099fa60444ffb24625d32b9c"
-    sha256 cellar: :any,                 catalina:       "af9e9370e163b91db83faf606de77f52faf60498e38504a4753224e080899ebd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5a70ea83ec78219e0586fa86ff607141005af77fcc3c00c16e62c07f1ae96e50"
+    sha256 cellar: :any,                 arm64_monterey: "967e81c4de469fcca8cdd17e243083bb7226109a803fb90aa596bf6e9cd212b8"
+    sha256 cellar: :any,                 arm64_big_sur:  "bfcf82cac8669f69facbae7042b80467c01564b674c57941fde79f52f5e5fb2d"
+    sha256 cellar: :any,                 monterey:       "7e945a25fe6701eb5431b6ce6e0535dda6850aaad9a7b87106aab64b529302c1"
+    sha256 cellar: :any,                 big_sur:        "023747bdc60af30e7287a74762800b3051a7ffeab14dff1189c4a64c470f9455"
+    sha256 cellar: :any,                 catalina:       "abd2c00cf458f891ff1dd006ad928e198712bb58113a852c487741d22781f1d5"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f17416cfc5100bc03e00d233d9b9c77bf803aa83ae8c203e3c44182fe094dfdc"
   end
 
   depends_on "cmake" => :build
   depends_on "boost"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
 
   # Fix build error with setuptools 61+
   patch do
@@ -73,6 +73,6 @@ class Cryptominisat < Formula
       solver.add_clause([-1, 2, 3])
       print(solver.solve()[1])
     EOS
-    assert_equal "(None, True, False, True)\n", shell_output("#{Formula["python@3.9"].opt_bin}/python3 test.py")
+    assert_equal "(None, True, False, True)\n", shell_output("#{Formula["python@3.10"].opt_bin}/python3 test.py")
   end
 end

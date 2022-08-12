@@ -2,21 +2,23 @@ class Yorkie < Formula
   desc "Document store for collaborative applications"
   homepage "https://yorkie.dev/"
   url "https://github.com/yorkie-team/yorkie.git",
-    tag:      "v0.2.9",
-    revision: "e33ee66e8684bad1042478c1615fea8c43724f21"
+    tag:      "v0.2.13",
+    revision: "0cca5e25b8b83ad5b389f84735324a016f9691f9"
   license "Apache-2.0"
   head "https://github.com/yorkie-team/yorkie.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "143bbd0f756c322edc5213ee50e58bbb3dd1f9adc33baac4316d63333e851511"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8db0f06cefe686bebb2ea4cb5efb14cbab1a99c1c8706f94dea27c74bc8d04c2"
-    sha256 cellar: :any_skip_relocation, monterey:       "32162b97f5c246258cb808155f52d96ab811e5d80a1ff2aa7d8528fad2822848"
-    sha256 cellar: :any_skip_relocation, big_sur:        "7f6335bb611763aab623401954b677f573541d7d70f23f83ec2e2cb6d5b6d71a"
-    sha256 cellar: :any_skip_relocation, catalina:       "2f9dc77f15bab59ab6014d1fcfbe2542a38f6669101b9429e4dce606a7676736"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c091a104ecb1b2aa7296b998147f5475c69a37113b641cb6236447e6ec11a1b8"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "cbf51dfd6da4098091f48698645aa459331c4e5553bc08de8ad7a909b4a9ed1b"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "f957da810b7f1cf514f87d9b7a56f9b9ddc46adc6babc9e4ade4618e336d65d3"
+    sha256 cellar: :any_skip_relocation, monterey:       "2b766ff897dadd0e55950d7c7a02ab1b02c5829e51433f294084c7f44305f7bd"
+    sha256 cellar: :any_skip_relocation, big_sur:        "da4de907109e36d42866752fb77bdf2b70833ad9b598149674b5fe697eeffee0"
+    sha256 cellar: :any_skip_relocation, catalina:       "0a07b6e773941a452920e5e5c3836245af0253ea8a58dfb1a998ac1c62e149dd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9a2488fedc8d33e5cd7fffd222b3714b204487b9cfc3d0f148ccbd2510b43ef9"
   end
 
-  depends_on "go" => :build
+  # Doesn't build with latest go
+  # See https://github.com/yorkie-team/yorkie/issues/378
+  depends_on "go@1.18" => :build
 
   def install
     system "make", "build"

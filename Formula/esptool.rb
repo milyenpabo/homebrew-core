@@ -3,17 +3,17 @@ class Esptool < Formula
 
   desc "ESP8266 and ESP32 serial bootloader utility"
   homepage "https://github.com/espressif/esptool"
-  url "https://files.pythonhosted.org/packages/bb/d5/9d000803520b68fd9f6447cd7c15352a79984196f57f0519839b0f80fb8f/esptool-4.1.tar.gz"
-  sha256 "51a41655187780cb802a5827fab68a3db0d6206330560459c55fcf0e222f277f"
+  url "https://files.pythonhosted.org/packages/68/a7/40f80078ad06f064ff8fb52d7f2d37f0bcb3f4005fe4fbc6619a47a4990a/esptool-4.2.1.tar.gz"
+  sha256 "b967faed94dd43f547953fde362d3ba5b63dddca0a0ff7982750054702cbc238"
   license "GPL-2.0-or-later"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "9c8c4cf36cf77ed0d2035351fe709e0bf2932f227995802e7d1abb310cc50ceb"
-    sha256 cellar: :any,                 arm64_big_sur:  "938fb8c8cf7d99506aa3ed37671881133354ad7a57f68644904b700ccb0874b1"
-    sha256 cellar: :any,                 monterey:       "139db1915c1438f02a93c4b904db9752a0ca4a91ca6a345a89afdf8a5f1a7272"
-    sha256 cellar: :any,                 big_sur:        "b645b2d07a2be03536caefbe34fd7fa0c9a51412df803a7c4a7b92be7cf1a71e"
-    sha256 cellar: :any,                 catalina:       "4ee4453cbb96da0f0474c94693aa31f070250261e6f1e8957f6ab9c7ef11c048"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b975efcac04e9b487b8d2edddb05a8be985fd10633554a86e96405e1f279f3d4"
+    sha256 cellar: :any,                 arm64_monterey: "f58c10509f5cea34bb2104adb1da50469fbcf667015ff497bd27b8cde4a3676a"
+    sha256 cellar: :any,                 arm64_big_sur:  "c56c622e3eec3914fdf9a621ea2b32102fda7e4660623d19504b7160b17599dd"
+    sha256 cellar: :any,                 monterey:       "979f599061e511bf718c42ee623d606369d1608dd5c760bdb246bc25ac5d0719"
+    sha256 cellar: :any,                 big_sur:        "89934ece6913b2d143309961c3f384cf48ae715308d0c4ba011de7e4313b9def"
+    sha256 cellar: :any,                 catalina:       "e4ad9f966b9095e4719bd28cabe1fc8d014d78b99fda25f0d56ceddc89a6785b"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c17800a8b2a9d6240a7385c7492eff581769582d3066b36d2eb77125a88e1410"
   end
 
   depends_on "rust" => :build
@@ -26,18 +26,18 @@ class Esptool < Formula
   end
 
   resource "cffi" do
-    url "https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz"
-    sha256 "920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954"
+    url "https://files.pythonhosted.org/packages/2b/a8/050ab4f0c3d4c1b8aaa805f70e26e84d0e27004907c5b8ecc1d31815f92a/cffi-1.15.1.tar.gz"
+    sha256 "d400bfb9a37b1351253cb402671cea7e89bdecc294e8016a707f6d1d8ac934f9"
   end
 
   resource "cryptography" do
-    url "https://files.pythonhosted.org/packages/51/05/bb2b681f6a77276fc423d04187c39dafdb65b799c8d87b62ca82659f9ead/cryptography-37.0.2.tar.gz"
-    sha256 "f224ad253cc9cea7568f49077007d2263efa57396a2f2f78114066fd54b5c68e"
+    url "https://files.pythonhosted.org/packages/89/d9/5fcd312d5cce0b4d7ee8b551a0ea99e4ea9db0fdbf6dd455a19042e3370b/cryptography-37.0.4.tar.gz"
+    sha256 "63f9c17c0e2474ccbebc9302ce2f07b55b3b3fcb211ded18a42d5764f5c10a82"
   end
 
   resource "ecdsa" do
-    url "https://files.pythonhosted.org/packages/bf/3d/3d909532ad541651390bf1321e097404cbd39d1d89c2046f42a460220fb3/ecdsa-0.17.0.tar.gz"
-    sha256 "b9f500bb439e4153d0330610f5d26baaf18d17b8ced1bc54410d189385ea68aa"
+    url "https://files.pythonhosted.org/packages/ff/7b/ba6547a76c468a0d22de93e89ae60d9561ec911f59532907e72b0d8bc0f1/ecdsa-0.18.0.tar.gz"
+    sha256 "190348041559e21b22a1d65cee485282ca11a6f81d503fddb84d5017e9ed1e49"
   end
 
   resource "pycparser" do

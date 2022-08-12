@@ -1,8 +1,8 @@
 class OpenlibertyJakartaee8 < Formula
   desc "Lightweight open framework for Java (Jakarta EE 8)"
   homepage "https://openliberty.io"
-  url "https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/release/22.0.0.6/openliberty-javaee8-22.0.0.6.zip"
-  sha256 "531fe0d7e7959adc38ef4fcbee0484a0e4acb933652f4420c2711bbc5b5f4b82"
+  url "https://public.dhe.ibm.com/ibmdl/export/pub/software/openliberty/runtime/release/22.0.0.8/openliberty-javaee8-22.0.0.8.zip"
+  sha256 "8181f857b8bd55303cdf7dbf9c978909323b1261b2792d0b4bb2d78cedc02ba0"
   license "EPL-1.0"
 
   livecheck do
@@ -11,7 +11,7 @@ class OpenlibertyJakartaee8 < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, all: "e60fe1622afadf95f524c8ab1134bfaa555a9650a4d1c59be422f42bff568031"
+    sha256 cellar: :any_skip_relocation, all: "b163523b54079cf69f6d51f460573db21e09e1c66ff99598b257f4d1c335354c"
   end
 
   depends_on "openjdk"

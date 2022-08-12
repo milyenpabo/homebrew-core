@@ -17,7 +17,8 @@ class LlvmAT7 < Formula
 
   keg_only :versioned_formula
 
-  deprecate! date: "2022-05-29", because: :versioned_formula
+  # Deprecated in homebrew since 2022-05-29
+  disable! date: "2022-09-30", because: :versioned_formula
 
   # https://llvm.org/docs/GettingStarted.html#requirement
   depends_on "cmake" => :build
@@ -33,8 +34,8 @@ class LlvmAT7 < Formula
   uses_from_macos "zlib"
 
   on_linux do
-    depends_on "glibc" if Formula["glibc"].any_version_installed?
     depends_on "binutils" # needed for gold and strip
+    depends_on "glibc" if Formula["glibc"].any_version_installed?
     depends_on "libelf" # openmp requires <gelf.h>
     depends_on "python@3.8"
   end

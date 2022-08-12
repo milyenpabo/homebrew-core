@@ -1,8 +1,8 @@
 class InfluxdbAT1 < Formula
   desc "Time series, events, and metrics database"
   homepage "https://influxdata.com/time-series-platform/influxdb/"
-  url "https://github.com/influxdata/influxdb/archive/v1.9.7.tar.gz"
-  sha256 "f2f514ce67378d859a039faa2068871bf933d082e95d731b1e22c7971d5bd01f"
+  url "https://github.com/influxdata/influxdb/archive/v1.10.0.tar.gz"
+  sha256 "2efe515ba55e4fee18a994902bb3de242f0d498e3662e6cec1548c7f700d8278"
   license "MIT"
 
   livecheck do
@@ -11,12 +11,12 @@ class InfluxdbAT1 < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "86d58201466566b2be12d0fbcf735a6f277593eb03af419907c37a02aba5e494"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1c427a053a511e882bc426fda71a37864a109d676d75e89a5414aa6f72e305d1"
-    sha256 cellar: :any_skip_relocation, monterey:       "786dc384a1994b827aa7f74bcca605306163a0c538d4646b22c79eb568224c57"
-    sha256 cellar: :any_skip_relocation, big_sur:        "ec6c81fcfcce67c1d33d63851e50c16ce81ef682bca1811969c059dafd4d02d2"
-    sha256 cellar: :any_skip_relocation, catalina:       "c6cb98191aa673c61c43bd8c4b813533f4bf832c2dcb5af47f8b2daa58a4da30"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f40eb11aa06abaae42347ab7ac7b91fd540ad6f3f7bc280ad048b3298e770470"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "a227d99a24905a7ce83f2b8726643ad96c98e52ffb28a1ad02f91c1b7f8ef155"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "15f2975fbb4840dbf635669ad98a44eedb49a08253e565a692ace55c3ea3a5d2"
+    sha256 cellar: :any_skip_relocation, monterey:       "d29e6e0cf8758c3e0e55becad5e4b908a2aa0b9ff2aa4c90f72258f5986c88af"
+    sha256 cellar: :any_skip_relocation, big_sur:        "ee0a66646092723683a124f764327dc639f24dcc8d090f71899d78f4047c91fd"
+    sha256 cellar: :any_skip_relocation, catalina:       "06ba8b1160b29c9ce3eff969df29478ae2b40241cdadb066e6e3b96e351afd51"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b3e95b7e154b320eefc0819528a5c2144b6b13df799253438c6876a25a9eacd9"
   end
 
   keg_only :versioned_formula

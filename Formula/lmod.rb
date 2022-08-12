@@ -1,23 +1,24 @@
 class Lmod < Formula
   desc "Lua-based environment modules system to modify PATH variable"
   homepage "https://lmod.readthedocs.io"
-  url "https://github.com/TACC/Lmod/archive/8.7.6.tar.gz"
-  sha256 "e6fb88974208e1416d774a449cc3f157efb1094a6e1d8f34e72cb69bb869307f"
+  url "https://github.com/TACC/Lmod/archive/8.7.11.tar.gz"
+  sha256 "7350627aeba9e03944b4131680a05e0341174aeaba43840e1ea30e7b3b4cfb74"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "d833177be00843a907ddb877b38dfc0296736788e7a2224c6080c716aeb22955"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "8c9321abbdd2fd3488016df4d44d58336deba26364eec71ea1b087737258623d"
-    sha256 cellar: :any_skip_relocation, monterey:       "ec69eab05a27f5f69f29dcb3ec026fa208dc00c8515c6d3c86d81021354bf1ef"
-    sha256 cellar: :any_skip_relocation, big_sur:        "0ab9d33a53ab6c000ca00b7a1f4b703aa67f076a3a552b25a56ae5aac0e26165"
-    sha256 cellar: :any_skip_relocation, catalina:       "ebc238df08ef33f5a7cf70776b9be79ab38adf1287316400255f31a632bd3d5c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "5b7e944a02622baff5c4d969040963161dff58c4d7d3d7bddde6f07e6392b93c"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "c32fbeb54a388d22e3cc2113725b222591447cb996d3de9ac9ae7ded39ec227b"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "4045d0a529e214e10c000a111409d4312c1929a0ecf3e7c779176bdb72fa569b"
+    sha256 cellar: :any_skip_relocation, monterey:       "0135b18780d07cf9461618565c4dd09ae0a893d6a4849caa0973e67ca29bd184"
+    sha256 cellar: :any_skip_relocation, big_sur:        "1c6709dace44d528687c6a365d7f4da77ffa1c76bba219b4e5440a20904c497c"
+    sha256 cellar: :any_skip_relocation, catalina:       "662e06fa6b9917e9e966ae71bfc7a4960806cce02c9e7e741c52e39cbed802cb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c95c06340928160d0fec3018f2c4968790c179e68ee855f27891f6be3bd4ed04"
   end
 
   depends_on "luarocks" => :build
   depends_on "pkg-config" => :build
   depends_on "lua"
 
+  uses_from_macos "bc" => :build
   uses_from_macos "libxcrypt"
   uses_from_macos "tcl-tk"
 

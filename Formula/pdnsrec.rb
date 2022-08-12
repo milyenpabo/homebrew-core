@@ -1,8 +1,8 @@
 class Pdnsrec < Formula
   desc "Non-authoritative/recursing DNS server"
   homepage "https://www.powerdns.com/recursor.html"
-  url "https://downloads.powerdns.com/releases/pdns-recursor-4.7.0.tar.bz2"
-  sha256 "e4872a1b11a35fc363f354d69ccb4ec88047bfc7d9308087497dc2ad3af3498c"
+  url "https://downloads.powerdns.com/releases/pdns-recursor-4.7.1.tar.bz2"
+  sha256 "d2f94573a6f0e63a1034ca2b301c27ebf2e1300a655ba669cc502d5ea8d6ec68"
   license "GPL-2.0-only"
 
   livecheck do
@@ -11,18 +11,18 @@ class Pdnsrec < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "57530d84e93985acfb861e54e049a632f384fb3ed03294934d46e8d694b99b99"
-    sha256 arm64_big_sur:  "a7987bdd9644287bca00e88049aebaa891b3ccc9b11e47e9917c3a3fd5f30d96"
-    sha256 monterey:       "98352cb2db36fcd5de353a1c177658f6c51b87dbe6b77455b1f657987c19f1c4"
-    sha256 big_sur:        "1746024cfa12b0b5786d649d96afa87b0113df1fa9007971ace2561866cd49d4"
-    sha256 catalina:       "58820ddd18e91bb3b844ff2103b115978be3b1df5b26c7c3a61017df548fc82b"
-    sha256 x86_64_linux:   "21162c46a26357c503a07a18bbca90e4f660d7ccf192eea0883de0b83ca949f3"
+    sha256 arm64_monterey: "8efb58d8c7628b7809f291d845ed51a40000d4745311170055e534e92da7fd7e"
+    sha256 arm64_big_sur:  "f1f7f552470d269544bf110dffa130caa10865fff6446fa266e1d94da8909045"
+    sha256 monterey:       "96923e8aee1975168cb39d06bf347560abaf805f83d8aa23680a79a4263b0fe3"
+    sha256 big_sur:        "85b0213089276ed9ea234a94ad5b535563288dee6ea3aba67d62b198b0223d47"
+    sha256 catalina:       "61c5e0449aa3dc557a0ff7613bbb524a4590c1bd959fc5b4a9c9180e45e9f50d"
+    sha256 x86_64_linux:   "6513aed54812ba8fb1da94e42aae3febc1271e7135223b10dd0a7d9bc7bf92b3"
   end
 
   depends_on "pkg-config" => :build
   depends_on "boost"
   depends_on "lua"
-  depends_on "openssl@1.1"
+  depends_on "openssl@3"
 
   on_macos do
     # This shouldn't be needed for `:test`, but there's a bug in `brew`:
@@ -54,7 +54,7 @@ class Pdnsrec < Formula
       --sysconfdir=#{etc}/powerdns
       --disable-silent-rules
       --with-boost=#{Formula["boost"].opt_prefix}
-      --with-libcrypto=#{Formula["openssl@1.1"].opt_prefix}
+      --with-libcrypto=#{Formula["openssl@3"].opt_prefix}
       --with-lua
       --without-net-snmp
     ]

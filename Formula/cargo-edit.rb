@@ -1,17 +1,17 @@
 class CargoEdit < Formula
   desc "Utility for managing cargo dependencies from the command-line"
   homepage "https://killercup.github.io/cargo-edit/"
-  url "https://github.com/killercup/cargo-edit/archive/v0.9.1.tar.gz"
-  sha256 "bae2a59dcf6110fe0c8bf8562e58d550b2b3b3a02e89b233af5a3be12d41cdf0"
+  url "https://github.com/killercup/cargo-edit/archive/v0.10.4.tar.gz"
+  sha256 "f4a6d94b48b27b6db7bd27d6091f0c9aeddf224c8a8dfe31133750530f096890"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "e9c27e9d667528d19e4e3b3e8937a8483c5332919c7d2520807d8992824c37f3"
-    sha256 cellar: :any,                 arm64_big_sur:  "2fbd2de8afe7c95ad02f96d5a46fba6c441fcb0ba7466293773cbdb7731e01bd"
-    sha256 cellar: :any,                 monterey:       "8094fcd189b40222a08aa9b43310345a6f428b88ce5cdb0e869c46854c7def2e"
-    sha256 cellar: :any,                 big_sur:        "8ec4f37fd37bcd420e20e3feb203ac86bd2afa50d0285242e084964db94c6e2a"
-    sha256 cellar: :any,                 catalina:       "a69b391438f6d6927906cbb3c9146ffe6823d3c93df17ee3a68b3fd08bcfe801"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c9e585a3818bf0a23b14bac6e068b408444c8a1c5a07a82a326023c963e6e0ca"
+    sha256 cellar: :any,                 arm64_monterey: "79e2ff6224833ed590141a3b8018d1a0862bc06b7df771cde8de0199ca02da1c"
+    sha256 cellar: :any,                 arm64_big_sur:  "ff9ce02ee3bc5f17e81557d224dac53305c10f6c62572d6f23d77b3abc888182"
+    sha256 cellar: :any,                 monterey:       "aa5daafbf92df46d9b2dc178ef9c956edb5826a12f72c45dca96f6dc7d93955d"
+    sha256 cellar: :any,                 big_sur:        "0f52dc62ab1d579f8eeb86c7f96f0fb71eda72fba5e4a1e134faf2a399ae7c38"
+    sha256 cellar: :any,                 catalina:       "54d7f86bd793147808af3894fe1d6f6ec514ec1c6bff780894b32a57b3515f9e"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "67769ae39556f7addfcc155c0ffd574af5167a9999e73496a6b97344829ff5c3"
   end
 
   depends_on "libgit2"
@@ -30,20 +30,16 @@ class CargoEdit < Formula
         [package]
         name = "demo-crate"
         version = "0.1.0"
+
+        [dependencies]
+        clap = "2"
       EOS
 
-      system bin/"cargo-add", "add", "clap@2", "serde"
-      system bin/"cargo-add", "add", "-D", "just@0.8.3"
-      manifest = (crate/"Cargo.toml").read
+      system bin/"cargo-set-version", "set-version", "0.2.0"
+      assert_match 'version = "0.2.0"', (crate/"Cargo.toml").read
 
-      assert_match 'clap = "2"', manifest
-      assert_match(/serde = "\d+(?:\.\d+)+"/, manifest)
-      assert_match 'just = "0.8.3"', manifest
-
-      system bin/"cargo-rm", "rm", "serde"
-      manifest = (crate/"Cargo.toml").read
-
-      refute_match(/serde/, manifest)
+      system bin/"cargo-rm", "rm", "clap"
+      refute_match(/clap/, (crate/"Cargo.toml").read)
     end
   end
 end

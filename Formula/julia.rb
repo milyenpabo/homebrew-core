@@ -2,6 +2,7 @@ class Julia < Formula
   desc "Fast, Dynamic Programming Language"
   homepage "https://julialang.org/"
   license all_of: ["MIT", "BSD-3-Clause", "Apache-2.0", "BSL-1.0"]
+  revision 2
   head "https://github.com/JuliaLang/julia.git", branch: "master"
 
   stable do
@@ -47,10 +48,9 @@ class Julia < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 monterey:     "240d794e6686bae101efe8eb4f6eaf83ddc00a7fa0e35b3b0012dcc270025c8c"
-    sha256 cellar: :any,                 big_sur:      "36e062ddc2856a9af57590c85066cb2bf5edddb24d99a7898f69f6dfc692a1e7"
-    sha256 cellar: :any,                 catalina:     "179b61c9af585e455a48d042a20a30535bc9b714a42a66cd609700f15e865a40"
-    sha256 cellar: :any_skip_relocation, x86_64_linux: "960c0ad15b8b86d4ad14d0934064535ea5120bac50317c54fcd3a46bb7488562"
+    sha256 cellar: :any, monterey: "d2d3dc68a8a6d8f741143086635b0f450c0f927568b7416b0c225d7573f129e1"
+    sha256 cellar: :any, big_sur:  "540ff0df2e550fc8b7fedbf0a762c28437b759fa50355218a6459740c2a9ec17"
+    sha256 cellar: :any, catalina: "7d822cd4f8bdbb72feddde470fda0e48738453bf7992833a6d24d0a835166bea"
   end
 
   # Requires the M1 fork of GCC to build
@@ -93,6 +93,13 @@ class Julia < Formula
   patch do
     url "https://raw.githubusercontent.com/archlinux/svntogit-community/cd813138d8a6fd496d0972a033d55028613be06d/trunk/julia-libgit-1.4.patch"
     sha256 "cfe498a090d0026b92f9db4ed65ac3818c2efa5ec83bcefed728d27abff73081"
+  end
+
+  # Link against libgcc_s.1.1.dylib, not libgcc_s.1.dylib
+  # https://github.com/JuliaLang/julia/pull/46240
+  patch do
+    url "https://raw.githubusercontent.com/Homebrew/formula-patches/eca8ecc1/julia/libgcc_s.diff"
+    sha256 "48caa1200dc3bd2bf5ae4f03331693619ba9a811e6962e3bc7b52c23bdcd4344"
   end
 
   def install

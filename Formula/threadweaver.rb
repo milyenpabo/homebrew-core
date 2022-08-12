@@ -1,8 +1,8 @@
 class Threadweaver < Formula
   desc "Helper for multithreaded programming"
   homepage "https://api.kde.org/frameworks/threadweaver/html/index.html"
-  url "https://download.kde.org/stable/frameworks/5.95/threadweaver-5.95.0.tar.xz"
-  sha256 "bab01c9fc08721b86db274c2a068a2957f8f0a72c5534133425e82af4ef2dd3e"
+  url "https://download.kde.org/stable/frameworks/5.96/threadweaver-5.96.0.tar.xz"
+  sha256 "78b5cf0b8d5937ac998c3b6f73926bdd483688b758da800126ff0b56f9b25252"
   license "LGPL-2.0-or-later"
   head "https://invent.kde.org/frameworks/threadweaver.git", branch: "master"
 
@@ -14,12 +14,12 @@ class Threadweaver < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "454f0c73688e014319582b4f432dfab8264fdd1ef61f12025200e6155d232f2e"
-    sha256 cellar: :any,                 arm64_big_sur:  "da351908935cd505d5dce07a762e90b40e101c61416360bf941fd43e33112176"
-    sha256 cellar: :any,                 monterey:       "52dff3f75452327da316f5b97fbd53cc37c794f16b5e2c3ba661b7a4c8c87550"
-    sha256 cellar: :any,                 big_sur:        "b230068f53863d48755335b883ca3bf9531297996e8a471628f73ffe1ba5aa02"
-    sha256 cellar: :any,                 catalina:       "978a7e1083193ee4900f7601e884aff92097aa762a0e30c3d38cc82f3eba0468"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c45689328db0b25d8e4e67025d38f8677d5214ac54f72eacc8efab2886ac691d"
+    sha256 cellar: :any,                 arm64_monterey: "d90943a6e120701ced520f7a8b1a55dbd7c35845daf0b5b363c0329fdc191c0c"
+    sha256 cellar: :any,                 arm64_big_sur:  "65e2d18ba6a0f5849354e89741f7e0fd8a8a1e3105ca01fae294318b2fceeacf"
+    sha256 cellar: :any,                 monterey:       "6ca0edb6df9b965d4d830f296b932f1d7e3995fe9f038206a4c2f4de5db65133"
+    sha256 cellar: :any,                 big_sur:        "9af28a8355af43b464d44d4a3020979cba04f6d22b4c8da74ab73fa07d89f3f3"
+    sha256 cellar: :any,                 catalina:       "4d74cca53a87ba0cc790ed58768cf4373cf38d768314470eeb9fdf072deaf794"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "2d041b5632e0134c82f4e29a662681b745a3a9b1199f25faee92a02c69bba0cc"
   end
 
   depends_on "cmake" => [:build, :test]

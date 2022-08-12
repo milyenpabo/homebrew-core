@@ -1,17 +1,17 @@
 class ImapBackup < Formula
   desc "Backup GMail (or other IMAP) accounts to disk"
   homepage "https://github.com/joeyates/imap-backup"
-  url "https://github.com/joeyates/imap-backup/archive/refs/tags/v5.2.0.tar.gz"
-  sha256 "af247527ab77faa81d76bb4e7dfc530a78d71c2801c4bc825829315aa4eab3db"
+  url "https://github.com/joeyates/imap-backup/archive/refs/tags/v6.2.1.tar.gz"
+  sha256 "758b586d5198ba0e8d987ee513dcbd13c6205bd05b4e32c49e064288de4b35f4"
   license "MIT"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "fbfb9588684ff9edbf08ce93bc04e03380c50279167585ab3e81434f0b81301a"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "5cc0e0e09dd4c774cca2b88635d08e570c25cdc6249a6b5b9b731fcda02ade9c"
-    sha256 cellar: :any_skip_relocation, monterey:       "fbfb9588684ff9edbf08ce93bc04e03380c50279167585ab3e81434f0b81301a"
-    sha256 cellar: :any_skip_relocation, big_sur:        "5cc0e0e09dd4c774cca2b88635d08e570c25cdc6249a6b5b9b731fcda02ade9c"
-    sha256 cellar: :any_skip_relocation, catalina:       "5cc0e0e09dd4c774cca2b88635d08e570c25cdc6249a6b5b9b731fcda02ade9c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "01ccc122dae09432f7c7fe9d491570632a5406f60484aa182ca3e4d140e0d584"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "1f95d6287d5aedfc62fc83183ec491b2eb0766db5ed10ad090cca9dea1531fdc"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "365b8d26934f7998b96770f719790d6a512acdef5bc398f5b3d360347ca5fea7"
+    sha256 cellar: :any_skip_relocation, monterey:       "1f95d6287d5aedfc62fc83183ec491b2eb0766db5ed10ad090cca9dea1531fdc"
+    sha256 cellar: :any_skip_relocation, big_sur:        "365b8d26934f7998b96770f719790d6a512acdef5bc398f5b3d360347ca5fea7"
+    sha256 cellar: :any_skip_relocation, catalina:       "365b8d26934f7998b96770f719790d6a512acdef5bc398f5b3d360347ca5fea7"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "191c3525a6150c5c0a75b8060ade9f3bee8ffe7b2c47d00faa99a34a18f01294"
   end
 
   uses_from_macos "ruby", since: :catalina

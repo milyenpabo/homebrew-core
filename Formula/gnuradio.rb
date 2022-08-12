@@ -3,9 +3,10 @@ class Gnuradio < Formula
 
   desc "SDK for signal processing blocks to implement software radios"
   homepage "https://gnuradio.org/"
-  url "https://github.com/gnuradio/gnuradio/archive/refs/tags/v3.10.2.0.tar.gz"
-  sha256 "a8f6c1cc98bc3784aa70ab29d3039ad6922ec36f908ecfb2c904a597b32c0776"
+  url "https://github.com/gnuradio/gnuradio/archive/refs/tags/v3.10.3.0.tar.gz"
+  sha256 "957108a67ec75d99adaad8f3b10be8ae08760a9cef0b659a5c815a4e33898a75"
   license "GPL-3.0-or-later"
+  revision 1
   head "https://github.com/gnuradio/gnuradio.git", branch: "main"
 
   livecheck do
@@ -14,12 +15,12 @@ class Gnuradio < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "376d4574f265940648bf2fd2232d63e3984b5c96c8861208ffbed74864e27b5f"
-    sha256 cellar: :any,                 arm64_big_sur:  "3407ebc295d5d2eea743ee6b3654350f9ada62d800006a589efb4417bb5d3e31"
-    sha256 cellar: :any,                 monterey:       "5d3fa2c2e0ec6cbd17168a72763a9fc8efa183b4ab07e17f2cab6bf0cba33885"
-    sha256 cellar: :any,                 big_sur:        "d201d8541924e2830972b584acee91a2450be40cd2155d3575f3c7b4bf980f08"
-    sha256 cellar: :any,                 catalina:       "1607faf396e62d6d564db8bbb0c8f6afd2ef507a845d798b7baf31dbd52c27bb"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1cfaccbb0aac061906e66989616d58399c14b581c55874a47ee9d0681184ee9a"
+    sha256 cellar: :any,                 arm64_monterey: "677c167b0c72083462b7d243a2863c290c003f987eb244bb4f3a5122b575defa"
+    sha256 cellar: :any,                 arm64_big_sur:  "6874ed1343a9919b8221bc156a2f70f1c8b3e288ee4c967717ba8c8cbbdbeb1b"
+    sha256 cellar: :any,                 monterey:       "74d02c011fb2e52410445658d346c57fb1f29c80c61ad7e2019d48c30ba6c209"
+    sha256 cellar: :any,                 big_sur:        "ea346dea13413be03ddb4b646102decc31e8e572501e160432fe6005e48061e9"
+    sha256 cellar: :any,                 catalina:       "f72621739965a151a4d95e5c3ec6eb59e83da9333ccf4e2d4d1fb0b5a2146e87"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "b54a723fdb6dea28b8c321a4dfbc4cb28cbf1e6a3768c258c3cf3955210fc2a4"
   end
 
   depends_on "cmake" => :build
@@ -40,7 +41,7 @@ class Gnuradio < Formula
   depends_on "portaudio"
   depends_on "pygobject3"
   depends_on "pyqt@5"
-  depends_on "python@3.9"
+  depends_on "python@3.10"
   depends_on "qt@5"
   depends_on "qwt-qt5"
   depends_on "six"
@@ -96,15 +97,19 @@ class Gnuradio < Formula
     sha256 "7f91197cc9e48f989d12e4e6fbc46495c446636dfc81b9ccf50bb0ec74b91d4b"
   end
 
+  # Fix upstreamed here: https://github.com/gnuradio/gnuradio/pull/6002.
+  patch :DATA
+
   def install
+    python = "python3.10"
     ENV.cxx11
 
     ENV["XML_CATALOG_FILES"] = etc/"xml/catalog"
 
     venv_root = libexec/"venv"
-    xy = Language::Python.major_minor_version "python3"
-    ENV.prepend_create_path "PYTHONPATH", "#{venv_root}/lib/python#{xy}/site-packages"
-    venv = virtualenv_create(venv_root, "python3")
+    site_packages = Language::Python.site_packages(python)
+    ENV.prepend_create_path "PYTHONPATH", venv_root/site_packages
+    venv = virtualenv_create(venv_root, python)
     venv.pip_install resources
 
     # Avoid references to the Homebrew shims directory
@@ -117,10 +122,10 @@ class Gnuradio < Formula
     qwt_lib = OS.mac? ? qwt/"qwt.framework/qwt" : qwt/"libqwt.so"
     qwt_include = OS.mac? ? qwt/"qwt.framework/Headers" : Formula["qwt-qt5"].opt_include
 
-    args = std_cmake_args + %W[
+    args = %W[
       -DGR_PKG_CONF_DIR=#{etc}/gnuradio/conf.d
       -DGR_PREFSDIR=#{etc}/gnuradio/conf.d
-      -DGR_PYTHON_DIR=#{lib}/python#{xy}/site-packages
+      -DGR_PYTHON_DIR=#{prefix/site_packages}
       -DENABLE_DEFAULT=OFF
       -DPYTHON_EXECUTABLE=#{venv_root}/bin/python
       -DPYTHON_VERSION_MAJOR=3
@@ -140,14 +145,9 @@ class Gnuradio < Formula
       args << "-DENABLE_#{c}=ON"
     end
 
-    mkdir "build" do
-      system "cmake", "..", *args
-      system "make"
-      system "make", "install"
-    end
-
-    mv Dir[lib/"python#{xy}/dist-packages/*"], lib/"python#{xy}/site-packages/"
-    rm_rf lib/"python#{xy}/dist-packages"
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
 
     # Create a directory for Homebrew to put .pth files pointing to GNU Radio
     # plugins installed by other packages. An automatically-loaded module adds
@@ -155,15 +155,14 @@ class Gnuradio < Formula
     plugin_pth_dir = etc/"gnuradio/plugins.d"
     mkdir plugin_pth_dir
 
-    site_packages = lib/"python#{xy}/site-packages"
-    venv_site_packages = venv_root/"lib/python#{xy}/site-packages"
+    venv_site_packages = venv_root/site_packages
 
     (venv_site_packages/"homebrew_gr_plugins.py").write <<~EOS
       import site
       site.addsitedir("#{plugin_pth_dir}")
     EOS
 
-    pth_contents = "#{site_packages}\nimport homebrew_gr_plugins\n"
+    pth_contents = "#{prefix/site_packages}\nimport homebrew_gr_plugins\n"
     (venv_site_packages/"homebrew-gnuradio.pth").write pth_contents
 
     # Patch the grc config to change the search directory for blocks
@@ -239,6 +238,45 @@ class Gnuradio < Formula
 
       main()
     EOS
-    system Formula["python@3.9"].opt_bin/"python3", testpath/"test.py"
+    system Formula["python@3.10"].opt_bin/"python3.10", testpath/"test.py"
   end
 end
+
+__END__
+diff --git a/gr-qtgui/lib/FrequencyDisplayPlot.cc b/gr-qtgui/lib/FrequencyDisplayPlot.cc
+index f6f673e..2171f26 100644
+--- a/gr-qtgui/lib/FrequencyDisplayPlot.cc
++++ b/gr-qtgui/lib/FrequencyDisplayPlot.cc
+@@ -16,7 +16,7 @@
+ #include <gnuradio/qtgui/qtgui_types.h>
+ #include <qwt_scale_draw.h>
+ #include <QColor>
+-
++#include <cmath>
+
+ /***********************************************************************
+  * Widget to provide mouse pointer coordinate text
+diff --git a/gr-qtgui/lib/VectorDisplayPlot.cc b/gr-qtgui/lib/VectorDisplayPlot.cc
+index d5c2ecc..e047437 100644
+--- a/gr-qtgui/lib/VectorDisplayPlot.cc
++++ b/gr-qtgui/lib/VectorDisplayPlot.cc
+@@ -17,6 +17,7 @@
+ #include <qwt_legend.h>
+ #include <qwt_scale_draw.h>
+ #include <QColor>
++#include <cmath>
+
+ #if QWT_VERSION < 0x060100
+ #include <qwt_legend_item.h>
+diff --git a/gr-qtgui/lib/WaterfallDisplayPlot.cc b/gr-qtgui/lib/WaterfallDisplayPlot.cc
+index 69d82fd..d1e42e9 100644
+--- a/gr-qtgui/lib/WaterfallDisplayPlot.cc
++++ b/gr-qtgui/lib/WaterfallDisplayPlot.cc
+@@ -19,6 +19,7 @@
+ #include <qwt_plot_layout.h>
+ #include <qwt_scale_draw.h>
+ #include <QColor>
++#include <cmath>
+
+ #if QWT_VERSION < 0x060100
+ #include <qwt_legend_item.h>

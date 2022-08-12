@@ -2,8 +2,8 @@ class Openj9 < Formula
   desc "High performance, scalable, Java virtual machine"
   homepage "https://www.eclipse.org/openj9/"
   url "https://github.com/eclipse-openj9/openj9.git",
-      tag:      "openj9-0.32.0",
-      revision: "9a84ec34ed321967cdbe67b29ddcd732b591d051"
+      tag:      "openj9-0.33.0",
+      revision: "04a55b45b3a0d75813335fda0fb8703819690ee7"
   license any_of: [
     "EPL-2.0",
     "Apache-2.0",
@@ -17,9 +17,9 @@ class Openj9 < Formula
   end
 
   bottle do
-    sha256 cellar: :any, monterey: "bfb85bf3b8fb2467c09737099c9c6d7bad7ac7f2403a788fe7c0378b6411cab4"
-    sha256 cellar: :any, big_sur:  "1758d93cfaef40edff506f410a86da434085c4a9c6647fc40084150387bb7be6"
-    sha256 cellar: :any, catalina: "fefdcb19393018f7f9ecb749ecbf3681da8f8790eb3d774b767e53670a342292"
+    sha256 cellar: :any, monterey: "91e773799afc5b762cae6c609e5318c9fb79b4ebbca265422cc97c4bcb5579fa"
+    sha256 cellar: :any, big_sur:  "651c441a9a0f350dbc5bffd11983ba6d633e246d7e9f0a0ff409904acd7ccc42"
+    sha256 cellar: :any, catalina: "492833a274e9da1f766dc13b25f3829632a4a9e8068a79eada3be1f267ba86e3"
   end
 
   keg_only :shadowed_by_macos
@@ -27,15 +27,13 @@ class Openj9 < Formula
   depends_on "autoconf" => :build
   depends_on "bash" => :build
   depends_on "cmake" => :build
-  depends_on "nasm" => :build if Hardware::CPU.intel?
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
   depends_on arch: :x86_64 # https://github.com/eclipse-openj9/openj9/issues/11164
-
   depends_on "fontconfig"
   depends_on "giflib"
   depends_on "harfbuzz"
-  depends_on "jpeg"
+  depends_on "jpeg-turbo"
   depends_on "libpng"
   depends_on "little-cms2"
 
@@ -58,6 +56,10 @@ class Openj9 < Formula
     depends_on "numactl"
   end
 
+  on_intel do
+    depends_on "nasm" => :build
+  end
+
   # From https://github.com/eclipse-openj9/openj9/blob/openj9-#{version}/doc/build-instructions/
   resource "boot-jdk" do
     on_macos do
@@ -72,14 +74,14 @@ class Openj9 < Formula
 
   resource "omr" do
     url "https://github.com/eclipse-openj9/openj9-omr.git",
-        tag:      "openj9-0.32.0",
-        revision: "ab24b6666596140516d3f240486aa1c84a726775"
+        tag:      "openj9-0.33.0",
+        revision: "b58aa2708c095efadf522f67aaef9f7de2a7cbc7"
   end
 
   resource "openj9-openjdk-jdk" do
     url "https://github.com/ibmruntimes/openj9-openjdk-jdk17.git",
         branch:   "v0.32.0-release",
-        revision: "9a84ec34ed321967cdbe67b29ddcd732b591d051"
+        revision: "04a55b45b3a0d75813335fda0fb8703819690ee7"
   end
 
   def install

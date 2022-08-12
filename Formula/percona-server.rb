@@ -1,9 +1,10 @@
 class PerconaServer < Formula
   desc "Drop-in MySQL replacement"
   homepage "https://www.percona.com"
-  url "https://downloads.percona.com/downloads/Percona-Server-8.0/Percona-Server-8.0.28-19/source/tarball/percona-server-8.0.28-19.tar.gz"
-  sha256 "1394ba4700f3c48307b1faed5804cf774f3a4d71f27680e9b09d08fb70db8e31"
+  url "https://downloads.percona.com/downloads/Percona-Server-8.0/Percona-Server-8.0.28-20/source/tarball/percona-server-8.0.28-20.tar.gz"
+  sha256 "88890e081d70901f938e39b688663d4514910773488fca42cd6de0f4371fb157"
   license "BSD-3-Clause"
+  revision 1
 
   livecheck do
     url "https://www.percona.com/downloads/Percona-Server-LATEST/"
@@ -11,12 +12,12 @@ class PerconaServer < Formula
   end
 
   bottle do
-    sha256 arm64_monterey: "5a0a8a499891f28fb052de073226f63cdc3e7b72dc4ebf41a2ab1f907a6233d9"
-    sha256 arm64_big_sur:  "c82772a4911631db204c7238511a147d7e3fc2e13d85bf0bb0a6753bf2907d1a"
-    sha256 monterey:       "806e9c0a0f7f780151533d7f831869a790fcc9afb869ec2862bf826c12609665"
-    sha256 big_sur:        "2fffd2644624a42f7d160904f1b8cc9b0ac50167cd87b1884078e9f30a701f34"
-    sha256 catalina:       "568950b85dc6e66c7788305d3b7fdc8814293cff84844db5f70eef6920fa7f21"
-    sha256 x86_64_linux:   "ff6306e55202f8915a62ef5a15457d569d0e85617a15e5b6d401c1484a09b85e"
+    sha256 arm64_monterey: "c9e4666a211c4518fb8ec476d31787a7444052eee170f795c9627827c63ed340"
+    sha256 arm64_big_sur:  "f0053fa76ffddda44648fc661b4b78598adbd56d6f0b8da44bc87b264edceae4"
+    sha256 monterey:       "ad7bc723035a9751aaf5759dcaa145d946edb804af2e5b912416035a2e6e2d81"
+    sha256 big_sur:        "64073166682704e24987ab8a0fb0390e8dd69b63beddb4522f68c0c6555be1f1"
+    sha256 catalina:       "d39e4d11773084c919425316bdad2d58fdf2bca38b56103376e48c926a31b170"
+    sha256 x86_64_linux:   "36eb30e92549e3277d3792a27f3f4ec44123f519e653a7bb8e804967861eff89"
   end
 
   depends_on "cmake" => :build
@@ -44,8 +45,8 @@ class PerconaServer < Formula
     patch :DATA
   end
 
-  conflicts_with "mariadb", "mysql",
-    because: "percona, mariadb, and mysql install the same binaries"
+  conflicts_with "mariadb", "mysql", because: "percona, mariadb, and mysql install the same binaries"
+  conflicts_with "percona-xtrabackup", because: "both install a `kmip.h`"
 
   # https://bugs.mysql.com/bug.php?id=86711
   # https://github.com/Homebrew/homebrew-core/pull/20538

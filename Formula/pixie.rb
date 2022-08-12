@@ -2,18 +2,18 @@ class Pixie < Formula
   desc "Observability tool for Kubernetes applications"
   homepage "https://px.dev/"
   url "https://github.com/pixie-io/pixie.git",
-      tag:      "release/cli/v0.7.15",
-      revision: "3f9bc4b39151eae5227cf4ad61088ce4b321da04"
+      tag:      "release/cli/v0.7.17",
+      revision: "2f3f26c6bc929992744f303988ffdf99e998611f"
   license "Apache-2.0"
   head "https://github.com/pixie-io/pixie.git", branch: "main"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "f8cd15e050c5d14d5540b2ea3035b97ef54b7c5bc4567a231ec402576bc46a2f"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "99207541af3fd0a6020c9ea20daa41feb57efcb766314c80a542c360a0b1c9ec"
-    sha256 cellar: :any_skip_relocation, monterey:       "1a822aa405373b2c71f575b5e91a8b09ab82258c4b73689c9b77e5691dd48ae6"
-    sha256 cellar: :any_skip_relocation, big_sur:        "e073ca167f260aaba8d8ec073813e6ab501a522599454de8f045bce63aa963d5"
-    sha256 cellar: :any_skip_relocation, catalina:       "9aecee5da4da2c541bc29595ef9eae7616d29dd37b199fc23c4129d96100a8dd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1ceabc505f13445528341c9e75b2fc6da8c8f399710a55f12f4da9b5d922bc28"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "e4e011905afa7d997e4629ebac4b698ad2609e6b7ebc24f26171aa64d2e19df8"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "b98312a2a6d3f5522b496672257548451f322b9583cc433e1b85ce3d2fc405bd"
+    sha256 cellar: :any_skip_relocation, monterey:       "1c8fa172c886f05f1ba1a7d4bd0e2dab27dfdd06f36c1e0f93643c663c86978e"
+    sha256 cellar: :any_skip_relocation, big_sur:        "a2dbf931849e6beb642a4f85ebfb4fd2361143ba02c3968313e10be45a90fd74"
+    sha256 cellar: :any_skip_relocation, catalina:       "ea72e3b8d962011c80ca5306406a5853fc35e1b03e133898fa9a6e254d738024"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "1ad51bcee7d3ccc95fb011a19c6a266488324940ef00a7a72a56bd1d5d427084"
   end
 
   depends_on "go" => :build

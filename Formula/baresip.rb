@@ -1,29 +1,23 @@
 class Baresip < Formula
   desc "Modular SIP useragent"
   homepage "https://github.com/baresip/baresip"
-  url "https://github.com/baresip/baresip/archive/v2.4.0.tar.gz"
-  sha256 "5939cdd5f37f164f2c3ccfdf4ae8f44d5aa40ed73c3517bdd88b080d575784b3"
+  url "https://github.com/baresip/baresip/archive/v2.6.0.tar.gz"
+  sha256 "86e04cef08828515cc9e690cf0f37d8b0f1f69c6d84bd8eea7a70df05b0aca76"
   license "BSD-3-Clause"
 
   bottle do
-    sha256 arm64_monterey: "321d290cdadb236717d10039d2e25e910fb474dfb8d44b980299b0cfd665a9b9"
-    sha256 arm64_big_sur:  "1b50c200ee7b13486a565c8148ee519f3d37dd0b8db0af0cecc989da8fc6cd7b"
-    sha256 monterey:       "0bac6db7823cd63de85dc9d17dd5bfa263b92ba4d864f3365aecb88d2eff8132"
-    sha256 big_sur:        "53f8e6447904119f08c416e7aa34853cb35521469e584e9925896bcf7a12cde9"
-    sha256 catalina:       "5d532473248c52bd804641c3359dc1bbf6fb23b06237e47ffe3f1bdc245be33c"
-    sha256 x86_64_linux:   "158223c2396ca16b610cf4ded297706a07eda075889f7064ef8d67c03d5e06d1"
+    sha256 arm64_monterey: "c3a6a4209ac3ea8d95476017d3798487d0a31b215adbfcbe500251fd716fd97d"
+    sha256 arm64_big_sur:  "46e2156056096a916a8b50feef733e077aba639f17eed5f226fcbf8bc996cdec"
+    sha256 monterey:       "f665fee266d3b300cb6774db937020a6e439790a6a8802d12aacd4b3dec8cb3d"
+    sha256 big_sur:        "26758f25ba5163e00fea8fd91e7eea2175df4f76d6648e36f9d99eae9e100cfb"
+    sha256 catalina:       "c2577ff068c8ffd4f11b32e745be8e93b2c6e7c8f369789560523ef546603cae"
+    sha256 x86_64_linux:   "2e03c3923b100c126c9a9a414be581482e272de13de83fcff8f6138ecda5dac4"
   end
 
   depends_on "libre"
   depends_on "librem"
 
   def install
-    # baresip doesn't like the 10.11 SDK when on Yosemite
-    if MacOS::Xcode.version.to_i >= 7
-      ENV.delete("SDKROOT")
-      ENV.delete("HOMEBREW_SDKROOT") if MacOS::Xcode.without_clt?
-    end
-
     libre = Formula["libre"]
     librem = Formula["librem"]
     # NOTE: `LIBRE_SO` is a directory but `LIBREM_SO` is a shared library.

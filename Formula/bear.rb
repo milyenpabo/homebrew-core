@@ -1,19 +1,19 @@
 class Bear < Formula
   desc "Generate compilation database for clang tooling"
   homepage "https://github.com/rizsotto/Bear"
-  url "https://github.com/rizsotto/Bear/archive/3.0.19.tar.gz"
-  sha256 "2fcfe2c6e029182cfc54ed26b3505c0ef12b0f43df03fb587f335afdc2ca9431"
+  url "https://github.com/rizsotto/Bear/archive/3.0.20.tar.gz"
+  sha256 "45cfcdab07f824f6c06c9776701156f7a04b23eadd25ecbc88c188789a447cc7"
   license "GPL-3.0-or-later"
-  revision 3
+  revision 1
   head "https://github.com/rizsotto/Bear.git", branch: "master"
 
   bottle do
-    sha256 arm64_monterey: "250481294463503dc2fbc9594bfc5d93b4f6bc3a58661e77b41bfd2fa4843f08"
-    sha256 arm64_big_sur:  "f20ac1cb9818bbb141162b3bc4af6ffdc42855805be48b51f46f646cb6218dae"
-    sha256 monterey:       "8331f1c657ecf1a8e8c6325bea7a6737e57f5c165fab4d5b9aa4688a0c87f886"
-    sha256 big_sur:        "954e98dec61b42f5478b98429f93308449d07a64dcf483736b23142f8422cf24"
-    sha256 catalina:       "188a0986aaaaf9a474a09ced1583843fef08ecfd906e8f8504ad7f0825d3702d"
-    sha256 x86_64_linux:   "b91c9ba37be9a1228c8ee374313f1215a4b14c1b71661aa77edf183a2f4ae495"
+    sha256 arm64_monterey: "ab01798c2cd74e3ba7e83927f15734a0799489e3ebcb260c91f1538929658099"
+    sha256 arm64_big_sur:  "ef40e3080a10ed5d7aede3daf63cd225528cfdb651a7b28d713181aa3f42b363"
+    sha256 monterey:       "12d3a043508392fa9c39aded6fb40cc2a92e94696561462bd8902b05d8cb0b95"
+    sha256 big_sur:        "c8b0107d658942be5b095cf40a3d130627341f00e6dcacb38a2120b6e50ec8fc"
+    sha256 catalina:       "1bb5e92527240cd0a797dea1bbb293b901c975fffcb5cacd0f4b3105912d46b4"
+    sha256 x86_64_linux:   "5684d59bbf938e002987b6d78768f720dfcffadd431ecf8193213bcb3f8eb954"
   end
 
   depends_on "cmake" => :build
@@ -51,11 +51,9 @@ class Bear < Formula
       -DENABLE_FUNC_TESTS=OFF
     ]
 
-    mkdir "build" do
-      system "cmake", "..", *args, *std_cmake_args
-      system "make", "all"
-      system "make", "install"
-    end
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
   end
 
   test do

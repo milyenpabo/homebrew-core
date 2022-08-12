@@ -1,8 +1,8 @@
 class Z3 < Formula
   desc "High-performance theorem prover"
   homepage "https://github.com/Z3Prover/z3"
-  url "https://github.com/Z3Prover/z3/archive/z3-4.8.17.tar.gz"
-  sha256 "1e57637ce8d5212fd38453df28e2730a18e0a633f723682267be87f5b858a126"
+  url "https://github.com/Z3Prover/z3/archive/z3-4.10.2.tar.gz"
+  sha256 "889fd035b833775c8cd2eb4723eb011bf916a3e9bf08ce66b31c548acee7a321"
   license "MIT"
   head "https://github.com/Z3Prover/z3.git", branch: "develop"
 
@@ -13,12 +13,12 @@ class Z3 < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "b8749a0b889793fb7cfa72d1d380b74bdfeba5607e60d1d1deb0080dea7115bb"
-    sha256 cellar: :any,                 arm64_big_sur:  "2f59c37465aecdfbcc50a5ba0fe627535c0ff4cffb9080bfbddc0a2af0f97b53"
-    sha256 cellar: :any,                 monterey:       "d5dc7cb5a4a51bb544531f8ef9add76f22eda73d65c5603523c3573203b48bae"
-    sha256 cellar: :any,                 big_sur:        "b71b46a3a98b756ff456a591c2cd372013fd166f7e9ee8e25ceda8f990f9880d"
-    sha256 cellar: :any,                 catalina:       "2da92fd5596dd0a2c0a0b21f63bd474872933a5910a8d9f2e93619c687418a25"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "f76abc05ef9587b811f14c70f430278e47405c7d68f610e65bd2157d11c99687"
+    sha256 cellar: :any,                 arm64_monterey: "eb0123d654aa2ae195581711ba49909e0b8f2d561325c96cef3b18b0ba195f4b"
+    sha256 cellar: :any,                 arm64_big_sur:  "5452e5ff7b81055b5f2ba2829b88dc34271c3a974e23952d93d6c7b329eaff28"
+    sha256 cellar: :any,                 monterey:       "296b6f17a19866e5584f2c0726419d6acf9aee85165c46027e2dfb0b380c458d"
+    sha256 cellar: :any,                 big_sur:        "26c5ad374df3af8bf04f8dec610eab02513099c0681816122e774dd9aa658680"
+    sha256 cellar: :any,                 catalina:       "8142a915cc19ac71d057fda89c993b593fcaffdf97b930833f9cf5149ec72bcd"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "8e700c8d8b9ed45b0e14a73e3a6dc8a471ee0e47f41ab2a7d9c9170b0a92c4c9"
   end
 
   # Has Python bindings but are supplementary to the main library

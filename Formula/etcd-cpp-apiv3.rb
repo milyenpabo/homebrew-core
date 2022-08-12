@@ -4,15 +4,15 @@ class EtcdCppApiv3 < Formula
   url "https://github.com/etcd-cpp-apiv3/etcd-cpp-apiv3/archive/refs/tags/v0.2.6.tar.gz"
   sha256 "ef2bee616031316bc4cbc416cf9932fd1b2273f5f8fe9c24d2b3602c14277e8a"
   license "BSD-3-Clause"
-  revision 2
+  revision 5
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "32eced9eed69a5ef3701e7643d0008cbc9929a06b9af91c727d16a1d42ae4d4c"
-    sha256 cellar: :any,                 arm64_big_sur:  "053f435fb11fd41f80d7a0e956903e5e1d84fbfa0af636c57899d5e17662e44d"
-    sha256 cellar: :any,                 monterey:       "592490d64dd9fa3573874494f175bc5029687c5feb61bc7ea6888f6e0814e8fd"
-    sha256 cellar: :any,                 big_sur:        "f23fe61d43660cfcc8413cf30640c25e85ad9e51d053fa933c9c83713a9e159e"
-    sha256 cellar: :any,                 catalina:       "7b4d7402aae47cf1ae1f1e77b0b365a683ac101fdb5a13308c1c34d9c70953b3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "7df721bcb5f3e2cb65ae3445ae556c0ea53f700594d074ad4e0add51c26dccb9"
+    sha256 cellar: :any,                 arm64_monterey: "39e8a7caba6e89368cfbc3e5761157fd24eeb64e46af01c5e9c7379e133df870"
+    sha256 cellar: :any,                 arm64_big_sur:  "75a7a4f47207da73548386b15ec2f6f0a94ef3a249e7bdcf54261cc1865bdf03"
+    sha256 cellar: :any,                 monterey:       "cf3eb5efb6fe857a1165d7c7524d8edf3e3878ac9ae2e15296d71604d6df9984"
+    sha256 cellar: :any,                 big_sur:        "199bf9085dd5d5c1eaf589377f10670504f1914e5097064a729abc553a9eb5b5"
+    sha256 cellar: :any,                 catalina:       "c61800e44ec5b48b69dfc1698414789d21e78b069e6d8459c25c90849fb576f8"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "89642f095a017c03bb08cba4eff56eedfe82868cf9eb1cd65f527d41d918094f"
   end
 
   depends_on "cmake" => :build
@@ -85,13 +85,11 @@ class EtcdCppApiv3 < Formula
 
     # prepare etcd
     etcd_pid = fork do
-      on_macos do
-        if Hardware::CPU.arm?
-          # etcd isn't officially supported on arm64
-          # https://github.com/etcd-io/etcd/issues/10318
-          # https://github.com/etcd-io/etcd/issues/10677
-          ENV["ETCD_UNSUPPORTED_ARCH"]="arm64"
-        end
+      if OS.mac? && Hardware::CPU.arm?
+        # etcd isn't officially supported on arm64
+        # https://github.com/etcd-io/etcd/issues/10318
+        # https://github.com/etcd-io/etcd/issues/10677
+        ENV["ETCD_UNSUPPORTED_ARCH"]="arm64"
       end
 
       exec "#{Formula["etcd"].opt_prefix}/bin/etcd",

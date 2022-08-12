@@ -1,8 +1,8 @@
 class Ooniprobe < Formula
   desc "Network interference detection tool"
   homepage "https://ooni.org/"
-  url "https://github.com/ooni/probe-cli/archive/v3.15.1.tar.gz"
-  sha256 "8cc06915204227f4c2b83c04d008c2ec732705ecb01aa82d13ef16ae7d51f3f8"
+  url "https://github.com/ooni/probe-cli/archive/v3.15.3.tar.gz"
+  sha256 "40ca23d3a08e91ff72c95e835eb59d8922bf7424464782b16d2704e8d630eecb"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -11,16 +11,17 @@ class Ooniprobe < Formula
   end
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "37f13e7a4c29fc9bb82f17af24dfbff2c5c89dcdc9d25b6fcf62c2c429c617de"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "409a6da13f4c4d11e36b379d271d4766f4c7bbab6073023c051a214e0ab7df82"
-    sha256 cellar: :any_skip_relocation, monterey:       "3ac29c15f0e177197e43705bf9244fedb6b3a042793a6b0a4402037e4add0bf8"
-    sha256 cellar: :any_skip_relocation, big_sur:        "1462141e771a79241f3c9d441451263761469c1e7cd99feaf0a2df57ae5e4628"
-    sha256 cellar: :any_skip_relocation, catalina:       "b827dfc25d78607b72cce3b8dc9a1e0f30cdd2392c83d1c8dc1eef7c91878ffe"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "fe24a992da86bde5f1fc79f83bb2228923d6f4bf2a8ee9b99aa03d1c5e905136"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "91e244e01cc4850ad773e3033a4f9987bba84143d2a8bbbde0d62ef83a5036ee"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "821d942cebe6cbfbef339372a556dd195c9434f2e9e67334def2b6f82a814bd6"
+    sha256 cellar: :any_skip_relocation, monterey:       "7669bdfde84b81c6dabe09e4a5d4103745825a4a0ca50e7d5e0358c452951cb5"
+    sha256 cellar: :any_skip_relocation, big_sur:        "e9e36214d183d23038020bbc0ba4e824fb331da8437d57eba6650e4325f5d819"
+    sha256 cellar: :any_skip_relocation, catalina:       "17a11635a06fcff13c3e43722a0ddc37a9cd488b237d3ad8e13d506402d87b91"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "a56081097f07522f166118bf95f8e270ecd2fb7295470deab5a08e8666cde081"
   end
 
-  # Bump to 1.18 on the next release, if possible.
-  depends_on "go@1.17" => :build
+  # Required lucas-clemente/quic-go >= 0.28
+  # Try to switch to the latest go on the next release
+  depends_on "go@1.18" => :build
   depends_on "tor"
 
   def install
@@ -29,6 +30,10 @@ class Ooniprobe < Formula
   end
 
   test do
+    assert_match version.to_s, shell_output("#{bin}/ooniprobe version")
+    # failed to sufficiently increase receive buffer size (was: 208 kiB, wanted: 2048 kiB, got: 416 kiB).
+    return if OS.linux?
+
     (testpath/"config.json").write <<~EOS
       {
         "_version": 3,

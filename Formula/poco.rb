@@ -1,8 +1,8 @@
 class Poco < Formula
   desc "C++ class libraries for building network and internet-based applications"
   homepage "https://pocoproject.org/"
-  url "https://pocoproject.org/releases/poco-1.11.3/poco-1.11.3-all.tar.gz"
-  sha256 "a7aabd1323963b8b7078b5baa08a6dd100bc336287cae02fae14b02b18ec0aa3"
+  url "https://pocoproject.org/releases/poco-1.12.2/poco-1.12.2-all.tar.gz"
+  sha256 "642faec888acb619954d870f89c12a834052813306ff8d8a071becb1eee708aa"
   license "BSL-1.0"
   head "https://github.com/pocoproject/poco.git", branch: "master"
 
@@ -12,17 +12,17 @@ class Poco < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "ceb089e9ecd25c061c152aa98361d2b6bf35c2d325f67011757856bfad799f84"
-    sha256 cellar: :any,                 arm64_big_sur:  "408ca613c173e18e83e3cd7bd91f77891008a4ae541bf21d3b56fd6da0a767b3"
-    sha256 cellar: :any,                 monterey:       "fee25ab18fe61a6bc1b374405af87313df13681698ead51daaf6676bf9c5058d"
-    sha256 cellar: :any,                 big_sur:        "d8673bd7a4b73878b5ddde1f8cc644504930fab2eea34bf3cb0ada0afc4cc1a0"
-    sha256 cellar: :any,                 catalina:       "8f9b949124fc70faece5b3eca72ee86183e86592344053240d89dfa0b6ce88d7"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "4fc2f8a54507ebe1b36dfa7d60a1de775cae31b637950a00d41885e62de3d4cb"
+    sha256 cellar: :any,                 arm64_monterey: "4e97f98c2fb41f8ce19584e96b4da3d3ebb249a88b822a51e20a969437283adf"
+    sha256 cellar: :any,                 arm64_big_sur:  "581acee0c0c7ef9fd67018df4edf413c950118e299aac7192368079430edc51c"
+    sha256 cellar: :any,                 monterey:       "796f707d2664dc470386a0551a3180b6abc27b101d2ee8472fa5eef5236305ca"
+    sha256 cellar: :any,                 big_sur:        "2d82e850db4860e7e343e6c9a713408b098615603c62c287c5f0ea5780ea2fc7"
+    sha256 cellar: :any,                 catalina:       "f9529787d8abb8adfbeffb32cb35bc5f4dc9a527673eb4077ffc051445b75c81"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "251eff8e8d3e07e03821e7426287f24434ac1eb3879c0e54885fb0f14ab92a9d"
   end
 
   depends_on "cmake" => :build
-  depends_on "openssl@1.1"
-  depends_on "pcre"
+  depends_on "openssl@3"
+  depends_on "pcre2"
 
   uses_from_macos "expat"
   uses_from_macos "sqlite"

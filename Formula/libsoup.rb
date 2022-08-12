@@ -4,20 +4,23 @@ class Libsoup < Formula
   url "https://download.gnome.org/sources/libsoup/3.0/libsoup-3.0.7.tar.xz"
   sha256 "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
   license "LGPL-2.0-or-later"
+  revision 1
 
   bottle do
-    sha256 arm64_monterey: "3a65a35c6dfa623e09f5b36d098445e215871ec09d0a3ed18b5bd25b05e452fd"
-    sha256 arm64_big_sur:  "a90ecc9dc9b6172189d9f748a3d7bb19bbd826d9f457bd617db49200470637fa"
-    sha256 monterey:       "40baff4cb1af532c52cc26714a5fc57315f4d120612cef73e97efd2965c077bd"
-    sha256 big_sur:        "201612adc949ca409beca80f2830c6984d6dd13d9cc6f36d5472662af573f489"
-    sha256 catalina:       "0e5daf91cd10e169a35bc821675e438b331ed3f1092f2abafc461d564be85fa3"
-    sha256 x86_64_linux:   "865315a09372ab22d48f15bef518e54fdd69493dae309bca6f8816206c948834"
+    sha256 arm64_monterey: "ce9be7a6430e5ad4130b5119695c18fca50ceeaa4b48e2070e086e5671b2b906"
+    sha256 arm64_big_sur:  "fade8aa78c7d30d257cacac998c3fcf5a9ed2f23e9eb8650bb0bbdf75c1dc781"
+    sha256 monterey:       "d6c2693071efd9ae4ebdc8c238af301e1a304214a14de6b7219fce94703b677c"
+    sha256 big_sur:        "70466230085dee25a369684a2739b26553bf849a30faeea47b44d8a40d4d62f0"
+    sha256 catalina:       "f7cd4fd0f05050c24dc2d1bce7a9074417d1ec8ff5ed6272a8574e860bfdadcc"
+    sha256 x86_64_linux:   "f05deaf1f0ffb5404a40160e7042a68d3008af7468861cdbffe8f7f4e0181ae0"
   end
 
+  depends_on "glib-utils" => :build
   depends_on "gobject-introspection" => :build
   depends_on "meson" => :build
   depends_on "ninja" => :build
   depends_on "pkg-config" => :build
+  depends_on "python@3.10" => :build
   depends_on "vala" => :build
   depends_on "glib-networking"
   depends_on "gnutls"
@@ -25,6 +28,7 @@ class Libsoup < Formula
 
   uses_from_macos "krb5"
   uses_from_macos "libxml2"
+  uses_from_macos "sqlite"
 
   def install
     mkdir "build" do

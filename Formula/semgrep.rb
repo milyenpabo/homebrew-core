@@ -4,8 +4,8 @@ class Semgrep < Formula
   desc "Easily detect and prevent bugs and anti-patterns in your codebase"
   homepage "https://semgrep.dev"
   url "https://github.com/returntocorp/semgrep.git",
-      tag:      "v0.102.0",
-      revision: "a8fb41107bf901106c579c7091b3640bfbe0b1ac"
+      tag:      "v0.109.0",
+      revision: "bc9f795658a3beab85626d8100c27921fc18581d"
   license "LGPL-2.1-only"
   head "https://github.com/returntocorp/semgrep.git", branch: "develop"
 
@@ -15,12 +15,12 @@ class Semgrep < Formula
   end
 
   bottle do
-    sha256 cellar: :any, arm64_monterey: "3cbdc3059bd69f2eadfd6ae2821bafe7cee2ed3db3c984e6391a01b832cd569c"
-    sha256 cellar: :any, arm64_big_sur:  "d1821c02f685b76942e1871fcfdff32d00b0039718822ab890aa71546f99a0bb"
-    sha256 cellar: :any, monterey:       "d8a95a4cc54899c4c3c836eb8847cc7d8f3d919dff188127dd9e5b95ed321514"
-    sha256 cellar: :any, big_sur:        "0cd39204636691d6ec64542d05ce066b7e966033d09178d96bcfee6682924327"
-    sha256 cellar: :any, catalina:       "5de70e49f36d72b16624e90f432419dc611670b0c7e994ac462e7429e7daeebd"
-    sha256               x86_64_linux:   "9cdd02d4944608995471d23f5b130f5f7b22f5f5db79950311efe626f61e5719"
+    sha256 cellar: :any, arm64_monterey: "61152671d1e1df16fa3d3c46bfce09b16684ca16d9f7b0d2b6e22a95f76d0347"
+    sha256 cellar: :any, arm64_big_sur:  "7d62fbbdbbd453324e26fcb65174c5ab76e4048e0b8beaa4f246531ef10aa7f9"
+    sha256 cellar: :any, monterey:       "e419d6dd0368b0102cbda3b2817ce0b2b9ae26906aff6f519e69be5574401fc5"
+    sha256 cellar: :any, big_sur:        "63e923261760e5cb29b8ada42598211269b32f9ee1cce0a956d264844730fd66"
+    sha256 cellar: :any, catalina:       "96ec7f8ccae464a0240a036c69d41ac58efdb13a22e41c4dc907e208b6d954e5"
+    sha256               x86_64_linux:   "6a6037d2e57bb12c1a41e3e7dafb3865a685fa176b4c367e39aa75dc305b328e"
   end
 
   depends_on "cmake" => :build
@@ -103,8 +103,8 @@ class Semgrep < Formula
   end
 
   resource "jsonschema" do
-    url "https://files.pythonhosted.org/packages/69/11/a69e2a3c01b324a77d3a7c0570faa372e8448b666300c4117a516f8b1212/jsonschema-3.2.0.tar.gz"
-    sha256 "c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a"
+    url "https://files.pythonhosted.org/packages/e6/a9/569ad03b90093c956bd396a6b3151c17e6005d8ac139d9419e89339c02df/jsonschema-4.9.1.tar.gz"
+    sha256 "408c4c8ed0dede3b268f7a441784f74206380b04f93eb2d537c7befb3df3099f"
   end
 
   resource "packaging" do
@@ -113,8 +113,8 @@ class Semgrep < Formula
   end
 
   resource "peewee" do
-    url "https://files.pythonhosted.org/packages/d4/22/b9d912a9611e8fd3f25ce040aa683c1dabbae7404e77db0f6a511363a112/peewee-3.15.0.tar.gz"
-    sha256 "48eac70be812ac84daa5400fb8e7b545e0c83adcfa05c8e2a8612f9ced4da495"
+    url "https://files.pythonhosted.org/packages/45/c4/be139f7b7e0bbbc7b2fba4dc492cfb0202c64a0086fa2d23c0b6091ef4f2/peewee-3.15.1.tar.gz"
+    sha256 "6d5db3babc33819ac326f1550e5a39677f4584094c567a7b88cc6bf7bcdcb687"
   end
 
   resource "pyparsing" do
@@ -147,29 +147,24 @@ class Semgrep < Formula
     sha256 "4ff604ce439abb20794f05613c374759ce10e3595d1867764dd1ae675b85acbd"
   end
 
-  resource "six" do
-    url "https://files.pythonhosted.org/packages/71/39/171f1c67cd00715f190ba0b100d606d440a28c93c7714febeca8b79af85e/six-1.16.0.tar.gz"
-    sha256 "1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"
-  end
-
   resource "tqdm" do
     url "https://files.pythonhosted.org/packages/98/2a/838de32e09bd511cf69fe4ae13ffc748ac143449bfc24bb3fd172d53a84f/tqdm-4.64.0.tar.gz"
     sha256 "40be55d30e200777a307a7585aee69e4eabb46b4ec6a4b4a5f2d9f11e7d5408d"
   end
 
   resource "typing-extensions" do
-    url "https://files.pythonhosted.org/packages/fe/71/1df93bd59163c8084d812d166c907639646e8aac72886d563851b966bf18/typing_extensions-4.2.0.tar.gz"
-    sha256 "f1c24655a0da0d1b67f07e17a5e6b2a105894e6824b92096378bb3668ef02376"
+    url "https://files.pythonhosted.org/packages/9e/1d/d128169ff58c501059330f1ad96ed62b79114a2eb30b8238af63a2e27f70/typing_extensions-4.3.0.tar.gz"
+    sha256 "e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"
   end
 
   resource "ujson" do
-    url "https://files.pythonhosted.org/packages/92/38/a8c8d8cdacd586e0e66673ca60daf295a79cd5b4fae72a25f1bfa482554d/ujson-5.3.0.tar.gz"
-    sha256 "ab938777b3ac0372231ee654a7f6a13787e587b1ca268d8aa7e6fb6846e477d0"
+    url "https://files.pythonhosted.org/packages/fb/94/44fbbb059fe5d295f1f73e731a0b9c2e1b5073c2c6b58bb9c068715e9b72/ujson-5.4.0.tar.gz"
+    sha256 "6b953e09441e307504130755e5bd6b15850178d591f66292bba4608c4f7f9b00"
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/1b/a5/4eab74853625505725cefdf168f48661b2cd04e7843ab836f3f63abf81da/urllib3-1.26.9.tar.gz"
-    sha256 "aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"
+    url "https://files.pythonhosted.org/packages/6d/d5/e8258b334c9eb8eb78e31be92ea0d5da83ddd9385dc967dd92737604d239/urllib3-1.26.11.tar.gz"
+    sha256 "ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"
   end
 
   resource "wcmatch" do

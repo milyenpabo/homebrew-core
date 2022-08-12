@@ -3,18 +3,18 @@ class Mackup < Formula
 
   desc "Keep your Mac's application settings in sync"
   homepage "https://github.com/lra/mackup"
-  url "https://files.pythonhosted.org/packages/8b/f7/cb156f968c953652abcf71e4b1b2776ab6075c7d54194409ffe962e2b0e4/mackup-0.8.33.tar.gz"
-  sha256 "41a45b336f99d7cc2ec4b6a9099efcf03d2cd891ff78f24cb65fe2376e8c8f20"
+  url "https://files.pythonhosted.org/packages/69/22/281e7a060e87343493ed3fdceaf0305947b6c99addb4ef70a2ff0bb0fc2e/mackup-0.8.34.tar.gz"
+  sha256 "3a8a0700b72c274706ccea2d4c0d90109a29cda73a68b8c9357a06b919eefbb0"
   license "GPL-3.0-or-later"
   head "https://github.com/lra/mackup.git", branch: "master"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "2fbee02bbc97cb8cb3fa7f18820e1e3a773fb830d80375f4fdc5edff9d2755c3"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2fbee02bbc97cb8cb3fa7f18820e1e3a773fb830d80375f4fdc5edff9d2755c3"
-    sha256 cellar: :any_skip_relocation, monterey:       "14aff8347df1a3a3cc7d2e787c1cc2b5f474a4b6392ac4fef129420fd4efaaee"
-    sha256 cellar: :any_skip_relocation, big_sur:        "14aff8347df1a3a3cc7d2e787c1cc2b5f474a4b6392ac4fef129420fd4efaaee"
-    sha256 cellar: :any_skip_relocation, catalina:       "14aff8347df1a3a3cc7d2e787c1cc2b5f474a4b6392ac4fef129420fd4efaaee"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "ba4cdeab354afe203f8fe8a2d60a014233ef98be74d5a2f49d2e32e1409f4f73"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "2eb529806486a3980086ee3ddd4cd0c2b4238c71762e23befb41132f8bf70913"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "2eb529806486a3980086ee3ddd4cd0c2b4238c71762e23befb41132f8bf70913"
+    sha256 cellar: :any_skip_relocation, monterey:       "080eb406349a8ef4c22adb53e6dd0cee4020278599349a467de1b0c686844bf9"
+    sha256 cellar: :any_skip_relocation, big_sur:        "080eb406349a8ef4c22adb53e6dd0cee4020278599349a467de1b0c686844bf9"
+    sha256 cellar: :any_skip_relocation, catalina:       "080eb406349a8ef4c22adb53e6dd0cee4020278599349a467de1b0c686844bf9"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "43691496fed4a9b67c9ea19bea31cb66a9f2a95c1aa599c8c6a3116131265eb8"
   end
 
   depends_on "python@3.10"

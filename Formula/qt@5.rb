@@ -8,14 +8,15 @@ class QtAT5 < Formula
   mirror "https://mirrors.ocf.berkeley.edu/qt/archive/qt/5.15/5.15.5/single/qt-everywhere-opensource-src-5.15.5.tar.xz"
   sha256 "5a97827bdf9fd515f43bc7651defaf64fecb7a55e051c79b8f80510d0e990f06"
   license all_of: ["GFDL-1.3-only", "GPL-2.0-only", "GPL-3.0-only", "LGPL-2.1-only", "LGPL-3.0-only"]
+  revision 1
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "bce4356e6987a55b0bbe586f753190d3f3afed4036ada8ec4a2d8d23d420841a"
-    sha256 cellar: :any,                 arm64_big_sur:  "2b857b719b13cae92c5e008103118fc3a5f78aa7dbce18aa3755ac08794bbdcf"
-    sha256 cellar: :any,                 monterey:       "5183ae7bd3b28677de502c2c82e93ba2a41255f17d68c94110ce7c6b125345a4"
-    sha256 cellar: :any,                 big_sur:        "ca12eaad160b35bc3a7b6ea293b5d289d42cfe6b40cc5cd2109e6a2e426ccf15"
-    sha256 cellar: :any,                 catalina:       "6ef01c649fbe7c574c8eeee94614cd41157ffaa6d93430d17bee567214fe8e65"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "08cf52c62bad792f6da62da2a4163dca2204c91b64ee657c04fe585546be69c5"
+    sha256 cellar: :any,                 arm64_monterey: "e37b064c7fe7fc1d0c3a5be70de69211be80fc3ca72d6823e888244ed595f92d"
+    sha256 cellar: :any,                 arm64_big_sur:  "ead12a6fa247706a09548308910b9c67462e3eee7d87b889510f1f228c3c3c63"
+    sha256 cellar: :any,                 monterey:       "5f3b5cd894343416acb2b8596beb4dc63d0ec8728c20a7b07d774de1c4b50615"
+    sha256 cellar: :any,                 big_sur:        "b7aa1ee4202791fa12420802ffdf0367b0e8037ff0024c6cbfc1e9bbfda236fe"
+    sha256 cellar: :any,                 catalina:       "11784f01c72fbd560aa147f85ab6fd942cd8fca74da6f74ff75685c319352d2c"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "c08655ba3a8c3a039b3550a87716004d44730a8dcdd6fad9ca5d608ef5e5ed7e"
   end
 
   keg_only :versioned_formula
@@ -52,8 +53,8 @@ class QtAT5 < Formula
     depends_on "libproxy"
     depends_on "libsm"
     depends_on "libvpx"
-    depends_on "libxkbcommon"
     depends_on "libxcomposite"
+    depends_on "libxkbcommon"
     depends_on "libxkbfile"
     depends_on "libxrandr"
     depends_on "libxtst"
@@ -133,8 +134,8 @@ class QtAT5 < Formula
 
   # Patch for qmake on ARM
   # https://codereview.qt-project.org/c/qt/qtbase/+/327649
-  if Hardware::CPU.arm?
-    patch do
+  patch do
+    on_arm do
       url "https://raw.githubusercontent.com/Homebrew/formula-patches/9dc732/qt/qt-split-arch.patch"
       sha256 "36915fde68093af9a147d76f88a4e205b789eec38c0c6f422c21ae1e576d45c0"
       directory "qtbase"
@@ -235,22 +236,17 @@ class QtAT5 < Formula
     # of both Designer and Linguist as that relies on Assistant being in `bin`.)
     libexec.mkpath
     Pathname.glob("#{bin}/*.app") { |app| mv app, libexec }
+
+    # Fix find_package call using QtWebEngine version to find other Qt5 modules.
+    inreplace Dir[lib/"cmake/Qt5WebEngine*/*Config.cmake"],
+              " #{resource("qtwebengine").version} ", " #{version} "
   end
 
   def caveats
-    s = <<~EOS
+    <<~EOS
       We agreed to the Qt open source license for you.
       If this is unacceptable you should uninstall.
     EOS
-
-    if Hardware::CPU.arm?
-      s += <<~EOS
-
-        This version of Qt on Apple Silicon does not include QtWebEngine.
-      EOS
-    end
-
-    s
   end
 
   test do

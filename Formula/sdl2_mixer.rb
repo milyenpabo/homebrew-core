@@ -1,37 +1,28 @@
 class Sdl2Mixer < Formula
   desc "Sample multi-channel audio mixer library"
-  homepage "https://www.libsdl.org/projects/SDL_mixer/"
+  homepage "https://github.com/libsdl-org/SDL_mixer"
+  url "https://github.com/libsdl-org/SDL_mixer/releases/download/release-2.6.0/SDL2_mixer-2.6.0.tar.gz"
+  sha256 "f94a4d3e878cb191c386a714be561838240012250fe17d496f4ff4341d59a391"
   license "Zlib"
-  revision 3
 
-  stable do
-    url "https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-2.0.4.tar.gz"
-    sha256 "b4cf5a382c061cd75081cf246c2aa2f9df8db04bdda8dcdc6b6cca55bede2419"
-
-    # Fix fluidsynth use-after-free bug until the release after 2.0.4, upstream patch
-    # https://github.com/libsdl-org/SDL_mixer/commit/6160668079f91d57a5d7bf0b40ffdd843be70daf
-    patch :p3 do
-      url "https://github.com/libsdl-org/SDL_mixer/commit/6160668079f91d57a5d7bf0b40ffdd843be70daf.patch?full_index=1"
-      sha256 "73e5ebf9136818b7a65f1e8fcbeb99c350654d7d9e53629adc26887e9e169d8d"
-    end
-  end
-
+  # This formula uses a file from a GitHub release, so we check the latest
+  # release version instead of Git tags.
   livecheck do
-    url :homepage
-    regex(/href=.*?SDL2_mixer[._-]v?(\d+(?:\.\d+)+)\.t/i)
+    url :stable
+    strategy :github_latest
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "efb9299c264820950d859c9500bc6b29f8bca49f811a2463f8fc410abc75df78"
-    sha256 cellar: :any,                 arm64_big_sur:  "93f0cc1c49c8dc01ca2a8765f2b798ae733c1a6f07a16df45eba1015d1f6df02"
-    sha256 cellar: :any,                 monterey:       "9a03671374b854ec1b8bc010883def60e47d92c88208a6ab01c23b8707aed65c"
-    sha256 cellar: :any,                 big_sur:        "b0db96bcf83bd87c40fe9695c71ab569dba29d4cc82519cf180f7c74f8cb6721"
-    sha256 cellar: :any,                 catalina:       "c4ecc918adf85671134ab3bd631a1023587ab21c03da5688850d0c29e9e1600c"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "433d1c19c9da31181c772349fe65589f3485700e5e028ea59eb3ae1fc6508f70"
+    sha256 cellar: :any,                 arm64_monterey: "d6b6b29cc6681cc4007160f3cc6550bf93eb648802d12c0e3c051558bf4ce3b6"
+    sha256 cellar: :any,                 arm64_big_sur:  "6292ec831d3b011033d3d1c39b62416566bfcfe0765ebc6765434573b2717908"
+    sha256 cellar: :any,                 monterey:       "ae3440fea6ed195556c35d219f994fc9d1aa0a890f371ab92feecdf88089c70c"
+    sha256 cellar: :any,                 big_sur:        "596454b3f76224043a3fa5868759af52863db0e53786ea2c24f8ef6e9f569d9a"
+    sha256 cellar: :any,                 catalina:       "6f53dbfeecb85112c38ad1cb03b46096d00ee25feda58173ef63c8797cddf64d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "3653463a39485ebd265e0ffa747d2bfe652ba7acec1bfe32782da62ac816494b"
   end
 
   head do
-    url "https://github.com/libsdl-org/SDL_mixer.git"
+    url "https://github.com/libsdl-org/SDL_mixer.git", branch: "main"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build

@@ -21,6 +21,7 @@ class Gtkx3 < Formula
 
   depends_on "docbook" => :build
   depends_on "docbook-xsl" => :build
+  depends_on "glib-utils" => :build
   depends_on "gobject-introspection" => :build
   depends_on "meson" => :build
   depends_on "ninja" => :build
@@ -41,8 +42,8 @@ class Gtkx3 < Formula
     depends_on "cairo"
     depends_on "iso-codes"
     depends_on "libxkbcommon"
-    depends_on "xorgproto"
     depends_on "wayland-protocols"
+    depends_on "xorgproto"
   end
 
   def install

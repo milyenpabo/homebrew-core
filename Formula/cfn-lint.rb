@@ -3,40 +3,40 @@ class CfnLint < Formula
 
   desc "Validate CloudFormation templates against the CloudFormation spec"
   homepage "https://github.com/aws-cloudformation/cfn-lint/"
-  url "https://files.pythonhosted.org/packages/cd/20/7dfe0af763c090bfddfe1f338a863b6bf18d39384a160d22e0569d24ec9c/cfn-lint-0.61.1.tar.gz"
-  sha256 "b164609930866e0741d9c9199232a9fb8594369825f132d8596e5adcd45eee02"
+  url "https://files.pythonhosted.org/packages/20/d2/6bcc3ad87e3c6d6737dcc07bef23dbfa18e9de8e08947b8ff5ebfd6ecfab/cfn-lint-0.61.5.tar.gz"
+  sha256 "ad43d971f559319c33580e50e9afbae88553512bd944eb3c33bb15fbc21a7df8"
   license "MIT-0"
 
   bottle do
-    sha256 cellar: :any_skip_relocation, arm64_monterey: "42c33b110e3968085cd70f9e6bd69cb5b2b2b6a0c601bad3c2f696f2bd26bc55"
-    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "1b3e59ed3bf8369382ccc59d1bb3cc62b33fc77f8ce566720d74a7b099c9ac77"
-    sha256 cellar: :any_skip_relocation, monterey:       "4b96af77700d8b6f698349e6a701d6132a59502ab632d2da183be10cf5ae928e"
-    sha256 cellar: :any_skip_relocation, big_sur:        "85243382b1829fcd8001f7511da1eac103f3bbfd54a46e810663f6507961fefc"
-    sha256 cellar: :any_skip_relocation, catalina:       "4bdd536fc59117e38386cd78976a768afff0cfefbeacc303791785bc842bc4e3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "df082b1424c9db2455c19ba4fac640fa91dc441ec4509ab8d5255e0f404b577a"
+    sha256 cellar: :any_skip_relocation, arm64_monterey: "60d136d97305a1109d669e6c1312026c8ff79809b03ee91060449c5637199660"
+    sha256 cellar: :any_skip_relocation, arm64_big_sur:  "e64c7bde6bc7dfedb3767ac640d29b022afe0f684dc0ceae9e0f400ecdf6a2b1"
+    sha256 cellar: :any_skip_relocation, monterey:       "05ee7d4b7c954d3f0e55971ae73bb13a3fbcf49584c05af85dbadf96a378ed77"
+    sha256 cellar: :any_skip_relocation, big_sur:        "b8f1fdaec2f056c3167c8c4df92c5a8b7c62cbe576acb574c8eab2758f117c1c"
+    sha256 cellar: :any_skip_relocation, catalina:       "8bbce457849bb67bca674463e4caf4ae480f9549cd2aa5dd82396f582bee0cdb"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "9b43ba115272f26eb0b0455c51e32d853be40e6782fa5e172f279d64aaf33be0"
   end
 
   depends_on "python@3.10"
   depends_on "six"
 
   resource "attrs" do
-    url "https://files.pythonhosted.org/packages/d7/77/ebb15fc26d0f815839ecd897b919ed6d85c050feeb83e100e020df9153d2/attrs-21.4.0.tar.gz"
-    sha256 "626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"
+    url "https://files.pythonhosted.org/packages/1a/cb/c4ffeb41e7137b23755a45e1bfec9cbb76ecf51874c6f1d113984ecaa32c/attrs-22.1.0.tar.gz"
+    sha256 "29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"
   end
 
   resource "aws-sam-translator" do
-    url "https://files.pythonhosted.org/packages/5d/47/069d24f9ebac4e5a702fbd364edb14ddef3d8102670edd72524b64fadfd5/aws-sam-translator-1.46.0.tar.gz"
-    sha256 "53ed4cbabf8b9247c1be9c5f47fcfc2764578f55b12e7fe24b9bc41d6fce47cc"
+    url "https://files.pythonhosted.org/packages/42/bf/343dbbd9faaf916273d566ac8f62bfa0c1d22a87c1bdcdb583d1d216ba5b/aws-sam-translator-1.49.0.tar.gz"
+    sha256 "a0d3bba2fb16d72e1e4fc5ef50e227e8e6a869f4c417dd760191d26470dca91f"
   end
 
   resource "boto3" do
-    url "https://files.pythonhosted.org/packages/e1/a5/fb6342b4f1f53fe77a447c400767b7120b8e7a28c552802f792923ed5074/boto3-1.24.17.tar.gz"
-    sha256 "bcbf31eff02bc01f9c55e2d428b4f6a27701c86b4600cbe4e9d45aa1dd61f036"
+    url "https://files.pythonhosted.org/packages/80/ca/c973f4cb2f0ccb54b4b61653fa8304701249aaa9589844ec48609a79a639/boto3-1.24.50.tar.gz"
+    sha256 "28fefb77fb85b521a87ffd932621b14aabf4bb65ec4f9d9ce7399d093b2ad8bd"
   end
 
   resource "botocore" do
-    url "https://files.pythonhosted.org/packages/93/48/69dfd090a5a42cb11698b9e4789dba70fd18a607cb3c742034bb3bffe3e0/botocore-1.27.17.tar.gz"
-    sha256 "af9d44592b4d0d6509b355b2ec5cb14fd23eadf7c33d13b880266dede22759ac"
+    url "https://files.pythonhosted.org/packages/db/7c/1116dd55dee06d99d4ea304b9554fa1d8e78724fb40ed1259d2672b173bf/botocore-1.27.50.tar.gz"
+    sha256 "0a3e2eef7a60c20e46be47eaf45cf5ea7a946aecdb68d829886d4f2506ac657c"
   end
 
   resource "jmespath" do
@@ -76,13 +76,13 @@ class CfnLint < Formula
   end
 
   resource "networkx" do
-    url "https://files.pythonhosted.org/packages/5d/3b/9ca0d8bbfbf418eb158fe7b8a5e4233ddc390d995cfb1dd32726dba8c8e5/networkx-2.8.4.tar.gz"
-    sha256 "5e53f027c0d567cf1f884dbb283224df525644e43afd1145d64c9d88a3584762"
+    url "https://files.pythonhosted.org/packages/f2/af/fe794d69bcc4882c4905b49c8b207b8dc4dd7ea26e6142781eac8203ea05/networkx-2.8.5.tar.gz"
+    sha256 "15a7b81a360791c458c55a417418ea136c13378cfdc06a2dcdc12bd2f9cf09c1"
   end
 
   resource "pbr" do
-    url "https://files.pythonhosted.org/packages/96/9f/f4bc832eeb4ae723b86372277da56a5643b0ad472a95314e8f516a571bb0/pbr-5.9.0.tar.gz"
-    sha256 "e8dca2f4b43560edef58813969f52a56cef023146cbb8931626db80e6c1c4308"
+    url "https://files.pythonhosted.org/packages/b4/40/4c5d3681b141a10c24c890c28345fac915dd67f34b8c910df7b81ac5c7b3/pbr-5.10.0.tar.gz"
+    sha256 "cfcc4ff8e698256fc17ea3ff796478b050852585aa5bae79ecd05b2ab7b39b9a"
   end
 
   resource "pyrsistent" do
@@ -111,8 +111,8 @@ class CfnLint < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/1b/a5/4eab74853625505725cefdf168f48661b2cd04e7843ab836f3f63abf81da/urllib3-1.26.9.tar.gz"
-    sha256 "aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"
+    url "https://files.pythonhosted.org/packages/6d/d5/e8258b334c9eb8eb78e31be92ea0d5da83ddd9385dc967dd92737604d239/urllib3-1.26.11.tar.gz"
+    sha256 "ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"
   end
 
   def install

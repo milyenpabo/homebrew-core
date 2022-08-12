@@ -3,18 +3,18 @@ class Awscli < Formula
 
   desc "Official Amazon AWS command-line interface"
   homepage "https://aws.amazon.com/cli/"
-  url "https://github.com/aws/aws-cli/archive/2.7.12.tar.gz"
-  sha256 "a0c0c580ba8ba2b44cfd130fe0092c1aceedf54143855f23e61bfd58987c2394"
+  url "https://github.com/aws/aws-cli/archive/2.7.22.tar.gz"
+  sha256 "85c5a926daa0ab0ad73a7b97b670e092a0bcdf2749d383291076fd04e1eca502"
   license "Apache-2.0"
   head "https://github.com/aws/aws-cli.git", branch: "v2"
 
   bottle do
-    sha256 cellar: :any,                 arm64_monterey: "72db409545a914175ef24f558052196b4f827d21c8c19e93a8d4fb5b9f6dc778"
-    sha256 cellar: :any,                 arm64_big_sur:  "76215d8739f9c4d19e3e2b9f865da0214430c1fae660428088bd1059bf9556d1"
-    sha256 cellar: :any,                 monterey:       "e0a336efe4b7d06fefc372a9508dc69bbe0bfa3215871d00b5bc88c3d91fcdfa"
-    sha256 cellar: :any,                 big_sur:        "2acf59909ae765ce63acfd439763922278c534aa221cae615641984bcd7e8f7d"
-    sha256 cellar: :any,                 catalina:       "088349b36e4a1d4ac300a686ccb475bef3cee60629ef5d29c52afdd06fa021f3"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:   "289753e81a0b19d49ad4ab908c436499d64d2af0c82c8960d4973f040839587e"
+    sha256 cellar: :any,                 arm64_monterey: "40ab9ab277387e859de7f0993583252c2ae81e370c97726b80dc9b08f138ae84"
+    sha256 cellar: :any,                 arm64_big_sur:  "a24156906087ee0acc6ed5f8c19d5119a7ae744099254260f1d38ac6759bc5eb"
+    sha256 cellar: :any,                 monterey:       "918ef3a4f11ea18ad3fffdcb7fa76667e2489626a34c76240007ef3d3a722117"
+    sha256 cellar: :any,                 big_sur:        "9e2a6775640be4f9e232e5cbc4ae9f81c73be354a1cf1b5bdfef03d2075fe8b6"
+    sha256 cellar: :any,                 catalina:       "d22d84c14e27f68f017376ecfdfdc5c2da67d99d39379f4b1b740ff2faf9b282"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:   "af37cc2ba790679165b02d806d442ac65d4d151e52d1f43f415fff82f3845ed2"
   end
 
   depends_on "cmake" => :build
@@ -34,8 +34,8 @@ class Awscli < Formula
   end
 
   resource "cffi" do
-    url "https://files.pythonhosted.org/packages/00/9e/92de7e1217ccc3d5f352ba21e52398372525765b2e0c4530e6eb2ba9282a/cffi-1.15.0.tar.gz"
-    sha256 "920f0d66a896c2d99f0adbb391f990a84091179542c205fa53ce5787aff87954"
+    url "https://files.pythonhosted.org/packages/2b/a8/050ab4f0c3d4c1b8aaa805f70e26e84d0e27004907c5b8ecc1d31815f92a/cffi-1.15.1.tar.gz"
+    sha256 "d400bfb9a37b1351253cb402671cea7e89bdecc294e8016a707f6d1d8ac934f9"
   end
 
   resource "colorama" do
@@ -59,8 +59,8 @@ class Awscli < Formula
   end
 
   resource "jmespath" do
-    url "https://files.pythonhosted.org/packages/3c/56/3f325b1eef9791759784aa5046a8f6a1aff8f7c898a2e34506771d3b99d8/jmespath-0.10.0.tar.gz"
-    sha256 "b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9"
+    url "https://files.pythonhosted.org/packages/00/2a/e867e8531cf3e36b41201936b7fa7ba7b5702dbef42922193f05c8976cd6/jmespath-1.0.1.tar.gz"
+    sha256 "90261b206d6defd58fdd5e85f478bf633a2901798906be2ad389150c5c60edbe"
   end
 
   resource "prompt-toolkit" do
@@ -89,8 +89,8 @@ class Awscli < Formula
   end
 
   resource "urllib3" do
-    url "https://files.pythonhosted.org/packages/1b/a5/4eab74853625505725cefdf168f48661b2cd04e7843ab836f3f63abf81da/urllib3-1.26.9.tar.gz"
-    sha256 "aabaf16477806a5e1dd19aa41f8c2b7950dd3c746362d7e3223dbe6de6ac448e"
+    url "https://files.pythonhosted.org/packages/6d/d5/e8258b334c9eb8eb78e31be92ea0d5da83ddd9385dc967dd92737604d239/urllib3-1.26.11.tar.gz"
+    sha256 "ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"
   end
 
   resource "wcwidth" do
